@@ -220,30 +220,44 @@ async function loadSvg(unicode) {
   }
 }
 
-      // --- ストロークパスを抽出 ---
-      function extractStrokes(svgDoc) {
-        // KanjiVGでは、書き順のパスは id="stroke1", "stroke2" ... が一般的
-        // もしくは特定のクラス名がついている場合もあります。
-        const paths = [];
-        // stroke番号が振られたパスを探す
-        for (let i = 1; i <= 20; i++) {
-          const path = svgDoc.getElementById(`stroke${i}`);
-          if (path) {
-            paths.push(path);
-          } else {
-            break; // 連番が途切れたら終了
-          }
-        }
-        // もし上記で取れなければ、全pathを取得（フォールバック）
-        if (paths.length === 0) {
-          const allPaths = svgDoc.querySelectorAll('path');
-          allPaths.forEach(p => {
-            if (p.getAttribute('d')) paths.push(p);
-          });
-        }
-        return paths;
+// --- ストロークパスを抽出（kvg:名前空間対応版）---
+function extractStrokes(svgDoc) {
+  const paths = [];
+  
+  // 方法1: kvg:StrokePaths のg要素の中から、idに "-s" が含まれるパスを探す
+  const strokePathsGroup = svgDoc.getElementById('kvg:StrokePaths_030aa') 
+                        || svgDoc.querySelector('g[id^="kvg:StrokePaths"]');
+  
+  if (strokePathsGroup) {
+    // 中にあるg要素の直下のpathをすべて取得
+    const innerG = strokePathsGroup.querySelector('g');
+    if (innerG) {
+      const allPaths = innerG.querySelectorAll('path');
+      allPaths.forEach(p => {
+        if (p.getAttribute('d')) paths.push(p);
+      });
+    }
+    if (paths.length > 0) return paths;
+  }
+  
+  // 方法2: idに "-s" + 数字 が含まれるpathを探す（より汎用的）
+  const allPaths = svgDoc.querySelectorAll('path');
+  const strokeRegex = /-s\d+$/;
+  allPaths.forEach(p => {
+    const id = p.getAttribute('id') || '';
+    if (strokeRegex.test(id) && p.getAttribute('d')) {
+      // ストローク番号でソートするために番号を抽出
+      const match = id.match(/-s(\d+)$/);
+      if (match) {
+        paths.push({ path: p, num: parseInt(match[1]) });
       }
-
+    }
+  });
+  
+  // 番号でソート
+  paths.sort((a, b) => a.num - b.num);
+  return paths.map(item => item.path);
+}
       // --- SVGを表示エリアにセット ---
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = ''; // クリア

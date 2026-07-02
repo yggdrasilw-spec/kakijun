@@ -125,6 +125,15 @@
       font-size: 0.85rem;
       color: #aaa;
     }
+    .debug-info {
+      background: #f8f8f8;
+      padding: 8px;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #999;
+      border-radius: 8px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -166,11 +175,25 @@
       <button id="traceCheckBtn">🔍 書き順チェック</button>
       <button id="retryTracingBtn" style="display:none;">🔄 もう一度</button>
     </div>
+    <div class="debug-info" id="debugInfo"></div>
   </div>
   <div class="footer">made with ❤️</div>
 
   <script>
     (function() {
+      // ===== GitHub Pages パス対応 =====
+      const pathParts = window.location.pathname.split('/');
+      const repoName = pathParts.length > 2 ? pathParts[1] : '';
+      const BASE_PATH = repoName ? `/${repoName}` : '';
+      
+      function showDebug(msg) {
+        const debugEl = document.getElementById('debugInfo');
+        debugEl.style.display = 'block';
+        debugEl.textContent += msg + '\n';
+      }
+      showDebug(`Base path: ${BASE_PATH}`);
+      showDebug(`Full path: ${window.location.pathname}`);
+
       const kanaMap = [
         "あ,3042","い,3044","う,3046","え,3048","お,304A",
         "か,304B","き,304D","く,304F","け,3051","こ,3053",
@@ -217,7 +240,6 @@
       let savedStrokes = [];
       let feedbackTimer = null;
 
-      // 画数ごとの色分け設定
       const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
       function getStrokeLineColor(idx) {
         return STROKE_LINE_COLORS[idx] !== undefined ? STROKE_LINE_COLORS[idx] : '#111111';
@@ -227,10 +249,9 @@
       }
       let showStrokeNumbers = true;
 
-      // 速度設定（基準長さ200pxに対する時間）
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
-      const BASE_LENGTH = 200; // 基準となるパスの長さ
-      const MIN_DURATION = 100; // 最小アニメーション時間
+      const BASE_LENGTH = 200;
+      const MIN_DURATION = 100;
 
       const DISTANCE_THRESHOLD_GOOD = 12;
       const DISTANCE_THRESHOLD_OK = 25;
@@ -267,16 +288,35 @@
         });
       }
 
+      // ★★★ 修正: SVG読み込み（GitHub Pages対応） ★★★
       async function loadSvg(unicode) {
         try {
           const paddedCode = unicode.toLowerCase().padStart(5, '0');
-          const response = await fetch(`svg/${paddedCode}.svg`);
-          if (!response.ok) throw new Error('SVG not found');
+          // 絶対パスで試す
+          const svgUrl = `${BASE_PATH}/svg/${paddedCode}.svg`;
+          showDebug(`Loading: ${svgUrl}`);
+          
+          let response = await fetch(svgUrl);
+          
+          // 失敗したら相対パスでリトライ
+          if (!response.ok) {
+            const altUrl = `./svg/${paddedCode}.svg`;
+            showDebug(`Retry with: ${altUrl}`);
+            response = await fetch(altUrl);
+          }
+          
+          if (!response.ok) {
+            throw new Error(`SVG load failed (status: ${response.status})`);
+          }
+          
           const svgText = await response.text();
           const parser = new DOMParser();
-          return parser.parseFromString(svgText, 'image/svg+xml');
+          const doc = parser.parseFromString(svgText, 'image/svg+xml');
+          showDebug(`✅ Loaded: ${paddedCode}.svg`);
+          return doc;
         } catch (err) {
-          console.error(err);
+          console.error('SVG load error:', err);
+          showDebug(`❌ Error: ${err.message}`);
           return null;
         }
       }
@@ -439,7 +479,6 @@
         let dy = p1.y - p0.y;
         const len = Math.sqrt(dx * dx + dy * dy) || 1;
         dx /= len; dy /= len;
-        // perpendicular direction + slight backward direction, pointing away from the stroke body
         const perpX = -dy;
         const perpY = dx;
         const backX = -dx;
@@ -837,7 +876,6 @@
         setFeedback(practiceMode === 'hint' ? '🔵 もういちど、あおい線をなぞってね' : '🔍 もういちど書いてね');
       }
 
-      // --- アニメーション（長さ比例に修正）---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
           try {
@@ -963,7 +1001,7 @@
         }
       }
 
-      // --- Event Listeners ---
+      // Event Listeners
       showBtn.addEventListener('click', () => {
         if (selectEl.value) loadAndDisplay(selectEl.value);
       });

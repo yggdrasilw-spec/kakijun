@@ -26,7 +26,6 @@
       padding: 30px 20px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     }
-    /* SVG表示エリア */
     .kana-display {
       width: 250px;
       height: 250px;
@@ -41,20 +40,6 @@
     .kana-display svg {
       width: 200px;
       height: 200px;
-    }
-    /* ストロークの線 */
-    .stroke-path {
-      fill: none;
-      stroke: #444;
-      stroke-width: 9;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    /* 塗り用（最後に切り替え） */
-    .fill-path {
-      fill: #444;
-      stroke: none;
-      opacity: 0;
     }
     .info {
       font-size: 1.4rem;
@@ -86,6 +71,10 @@
       background: #d4c3a5;
       transform: scale(0.96);
     }
+    button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
     .controls {
       margin: 20px 0;
     }
@@ -107,24 +96,19 @@
   <div class="container">
     <h1>✍️ 書き順アニメーション</h1>
     
-    <!-- 文字選択 -->
     <div>
       <label for="charSelect">🔡 文字を選んでね：</label>
       <select id="charSelect"></select>
       <button id="showBtn">表示</button>
     </div>
 
-    <!-- SVG表示エリア -->
     <div class="kana-display" id="svgContainer">
-      <!-- SVGがここに挿入されます -->
       <p style="color:#ccc;">文字を選んでね</p>
     </div>
 
-    <!-- 情報表示 -->
     <div class="info" id="infoText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
 
-    <!-- 操作ボタン -->
     <div class="controls">
       <button id="prevBtn">◀ 前の画</button>
       <button id="nextBtn">次の画 ▶</button>
@@ -139,7 +123,6 @@
     (function() {
       // --- ひらがな・カタカナ マッピング ---
       const kanaMap = [
-        // ひらがな (清音)
         "あ,3042","い,3044","う,3046","え,3048","お,304A",
         "か,304B","き,304D","く,304F","け,3051","こ,3053",
         "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
@@ -150,13 +133,11 @@
         "や,3084","ゆ,3086","よ,3088",
         "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
         "わ,308F","を,3092","ん,3093",
-        // ひらがな (濁音・半濁音など)
         "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
         "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
         "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
         "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
         "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
-        // カタカナ (清音)
         "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
         "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
         "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
@@ -167,7 +148,6 @@
         "ヤ,30E4","ユ,30E6","ヨ,30E8",
         "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
         "ワ,30EF","ヲ,30F2","ン,30F3",
-        // カタカナ (濁音・半濁音など)
         "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
         "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
         "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
@@ -176,10 +156,9 @@
       ];
 
       // --- 状態管理 ---
-      let currentSvgDoc = null;     // 読み込んだSVGドキュメント
-      let strokePaths = [];         // 各ストロークのpath要素
-      let currentStrokeIndex = -1;  // 現在表示している画（-1は未開始）
-      let animationTimeout = null;
+      let currentSvgDoc = null;
+      let strokePaths = [];
+      let currentStrokeIndex = -1;
 
       // --- DOM要素 ---
       const selectEl = document.getElementById('charSelect');
@@ -203,64 +182,46 @@
         });
       }
 
-     // --- SVGを読み込む ---
-async function loadSvg(unicode) {
-  try {
-    // 🔧 5桁にパディング（"3042" → "03042"）
-    const paddedCode = unicode.padStart(5, '0');
-    const response = await fetch(`svg/${paddedCode}.svg`);
-    if (!response.ok) throw new Error('SVG not found');
-    const svgText = await response.text();
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-    return svgDoc;
-  } catch (err) {
-    console.error('SVG読み込みエラー:', err);
-    return null;
-  }
-}
-
-// --- ストロークパスを抽出（kvg:名前空間対応版）---
-function extractStrokes(svgDoc) {
-  const paths = [];
-  
-  // 方法1: kvg:StrokePaths のg要素の中から、idに "-s" が含まれるパスを探す
-  const strokePathsGroup = svgDoc.getElementById('kvg:StrokePaths_030aa') 
-                        || svgDoc.querySelector('g[id^="kvg:StrokePaths"]');
-  
-  if (strokePathsGroup) {
-    // 中にあるg要素の直下のpathをすべて取得
-    const innerG = strokePathsGroup.querySelector('g');
-    if (innerG) {
-      const allPaths = innerG.querySelectorAll('path');
-      allPaths.forEach(p => {
-        if (p.getAttribute('d')) paths.push(p);
-      });
-    }
-    if (paths.length > 0) return paths;
-  }
-  
-  // 方法2: idに "-s" + 数字 が含まれるpathを探す（より汎用的）
-  const allPaths = svgDoc.querySelectorAll('path');
-  const strokeRegex = /-s\d+$/;
-  allPaths.forEach(p => {
-    const id = p.getAttribute('id') || '';
-    if (strokeRegex.test(id) && p.getAttribute('d')) {
-      // ストローク番号でソートするために番号を抽出
-      const match = id.match(/-s(\d+)$/);
-      if (match) {
-        paths.push({ path: p, num: parseInt(match[1]) });
+      // --- SVGを読み込む ---
+      async function loadSvg(unicode) {
+        try {
+          const paddedCode = unicode.padStart(5, '0');
+          const response = await fetch(`svg/${paddedCode}.svg`);
+          if (!response.ok) throw new Error('SVG not found');
+          const svgText = await response.text();
+          const parser = new DOMParser();
+          const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+          return svgDoc;
+        } catch (err) {
+          console.error('SVG読み込みエラー:', err);
+          return null;
+        }
       }
-    }
-  });
-  
-  // 番号でソート
-  paths.sort((a, b) => a.num - b.num);
-  return paths.map(item => item.path);
-}
+
+      // --- ストロークパスを抽出（kvg名前空間対応・完全版）---
+      function extractStrokes(svgDoc) {
+        const result = [];
+        
+        // id属性が "-s数字" で終わるpathをすべて探す（例: kvg:030aa-s1）
+        const allPaths = svgDoc.querySelectorAll('path');
+        const strokeRegex = /-s(\d+)$/;
+        
+        allPaths.forEach(p => {
+          const id = p.getAttribute('id') || '';
+          const match = id.match(strokeRegex);
+          if (match && p.getAttribute('d')) {
+            result.push({ path: p, num: parseInt(match[1]) });
+          }
+        });
+        
+        // ストローク番号でソート
+        result.sort((a, b) => a.num - b.num);
+        return result.map(item => item.path);
+      }
+
       // --- SVGを表示エリアにセット ---
       function displaySvg(svgDoc) {
-        svgContainer.innerHTML = ''; // クリア
+        svgContainer.innerHTML = '';
         if (!svgDoc) {
           svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
           return;
@@ -270,47 +231,49 @@ function extractStrokes(svgDoc) {
           svgContainer.innerHTML = '<p style="color:#ccc;">無効なSVGです</p>';
           return;
         }
-        // 表示用に属性を調整
+        
         svgRoot.setAttribute('width', '200');
         svgRoot.setAttribute('height', '200');
         svgRoot.style.display = 'block';
         svgRoot.style.margin = 'auto';
         
-        // すべてのパスを一旦非表示に
+        // すべてのpathを一旦非表示 ＆ スタイル調整
         const allPaths = svgRoot.querySelectorAll('path');
         allPaths.forEach(p => {
           p.style.display = 'none';
-          p.style.fill = 'none';
           p.style.stroke = '#444';
           p.style.strokeWidth = '9';
           p.style.strokeLinecap = 'round';
           p.style.strokeLinejoin = 'round';
+          p.style.fill = 'none';
+          // 元のスタイルをリセット（stroke-dasharray があれば消す）
+          p.removeAttribute('stroke-dasharray');
+          p.removeAttribute('stroke-dashoffset');
         });
+        
+        // 数字テキスト（書き順番号）は非表示に
+        const texts = svgRoot.querySelectorAll('text');
+        texts.forEach(t => { t.style.display = 'none'; });
 
         svgContainer.appendChild(svgRoot);
         return svgRoot;
       }
 
-      // --- 指定した画までアニメーション表示 ---
+      // --- 指定した画まで表示 ---
       function animateToStroke(targetIndex) {
         if (!strokePaths.length) return;
-        if (animationTimeout) clearTimeout(animationTimeout);
         
-        // 範囲チェック
         if (targetIndex < 0) targetIndex = 0;
         if (targetIndex >= strokePaths.length) targetIndex = strokePaths.length - 1;
         
         currentStrokeIndex = targetIndex;
         
-        // すべてのパスを非表示
+        // 一旦すべて非表示
         strokePaths.forEach(p => { p.style.display = 'none'; });
         
-        // targetIndexまで順にアニメーション表示
+        // 1画目からtargetIndexまで表示
         for (let i = 0; i <= targetIndex; i++) {
-          const path = strokePaths[i];
-          path.style.display = 'block';
-          path.style.strokeDasharray = 'none';
-          path.style.strokeDashoffset = 'none';
+          strokePaths[i].style.display = 'block';
         }
         
         updateUI();
@@ -321,6 +284,8 @@ function extractStrokes(svgDoc) {
         if (!strokePaths.length) {
           infoText.textContent = 'ストロークが見つかりません';
           strokeInfo.textContent = '';
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
           return;
         }
         const total = strokePaths.length;
@@ -328,7 +293,6 @@ function extractStrokes(svgDoc) {
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
         
-        // ボタン制御
         prevBtn.disabled = (currentStrokeIndex <= 0);
         nextBtn.disabled = (currentStrokeIndex >= total - 1);
       }
@@ -342,15 +306,19 @@ function extractStrokes(svgDoc) {
           infoText.textContent = '';
           strokeInfo.textContent = '';
           strokePaths = [];
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
           return;
         }
         displaySvg(svgDoc);
         strokePaths = extractStrokes(svgDoc);
         if (strokePaths.length > 0) {
-          // 最初は1画目だけ表示
           animateToStroke(0);
         } else {
           infoText.textContent = 'ストロークが見つかりません';
+          strokeInfo.textContent = '';
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
         }
       }
 
@@ -384,7 +352,6 @@ function extractStrokes(svgDoc) {
         }
       });
 
-      // --- キーボード操作（左右矢印キー） ---
       document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
           e.preventDefault();
@@ -402,7 +369,6 @@ function extractStrokes(svgDoc) {
       // --- 初期化 ---
       function init() {
         populateSelect();
-        // デフォルトで「あ」を選択して表示
         if (kanaMap.length > 0) {
           const firstCode = kanaMap[0].split(',')[1];
           selectEl.value = firstCode;

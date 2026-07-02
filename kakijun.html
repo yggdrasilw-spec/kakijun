@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase 1 修正版</title>
+  <title>書き順アニメーション - 修正版2</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -178,7 +178,6 @@
       // --- 状態管理 ---
       let currentSvgDoc = null;
       let strokePaths = [];
-      let strokeLengths = [];
       let currentStrokeIndex = -1;
       let animationSpeed = 'normal';
       let isAnimating = false;
@@ -220,10 +219,9 @@
           if (!response.ok) throw new Error('SVG not found');
           const svgText = await response.text();
           const parser = new DOMParser();
-          const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-          return svgDoc;
+          return parser.parseFromString(svgText, 'image/svg+xml');
         } catch (err) {
-          console.error('SVG読み込みエラー:', err);
+          console.error(err);
           return null;
         }
       }
@@ -234,41 +232,25 @@
         const allG = svgDoc.querySelectorAll('g');
         let strokePathsG = null;
         allG.forEach(g => {
-          const id = g.getAttribute('id') || '';
-          if (id.indexOf('StrokePaths') !== -1) {
-            strokePathsG = g;
-          }
+          if ((g.getAttribute('id') || '').includes('StrokePaths')) strokePathsG = g;
         });
         if (strokePathsG) {
           const innerG = strokePathsG.querySelector('g');
           if (innerG) {
-            const allPaths = innerG.querySelectorAll('path');
-            allPaths.forEach(p => {
+            innerG.querySelectorAll('path').forEach(p => {
               if (p.getAttribute('d')) paths.push(p);
             });
           }
         }
         if (paths.length === 0) {
-          const allPaths = svgDoc.querySelectorAll('path');
-          const tempPaths = [];
-          allPaths.forEach(p => {
-            const id = p.getAttribute('id') || '';
-            const match = id.match(/-s(\d+)$/);
-            if (match && p.getAttribute('d')) {
-              tempPaths.push({ path: p, num: parseInt(match[1]) });
-            }
+          const pathElements = svgDoc.querySelectorAll('path');
+          const temp = [];
+          pathElements.forEach(p => {
+            const m = (p.getAttribute('id') || '').match(/-s(\d+)$/);
+            if (m && p.getAttribute('d')) temp.push({ path: p, num: parseInt(m[1]) });
           });
-          tempPaths.sort((a, b) => a.num - b.num);
-          tempPaths.forEach(item => paths.push(item.path));
-        }
-        if (paths.length === 0) {
-          const svgText = new XMLSerializer().serializeToString(svgDoc);
-          const parser = new DOMParser();
-          const tempDoc = parser.parseFromString(svgText, 'image/svg+xml');
-          const allPaths = tempDoc.querySelectorAll('path');
-          allPaths.forEach(p => {
-            if (p.getAttribute('d')) paths.push(p);
-          });
+          temp.sort((a, b) => a.num - b.num);
+          temp.forEach(item => paths.push(item.path));
         }
         return paths;
       }
@@ -289,8 +271,7 @@
         svgRoot.setAttribute('height', '200');
         svgRoot.style.display = 'block';
         svgRoot.style.margin = 'auto';
-        const allPaths = svgRoot.querySelectorAll('path');
-        allPaths.forEach(p => {
+        svgRoot.querySelectorAll('path').forEach(p => {
           p.style.display = 'none';
           p.style.stroke = '#444';
           p.style.strokeWidth = '9';
@@ -299,63 +280,55 @@
           p.style.fill = 'none';
           p.style.transition = 'none';
         });
-        const texts = svgRoot.querySelectorAll('text');
-        texts.forEach(t => { t.style.display = 'none'; });
+        svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
         svgContainer.appendChild(svgRoot);
-        return svgRoot;
       }
 
-      // --- ストロークの長さを取得 ---
-      function calculateStrokeLengths() {
-        strokeLengths = [];
-        strokePaths.forEach(path => {
-          try {
-            const prevDisplay = path.style.display;
-            path.style.display = 'block';
-            const len = path.getTotalLength();
-            path.style.display = prevDisplay;
-            strokeLengths.push(len);
-          } catch (e) {
-            strokeLengths.push(100);
-          }
-        });
-      }
-
-      // --- 単一ストロークのアニメーション ---
+      // --- 単一ストロークアニメーション（エラー耐性強化） ---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
-          const length = path.getTotalLength();
-          if (length === 0) {
+          try {
+            const length = path.getTotalLength();
+            if (length === 0) {
+              path.style.display = 'block';
+              resolve();
+              return;
+            }
             path.style.display = 'block';
-            resolve();
-            return;
-          }
-          path.style.display = 'block';
-          path.style.strokeDasharray = length;
-          path.style.strokeDashoffset = length;
-          path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-          path.getBoundingClientRect();
-          path.style.strokeDashoffset = '0';
-          const onTransitionEnd = () => {
-            path.removeEventListener('transitionend', onTransitionEnd);
-            path.style.transition = 'none';
-            path.style.strokeDasharray = 'none';
+            path.style.strokeDasharray = length;
+            path.style.strokeDashoffset = length;
+            path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
+            // 強制リフロー
+            path.getBoundingClientRect();
             path.style.strokeDashoffset = '0';
-            resolve();
-          };
-          path.addEventListener('transitionend', onTransitionEnd);
-          setTimeout(() => {
-            if (path.style.strokeDasharray !== 'none') {
+
+            const onEnd = () => {
+              path.removeEventListener('transitionend', onEnd);
               path.style.transition = 'none';
               path.style.strokeDasharray = 'none';
               path.style.strokeDashoffset = '0';
               resolve();
-            }
-          }, duration + 100);
+            };
+            path.addEventListener('transitionend', onEnd);
+
+            // フォールバック
+            setTimeout(() => {
+              if (path.style.strokeDasharray !== 'none') {
+                path.style.transition = 'none';
+                path.style.strokeDasharray = 'none';
+                path.style.strokeDashoffset = '0';
+                resolve();
+              }
+            }, duration + 100);
+          } catch (e) {
+            // エラー時は即表示
+            path.style.display = 'block';
+            resolve();
+          }
         });
       }
 
-      // --- 全ストロークを非表示にリセット ---
+      // --- 全ストローク非表示 ---
       function resetAllStrokes() {
         strokePaths.forEach(p => {
           p.style.display = 'none';
@@ -365,45 +338,39 @@
         });
       }
 
-      // --- 指定した画までアニメーション ---
+      // --- 指定画までアニメーション ---
       async function animateToStroke(targetIndex) {
-        if (!strokePaths.length) return;
-        if (isAnimating) return;
-        
-        if (targetIndex < 0) targetIndex = 0;
-        if (targetIndex >= strokePaths.length) targetIndex = strokePaths.length - 1;
-        
+        if (!strokePaths.length || isAnimating) return;
+
+        targetIndex = Math.min(Math.max(targetIndex, 0), strokePaths.length - 1);
         const prevIndex = currentStrokeIndex;
-        currentStrokeIndex = targetIndex;
-        
+
+        // 前に戻る場合はリセット
         if (targetIndex <= prevIndex || prevIndex === -1) {
           resetAllStrokes();
           currentStrokeIndex = -1;
         }
-        
+
         isAnimating = true;
         updateUI();
-        
-        const duration = speedDurations[animationSpeed];
-        
-        for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
-          if (i <= prevIndex) continue;
-          try {
+
+        try {
+          const duration = speedDurations[animationSpeed];
+          for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
+            if (i <= prevIndex) continue;
             await animateSingleStroke(strokePaths[i], duration);
-          } catch (e) {
-            strokePaths[i].style.display = 'block';
-            strokePaths[i].style.strokeDasharray = 'none';
-            strokePaths[i].style.strokeDashoffset = '0';
+            currentStrokeIndex = i;
+            updateUI();
           }
-          currentStrokeIndex = i;
-          updateUI();
+        } catch (err) {
+          // ループ途中のエラーでも現在の画までは表示する
+        } finally {
+          isAnimating = false;
+          updateUI(); // ★ 必ず呼ばれてボタンが有効化される
         }
-        
-        isAnimating = false;
-        updateUI();  // ★ 修正：アニメーション終了後にUIを更新してボタンを有効化
       }
 
-      // --- すべての画を一気に表示 ---
+      // --- すべて表示（アニメなし） ---
       function showAllStrokesInstant() {
         resetAllStrokes();
         strokePaths.forEach(p => {
@@ -429,37 +396,29 @@
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
-        
+
         prevBtn.disabled = (currentStrokeIndex <= 0) || isAnimating;
         nextBtn.disabled = (currentStrokeIndex >= total - 1) || isAnimating;
       }
 
-      // --- 文字を読み込んで表示 ---
+      // --- 文字読込＆表示 ---
       async function loadAndDisplay(unicode) {
         isAnimating = false;
         const svgDoc = await loadSvg(unicode);
         currentSvgDoc = svgDoc;
         if (!svgDoc) {
           svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
-          infoText.textContent = '';
-          strokeInfo.textContent = '';
           strokePaths = [];
-          strokeLengths = [];
-          prevBtn.disabled = true;
-          nextBtn.disabled = true;
+          updateUI();
           return;
         }
         strokePaths = extractStrokes(svgDoc);
         displaySvg(svgDoc);
         if (strokePaths.length > 0) {
-          calculateStrokeLengths();
           currentStrokeIndex = -1;
           animateToStroke(0);
         } else {
-          infoText.textContent = 'ストロークが見つかりません';
-          strokeInfo.textContent = '';
-          prevBtn.disabled = true;
-          nextBtn.disabled = true;
+          updateUI();
         }
       }
 
@@ -474,24 +433,23 @@
 
       // --- イベントリスナー ---
       showBtn.addEventListener('click', () => {
-        const unicode = selectEl.value;
-        if (unicode) loadAndDisplay(unicode);
+        if (selectEl.value) loadAndDisplay(selectEl.value);
       });
 
       nextBtn.addEventListener('click', () => {
-        if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {
+        if (!isAnimating && currentStrokeIndex < strokePaths.length - 1) {
           animateToStroke(currentStrokeIndex + 1);
         }
       });
 
       prevBtn.addEventListener('click', () => {
-        if (currentStrokeIndex > 0 && !isAnimating) {
+        if (!isAnimating && currentStrokeIndex > 0) {
           animateToStroke(currentStrokeIndex - 1);
         }
       });
 
       replayBtn.addEventListener('click', () => {
-        if (strokePaths.length > 0 && !isAnimating) {
+        if (strokePaths.length && !isAnimating) {
           resetAllStrokes();
           currentStrokeIndex = -1;
           updateUI();
@@ -500,32 +458,27 @@
       });
 
       showAllBtn.addEventListener('click', () => {
-        if (strokePaths.length > 0 && !isAnimating) {
+        if (strokePaths.length && !isAnimating) {
           showAllStrokesInstant();
         }
       });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
+        if (e.key === 'ArrowRight' && !isAnimating && currentStrokeIndex < strokePaths.length - 1) {
           e.preventDefault();
-          if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {
-            animateToStroke(currentStrokeIndex + 1);
-          }
-        } else if (e.key === 'ArrowLeft') {
+          animateToStroke(currentStrokeIndex + 1);
+        } else if (e.key === 'ArrowLeft' && !isAnimating && currentStrokeIndex > 0) {
           e.preventDefault();
-          if (currentStrokeIndex > 0 && !isAnimating) {
-            animateToStroke(currentStrokeIndex - 1);
-          }
+          animateToStroke(currentStrokeIndex - 1);
         }
       });
 
       // --- 初期化 ---
       function init() {
         populateSelect();
-        if (kanaMap.length > 0) {
-          const firstCode = kanaMap[0].split(',')[1];
-          selectEl.value = firstCode;
-          loadAndDisplay(firstCode);
+        if (kanaMap.length) {
+          selectEl.value = kanaMap[0].split(',')[1];
+          loadAndDisplay(selectEl.value);
         }
       }
 

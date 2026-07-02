@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>書き順アニメーション - Phase 1</title>
+  <style>
+    body {
+      font-family: 'Yu Gothic', '游ゴシック', sans-serif;
+      text-align: center;
+      background: #faf8f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #4a4a4a;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .kana-display {
+      width: 250px;
+      height: 250px;
+      margin: 20px auto;
+      background: #fffef9;
+      border: 3px dashed #e0d6c2;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .kana-display svg {
+      width: 200px;
+      height: 200px;
+    }
+    .info {
+      font-size: 1.4rem;
+      margin: 10px 0;
+      min-height: 30px;
+    }
+    .stroke-counter {
+      font-size: 1rem;
+      color: #888;
+    }
+    button {
+      background: #f0e6d3;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      border-radius: 40px;
+      margin: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #5a4a3a;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #e0d6c2;
+    }
+    button:hover {
+      background: #e8d9be;
+    }
+    button:active {
+      background: #d4c3a5;
+      transform: scale(0.96);
+    }
+    button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+    .speed-btn {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      margin: 4px;
+      background: #fff;
+      border: 1px solid #d4c3a5;
+    }
+    .speed-btn.active {
+      background: #d4c3a5;
+      color: white;
+      border-color: #b8a080;
+    }
+    .controls {
+      margin: 20px 0;
+    }
+    select {
+      padding: 10px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background: white;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✍️ 書き順アニメーション</h1>
+    
+    <div>
+      <label for="charSelect">🔡 文字を選んでね：</label>
+      <select id="charSelect"></select>
+      <button id="showBtn">表示</button>
+    </div>
+
+    <div class="kana-display" id="svgContainer">
+      <p style="color:#ccc;">文字を選んでね</p>
+    </div>
+
+    <div class="info" id="infoText"></div>
+    <div class="stroke-counter" id="strokeInfo"></div>
+
+    <!-- 速度調整UI -->
+    <div style="margin:10px 0;">
+      <span style="font-size:0.9rem; color:#888;">⚡ はやさ：</span>
+      <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
+      <button class="speed-btn active" data-speed="normal">🐇 ふつう</button>
+      <button class="speed-btn" data-speed="fast">🐆 はやい</button>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn">◀ 前の画</button>
+      <button id="nextBtn">次の画 ▶</button>
+      <br>
+      <button id="replayBtn">🔄 もう一度</button>
+      <button id="showAllBtn">👀 すべて表示</button>
+    </div>
+  </div>
+  <div class="footer">made with ❤️</div>
+
+  <script>
+    (function() {
+      // --- ひらがな・カタカナ マッピング ---
+      const kanaMap = [
+        "あ,3042","い,3044","う,3046","え,3048","お,304A",
+        "か,304B","き,304D","く,304F","け,3051","こ,3053",
+        "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
+        "た,305F","ち,3061","つ,3064","て,3066","と,3068",
+        "な,306A","に,306B","ぬ,306C","ね,306D","の,306E",
+        "は,306F","ひ,3072","ふ,3075","へ,3078","ほ,307B",
+        "ま,307E","み,307F","む,3080","め,3081","も,3082",
+        "や,3084","ゆ,3086","よ,3088",
+        "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
+        "わ,308F","を,3092","ん,3093",
+        "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
+        "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
+        "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
+        "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
+        "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
+        "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
+        "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
+        "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
+        "タ,30BF","チ,30C1","ツ,30C4","テ,30C6","ト,30C8",
+        "ナ,30CA","ニ,30CB","ヌ,30CC","ネ,30CD","ノ,30CE",
+        "ハ,30CF","ヒ,30D2","フ,30D5","ヘ,30D8","ホ,30DB",
+        "マ,30DE","ミ,30DF","ム,30E0","メ,30E1","モ,30E2",
+        "ヤ,30E4","ユ,30E6","ヨ,30E8",
+        "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
+        "ワ,30EF","ヲ,30F2","ン,30F3",
+        "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
+        "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
+        "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
+        "バ,30D0","ビ,30D3","ブ,30D6","ベ,30D9","ボ,30DC",
+        "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
+      ];
+
+      // --- 状態管理 ---
+      let currentSvgDoc = null;
+      let strokePaths = [];            // path要素の配列
+      let strokeLengths = [];         // 各ストロークの長さ
+      let currentStrokeIndex = -1;
+      let animationSpeed = 'normal';  // 'slow' | 'normal' | 'fast'
+      let isAnimating = false;       // アニメーション中は操作をブロック
+
+      // 速度に対応するduration（ミリ秒）
+      const speedDurations = {
+        slow: 1500,
+        normal: 600,
+        fast: 200
+      };
+
+      // --- DOM要素 ---
+      const selectEl = document.getElementById('charSelect');
+      const showBtn = document.getElementById('showBtn');
+      const svgContainer = document.getElementById('svgContainer');
+      const infoText = document.getElementById('infoText');
+      const strokeInfo = document.getElementById('strokeInfo');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const replayBtn = document.getElementById('replayBtn');
+      const showAllBtn = document.getElementById('showAllBtn');
+      const speedBtns = document.querySelectorAll('.speed-btn');
+
+      // --- セレクトボックスに文字を追加 ---
+      function populateSelect() {
+        kanaMap.forEach(item => {
+          const [char, code] = item.split(',');
+          const option = document.createElement('option');
+          option.value = code;
+          option.textContent = char;
+          selectEl.appendChild(option);
+        });
+      }
+
+      // --- SVGを読み込む ---
+      async function loadSvg(unicode) {
+        try {
+          const paddedCode = unicode.padStart(5, '0');
+          const response = await fetch(`svg/${paddedCode}.svg`);
+          if (!response.ok) throw new Error('SVG not found');
+          const svgText = await response.text();
+          const parser = new DOMParser();
+          const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+          return svgDoc;
+        } catch (err) {
+          console.error('SVG読み込みエラー:', err);
+          return null;
+        }
+      }
+
+      // --- ストロークパスを抽出 ---
+      function extractStrokes(svgDoc) {
+        const paths = [];
+        
+        const allG = svgDoc.querySelectorAll('g');
+        let strokePathsG = null;
+        allG.forEach(g => {
+          const id = g.getAttribute('id') || '';
+          if (id.indexOf('StrokePaths') !== -1) {
+            strokePathsG = g;
+          }
+        });
+        
+        if (strokePathsG) {
+          const innerG = strokePathsG.querySelector('g');
+          if (innerG) {
+            const allPaths = innerG.querySelectorAll('path');
+            allPaths.forEach(p => {
+              if (p.getAttribute('d')) paths.push(p);
+            });
+          }
+        }
+        
+        if (paths.length === 0) {
+          const allPaths = svgDoc.querySelectorAll('path');
+          const tempPaths = [];
+          allPaths.forEach(p => {
+            const id = p.getAttribute('id') || '';
+            const match = id.match(/-s(\d+)$/);
+            if (match && p.getAttribute('d')) {
+              tempPaths.push({ path: p, num: parseInt(match[1]) });
+            }
+          });
+          tempPaths.sort((a, b) => a.num - b.num);
+          tempPaths.forEach(item => paths.push(item.path));
+        }
+        
+        if (paths.length === 0) {
+          const svgText = new XMLSerializer().serializeToString(svgDoc);
+          const parser = new DOMParser();
+          const tempDoc = parser.parseFromString(svgText, 'image/svg+xml');
+          const allPaths = tempDoc.querySelectorAll('path');
+          allPaths.forEach(p => {
+            if (p.getAttribute('d')) paths.push(p);
+          });
+        }
+        
+        console.log('✅ 抽出したストローク数:', paths.length);
+        return paths;
+      }
+
+      // --- SVGを表示エリアにセット（アニメーション準備） ---
+      function displaySvg(svgDoc) {
+        svgContainer.innerHTML = '';
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          return;
+        }
+        const svgRoot = svgDoc.querySelector('svg');
+        if (!svgRoot) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">無効なSVGです</p>';
+          return;
+        }
+        
+        svgRoot.setAttribute('width', '200');
+        svgRoot.setAttribute('height', '200');
+        svgRoot.style.display = 'block';
+        svgRoot.style.margin = 'auto';
+        
+        // すべてのpathを非表示 ＆ スタイル調整
+        const allPaths = svgRoot.querySelectorAll('path');
+        allPaths.forEach(p => {
+          p.style.display = 'none';
+          p.style.stroke = '#444';
+          p.style.strokeWidth = '9';
+          // とめ・はね・はらいの表現（roundで柔らかく）
+          p.style.strokeLinecap = 'round';
+          p.style.strokeLinejoin = 'round';
+          p.style.fill = 'none';
+          // アニメーション用のtransitionを設定（後で上書き）
+          p.style.transition = 'none';
+        });
+        
+        // 数字テキストは非表示に
+        const texts = svgRoot.querySelectorAll('text');
+        texts.forEach(t => { t.style.display = 'none'; });
+
+        svgContainer.appendChild(svgRoot);
+        return svgRoot;
+      }
+
+      // --- 各ストロークの長さを取得 ---
+      function calculateStrokeLengths() {
+        strokeLengths = [];
+        strokePaths.forEach(path => {
+          try {
+            // getTotalLengthは表示状態でないと0を返すことがあるため、
+            // 一時的にdisplayをblockにして計測
+            const prevDisplay = path.style.display;
+            path.style.display = 'block';
+            const len = path.getTotalLength();
+            path.style.display = prevDisplay;
+            strokeLengths.push(len);
+          } catch (e) {
+            strokeLengths.push(100); // フォールバック
+          }
+        });
+        console.log('📏 ストローク長:', strokeLengths);
+      }
+
+      // --- 単一ストロークのアニメーション ---
+      function animateSingleStroke(path, duration) {
+        return new Promise(resolve => {
+          const length = path.getTotalLength();
+          if (length === 0) {
+            // 長さが取得できない場合は即時表示
+            path.style.display = 'block';
+            path.style.strokeDasharray = 'none';
+            path.style.strokeDashoffset = '0';
+            resolve();
+            return;
+          }
+          
+          // 初期状態：dasharrayを長さに設定、dashoffsetも長さ（非表示）
+          path.style.display = 'block';
+          path.style.strokeDasharray = length;
+          path.style.strokeDashoffset = length;
+          
+          // transitionを設定
+          path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
+          
+          // 強制リフロー（transitionを確実に発火させる）
+          path.getBoundingClientRect();
+          
+          // アニメーション開始
+          path.style.strokeDashoffset = '0';
+          
+          // アニメーション完了を待つ
+          const onTransitionEnd = () => {
+            path.removeEventListener('transitionend', onTransitionEnd);
+            path.style.transition = 'none';
+            path.style.strokeDasharray = 'none';
+            path.style.strokeDashoffset = '0';
+            resolve();
+          };
+          
+          path.addEventListener('transitionend', onTransitionEnd);
+          
+          // フォールバック：duration + 100ms後に強制終了
+          setTimeout(() => {
+            if (path.style.strokeDasharray !== 'none') {
+              path.style.transition = 'none';
+              path.style.strokeDasharray = 'none';
+              path.style.strokeDashoffset = '0';
+              resolve();
+            }
+          }, duration + 100);
+        });
+      }
+
+      // --- 全ストロークを非表示にリセット ---
+      function resetAllStrokes() {
+        strokePaths.forEach(p => {
+          p.style.display = 'none';
+          p.style.transition = 'none';
+          p.style.strokeDasharray = 'none';
+          p.style.strokeDashoffset = '0';
+        });
+      }
+
+      // --- 指定した画までアニメーション付きで表示 ---
+      async function animateToStroke(targetIndex) {
+        if (!strokePaths.length) return;
+        if (isAnimating) return; // アニメーション中は操作不可
+        
+        if (targetIndex < 0) targetIndex = 0;
+        if (targetIndex >= strokePaths.length) targetIndex = strokePaths.length - 1;
+        
+        const prevIndex = currentStrokeIndex;
+        currentStrokeIndex = targetIndex;
+        
+        // 戻る場合：全リセットして targetIndex までアニメーション
+        if (targetIndex <= prevIndex || prevIndex === -1) {
+          resetAllStrokes();
+          currentStrokeIndex = -1;
+        }
+        
+        // 現在の位置から targetIndex まで1画ずつアニメーション
+        isAnimating = true;
+        updateUI();
+        
+        const duration = speedDurations[animationSpeed];
+        
+        for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
+          // 既に表示済みの画はスキップ（prevIndexより前は表示済みのはず）
+          if (i <= prevIndex) continue;
+          
+          try {
+            await animateSingleStroke(strokePaths[i], duration);
+          } catch (e) {
+            // エラー時は即時表示
+            strokePaths[i].style.display = 'block';
+            strokePaths[i].style.strokeDasharray = 'none';
+            strokePaths[i].style.strokeDashoffset = '0';
+          }
+          currentStrokeIndex = i;
+          updateUI();
+        }
+        
+        isAnimating = false;
+      }
+
+      // --- すべての画を一気に表示（アニメーションなし） ---
+      function showAllStrokesInstant() {
+        resetAllStrokes();
+        strokePaths.forEach(p => {
+          p.style.display = 'block';
+          p.style.strokeDasharray = 'none';
+          p.style.strokeDashoffset = '0';
+        });
+        currentStrokeIndex = strokePaths.length - 1;
+        updateUI();
+      }
+
+      // --- UI更新 ---
+      function updateUI() {
+        if (!strokePaths.length) {
+          infoText.textContent = 'ストロークが見つかりません';
+          strokeInfo.textContent = '';
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          return;
+        }
+        const total = strokePaths.length;
+        const current = currentStrokeIndex + 1;
+        infoText.textContent = `✏️ ${current} / ${total} 画`;
+        strokeInfo.textContent = `全 ${total} 画`;
+        
+        prevBtn.disabled = (currentStrokeIndex <= 0) || isAnimating;
+        nextBtn.disabled = (currentStrokeIndex >= total - 1) || isAnimating;
+      }
+
+      // --- 文字を読み込んで表示 ---
+      async function loadAndDisplay(unicode) {
+        // アニメーション中の操作をキャンセル
+        isAnimating = false;
+        
+        const svgDoc = await loadSvg(unicode);
+        currentSvgDoc = svgDoc;
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          infoText.textContent = '';
+          strokeInfo.textContent = '';
+          strokePaths = [];
+          strokeLengths = [];
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          return;
+        }
+        
+        // ストローク抽出
+        strokePaths = extractStrokes(svgDoc);
+        
+        // SVGを表示（DOMに追加）
+        displaySvg(svgDoc);
+        
+        // 長さを計算（DOM追加後）
+        if (strokePaths.length > 0) {
+          calculateStrokeLengths();
+          // 最初の画をアニメーション表示
+          currentStrokeIndex = -1;
+          animateToStroke(0);
+        } else {
+          infoText.textContent = 'ストロークが見つかりません';
+          strokeInfo.textContent = '';
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+        }
+      }
+
+      // --- 速度ボタンのイベント ---
+      speedBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          speedBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          animationSpeed = this.dataset.speed;
+        });
+      });
+
+      // --- イベントリスナー ---
+      showBtn.addEventListener('click', function() {
+        const unicode = selectEl.value;
+        if (unicode) loadAndDisplay(unicode);
+      });
+
+      nextBtn.addEventListener('click', function() {
+        if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {
+          animateToStroke(currentStrokeIndex + 1);
+        }
+      });
+
+      prevBtn.addEventListener('click', function() {
+        if (currentStrokeIndex > 0 && !isAnimating) {
+          animateToStroke(currentStrokeIndex - 1);
+        }
+      });
+
+      replayBtn.addEventListener('click', function() {
+        if (strokePaths.length > 0 && !isAnimating) {
+          resetAllStrokes();
+          currentStrokeIndex = -1;
+          updateUI();
+          animateToStroke(0);
+        }
+      });
+
+      showAllBtn.addEventListener('click', function() {
+        if (strokePaths.length > 0 && !isAnimating) {
+          showAllStrokesInstant();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {
+            animateToStroke(currentStrokeIndex + 1);
+          }
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          if (currentStrokeIndex > 0 && !isAnimating) {
+            animateToStroke(currentStrokeIndex - 1);
+          }
+        }
+      });
+
+      // --- 初期化 ---
+      function init() {
+        populateSelect();
+        if (kanaMap.length > 0) {
+          const firstCode = kanaMap[0].split(',')[1];
+          selectEl.value = firstCode;
+          loadAndDisplay(firstCode);
+        }
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

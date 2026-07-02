@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - 判定厳格化</title>
+  <title>書き順アニメーション - 速度一定化</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -210,7 +210,11 @@
       let savedStrokes = [];
       let feedbackTimer = null;
 
-      const speedDurations = { slow: 1500, normal: 600, fast: 200 };
+      // 速度設定（基準長さ200pxに対する時間）
+      const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
+      const BASE_LENGTH = 200; // 基準となるパスの長さ
+      const MIN_DURATION = 100; // 最小アニメーション時間
+
       const DISTANCE_THRESHOLD_GOOD = 12;
       const DISTANCE_THRESHOLD_OK = 25;
       const START_DISTANCE_THRESHOLD = 30;
@@ -624,7 +628,6 @@
           const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
           const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
 
-          // 判定：一定の品質を満たさなければ先に進ませない
           if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
             savedStrokes.push([...userDrawnPoints]);
             setFeedback('🌟 じょうず！');
@@ -646,7 +649,6 @@
               setFeedback('🔵 つぎのあおい線をなぞってね');
             }
           } else {
-            // 品質不足：やり直し
             setFeedback('💧 もうすこし！もういちど書いてね', false);
             flashAndRemoveWrongStroke(userDrawnPoints);
           }
@@ -716,6 +718,7 @@
         setFeedback(practiceMode === 'hint' ? '🔵 もういちど、あおい線をなぞってね' : '🔍 もういちど書いてね');
       }
 
+      // --- アニメーション（長さ比例に修正）---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
           try {
@@ -770,9 +773,12 @@
         isAnimating = true;
         updateUI();
         try {
-          const duration = speedDurations[animationSpeed];
           for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
             if (i <= prevIndex) continue;
+            const pathLength = strokePaths[i].getTotalLength();
+            const baseDuration = speedBaseDurations[animationSpeed];
+            let duration = (pathLength / BASE_LENGTH) * baseDuration;
+            if (duration < MIN_DURATION) duration = MIN_DURATION;
             await animateSingleStroke(strokePaths[i], duration);
             currentStrokeIndex = i;
             updateUI();
@@ -796,7 +802,7 @@
           infoText.textContent = `✏️ なぞり中：${displayIndex} / ${strokePaths.length} 画め`;
           strokeInfo.textContent = `全 ${strokePaths.length} 画`;
           nextBtn.style.display = 'none';
-          speedControl.style.display = 'none'; // 練習モードでは速度ボタン非表示
+          speedControl.style.display = 'none';
           
           traceHintBtn.textContent = (practiceMode === 'hint') ? '🔙 書き順アニメーション' : '🖊 なぞり練習';
           traceCheckBtn.textContent = (practiceMode === 'check') ? '🔙 書き順アニメーション' : '🔍 書き順チェック';
@@ -804,14 +810,13 @@
           return;
         }
 
-        // アニメーションモード
         const total = strokePaths.length;
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
         nextBtn.style.display = 'inline-block';
         nextBtn.disabled = isAnimating;
-        speedControl.style.display = 'block'; // 速度ボタン再表示
+        speedControl.style.display = 'block';
         
         traceHintBtn.textContent = '🖊 なぞり練習';
         traceCheckBtn.textContent = '🔍 書き順チェック';

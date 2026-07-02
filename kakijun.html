@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - 体験改善版</title>
+  <title>書き順アニメーション - 判定厳格化</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -145,7 +145,7 @@
     <div class="feedback" id="feedbackText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
 
-    <div style="margin:10px 0;">
+    <div id="speedControl" style="margin:10px 0;">
       <span style="font-size:0.9rem; color:#888;">⚡ はやさ：</span>
       <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
       <button class="speed-btn active" data-speed="normal">🐇 ふつう</button>
@@ -226,6 +226,7 @@
       const feedbackText = document.getElementById('feedbackText');
       const strokeInfo = document.getElementById('strokeInfo');
       const nextBtn = document.getElementById('nextBtn');
+      const speedControl = document.getElementById('speedControl');
       const speedBtns = document.querySelectorAll('.speed-btn');
       const traceHintBtn = document.getElementById('traceHintBtn');
       const traceCheckBtn = document.getElementById('traceCheckBtn');
@@ -623,25 +624,33 @@
           const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
           const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
 
-          savedStrokes.push([...userDrawnPoints]);
-
+          // 判定：一定の品質を満たさなければ先に進ませない
           if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            savedStrokes.push([...userDrawnPoints]);
             setFeedback('🌟 じょうず！');
+            expectedStrokeIndex++;
+            if (expectedStrokeIndex >= strokePaths.length) {
+              setFeedback('🎉 ぜんぶかけたね！すごい！');
+            } else {
+              updateHighlight();
+              setFeedback('🔵 つぎのあおい線をなぞってね');
+            }
           } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            savedStrokes.push([...userDrawnPoints]);
             setFeedback('👍 まあまあ！');
+            expectedStrokeIndex++;
+            if (expectedStrokeIndex >= strokePaths.length) {
+              setFeedback('🎉 ぜんぶかけたね！すごい！');
+            } else {
+              updateHighlight();
+              setFeedback('🔵 つぎのあおい線をなぞってね');
+            }
           } else {
-            setFeedback('💧 もうすこし！', false);
+            // 品質不足：やり直し
+            setFeedback('💧 もうすこし！もういちど書いてね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
           }
-
-          expectedStrokeIndex++;
-          if (expectedStrokeIndex >= strokePaths.length) {
-            setFeedback('🎉 ぜんぶかけたね！すごい！');
-            updateUI();
-          } else {
-            updateHighlight();
-            setFeedback('🔵 つぎのあおい線をなぞってね');
-            updateUI();
-          }
+          updateUI();
         } else if (practiceMode === 'check') {
           const closestIdx = findClosestStroke(userDrawnPoints);
           if (closestIdx === -1) {
@@ -669,24 +678,29 @@
           const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
           const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
 
-          savedStrokes.push([...userDrawnPoints]);
-
           if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            savedStrokes.push([...userDrawnPoints]);
             setFeedback('🌟 じょうず！');
+            expectedStrokeIndex++;
+            if (expectedStrokeIndex >= strokePaths.length) {
+              setFeedback('🎉 ぜんぶかけたね！すごい！');
+            } else {
+              setFeedback('🔍 つぎの画を書いてね');
+            }
           } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            savedStrokes.push([...userDrawnPoints]);
             setFeedback('👍 まあまあ！');
+            expectedStrokeIndex++;
+            if (expectedStrokeIndex >= strokePaths.length) {
+              setFeedback('🎉 ぜんぶかけたね！すごい！');
+            } else {
+              setFeedback('🔍 つぎの画を書いてね');
+            }
           } else {
-            setFeedback('💧 もうすこし！', false);
+            setFeedback('💧 もうすこし！もういちど書いてね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
           }
-
-          expectedStrokeIndex++;
-          if (expectedStrokeIndex >= strokePaths.length) {
-            setFeedback('🎉 ぜんぶかけたね！すごい！');
-            updateUI();
-          } else {
-            setFeedback('🔍 つぎの画を書いてね');
-            updateUI();
-          }
+          updateUI();
         }
         userDrawnPoints = [];
       }
@@ -782,6 +796,7 @@
           infoText.textContent = `✏️ なぞり中：${displayIndex} / ${strokePaths.length} 画め`;
           strokeInfo.textContent = `全 ${strokePaths.length} 画`;
           nextBtn.style.display = 'none';
+          speedControl.style.display = 'none'; // 練習モードでは速度ボタン非表示
           
           traceHintBtn.textContent = (practiceMode === 'hint') ? '🔙 書き順アニメーション' : '🖊 なぞり練習';
           traceCheckBtn.textContent = (practiceMode === 'check') ? '🔙 書き順アニメーション' : '🔍 書き順チェック';
@@ -789,12 +804,14 @@
           return;
         }
 
+        // アニメーションモード
         const total = strokePaths.length;
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
         nextBtn.style.display = 'inline-block';
         nextBtn.disabled = isAnimating;
+        speedControl.style.display = 'block'; // 速度ボタン再表示
         
         traceHintBtn.textContent = '🖊 なぞり練習';
         traceCheckBtn.textContent = '🔍 書き順チェック';

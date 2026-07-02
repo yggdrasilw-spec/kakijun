@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase4 履歴＆スタンプ</title>
+  <title>書き順アニメーション - 全文字対応版</title>
   <style>
-    /* もとのスタイルをそのまま使う（省略） */
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
       text-align: center;
@@ -78,6 +77,14 @@
     .mode-hint-text { font-size: 0.8rem; color: #e67e22; margin-top: 2px; display: none; }
     .number-toggle.locked .mode-hint-text { display: block; }
 
+    .custom-string-area {
+      margin: 10px 0; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+    }
+    #customStringInput {
+      padding: 8px 12px; font-size: 1rem; border: 2px solid #e0d6c2; border-radius: 20px;
+      width: 180px; text-align: center;
+    }
+
     /* 五十音表モーダル */
     .modal {
       display: none; position: fixed; z-index: 1000; left: 0; top: 0;
@@ -112,7 +119,7 @@
     }
     .tab-btn.active { background: #ff9800; color: white; border-color: #f57c00; }
     .sub-tab-container {
-      display: flex; justify-content: center; gap: 6px; margin-bottom: 12px;
+      display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
     }
     .sub-tab-btn {
       padding: 4px 10px; font-size: 0.8rem; background: #fff;
@@ -184,6 +191,12 @@
       <button id="showBtn">表示</button>
     </div>
 
+    <div class="custom-string-area" id="customStringArea">
+      <input type="text" id="customStringInput" placeholder="れんしゅうしたい もじ">
+      <button id="startCustomStringBtn">▶ このもじでれんしゅう</button>
+      <button id="stopCustomStringBtn" style="display:none;">⏹ おわる</button>
+    </div>
+
     <div class="kana-display" id="svgContainer">
       <p style="color:#ccc;" id="placeholderText">文字を選んでね</p>
     </div>
@@ -232,6 +245,7 @@
       <div class="tab-container">
         <button class="tab-btn active" data-kana-type="hiragana">ひらがな</button>
         <button class="tab-btn" data-kana-type="katakana">カタカナ</button>
+        <button class="tab-btn" data-kana-type="kanji">かん字</button>
       </div>
       <div class="sub-tab-container" id="subTabContainer">
         <button class="sub-tab-btn active" data-sub-type="basic">せいおん</button>
@@ -271,7 +285,6 @@
 
   <script>
     (function() {
-      // ===== GitHub Pages パス対応 =====
       const pathParts = window.location.pathname.split('/');
       const repoName = pathParts.length > 2 ? pathParts[1] : '';
       const BASE_PATH = repoName ? `/${repoName}` : '';
@@ -309,49 +322,22 @@
         "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
       ];
 
-      // 五十音グリッド用データ
-      const hiraganaBasic = [
-        ["あ","い","う","え","お"],
-        ["か","き","く","け","こ"],
-        ["さ","し","す","せ","そ"],
-        ["た","ち","つ","て","と"],
-        ["な","に","ぬ","ね","の"],
-        ["は","ひ","ふ","へ","ほ"],
-        ["ま","み","む","め","も"],
-        ["や","","ゆ","","よ"],
-        ["ら","り","る","れ","ろ"],
-        ["わ","","","を","ん"]
-      ];
-      const hiraganaDakuten = [
-        ["が","ぎ","ぐ","げ","ご"],
-        ["ざ","じ","ず","ぜ","ぞ"],
-        ["だ","ぢ","づ","で","ど"],
-        ["ば","び","ぶ","べ","ぼ"]
-      ];
-      const hiraganaHandakuten = [
-        ["ぱ","ぴ","ぷ","ぺ","ぽ"]
-      ];
-      const katakanaBasic = [
-        ["ア","イ","ウ","エ","オ"],
-        ["カ","キ","ク","ケ","コ"],
-        ["サ","シ","ス","セ","ソ"],
-        ["タ","チ","ツ","テ","ト"],
-        ["ナ","ニ","ヌ","ネ","ノ"],
-        ["ハ","ヒ","フ","ヘ","ホ"],
-        ["マ","ミ","ム","メ","モ"],
-        ["ヤ","","ユ","","ヨ"],
-        ["ラ","リ","ル","レ","ロ"],
-        ["ワ","","","ヲ","ン"]
-      ];
-      const katakanaDakuten = [
-        ["ガ","ギ","グ","ゲ","ゴ"],
-        ["ザ","ジ","ズ","ゼ","ゾ"],
-        ["ダ","ヂ","ヅ","デ","ド"],
-        ["バ","ビ","ブ","ベ","ボ"]
-      ];
-      const katakanaHandakuten = [
-        ["パ","ピ","プ","ペ","ポ"]
-      ];
+      // 学年別漢字配当表
+      const gradeKanji = {
+        1: [["一","4e00"],["二","4e8c"],["三","4e09"],["四","56db"],["五","4e94"],["六","516d"],["七","4e03"],["八","516b"],["九","4e5d"],["十","5341"],["百","767e"],["千","5343"],["上","4e0a"],["下","4e0b"],["左","5de6"],["右","53f3"],["中","4e2d"],["大","5927"],["小","5c0f"],["月","6708"],["日","65e5"],["年","5e74"],["早","65e9"],["木","6728"],["林","6797"],["山","5c71"],["川","5ddd"],["土","571f"],["空","7a7a"],["田","7530"],["天","5929"],["生","751f"],["花","82b1"],["草","8349"],["虫","866b"],["犬","72ac"],["人","4eba"],["名","540d"],["女","5973"],["男","7537"],["子","5b50"],["目","76ee"],["耳","8033"],["口","53e3"],["手","624b"],["足","8db3"],["見","898b"],["音","97f3"],["力","529b"],["気","6c17"],["円","5186"],["入","5165"],["出","51fa"],["立","7acb"],["休","4f11"],["先","5148"],["夕","5915"],["本","672c"],["文","6587"],["字","5b57"],["学","5b66"],["校","6821"],["村","6751"],["町","753a"],["森","68ee"],["正","6b63"],["水","6c34"],["火","706b"],["玉","7389"],["王","738b"],["石","77f3"],["竹","7af9"],["糸","7cf8"],["貝","8c9d"],["車","8eca"],["金","91d1"],["雨","96e8"],["赤","8d64"],["青","9752"],["白","767d"]],
+        2: [["引","5f15"],["羽","7fbd"],["雲","96f2"],["園","5712"],["遠","9060"],["何","4f55"],["科","79d1"],["夏","590f"],["家","5bb6"],["歌","6b4c"],["画","753b"],["回","56de"],["会","4f1a"],["海","6d77"],["絵","7d75"],["外","5916"],["角","89d2"],["楽","697d"],["活","6d3b"],["間","9593"],["丸","4e38"],["岩","5ca9"],["顔","9854"],["汽","6c7d"],["記","8a18"],["帰","5e30"],["弓","5f13"],["牛","725b"],["魚","9b5a"],["京","4eac"],["強","5f37"],["教","6559"],["近","8fd1"],["兄","5144"],["形","5f62"],["計","8a08"],["元","5143"],["言","8a00"],["原","539f"],["戸","6238"],["古","53e4"],["午","5348"],["後","5f8c"],["語","8a9e"],["工","5de5"],["公","516c"],["広","5e83"],["交","4ea4"],["光","5149"],["考","8003"],["行","884c"],["高","9ad8"],["黄","9ec4"],["合","5408"],["谷","8c37"],["国","56fd"],["黒","9ed2"],["今","4eca"],["才","624d"],["作","4f5c"],["算","7b97"],["止","6b62"],["市","5e02"],["矢","77e2"],["姉","59c9"],["思","601d"],["紙","7d19"],["寺","5bfa"],["自","81ea"],["時","6642"],["室","5ba4"],["社","793e"],["弱","5f31"],["首","9996"],["秋","79cb"],["週","9031"],["春","6625"],["書","66f8"],["少","5c11"],["場","5834"],["色","8272"],["食","98df"],["心","5fc3"],["新","65b0"],["親","89aa"],["図","56f3"],["数","6570"],["西","897f"],["声","58f0"],["星","661f"],["晴","6674"],["切","5207"],["雪","96ea"],["船","8239"],["線","7dda"],["前","524d"],["組","7d44"],["走","8d70"],["多","591a"],["太","592a"],["体","4f53"],["台","53f0"],["地","5730"],["池","6c60"],["知","77e5"],["茶","8336"],["昼","663c"],["長","9577"],["鳥","9ce5"],["朝","671d"],["直","76f4"],["通","901a"],["弟","5f1f"],["店","5e97"],["点","70b9"],["電","96fb"],["刀","5200"],["冬","51ac"],["当","5f53"],["東","6771"],["答","7b54"],["頭","982d"],["同","540c"],["道","9053"],["読","8aad"],["内","5185"],["南","5357"],["肉","8089"],["馬","99ac"],["売","58f2"],["買","8cb7"],["麦","9ea6"],["半","534a"],["番","756a"],["父","7236"],["風","98a8"],["分","5206"],["聞","805e"],["米","7c73"],["歩","6b69"],["母","6bcd"],["方","65b9"],["北","5317"],["毎","6bce"],["妹","59b9"],["万","4e07"],["明","660e"],["鳴","9cf4"],["毛","6bdb"],["門","9580"],["夜","591c"],["野","91ce"],["友","53cb"],["用","7528"],["曜","66dc"],["来","6765"],["里","91cc"],["理","7406"],["話","8a71"]],
+        3: [["悪","60aa"],["安","5b89"],["暗","6697"],["医","533b"],["委","59d4"],["意","610f"],["育","80b2"],["員","54e1"],["院","9662"],["飲","98f2"],["運","904b"],["泳","6cf3"],["駅","99c5"],["央","592e"],["横","6a2a"],["屋","5c4b"],["温","6e29"],["化","5316"],["荷","8377"],["界","754c"],["開","958b"],["階","968e"],["寒","5bd2"],["感","611f"],["漢","6f22"],["館","9928"],["岸","5cb8"],["起","8d77"],["期","671f"],["客","5ba2"],["究","7a76"],["急","6025"],["級","7d1a"],["宮","5bae"],["球","7403"],["去","53bb"],["橋","6a4b"],["業","696d"],["曲","66f2"],["局","5c40"],["銀","9280"],["区","533a"],["苦","82e6"],["具","5177"],["君","541b"],["係","4fc2"],["軽","8efd"],["血","8840"],["決","6c7a"],["研","7814"],["県","770c"],["庫","5eab"],["湖","6e56"],["向","5411"],["幸","5e78"],["港","6e2f"],["号","53f7"],["根","6839"],["祭","796d"],["皿","76bf"],["仕","4ed5"],["死","6b7b"],["使","4f7f"],["始","59cb"],["指","6307"],["歯","6b6f"],["詩","8a69"],["次","6b21"],["事","4e8b"],["持","6301"],["式","5f0f"],["実","5b9f"],["写","5199"],["者","8005"],["主","4e3b"],["守","5b88"],["取","53d6"],["酒","9152"],["受","53d7"],["州","5dde"],["拾","62fe"],["終","7d42"],["習","7fd2"],["集","96c6"],["住","4f4f"],["重","91cd"],["宿","5bbf"],["所","6240"],["暑","6691"],["助","52a9"],["昭","662d"],["消","6d88"],["商","5546"],["章","7ae0"],["勝","52dd"],["乗","4e57"],["植","690d"],["申","7533"],["身","8eab"],["神","795e"],["真","771f"],["深","6df1"],["進","9032"],["世","4e16"],["整","6574"],["昔","6614"],["全","5168"],["相","76f8"],["送","9001"],["想","60f3"],["息","606f"],["速","901f"],["族","65cf"],["他","4ed6"],["打","6253"],["対","5bfe"],["待","5f85"],["代","4ee3"],["第","7b2c"],["題","984c"],["炭","70ad"],["短","77ed"],["談","8ac7"],["着","7740"],["注","6ce8"],["柱","67f1"],["丁","4e01"],["帳","5e33"],["調","8abf"],["追","8ffd"],["定","5b9a"],["庭","5ead"],["笛","7b1b"],["鉄","9244"],["転","8ee2"],["都","90fd"],["度","5ea6"],["投","6295"],["豆","8c46"],["島","5cf6"],["湯","6e6f"],["登","767b"],["等","7b49"],["動","52d5"],["童","7ae5"],["農","8fb2"],["波","6ce2"],["配","914d"],["倍","500d"],["箱","7bb1"],["畑","7551"],["発","767a"],["反","53cd"],["坂","5742"],["板","677f"],["皮","76ae"],["悲","60b2"],["美","7f8e"],["鼻","9f3b"],["筆","7b46"],["氷","6c37"],["表","8868"],["秒","79d2"],["病","75c5"],["品","54c1"],["負","8ca0"],["部","90e8"],["服","670d"],["福","798f"],["物","7269"],["平","5e73"],["返","8fd4"],["勉","52c9"],["放","653e"],["万","4e07"],["味","5473"],["命","547d"],["面","9762"],["問","554f"],["役","5f79"],["薬","85ac"],["由","7531"],["油","6cb9"],["有","6709"],["遊","904a"],["予","4e88"],["羊","7f8a"],["洋","6d0b"],["葉","8449"],["陽","967d"],["様","69d8"],["落","843d"],["流","6d41"],["旅","65c5"],["両","4e21"],["緑","7dd1"],["礼","793c"],["列","5217"],["練","7df4"],["路","8def"],["和","548c"]],
+        4: [["愛","611b"],["案","6848"],["以","4ee5"],["衣","8863"],["位","4f4d"],["囲","56f2"],["胃","80c3"],["印","5370"],["英","82f1"],["栄","6804"],["塩","5869"],["億","5104"],["加","52a0"],["果","679c"],["貨","8ca8"],["課","8ab2"],["芽","82bd"],["改","6539"],["械","68b0"],["害","5bb3"],["街","8857"],["各","5404"],["覚","899a"],["完","5b8c"],["官","5b98"],["管","7ba1"],["関","95a2"],["観","89b3"],["願","9858"],["希","5e0c"],["季","5b63"],["紀","7d00"],["喜","559c"],["旗","65d7"],["器","5668"],["機","6a5f"],["議","8b70"],["求","6c42"],["泣","6ce3"],["救","6551"],["給","7d66"],["挙","6319"],["漁","6f01"],["共","5171"],["協","5354"],["鏡","93e1"],["競","7af6"],["極","6975"],["訓","8a13"],["軍","8ecd"],["郡","90e1"],["径","5f84"],["型","578b"],["景","666f"],["芸","82b8"],["欠","6b20"],["結","7d50"],["建","5efa"],["健","5065"],["験","9a13"],["固","56fa"],["功","529f"],["好","597d"],["候","5019"],["航","822a"],["康","5eb7"],["告","544a"],["差","5dee"],["菜","83dc"],["最","6700"],["材","6750"],["昨","6628"],["札","672d"],["刷","5237"],["殺","6bba"],["察","5bdf"],["参","53c2"],["産","7523"],["散","6563"],["残","6b8b"],["士","58eb"],["氏","6c0f"],["史","53f2"],["司","53f8"],["試","8a66"],["児","5150"],["治","6cbb"],["辞","8f9e"],["失","5931"],["借","501f"],["種","7a2e"],["周","5468"],["祝","795d"],["順","9806"],["初","521d"],["松","677e"],["笑","7b11"],["唱","5531"],["焼","713c"],["象","8c61"],["照","7167"],["賞","8cde"],["臣","81e3"],["信","4fe1"],["真","771f"],["成","6210"],["省","7701"],["清","6e05"],["静","9759"],["席","5e2d"],["積","7a4d"],["折","6298"],["節","7bc0"],["説","8aac"],["浅","6d45"],["戦","6226"],["選","9078"],["然","7136"],["争","4e89"],["倉","5009"],["巣","5de3"],["束","675f"],["側","5074"],["続","7d9a"],["卒","5352"],["孫","5b6b"],["帯","5e2f"],["隊","968a"],["達","9054"],["単","5358"],["置","7f6e"],["仲","4ef2"],["貯","8caf"],["兆","5146"],["腸","8178"],["低","4f4e"],["底","5e95"],["停","505c"],["的","7684"],["典","5178"],["伝","4f1d"],["徒","5f92"],["努","52aa"],["灯","706f"],["堂","5802"],["働","50cd"],["毒","6bd2"],["熱","71b1"],["念","5ff5"],["敗","6557"],["梅","6885"],["博","535a"],["飯","98ef"],["飛","98db"],["費","8cbb"],["必","5fc5"],["票","7968"],["標","6a19"],["不","4e0d"],["夫","592b"],["付","4ed8"],["府","5e9c"],["副","526f"],["粉","7c89"],["兵","5175"],["別","5225"],["辺","8fba"],["変","5909"],["便","4fbf"],["包","5305"],["法","6cd5"],["望","671b"],["牧","7267"],["末","672b"],["満","6e80"],["未","672a"],["脈","8108"],["民","6c11"],["無","7121"],["約","7d04"],["勇","52c7"],["要","8981"],["養","990a"],["浴","6d74"],["利","5229"],["陸","9678"],["良","826f"],["料","6599"],["量","91cf"],["輪","8f2a"],["類","985e"],["令","4ee4"],["冷","51b7"],["例","4f8b"],["歴","6b74"],["連","9023"],["老","8001"],["労","52b4"],["録","9332"]],
+        5: [["圧","5727"],["移","79fb"],["因","56e0"],["永","6c38"],["営","55b6"],["衛","885b"],["易","6613"],["益","76ca"],["液","6db2"],["演","6f14"],["応","5fdc"],["往","5f80"],["桜","685c"],["恩","6069"],["可","53ef"],["仮","4eee"],["価","4fa1"],["河","6cb3"],["過","904e"],["快","5feb"],["解","89e3"],["格","683c"],["確","78ba"],["額","984d"],["刊","520a"],["幹","5e79"],["慣","6163"],["眼","773c"],["基","57fa"],["寄","5bc4"],["規","898f"],["技","6280"],["義","7fa9"],["逆","9006"],["久","4e45"],["旧","65e7"],["居","5c45"],["許","8a31"],["境","5883"],["均","5747"],["禁","7981"],["句","53e5"],["群","7fa4"],["経","7d4c"],["潔","6f01"],["件","4ef6"],["券","5238"],["険","967a"],["検","691c"],["限","9650"],["現","73fe"],["減","6e1b"],["故","6545"],["個","500b"],["護","8b77"],["効","52b9"],["厚","539a"],["耕","8015"],["鉱","9271"],["構","69cb"],["興","8208"],["講","8b1b"],["混","6df7"],["査","67fb"],["再","518d"],["災","707d"],["妻","59bb"],["採","63a1"],["際","969b"],["在","5728"],["財","8ca1"],["罪","7f6a"],["雑","96d1"],["酸","9178"],["賛","8cdb"],["支","652f"],["志","5fd7"],["枝","679d"],["師","5e2b"],["資","8cc7"],["飼","98fc"],["示","793a"],["似","4f3c"],["識","8b58"],["質","8cea"],["舎","820e"],["謝","8b1d"],["授","6388"],["修","4fee"],["述","8ff0"],["術","8853"],["準","6e96"],["序","5e8f"],["招","62db"],["承","627f"],["証","8a3c"],["条","6761"],["状","72b6"],["常","5e38"],["情","60c5"],["織","7e54"],["職","8077"],["制","5236"],["性","6027"],["政","653f"],["勢","52e2"],["精","7cbe"],["製","88fd"],["税","7a0e"],["責","8cac"],["績","7e3e"],["接","63a5"],["設","8a2d"],["舌","820c"],["絶","7d76"],["銭","92ad"],["祖","7956"],["素","7d20"],["総","7dcf"],["造","9020"],["像","50cf"],["増","5897"],["則","5247"],["測","6e2c"],["属","5c5e"],["率","7387"],["損","640d"],["退","9000"],["貸","8cb8"],["態","614b"],["団","56e3"],["断","65ad"],["築","7bc9"],["張","5f35"],["提","63d0"],["程","7a0b"],["適","9069"],["敵","6575"],["統","7d71"],["銅","9285"],["導","5c0e"],["徳","5fb3"],["独","72ec"],["任","4efb"],["燃","71c3"],["能","80fd"],["破","7834"],["犯","72af"],["判","5224"],["版","7248"],["比","6bd4"],["肥","80a5"],["非","975e"],["備","5099"],["俵","4ff5"],["評","8a55"],["貧","8ca7"],["布","5e03"],["婦","5a66"],["富","5bcc"],["武","6b66"],["復","5fa9"],["複","8907"],["仏","4ecf"],["編","7de8"],["弁","5f01"],["保","4fdd"],["墓","5893"],["報","5831"],["豊","8c4a"],["防","9632"],["貿","8cbf"],["暴","66b4"],["未","672a"],["務","52d9"],["無","7121"],["迷","8ff7"],["綿","7dbf"],["輸","8f38"],["余","4f59"],["預","9810"],["容","5bb9"],["略","7565"],["留","7559"],["領","9818"]],
+        6: [["異","7570"],["遺","907a"],["域","57df"],["宇","5b87"],["映","6620"],["延","5ef6"],["沿","6cbf"],["我","6211"],["灰","7070"],["拡","62e1"],["革","9769"],["閣","95a3"],["割","5272"],["株","682a"],["干","5e72"],["巻","5dfb"],["看","770b"],["簡","7c21"],["危","5371"],["机","673a"],["揮","63ee"],["貴","8cb4"],["疑","7591"],["吸","5438"],["供","4f9b"],["胸","80f8"],["郷","90f7"],["勤","52e4"],["筋","7b4b"],["系","7cfb"],["敬","656c"],["警","8b66"],["劇","5287"],["激","6fc0"],["穴","7a74"],["絹","7d79"],["権","6a29"],["憲","61b2"],["源","6e90"],["厳","53b3"],["己","5df1"],["呼","547c"],["誤","8aa4"],["后","540e"],["孝","5b5d"],["皇","7687"],["紅","7d05"],["降","964d"],["鋼","92fc"],["刻","523b"],["穀","7a40"],["骨","9aa8"],["困","56f0"],["砂","7802"],["座","5ea7"],["済","6e08"],["裁","88c1"],["策","7b56"],["冊","518a"],["蚕","8695"],["至","81f3"],["私","79c1"],["姿","59ff"],["視","8996"],["詞","8a5e"],["誌","8a8c"],["磁","78c1"],["射","5c04"],["捨","6368"],["尺","5c3a"],["若","82e5"],["樹","6a39"],["収","53ce"],["宗","5b97"],["就","5c31"],["衆","8846"],["従","5f93"],["縦","7e26"],["縮","7e2e"],["熟","719f"],["純","7d14"],["処","51e6"],["署","7f72"],["諸","8af8"],["除","9664"],["将","5c06"],["傷","50b7"],["障","969c"],["城","57ce"],["蒸","84b8"],["針","91dd"],["仁","4ec1"],["垂","5782"],["推","63a8"],["寸","5bf8"],["盛","76db"],["聖","8056"],["誠","8aa0"],["宣","5ba3"],["専","5c02"],["泉","6cc9"],["洗","6d17"],["染","67d3"],["善","5584"],["奏","594f"],["窓","7a93"],["創","5275"],["装","88c5"],["層","5c64"],["操","64cd"],["蔵","8535"],["臓","81d3"],["存","5b58"],["尊","5c0a"],["宅","5b85"],["担","62c5"],["探","63a2"],["誕","8a95"],["段","6bb5"],["暖","6696"],["値","5024"],["宙","5b99"],["忠","5fe0"],["著","8457"],["庁","5e81"],["頂","9802"],["潮","6f6e"],["賃","8cc3"],["痛","75db"],["展","5c55"],["討","8a0e"],["党","515a"],["糖","7cd6"],["届","5c4a"],["難","96e3"],["乳","4e73"],["認","8a8d"],["納","7d0d"],["脳","8133"],["派","6d3e"],["拝","62dd"],["背","80cc"],["肺","80ba"],["俵","4ff5"],["班","73ed"],["晩","6669"],["否","5426"],["批","6279"],["秘","79d8"],["腹","8179"],["奮","596e"],["並","4e26"],["陛","965b"],["閉","9589"],["片","7247"],["補","88dc"],["暮","66ae"],["宝","5b9d"],["訪","8a2a"],["亡","4ea1"],["忘","5fd8"],["棒","68d2"],["枚","679a"],["幕","5e55"],["密","5bc6"],["盟","76df"],["模","6a21"],["訳","8a33"],["郵","90f5"],["優","512a"],["幼","5e7c"],["欲","6b32"],["翌","7fcc"],["乱","4e71"],["卵","5375"],["覧","89a7"],["裏","88cf"],["律","5f8b"],["臨","81e8"],["朗","6717"],["論","8ad6"]]
+      };
+
+      const hiraganaBasic = [["あ","い","う","え","お"],["か","き","く","け","こ"],["さ","し","す","せ","そ"],["た","ち","つ","て","と"],["な","に","ぬ","ね","の"],["は","ひ","ふ","へ","ほ"],["ま","み","む","め","も"],["や","","ゆ","","よ"],["ら","り","る","れ","ろ"],["わ","","","を","ん"]];
+      const hiraganaDakuten = [["が","ぎ","ぐ","げ","ご"],["ざ","じ","ず","ぜ","ぞ"],["だ","ぢ","づ","で","ど"],["ば","び","ぶ","べ","ぼ"]];
+      const hiraganaHandakuten = [["ぱ","ぴ","ぷ","ぺ","ぽ"]];
+      const katakanaBasic = [["ア","イ","ウ","エ","オ"],["カ","キ","ク","ケ","コ"],["サ","シ","ス","セ","ソ"],["タ","チ","ツ","テ","ト"],["ナ","ニ","ヌ","ネ","ノ"],["ハ","ヒ","フ","ヘ","ホ"],["マ","ミ","ム","メ","モ"],["ヤ","","ユ","","ヨ"],["ラ","リ","ル","レ","ロ"],["ワ","","","ヲ","ン"]];
+      const katakanaDakuten = [["ガ","ギ","グ","ゲ","ゴ"],["ザ","ジ","ズ","ゼ","ゾ"],["ダ","ヂ","ヅ","デ","ド"],["バ","ビ","ブ","ベ","ボ"]];
+      const katakanaHandakuten = [["パ","ピ","プ","ペ","ポ"]];
 
       let quizMode = 'select';
       let currentQuizIndex = 0;
@@ -373,24 +359,22 @@
       let userDrawnPoints = [];
       let savedStrokes = [];
       let feedbackTimer = null;
-
-      // 成績用
       let strokeRatings = [];
 
+      // カスタム文字列練習用
+      let customStringChars = [];
+      let customStringIndex = 0;
+      let isCustomStringMode = false;
+
       const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
-      function getStrokeLineColor(idx) {
-        return STROKE_LINE_COLORS[idx] !== undefined ? STROKE_LINE_COLORS[idx] : '#111111';
-      }
-      function getStrokeNumberColor(idx) {
-        return idx === 0 ? '#ff6fa5' : '#2196f3';
-      }
+      function getStrokeLineColor(idx) { return STROKE_LINE_COLORS[idx] !== undefined ? STROKE_LINE_COLORS[idx] : '#111111'; }
+      function getStrokeNumberColor(idx) { return idx === 0 ? '#ff6fa5' : '#2196f3'; }
       let showStrokeNumbers = true;
       let strokeNumbersLocked = false;
 
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
       const BASE_LENGTH = 200;
       const MIN_DURATION = 100;
-
       const DISTANCE_THRESHOLD_GOOD = 12;
       const DISTANCE_THRESHOLD_OK = 25;
       const START_DISTANCE_THRESHOLD = 30;
@@ -399,7 +383,7 @@
       const COVERAGE_THRESHOLD_OK = 0.5;
       const LENGTH_RATIO_MIN = 0.3;
 
-      // DOM
+      // DOM elements
       const showBtn = document.getElementById('showBtn');
       const svgContainer = document.getElementById('svgContainer');
       const infoText = document.getElementById('infoText');
@@ -439,12 +423,20 @@
       const resultDetail = document.getElementById('resultDetail');
       const resultThumb = document.getElementById('resultThumb');
       const closeResultBtn = document.getElementById('closeResultBtn');
+      const customStringInput = document.getElementById('customStringInput');
+      const startCustomStringBtn = document.getElementById('startCustomStringBtn');
+      const stopCustomStringBtn = document.getElementById('stopCustomStringBtn');
       
       let canvas, ctx;
       let isDrawing = false;
       let isFlashing = false;
 
-      // ---------- 音声改善：文字の種類を前置きする ----------
+      let selectedModalChar = null;
+      let selectedModalCode = null;
+      let currentKanaType = 'hiragana';
+      let currentSubType = 'basic';
+      let currentGrade = 1;
+
       function getCharacterTypeDescription(char) {
         const code = char.charCodeAt(0);
         if (code >= 0x3040 && code <= 0x309F) return 'ひらがな';
@@ -458,17 +450,13 @@
         const type = getCharacterTypeDescription(char);
         const phrase = type ? `${type}の、${char}` : char;
         const u = new SpeechSynthesisUtterance(phrase);
-        u.lang = 'ja-JP';
-        u.rate = 0.8;
-        u.pitch = 1.2;
-        u.volume = 1;
+        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
         const voices = speechSynthesis.getVoices();
         const jaVoice = voices.find(v => v.lang.startsWith('ja'));
         if (jaVoice) u.voice = jaVoice;
         speechSynthesis.speak(u);
       }
 
-      // 従来の単体読み上げ（他の場所で使うかもしれないので残す）
       function speakCharacter(char) {
         if (!speechSynthesis) return;
         speechSynthesis.cancel();
@@ -480,7 +468,6 @@
         speechSynthesis.speak(u);
       }
 
-      // 「もういちどきく」ボタン（前置き付きに変更）
       function replaySound() {
         if (currentChar) {
           speakCharacterWithType(currentChar);
@@ -488,7 +475,6 @@
         }
       }
 
-      // 文字を隠す／表示する
       function hideCharacter() {
         characterHidden = true;
         svgContainer.classList.add('hidden-char');
@@ -525,57 +511,87 @@
         if (g) g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
 
-      // 五十音表モーダル関連
-      let selectedModalChar = null;
-      let selectedModalCode = null;
-      let currentKanaType = 'hiragana';
-      let currentSubType = 'basic';
-
       function getCodeForChar(char) {
         const entry = kanaMap.find(item => item.startsWith(char + ','));
-        return entry ? entry.split(',')[1] : null;
+        if (entry) return entry.split(',')[1];
+        for (let g in gradeKanji) {
+          const found = gradeKanji[g].find(item => item[0] === char);
+          if (found) return found[1];
+        }
+        return null;
       }
 
       function openModal() {
         selectedModalChar = currentChar;
         selectedModalCode = currentUnicode;
         modal.style.display = 'flex';
+        if (currentKanaType === 'kanji') switchSubTabsForKanji();
         renderGrid();
       }
-      function closeModal() {
-        modal.style.display = 'none';
-      }
+      function closeModal() { modal.style.display = 'none'; }
       modalCloseBtn.addEventListener('click', closeModal);
-      window.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
+      window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      function switchSubTabsForKanji() {
+        subTabContainer.innerHTML = '';
+        for (let g = 1; g <= 6; g++) {
+          const btn = document.createElement('button');
+          btn.className = 'sub-tab-btn';
+          btn.dataset.grade = g;
+          btn.textContent = `小${g}`;
+          if (g === currentGrade) btn.classList.add('active');
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentGrade = parseInt(this.dataset.grade);
+            renderGrid();
+          });
+          subTabContainer.appendChild(btn);
+        }
+      }
 
       tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           tabBtns.forEach(b => b.classList.remove('active'));
           this.classList.add('active');
           currentKanaType = this.dataset.kanaType;
-          currentSubType = 'basic';
-          document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-          document.querySelector('.sub-tab-btn[data-sub-type="basic"]').classList.add('active');
+          if (currentKanaType === 'kanji') {
+            switchSubTabsForKanji();
+            currentSubType = null;
+          } else {
+            subTabContainer.innerHTML = `
+              <button class="sub-tab-btn active" data-sub-type="basic">せいおん</button>
+              <button class="sub-tab-btn" data-sub-type="dakuten">だくおん</button>
+              <button class="sub-tab-btn" data-sub-type="handakuten">はんだくおん</button>
+            `;
+            currentSubType = 'basic';
+            document.querySelectorAll('.sub-tab-btn').forEach(b => {
+              b.addEventListener('click', function() {
+                document.querySelectorAll('.sub-tab-btn').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+                currentSubType = this.dataset.subType;
+                renderGrid();
+              });
+            });
+          }
           renderGrid();
         });
       });
-      subTabContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('sub-tab-btn')) {
-          document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-          currentSubType = e.target.dataset.subType;
-          renderGrid();
-        }
-      });
 
       function getGridData() {
-        if (currentKanaType === 'hiragana') {
+        if (currentKanaType === 'kanji') {
+          const kanjiList = gradeKanji[currentGrade] || [];
+          const cols = 5;
+          const rows = [];
+          for (let i = 0; i < kanjiList.length; i += cols) {
+            rows.push(kanjiList.slice(i, i + cols));
+          }
+          return rows;
+        } else if (currentKanaType === 'hiragana') {
           if (currentSubType === 'basic') return hiraganaBasic;
           if (currentSubType === 'dakuten') return hiraganaDakuten;
           if (currentSubType === 'handakuten') return hiraganaHandakuten;
-        } else {
+        } else if (currentKanaType === 'katakana') {
           if (currentSubType === 'basic') return katakanaBasic;
           if (currentSubType === 'dakuten') return katakanaDakuten;
           if (currentSubType === 'handakuten') return katakanaHandakuten;
@@ -587,8 +603,16 @@
         const gridData = getGridData();
         kanaGrid.innerHTML = '';
         gridData.forEach(row => {
-          row.forEach(char => {
-            if (char === '') {
+          row.forEach(item => {
+            let char, code;
+            if (Array.isArray(item)) {
+              char = item[0];
+              code = item[1];
+            } else {
+              char = item;
+              code = getCodeForChar(char);
+            }
+            if (char === '' || char === undefined) {
               const emptyDiv = document.createElement('div');
               kanaGrid.appendChild(emptyDiv);
               return;
@@ -596,7 +620,6 @@
             const btn = document.createElement('button');
             btn.className = 'kana-btn';
             btn.textContent = char;
-            const code = getCodeForChar(char);
             if (code) {
               btn.addEventListener('click', () => {
                 document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
@@ -622,6 +645,7 @@
           currentUnicode = selectedModalCode;
           selectedCharDisplay.textContent = currentChar;
           closeModal();
+          if (isCustomStringMode) stopCustomStringMode();
           loadAndDisplay(currentUnicode);
         } else {
           alert('文字を選んでね！');
@@ -630,7 +654,6 @@
 
       openKanaTableBtn.addEventListener('click', openModal);
 
-      // 出題モード管理
       function setQuizMode(mode) {
         quizMode = mode;
         modeBtns.forEach(b => b.classList.remove('active'));
@@ -656,6 +679,21 @@
 
       function loadQuizChar() {
         let item;
+        if (isCustomStringMode) {
+          if (customStringIndex >= customStringChars.length) return null;
+          const char = customStringChars[customStringIndex];
+          const code = getCodeForChar(char);
+          if (!code) {
+            setFeedback(`❌「${char}」のSVGがありません`, false);
+            customStringIndex++;
+            return loadQuizChar();
+          }
+          currentChar = char;
+          currentUnicode = code;
+          selectedCharDisplay.textContent = currentChar;
+          customStringIndex++;
+          return code;
+        }
         if (quizMode === 'sequential') {
           item = getNextSequentialChar();
         } else if (quizMode === 'random') {
@@ -666,13 +704,38 @@
         const [char, code] = item.split(',');
         currentChar = char;
         currentUnicode = code;
-        if (quizMode !== 'select') {
-          selectedCharDisplay.textContent = currentChar;
-        }
+        if (quizMode !== 'select') selectedCharDisplay.textContent = currentChar;
         return code;
       }
 
-      // 練習モード
+      function startCustomStringMode() {
+        const raw = customStringInput.value.trim();
+        if (!raw) return;
+        customStringChars = raw.split('');
+        customStringIndex = 0;
+        isCustomStringMode = true;
+        startCustomStringBtn.style.display = 'none';
+        stopCustomStringBtn.style.display = 'inline-block';
+        if (practiceMode !== 'none') exitPracticeMode();
+        const code = loadQuizChar();
+        if (code) loadAndDisplay(code);
+      }
+
+      function stopCustomStringMode() {
+        isCustomStringMode = false;
+        customStringChars = [];
+        customStringIndex = 0;
+        startCustomStringBtn.style.display = 'inline-block';
+        stopCustomStringBtn.style.display = 'none';
+        nextCharBtn.style.display = 'none';
+      }
+
+      startCustomStringBtn.addEventListener('click', startCustomStringMode);
+      stopCustomStringBtn.addEventListener('click', () => {
+        stopCustomStringMode();
+        if (practiceMode !== 'none') exitPracticeMode();
+      });
+
       function enterPracticeMode(mode) {
         if (!strokePaths.length) return;
         calculateAllSamplePoints();
@@ -747,7 +810,6 @@
         feedbackText.textContent = '';
       }
 
-      // SVG読み込み
       async function loadSvg(unicode) {
         try {
           const paddedCode = unicode.toLowerCase().padStart(5, '0');
@@ -809,15 +871,12 @@
         }
         return points;
       }
-      function calculateAllSamplePoints() {
-        strokeSamplePoints = strokePaths.map(path => samplePath(path, 5));
-      }
+      function calculateAllSamplePoints() { strokeSamplePoints = strokePaths.map(path => samplePath(path, 5)); }
       function minDistanceToPath(point, samplePoints) {
         let min = Infinity;
         for (const sp of samplePoints) {
-          const dx = point.x - sp.x;
-          const dy = point.y - sp.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
+          const dx = point.x - sp.x, dy = point.y - sp.y;
+          const dist = Math.sqrt(dx*dx+dy*dy);
           if (dist < min) min = dist;
         }
         return min;
@@ -831,17 +890,15 @@
         if (drawnPoints.length === 0 || samplePoints.length === 0) return 0;
         let covered = 0;
         for (const sp of samplePoints) {
-          const dist = minDistanceToPath(sp, drawnPoints);
-          if (dist <= threshold) covered++;
+          if (minDistanceToPath(sp, drawnPoints) <= threshold) covered++;
         }
         return covered / samplePoints.length;
       }
       function calcDrawnLength(points) {
         let len = 0;
         for (let i = 1; i < points.length; i++) {
-          const dx = points[i].x - points[i-1].x;
-          const dy = points[i].y - points[i-1].y;
-          len += Math.sqrt(dx*dx + dy*dy);
+          const dx = points[i].x - points[i-1].x, dy = points[i].y - points[i-1].y;
+          len += Math.sqrt(dx*dx+dy*dy);
         }
         return len;
       }
@@ -849,23 +906,17 @@
         const checkCount = Math.min(5, drawnPoints.length);
         if (checkCount === 0) return Infinity;
         let total = 0;
-        for (let i = 0; i < checkCount; i++) {
-          total += minDistanceToPath(drawnPoints[i], samplePoints);
-        }
+        for (let i = 0; i < checkCount; i++) total += minDistanceToPath(drawnPoints[i], samplePoints);
         return total / checkCount;
       }
       function findClosestStroke(drawnPoints) {
-        let bestIdx = -1;
-        let bestScore = Infinity;
+        let bestIdx = -1, bestScore = Infinity;
         for (let i = 0; i < strokeSamplePoints.length; i++) {
           const avg = averageDistance(drawnPoints, strokeSamplePoints[i]);
           if (avg > MATCH_DISTANCE_THRESHOLD) continue;
           const cov = calcCoverage(drawnPoints, strokeSamplePoints[i], 15);
           const score = avg - cov * 15;
-          if (score < bestScore) {
-            bestScore = score;
-            bestIdx = i;
-          }
+          if (score < bestScore) { bestScore = score; bestIdx = i; }
         }
         return bestIdx;
       }
@@ -873,9 +924,7 @@
         const vb = svgRoot.getAttribute('viewBox');
         if (vb) {
           const parts = vb.trim().split(/\s+/).map(Number);
-          if (parts.length === 4 && parts.every(n => !isNaN(n))) {
-            return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
-          }
+          if (parts.length === 4 && parts.every(n => !isNaN(n))) return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
         }
         return { x: 0, y: 0, w: 109, h: 109 };
       }
@@ -885,15 +934,11 @@
         const g = document.createElementNS(ns, 'g');
         g.setAttribute('id', 'crosshairGuide');
         const vLine = document.createElementNS(ns, 'line');
-        vLine.setAttribute('x1', vb.x + vb.w / 2);
-        vLine.setAttribute('y1', vb.y);
-        vLine.setAttribute('x2', vb.x + vb.w / 2);
-        vLine.setAttribute('y2', vb.y + vb.h);
+        vLine.setAttribute('x1', vb.x + vb.w/2); vLine.setAttribute('y1', vb.y);
+        vLine.setAttribute('x2', vb.x + vb.w/2); vLine.setAttribute('y2', vb.y + vb.h);
         const hLine = document.createElementNS(ns, 'line');
-        hLine.setAttribute('x1', vb.x);
-        hLine.setAttribute('y1', vb.y + vb.h / 2);
-        hLine.setAttribute('x2', vb.x + vb.w);
-        hLine.setAttribute('y2', vb.y + vb.h / 2);
+        hLine.setAttribute('x1', vb.x); hLine.setAttribute('y1', vb.y + vb.h/2);
+        hLine.setAttribute('x2', vb.x + vb.w); hLine.setAttribute('y2', vb.y + vb.h/2);
         [vLine, hLine].forEach(line => {
           line.setAttribute('stroke', '#7ec8e3');
           line.setAttribute('stroke-width', Math.max(0.5, vb.w * 0.006));
@@ -904,69 +949,54 @@
       }
       function strokeStartLabelPos(path, offsetDist) {
         const total = path.getTotalLength();
-        if (total === 0) return { x: 0, y: 0 };
-        const p0 = path.getPointAtLength(0);
-        const p1 = path.getPointAtLength(Math.min(total, 6));
+        if (total === 0) return { x:0, y:0 };
+        const p0 = path.getPointAtLength(0), p1 = path.getPointAtLength(Math.min(total,6));
         let dx = p1.x - p0.x, dy = p1.y - p0.y;
         const len = Math.sqrt(dx*dx+dy*dy) || 1;
         dx /= len; dy /= len;
-        return {
-          x: p0.x - dy * offsetDist * 0.7 - dx * offsetDist * 0.6,
-          y: p0.y + dx * offsetDist * 0.7 - dy * offsetDist * 0.6
-        };
+        return { x: p0.x - dy*offsetDist*0.7 - dx*offsetDist*0.6, y: p0.y + dx*offsetDist*0.7 - dy*offsetDist*0.6 };
       }
       function addStrokeNumbers(svgRoot, paths) {
         const ns = 'http://www.w3.org/2000/svg';
         const vb = parseViewBox(svgRoot);
         const g = document.createElementNS(ns, 'g');
         g.setAttribute('id', 'strokeNumbersGroup');
-        const fontSize = vb.w * 0.11;
-        const offsetDist = vb.w * 0.075;
+        const fontSize = vb.w * 0.11, offsetDist = vb.w * 0.075;
         paths.forEach((path, idx) => {
           const pos = strokeStartLabelPos(path, offsetDist);
           const text = document.createElementNS(ns, 'text');
-          text.textContent = String(idx + 1);
-          text.setAttribute('x', pos.x);
-          text.setAttribute('y', pos.y);
-          text.setAttribute('font-size', fontSize);
-          text.setAttribute('font-weight', 'bold');
+          text.textContent = String(idx+1);
+          text.setAttribute('x', pos.x); text.setAttribute('y', pos.y);
+          text.setAttribute('font-size', fontSize); text.setAttribute('font-weight','bold');
           text.setAttribute('fill', getStrokeNumberColor(idx));
-          text.setAttribute('text-anchor', 'middle');
-          text.setAttribute('dominant-baseline', 'central');
-          text.style.paintOrder = 'stroke';
-          text.style.stroke = '#fff';
-          text.style.strokeWidth = String(fontSize * 0.18);
+          text.setAttribute('text-anchor','middle'); text.setAttribute('dominant-baseline','central');
+          text.style.paintOrder = 'stroke'; text.style.stroke = '#fff'; text.style.strokeWidth = String(fontSize*0.18);
           g.appendChild(text);
         });
         svgRoot.appendChild(g);
         g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
-      function applyStrokeColors(paths) {
-        paths.forEach((p, idx) => { p.style.stroke = getStrokeLineColor(idx); });
-      }
+      function applyStrokeColors(paths) { paths.forEach((p,idx) => { p.style.stroke = getStrokeLineColor(idx); }); }
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
-        const p = document.createElement('p');
-        p.style.cssText = 'color:#ccc;'; p.id = 'placeholderText';
+        const p = document.createElement('p'); p.style.cssText='color:#ccc;'; p.id='placeholderText';
         p.textContent = characterHidden ? '？' : '';
         svgContainer.appendChild(p);
         if (!svgDoc) { p.textContent = 'SVGが見つかりませんでした'; return null; }
         const svgRoot = svgDoc.querySelector('svg');
         if (!svgRoot) { p.textContent = '無効なSVGです'; return null; }
-        svgRoot.setAttribute('width', '200'); svgRoot.setAttribute('height', '200');
-        svgRoot.style.display = 'block'; svgRoot.style.margin = 'auto'; svgRoot.style.pointerEvents = 'none';
+        svgRoot.setAttribute('width','200'); svgRoot.setAttribute('height','200');
+        svgRoot.style.display='block'; svgRoot.style.margin='auto'; svgRoot.style.pointerEvents='none';
         svgRoot.querySelectorAll('path').forEach(path => {
-          path.style.display = 'none'; path.style.strokeWidth = '9';
-          path.style.strokeLinecap = 'round'; path.style.strokeLinejoin = 'round';
-          path.style.fill = 'none'; path.style.transition = 'none';
+          path.style.display='none'; path.style.strokeWidth='9';
+          path.style.strokeLinecap='round'; path.style.strokeLinejoin='round'; path.style.fill='none'; path.style.transition='none';
         });
-        svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
+        svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
         addCrosshairGuide(svgRoot);
         applyStrokeColors(strokePaths);
         addStrokeNumbers(svgRoot, strokePaths);
         svgContainer.appendChild(svgRoot);
-        const newCanvas = document.createElement('canvas');
-        newCanvas.id = 'drawCanvas'; newCanvas.style.display = 'none';
+        const newCanvas = document.createElement('canvas'); newCanvas.id='drawCanvas'; newCanvas.style.display='none';
         svgContainer.appendChild(newCanvas);
         canvas = newCanvas; ctx = canvas.getContext('2d');
         setupCanvas();
@@ -975,443 +1005,179 @@
       }
       function setupCanvas() {
         if (!canvas) return;
-        const svg = svgContainer.querySelector('svg');
-        if (!svg) return;
+        const svg = svgContainer.querySelector('svg'); if (!svg) return;
         const viewBox = svg.getAttribute('viewBox');
-        if (viewBox) {
-          const parts = viewBox.split(/\s+/);
-          canvas.width = parseFloat(parts[2]); canvas.height = parseFloat(parts[3]);
-        } else { canvas.width = 200; canvas.height = 200; }
+        if (viewBox) { const parts = viewBox.split(/\s+/); canvas.width = parseFloat(parts[2]); canvas.height = parseFloat(parts[3]); }
+        else { canvas.width = 200; canvas.height = 200; }
         ctx.lineWidth = 6; ctx.strokeStyle = '#333'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       }
 
-      // 描画イベント
       function getCanvasCoords(e) {
         const rect = canvas.getBoundingClientRect();
-        return {
-          x: (e.clientX - rect.left) * (canvas.width / rect.width),
-          y: (e.clientY - rect.top) * (canvas.height / rect.height)
-        };
+        return { x: (e.clientX-rect.left)*(canvas.width/rect.width), y: (e.clientY-rect.top)*(canvas.height/rect.height) };
       }
       function onPointerDown(e) {
-        if (practiceMode === 'none' || isFlashing) return;
-        const { x, y } = getCanvasCoords(e);
-        isDrawing = true;
-        userDrawnPoints = [{x, y}];
-        ctx.beginPath(); ctx.moveTo(x, y);
-        e.preventDefault();
+        if (practiceMode==='none'||isFlashing) return;
+        const {x,y}=getCanvasCoords(e); isDrawing=true; userDrawnPoints=[{x,y}]; ctx.beginPath(); ctx.moveTo(x,y); e.preventDefault();
       }
       function onPointerMove(e) {
-        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
-        const { x, y } = getCanvasCoords(e);
-        userDrawnPoints.push({x, y});
-        ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
-        e.preventDefault();
+        if (!isDrawing||practiceMode==='none'||isFlashing) return;
+        const {x,y}=getCanvasCoords(e); userDrawnPoints.push({x,y}); ctx.lineTo(x,y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y); e.preventDefault();
       }
       function onPointerUp(e) {
-        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
-        isDrawing = false;
-        ctx.beginPath();
-        if (userDrawnPoints.length < 3) {
-          setFeedback('✍️ もっと長くなぞってね', false);
-          redrawCanvas();
-          userDrawnPoints = [];
-          return;
+        if (!isDrawing||practiceMode==='none'||isFlashing) return;
+        isDrawing=false; ctx.beginPath();
+        if (userDrawnPoints.length<3) { setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return; }
+        const drawnLength=calcDrawnLength(userDrawnPoints); let rating='poor';
+        if (practiceMode==='hint'||practiceMode==='listen') {
+          const startAvg=checkStartPosition(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],START_DISTANCE_THRESHOLD);
+          if (startAvg>START_DISTANCE_THRESHOLD) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
+          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
+          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
+          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
+          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          if (expectedStrokeIndex>=strokePaths.length) finishCharacter(); else updateHighlight();
+        } else if (practiceMode==='check') {
+          const closestIdx=findClosestStroke(userDrawnPoints);
+          if (closestIdx!==expectedStrokeIndex) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
+          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
+          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
+          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
+          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          if (expectedStrokeIndex>=strokePaths.length) finishCharacter();
         }
-        const drawnLength = calcDrawnLength(userDrawnPoints);
-        let rating = 'poor';
-        if (practiceMode === 'hint' || practiceMode === 'listen') {
-          const startAvg = checkStartPosition(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], START_DISTANCE_THRESHOLD);
-          if (startAvg > START_DISTANCE_THRESHOLD) {
-            setFeedback('❌ 書き順がちがうよ！', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
-            setFeedback('✍️ もっと長くなぞってね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
-          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
-            rating = 'good';
-            setFeedback('🌟 じょうず！');
-          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
-            rating = 'ok';
-            setFeedback('👍 まあまあ！');
-          } else {
-            setFeedback('💧 もうすこし！もういちど書いてね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          savedStrokes.push([...userDrawnPoints]);
-          strokeRatings.push(rating);
-          expectedStrokeIndex++;
-          if (expectedStrokeIndex >= strokePaths.length) {
-            finishCharacter();
-          } else {
-            updateHighlight();
-          }
-        } else if (practiceMode === 'check') {
-          const closestIdx = findClosestStroke(userDrawnPoints);
-          if (closestIdx !== expectedStrokeIndex) {
-            setFeedback('❌ 書き順がちがうよ！', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
-            setFeedback('✍️ もっと長くなぞってね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
-          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
-            rating = 'good'; setFeedback('🌟 じょうず！');
-          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
-            rating = 'ok'; setFeedback('👍 まあまあ！');
-          } else {
-            setFeedback('💧 もうすこし！もういちど書いてね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-          savedStrokes.push([...userDrawnPoints]);
-          strokeRatings.push(rating);
-          expectedStrokeIndex++;
-          if (expectedStrokeIndex >= strokePaths.length) {
-            finishCharacter();
-          }
-        }
-        userDrawnPoints = [];
+        userDrawnPoints=[];
       }
       function redrawCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
-        for (const path of savedStrokes) {
-          ctx.beginPath();
-          ctx.moveTo(path[0].x, path[0].y);
-          for (let i = 1; i < path.length; i++) ctx.lineTo(path[i].x, path[i].y);
-          ctx.stroke();
-        }
+        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#333'; ctx.lineWidth=6;
+        for (const path of savedStrokes) { ctx.beginPath(); ctx.moveTo(path[0].x,path[0].y); for(let i=1;i<path.length;i++) ctx.lineTo(path[i].x,path[i].y); ctx.stroke(); }
       }
       function flashAndRemoveWrongStroke(points) {
-        isFlashing = true; canvas.style.pointerEvents = 'none';
-        ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 8;
-        ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
-        ctx.stroke();
-        setTimeout(() => {
-          redrawCanvas();
-          ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
-          isFlashing = false; canvas.style.pointerEvents = 'auto';
-        }, 500);
+        isFlashing=true; canvas.style.pointerEvents='none'; ctx.strokeStyle='#e74c3c'; ctx.lineWidth=8;
+        ctx.beginPath(); ctx.moveTo(points[0].x,points[0].y); for(let i=1;i<points.length;i++) ctx.lineTo(points[i].x,points[i].y); ctx.stroke();
+        setTimeout(()=>{ redrawCanvas(); ctx.strokeStyle='#333'; ctx.lineWidth=6; isFlashing=false; canvas.style.pointerEvents='auto'; },500);
       }
       function attachDrawEvents() {
-        canvas.addEventListener('pointerdown', onPointerDown);
-        canvas.addEventListener('pointermove', onPointerMove);
-        canvas.addEventListener('pointerup', onPointerUp);
-        canvas.addEventListener('pointerleave', onPointerUp);
+        canvas.addEventListener('pointerdown',onPointerDown); canvas.addEventListener('pointermove',onPointerMove);
+        canvas.addEventListener('pointerup',onPointerUp); canvas.addEventListener('pointerleave',onPointerUp);
       }
       function removeDrawEvents() {
-        canvas.removeEventListener('pointerdown', onPointerDown);
-        canvas.removeEventListener('pointermove', onPointerMove);
-        canvas.removeEventListener('pointerup', onPointerUp);
-        canvas.removeEventListener('pointerleave', onPointerUp);
+        canvas.removeEventListener('pointerdown',onPointerDown); canvas.removeEventListener('pointermove',onPointerMove);
+        canvas.removeEventListener('pointerup',onPointerUp); canvas.removeEventListener('pointerleave',onPointerUp);
       }
 
-      // アニメーション
-      function animateSingleStroke(path, duration) {
+      function animateSingleStroke(path,duration) {
         return new Promise(resolve => {
-          const length = path.getTotalLength();
-          if (length === 0) { path.style.display = 'block'; resolve(); return; }
-          path.style.display = 'block';
-          path.style.strokeDasharray = length;
-          path.style.strokeDashoffset = length;
-          path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-          path.getBoundingClientRect();
-          path.style.strokeDashoffset = '0';
-          const onEnd = () => {
-            path.removeEventListener('transitionend', onEnd);
-            path.style.transition = 'none';
-            path.style.strokeDasharray = 'none';
-            path.style.strokeDashoffset = '0';
-            resolve();
-          };
-          path.addEventListener('transitionend', onEnd);
-          setTimeout(() => {
-            if (path.style.strokeDasharray !== 'none') {
-              path.style.transition = 'none';
-              path.style.strokeDasharray = 'none';
-              path.style.strokeDashoffset = '0';
-              resolve();
-            }
-          }, duration + 100);
+          const length=path.getTotalLength(); if(length===0){path.style.display='block';resolve();return;}
+          path.style.display='block'; path.style.strokeDasharray=length; path.style.strokeDashoffset=length;
+          path.style.transition=`stroke-dashoffset ${duration}ms ease-in-out`; path.getBoundingClientRect(); path.style.strokeDashoffset='0';
+          const onEnd=()=>{ path.removeEventListener('transitionend',onEnd); path.style.transition='none'; path.style.strokeDasharray='none'; path.style.strokeDashoffset='0'; resolve(); };
+          path.addEventListener('transitionend',onEnd);
+          setTimeout(()=>{ if(path.style.strokeDasharray!=='none'){ path.style.transition='none'; path.style.strokeDasharray='none'; path.style.strokeDashoffset='0'; resolve(); } },duration+100);
         });
       }
-      function resetAllStrokes() {
-        strokePaths.forEach(p => {
-          p.style.display = 'none';
-          p.style.transition = 'none';
-          p.style.strokeDasharray = 'none';
-          p.style.strokeDashoffset = '0';
-        });
-      }
+      function resetAllStrokes() { strokePaths.forEach(p=>{ p.style.display='none'; p.style.transition='none'; p.style.strokeDasharray='none'; p.style.strokeDashoffset='0'; }); }
       async function animateToStroke(targetIndex) {
-        if (!strokePaths.length || isAnimating || practiceMode !== 'none') return;
-        targetIndex = Math.min(Math.max(targetIndex, 0), strokePaths.length - 1);
-        if (targetIndex <= currentStrokeIndex || currentStrokeIndex === -1) {
-          resetAllStrokes();
-          currentStrokeIndex = -1;
-        }
-        isAnimating = true; updateUI();
-        for (let i = Math.max(0, currentStrokeIndex + 1); i <= targetIndex; i++) {
-          const pathLength = strokePaths[i].getTotalLength();
-          let duration = (pathLength / BASE_LENGTH) * speedBaseDurations[animationSpeed];
-          if (duration < MIN_DURATION) duration = MIN_DURATION;
-          await animateSingleStroke(strokePaths[i], duration);
-          currentStrokeIndex = i; updateUI();
-        }
-        isAnimating = false; updateUI();
+        if(!strokePaths.length||isAnimating||practiceMode!=='none')return;
+        targetIndex=Math.min(Math.max(targetIndex,0),strokePaths.length-1);
+        if(targetIndex<=currentStrokeIndex||currentStrokeIndex===-1){resetAllStrokes();currentStrokeIndex=-1;}
+        isAnimating=true;updateUI();
+        for(let i=Math.max(0,currentStrokeIndex+1);i<=targetIndex;i++){const pathLength=strokePaths[i].getTotalLength();let duration=(pathLength/BASE_LENGTH)*speedBaseDurations[animationSpeed];if(duration<MIN_DURATION)duration=MIN_DURATION;await animateSingleStroke(strokePaths[i],duration);currentStrokeIndex=i;updateUI();}
+        isAnimating=false;updateUI();
       }
       function updateUI() {
-        if (!strokePaths.length) { infoText.textContent = 'ストロークが見つかりません'; return; }
-        if (practiceMode !== 'none') {
-          const displayIndex = Math.min(expectedStrokeIndex + 1, strokePaths.length);
-          let label = 'なぞり中';
-          if (practiceMode === 'listen') label = 'おとをきいてかく';
-          else if (practiceMode === 'check') label = '書き順チェック';
-          infoText.textContent = `✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;
-          strokeInfo.textContent = `全 ${strokePaths.length} 画`;
-          nextBtn.style.display = 'none'; speedControl.style.display = 'none';
-          retryTracingBtn.style.display = 'inline-block';
-        } else {
-          const cur = currentStrokeIndex + 1;
-          infoText.textContent = `✏️ ${cur} / ${strokePaths.length} 画`;
-          strokeInfo.textContent = `全 ${strokePaths.length} 画`;
-          nextBtn.style.display = 'inline-block'; nextBtn.disabled = isAnimating;
-          speedControl.style.display = 'block';
-          retryTracingBtn.style.display = 'none';
-        }
+        if(!strokePaths.length){infoText.textContent='ストロークが見つかりません';return;}
+        if(practiceMode!=='none'){const displayIndex=Math.min(expectedStrokeIndex+1,strokePaths.length);let label='なぞり中';if(practiceMode==='listen')label='おとをきいてかく';else if(practiceMode==='check')label='書き順チェック';infoText.textContent=`✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='none';speedControl.style.display='none';retryTracingBtn.style.display='inline-block';}
+        else{const cur=currentStrokeIndex+1;infoText.textContent=`✏️ ${cur} / ${strokePaths.length} 画`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='inline-block';nextBtn.disabled=isAnimating;speedControl.style.display='block';retryTracingBtn.style.display='none';}
       }
 
-      // リスニングモード
       async function loadSvgAndPrepare(unicode) {
-        const svgDoc = await loadSvg(unicode);
-        currentSvgDoc = svgDoc;
-        if (!svgDoc) return;
-        strokePaths = extractStrokes(svgDoc);
-        displaySvg(svgDoc);
-        if (characterHidden) svgContainer.classList.add('hidden-char');
+        const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc; if(!svgDoc)return;
+        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc); if(characterHidden)svgContainer.classList.add('hidden-char');
       }
       function startListeningMode() {
-        calculateAllSamplePoints();
-        practiceMode = 'listen'; isListeningMode = true;
-        expectedStrokeIndex = 0; userDrawnPoints = []; savedStrokes = []; strokeRatings = [];
-        lockStrokeNumbers(false);
-        strokePaths.forEach(p => {
-          p.style.display = 'block'; p.style.stroke = '#d0d0d0'; p.style.strokeWidth = '9';
-          p.style.transition = 'none'; p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = '0';
-        });
-        hideCharacter();
-        speakCharacterWithType(currentChar);   // ★ 前置き付き読み上げ
-        canvas.style.display = 'block'; retryTracingBtn.style.display = 'inline-block';
-        if (quizMode !== 'select') nextCharBtn.style.display = 'inline-block';
-        setupCanvas(); isAnimating = false; updateUI(); attachDrawEvents();
-        setFeedback('🔊 おとをきいて、かいてね');
+        calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[];
+        lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth='9';p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
+        hideCharacter(); speakCharacterWithType(currentChar); canvas.style.display='block'; retryTracingBtn.style.display='inline-block';
+        if(quizMode!=='select'||isCustomStringMode) nextCharBtn.style.display='inline-block';
+        setupCanvas(); isAnimating=false; updateUI(); attachDrawEvents(); setFeedback('🔊 おとをきいて、かいてね');
       }
       function exitListeningMode() {
-        isListeningMode = false; characterHidden = false;
-        svgContainer.classList.remove('hidden-char');
-        revealCharBtn.style.display = 'none'; replaySoundBtn.style.display = 'none'; nextCharBtn.style.display = 'none';
-        lockStrokeNumbers(false);
-        canvas.style.display = 'none'; retryTracingBtn.style.display = 'none';
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        strokePaths.forEach(p => { p.style.display = 'none'; });
-        applyStrokeColors(strokePaths);
-        practiceMode = 'none'; currentStrokeIndex = -1; isAnimating = false;
+        isListeningMode=false; characterHidden=false; svgContainer.classList.remove('hidden-char');
+        revealCharBtn.style.display='none'; replaySoundBtn.style.display='none'; if(!isCustomStringMode) nextCharBtn.style.display='none';
+        lockStrokeNumbers(false); canvas.style.display='none'; retryTracingBtn.style.display='none'; ctx.clearRect(0,0,canvas.width,canvas.height);
+        strokePaths.forEach(p=>{p.style.display='none';}); applyStrokeColors(strokePaths); practiceMode='none'; currentStrokeIndex=-1; isAnimating=false;
         updateUI(); removeDrawEvents(); clearFeedback();
       }
 
-      // 結果表示と保存
       function finishCharacter() {
-        const goodCount = strokeRatings.filter(r => r === 'good').length;
-        const total = strokePaths.length;
-        let stamp = '';
-        let message = '';
-        if (goodCount === total) { stamp = '🌟'; message = 'パーフェクト！'; }
-        else if (goodCount >= total * 0.7) { stamp = '👍'; message = 'よくできました！'; }
-        else if (goodCount >= 1) { stamp = '😊'; message = 'がんばったね！'; }
-        else { stamp = '💪'; message = 'もうすこし！'; }
-        stampEmoji.textContent = stamp;
-        resultMessage.textContent = message;
-        resultDetail.textContent = `${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
-        const thumbData = canvas.toDataURL('image/png');
-        resultThumb.src = thumbData;
-        resultThumb.style.display = 'inline-block';
-        resultOverlay.style.display = 'flex';
-        saveHistory({ char: currentChar, date: new Date().toLocaleString(), mode: practiceMode, rating: goodCount, total, stamp, thumb: thumbData });
+        const goodCount=strokeRatings.filter(r=>r==='good').length; const total=strokePaths.length;
+        let stamp='',message='';
+        if(goodCount===total){stamp='🌟';message='パーフェクト！';}else if(goodCount>=total*0.7){stamp='👍';message='よくできました！';}else if(goodCount>=1){stamp='😊';message='がんばったね！';}else{stamp='💪';message='もうすこし！';}
+        stampEmoji.textContent=stamp; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
+        const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
+        saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,thumb:thumbData});
         exitPracticeMode();
       }
 
-      closeResultBtn.addEventListener('click', () => {
-        resultOverlay.style.display = 'none';
-      });
+      closeResultBtn.addEventListener('click',()=>{resultOverlay.style.display='none';});
 
-      // localStorage履歴管理
-      const HISTORY_KEY = 'kakijun_history';
-      function getHistory() {
-        try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
-        catch { return []; }
-      }
-      function saveHistory(record) {
-        let history = getHistory();
-        history.unshift(record);
-        if (history.length > 50) history = history.slice(0, 50);
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-      }
-      function clearHistory() {
-        localStorage.removeItem(HISTORY_KEY);
-        renderHistory();
+      const HISTORY_KEY='kakijun_history';
+      function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY))||[];}catch{return[];}}
+      function saveHistory(record){let history=getHistory();history.unshift(record);if(history.length>50)history=history.slice(0,50);localStorage.setItem(HISTORY_KEY,JSON.stringify(history));}
+      function clearHistory(){localStorage.removeItem(HISTORY_KEY);renderHistory();}
+      function renderHistory(){
+        const history=getHistory(); historyList.innerHTML=history.length===0?'<p>きろくはまだないよ</p>':'';
+        history.forEach(item=>{const div=document.createElement('div');div.className='history-item';div.innerHTML=`<span class="history-char">${item.char}</span><span class="history-stamp">${item.stamp}</span><span style="font-size:0.8rem;color:#888;">${item.date}</span>`;if(item.thumb){const img=document.createElement('img');img.className='history-thumb';img.src=item.thumb;div.prepend(img);}historyList.appendChild(div);});
       }
 
-      function renderHistory() {
-        const history = getHistory();
-        historyList.innerHTML = history.length === 0 ? '<p>きろくはまだないよ</p>' : '';
-        history.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'history-item';
-          div.innerHTML = `
-            <span class="history-char">${item.char}</span>
-            <span class="history-stamp">${item.stamp}</span>
-            <span style="font-size:0.8rem; color:#888;">${item.date}</span>
-          `;
-          if (item.thumb) {
-            const img = document.createElement('img');
-            img.className = 'history-thumb';
-            img.src = item.thumb;
-            div.prepend(img);
-          }
-          historyList.appendChild(div);
-        });
-      }
+      historyBtn.addEventListener('click',()=>{renderHistory();historyModal.style.display='flex';});
+      historyCloseBtn.addEventListener('click',()=>historyModal.style.display='none');
+      window.addEventListener('click',(e)=>{if(e.target===historyModal)historyModal.style.display='none';});
+      clearHistoryBtn.addEventListener('click',clearHistory);
 
-      historyBtn.addEventListener('click', () => {
-        renderHistory();
-        historyModal.style.display = 'flex';
-      });
-      historyCloseBtn.addEventListener('click', () => historyModal.style.display = 'none');
-      window.addEventListener('click', (e) => { if (e.target === historyModal) historyModal.style.display = 'none'; });
-      clearHistoryBtn.addEventListener('click', clearHistory);
-
-      // その他のイベント
-      modeBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const mode = this.dataset.mode;
-          setQuizMode(mode);
-          if (practiceMode === 'listen') exitListeningMode();
-          else if (practiceMode !== 'none') exitPracticeMode();
-          if (mode !== 'select') { loadQuizChar(); loadAndDisplay(currentUnicode); }
-        });
-      });
-      showBtn.addEventListener('click', () => {
-        if (currentUnicode) loadAndDisplay(currentUnicode);
-      });
-      nextBtn.addEventListener('click', () => {
-        if (practiceMode !== 'none' || isAnimating) return;
-        if (currentStrokeIndex >= strokePaths.length - 1) animateToStroke(0);
-        else animateToStroke(currentStrokeIndex + 1);
-      });
-      traceHintBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') { exitListeningMode(); enterPracticeMode('hint'); }
-        else if (practiceMode === 'hint') exitPracticeMode();
-        else if (practiceMode === 'check') { exitPracticeMode(); enterPracticeMode('hint'); }
-        else enterPracticeMode('hint');
-      });
-      traceCheckBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') { exitListeningMode(); enterPracticeMode('check'); }
-        else if (practiceMode === 'check') exitPracticeMode();
-        else if (practiceMode === 'hint') { exitPracticeMode(); enterPracticeMode('check'); }
-        else enterPracticeMode('check');
-      });
-      listenTraceBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') exitListeningMode();
-        else { if (practiceMode !== 'none') exitPracticeMode(); enterListeningMode(); }
-      });
-      revealCharBtn.addEventListener('click', revealCharacter);
-      nextCharBtn.addEventListener('click', async () => {
-        if (practiceMode === 'listen') {
-          ctx.clearRect(0,0,canvas.width,canvas.height);
-          savedStrokes = []; expectedStrokeIndex = 0; userDrawnPoints = []; strokeRatings = [];
-          updateHighlight(); updateUI();
-          const code = loadQuizChar();
-          await loadSvgAndPrepare(code);
-          startListeningMode();
-        } else {
-          loadQuizChar();
-          loadAndDisplay(currentUnicode);
+      modeBtns.forEach(btn=>{btn.addEventListener('click',function(){const mode=this.dataset.mode;setQuizMode(mode);if(practiceMode==='listen')exitListeningMode();else if(practiceMode!=='none')exitPracticeMode();if(mode!=='select'){loadQuizChar();loadAndDisplay(currentUnicode);}});});
+      showBtn.addEventListener('click',()=>{if(currentUnicode)loadAndDisplay(currentUnicode);});
+      nextBtn.addEventListener('click',()=>{if(practiceMode!=='none'||isAnimating)return;if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);});
+      traceHintBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('hint');}else if(practiceMode==='hint')exitPracticeMode();else if(practiceMode==='check'){exitPracticeMode();enterPracticeMode('hint');}else enterPracticeMode('hint');});
+      traceCheckBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('check');}else if(practiceMode==='check')exitPracticeMode();else if(practiceMode==='hint'){exitPracticeMode();enterPracticeMode('check');}else enterPracticeMode('check');});
+      listenTraceBtn.addEventListener('click',()=>{if(practiceMode==='listen')exitListeningMode();else{if(practiceMode!=='none')exitPracticeMode();enterListeningMode();}});
+      revealCharBtn.addEventListener('click',revealCharacter);
+      nextCharBtn.addEventListener('click',async()=>{
+        if(practiceMode==='listen'){
+          ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+          updateHighlight();updateUI(); const code=loadQuizChar(); if(code){await loadSvgAndPrepare(code);startListeningMode();} else stopCustomStringMode();
+        }else{
+          const code=loadQuizChar(); if(code)loadAndDisplay(code); else stopCustomStringMode();
         }
       });
-      retryTracingBtn.addEventListener('click', () => {
-        if (practiceMode === 'none') return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        savedStrokes = []; expectedStrokeIndex = 0; userDrawnPoints = []; strokeRatings = [];
-        updateHighlight(); updateUI();
-        if (practiceMode === 'listen') {
-          setFeedback('🔊 もういちど、おとをきいてかいてね');
-          speakCharacterWithType(currentChar); // ★ リトライ時も前置き付き
-        }
+      retryTracingBtn.addEventListener('click',()=>{
+        if(practiceMode==='none')return; ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+        updateHighlight();updateUI(); if(practiceMode==='listen'){setFeedback('🔊 もういちど、おとをきいてかいてね');speakCharacterWithType(currentChar);}
       });
-      replaySoundBtn.addEventListener('click', replaySound);
-      showNumbersCheckbox.addEventListener('change', () => {
-        if (strokeNumbersLocked) return;
-        showStrokeNumbers = showNumbersCheckbox.checked;
-        updateStrokeNumbersVisibility();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (practiceMode !== 'none' || isAnimating || isFlashing) return;
-        if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          if (currentStrokeIndex >= strokePaths.length - 1) animateToStroke(0);
-          else animateToStroke(currentStrokeIndex + 1);
-        } else if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          if (currentStrokeIndex > 0) animateToStroke(currentStrokeIndex - 1);
-        }
-      });
-      speedBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          speedBtns.forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
-          animationSpeed = this.dataset.speed;
-        });
-      });
+      replaySoundBtn.addEventListener('click',replaySound);
+      showNumbersCheckbox.addEventListener('change',()=>{if(strokeNumbersLocked)return;showStrokeNumbers=showNumbersCheckbox.checked;updateStrokeNumbersVisibility();});
+      document.addEventListener('keydown',(e)=>{if(practiceMode!=='none'||isAnimating||isFlashing)return;if(e.key==='ArrowRight'){e.preventDefault();if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);}else if(e.key==='ArrowLeft'){e.preventDefault();if(currentStrokeIndex>0)animateToStroke(currentStrokeIndex-1);}});
+      speedBtns.forEach(btn=>{btn.addEventListener('click',function(){speedBtns.forEach(b=>b.classList.remove('active'));this.classList.add('active');animationSpeed=this.dataset.speed;});});
 
       async function loadAndDisplay(unicode) {
-        if (practiceMode !== 'none') exitPracticeMode();
-        isAnimating = false;
-        const svgDoc = await loadSvg(unicode);
-        currentSvgDoc = svgDoc;
-        if (!svgDoc) { svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>'; strokePaths = []; updateUI(); return; }
-        strokePaths = extractStrokes(svgDoc);
-        displaySvg(svgDoc);
-        if (strokePaths.length > 0) { currentStrokeIndex = -1; animateToStroke(0); }
-        else updateUI();
+        if(practiceMode!=='none')exitPracticeMode(); isAnimating=false;
+        const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc;
+        if(!svgDoc){svgContainer.innerHTML='<p style="color:#ccc;">SVGが見つかりませんでした</p>';strokePaths=[];updateUI();return;}
+        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc);
+        if(strokePaths.length>0){currentStrokeIndex=-1;animateToStroke(0);}else updateUI();
       }
 
-      // 初期化
       function init() {
-        selectedCharDisplay.textContent = currentChar;
-        setQuizMode('select');
-        listenTraceBtn.style.display = 'inline-block';
+        selectedCharDisplay.textContent=currentChar; setQuizMode('select'); listenTraceBtn.style.display='inline-block';
         loadAndDisplay(currentUnicode);
       }
       init();

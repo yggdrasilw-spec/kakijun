@@ -341,11 +341,11 @@
           return;
         }
         
-        // ★ 先にストロークを抽出（displaySvgの前！）
+        // 先にストロークを抽出
         strokePaths = extractStrokes(svgDoc);
         console.log('抽出したストローク数:', strokePaths.length);
         
-        // ★ その後にSVGを表示
+        // その後にSVGを表示
         displaySvg(svgDoc);
         
         if (strokePaths.length > 0) {
@@ -359,36 +359,36 @@
       }
 
       // --- イベントリスナー ---
-      showBtn.addEventListener('click', () => {
+      showBtn.addEventListener('click', function() {
         const unicode = selectEl.value;
         if (unicode) loadAndDisplay(unicode);
       });
 
-      nextBtn.addEventListener('click', () => {
+      nextBtn.addEventListener('click', function() {
         if (currentStrokeIndex < strokePaths.length - 1) {
           animateToStroke(currentStrokeIndex + 1);
         }
       });
 
-      prevBtn.addEventListener('click', () => {
+      prevBtn.addEventListener('click', function() {
         if (currentStrokeIndex > 0) {
           animateToStroke(currentStrokeIndex - 1);
         }
       });
 
-      replayBtn.addEventListener('click', () => {
+      replayBtn.addEventListener('click', function() {
         if (strokePaths.length > 0) {
           animateToStroke(0);
         }
       });
 
-      showAllBtn.addEventListener('click', () => {
+      showAllBtn.addEventListener('click', function() {
         if (strokePaths.length > 0) {
           animateToStroke(strokePaths.length - 1);
         }
       });
 
-      document.addEventListener('keydown', (e) => {
+      document.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowRight') {
           e.preventDefault();
           if (currentStrokeIndex < strokePaths.length - 1) {

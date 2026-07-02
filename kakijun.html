@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase 2 修正</title>
+  <title>書き順アニメーション - Phase 2 デバッグ版</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -45,6 +45,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      pointer-events: none; /* ★ キャンバスの操作を邪魔しない */
     }
     #drawCanvas {
       position: absolute;
@@ -159,7 +160,6 @@
 
   <script>
     (function() {
-      // --- ひらがな・カタカナ マッピング ---
       const kanaMap = [
         "あ,3042","い,3044","う,3046","え,3048","お,304A",
         "か,304B","き,304D","く,304F","け,3051","こ,3053",
@@ -229,14 +229,19 @@
 
       async function loadSvg(unicode) {
         try {
-          const paddedCode = unicode.toLowerCase().padStart(5, '0'); // ★ 小文字化
-          const response = await fetch(`svg/${paddedCode}.svg`);
-          if (!response.ok) throw new Error('SVG not found');
+          const paddedCode = unicode.toLowerCase().padStart(5, '0');
+          const url = `svg/${paddedCode}.svg`;
+          console.log('📥 読み込み:', url); // デバッグ用
+          const response = await fetch(url);
+          if (!response.ok) {
+            console.error(`❌ ${url} が見つかりません (${response.status})`);
+            throw new Error('SVG not found');
+          }
           const svgText = await response.text();
           const parser = new DOMParser();
           return parser.parseFromString(svgText, 'image/svg+xml');
         } catch (err) {
-          console.error(err);
+          console.error('loadSvg エラー:', err);
           return null;
         }
       }
@@ -270,7 +275,7 @@
       }
 
       function displaySvg(svgDoc) {
-        svgContainer.innerHTML = ''; // 既存の内容をクリア
+        svgContainer.innerHTML = '';
         if (!svgDoc) {
           svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
           return null;
@@ -284,6 +289,8 @@
         svgRoot.setAttribute('height', '200');
         svgRoot.style.display = 'block';
         svgRoot.style.margin = 'auto';
+        // ★ SVG自体のポインターイベントを無効化
+        svgRoot.style.pointerEvents = 'none';
         svgRoot.querySelectorAll('path').forEach(p => {
           p.style.display = 'none';
           p.style.stroke = '#444';
@@ -296,7 +303,7 @@
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
         svgContainer.appendChild(svgRoot);
 
-        // Canvas を再生成して重ねる
+        // Canvas を再生成
         const newCanvas = document.createElement('canvas');
         newCanvas.id = 'drawCanvas';
         newCanvas.style.display = 'none';
@@ -351,6 +358,7 @@
         isAnimating = false;
         updateUI();
         attachDrawEvents();
+        console.log('🖊 なぞり練習モード開始');
       }
 
       function exitTracingMode() {
@@ -368,6 +376,7 @@
         isAnimating = false;
         updateUI();
         removeDrawEvents();
+        console.log('🔙 アニメーションモードへ戻る');
       }
 
       function attachDrawEvents() {
@@ -396,6 +405,7 @@
 
       function onPointerDown(e) {
         if (!isTracingMode) return;
+        console.log('✏️ 描画開始', e.pointerType); // デバッグ用
         isDrawing = true;
         const { x, y } = getCanvasCoords(e);
         ctx.beginPath();
@@ -414,6 +424,7 @@
       }
 
       function onPointerUp(e) {
+        if (isDrawing) console.log('✏️ 描画終了');
         isDrawing = false;
         ctx.beginPath();
       }

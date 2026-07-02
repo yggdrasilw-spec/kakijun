@@ -328,30 +328,49 @@
         nextBtn.disabled = (currentStrokeIndex >= total - 1);
       }
 
-      // --- 文字を読み込んで表示 ---
-      async function loadAndDisplay(unicode) {
-        const svgDoc = await loadSvg(unicode);
-        currentSvgDoc = svgDoc;
-        if (!svgDoc) {
-          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
-          infoText.textContent = '';
-          strokeInfo.textContent = '';
-          strokePaths = [];
-          prevBtn.disabled = true;
-          nextBtn.disabled = true;
-          return;
-        }
-        displaySvg(svgDoc);
-        strokePaths = extractStrokes(svgDoc);
-        if (strokePaths.length > 0) {
-          animateToStroke(0);
-        } else {
-          infoText.textContent = 'ストロークが見つかりません';
-          strokeInfo.textContent = '';
-          prevBtn.disabled = true;
-          nextBtn.disabled = true;
-        }
-      }
+  // --- 文字を読み込んで表示（デバッグ版）---
+async function loadAndDisplay(unicode) {
+  const svgDoc = await loadSvg(unicode);
+  currentSvgDoc = svgDoc;
+  if (!svgDoc) {
+    svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+    infoText.textContent = '';
+    strokeInfo.textContent = '';
+    strokePaths = [];
+    return;
+  }
+  
+  displaySvg(svgDoc);
+  
+  // ★★★ ここからデバッグ ★★★
+  console.log('=== SVGの中身を調査 ===');
+  const allElements = svgDoc.querySelectorAll('*');
+  console.log('全要素数:', allElements.length);
+  
+  // g要素をすべて表示
+  const allG = svgDoc.querySelectorAll('g');
+  console.log('g要素の数:', allG.length);
+  allG.forEach((g, i) => {
+    console.log(`g[${i}]: id="${g.getAttribute('id')}", 子要素数=${g.children.length}`);
+  });
+  
+  // path要素をすべて表示
+  const allPaths = svgDoc.querySelectorAll('path');
+  console.log('path要素の数:', allPaths.length);
+  allPaths.forEach((p, i) => {
+    console.log(`path[${i}]: id="${p.getAttribute('id')}", d="${p.getAttribute('d')?.substring(0, 30)}..."`);
+  });
+  console.log('=== 調査終了 ===');
+  // ★★★ ここまで ★★★
+  
+  strokePaths = extractStrokes(svgDoc);
+  if (strokePaths.length > 0) {
+    animateToStroke(0);
+  } else {
+    infoText.textContent = 'ストロークが見つかりません';
+    strokeInfo.textContent = '';
+  }
+}
 
       // --- イベントリスナー ---
       showBtn.addEventListener('click', () => {

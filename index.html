@@ -203,20 +203,22 @@
         });
       }
 
-      // --- SVGを読み込む ---
-      async function loadSvg(unicode) {
-        try {
-          const response = await fetch(`svg/${unicode}.svg`);
-          if (!response.ok) throw new Error('SVG not found');
-          const svgText = await response.text();
-          const parser = new DOMParser();
-          const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-          return svgDoc;
-        } catch (err) {
-          console.error('SVG読み込みエラー:', err);
-          return null;
-        }
-      }
+     // --- SVGを読み込む ---
+async function loadSvg(unicode) {
+  try {
+    // 🔧 5桁にパディング（"3042" → "03042"）
+    const paddedCode = unicode.padStart(5, '0');
+    const response = await fetch(`svg/${paddedCode}.svg`);
+    if (!response.ok) throw new Error('SVG not found');
+    const svgText = await response.text();
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+    return svgDoc;
+  } catch (err) {
+    console.error('SVG読み込みエラー:', err);
+    return null;
+  }
+}
 
       // --- ストロークパスを抽出 ---
       function extractStrokes(svgDoc) {

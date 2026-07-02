@@ -198,11 +198,11 @@
         }
       }
 
-      // --- ストロークパスを抽出（SVG構造に完全対応版）---
+      // --- ストロークパスを抽出（強化版）---
       function extractStrokes(svgDoc) {
         const paths = [];
         
-        // 方法1：idが "kvg:StrokePaths_" で始まるg要素を探す
+        // 方法1：idが "StrokePaths" を含むg要素を探す
         const allG = svgDoc.querySelectorAll('g');
         let strokePathsG = null;
         allG.forEach(g => {
@@ -213,20 +213,16 @@
         });
         
         if (strokePathsG) {
-          // その中の最初のg要素を取得
           const innerG = strokePathsG.querySelector('g');
           if (innerG) {
-            // さらにその中のpath要素をすべて取得
             const allPaths = innerG.querySelectorAll('path');
             allPaths.forEach(p => {
-              if (p.getAttribute('d')) {
-                paths.push(p);
-              }
+              if (p.getAttribute('d')) paths.push(p);
             });
           }
         }
         
-        // 方法2（フォールバック）：idに "-s数字" が含まれるpathを探す
+        // 方法2：idに "-s数字" が含まれるpathを探す
         if (paths.length === 0) {
           const allPaths = svgDoc.querySelectorAll('path');
           const tempPaths = [];
@@ -241,9 +237,12 @@
           tempPaths.forEach(item => paths.push(item.path));
         }
         
-        // 方法3（最終手段）：すべてのpathを取得
+        // 方法3（最終手段）：SVG文字列から直接パスを抜き出す
         if (paths.length === 0) {
-          const allPaths = svgDoc.querySelectorAll('path');
+          const svgText = new XMLSerializer().serializeToString(svgDoc);
+          const parser = new DOMParser();
+          const tempDoc = parser.parseFromString(svgText, 'image/svg+xml');
+          const allPaths = tempDoc.querySelectorAll('path');
           allPaths.forEach(p => {
             if (p.getAttribute('d')) paths.push(p);
           });
@@ -328,53 +327,36 @@
         nextBtn.disabled = (currentStrokeIndex >= total - 1);
       }
 
-// --- 文字を読み込んで表示（修正版）---
-async function loadAndDisplay(unicode) {
-  const svgDoc = await loadSvg(unicode);
-  currentSvgDoc = svgDoc;
-  if (!svgDoc) {
-    svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
-    infoText.textContent = '';
-    strokeInfo.textContent = '';
-    strokePaths = [];
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-    return;
-  }
-  
-  // ★ 先にストロークを抽出する（displaySvgの前！）
-  strokePaths = extractStrokes(svgDoc);
-  console.log('抽出したストローク数:', strokePaths.length);
-  
-  // ★ その後にSVGを表示
-  displaySvg(svgDoc);
-  
-  if (strokePaths.length > 0) {
-    animateToStroke(0);
-  } else {
-    infoText.textContent = 'ストロークが見つかりません';
-    strokeInfo.textContent = '';
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-  }
-}  
-  // path要素をすべて表示
-  const allPaths = svgDoc.querySelectorAll('path');
-  console.log('path要素の数:', allPaths.length);
-  allPaths.forEach((p, i) => {
-    console.log(`path[${i}]: id="${p.getAttribute('id')}", d="${p.getAttribute('d')?.substring(0, 30)}..."`);
-  });
-  console.log('=== 調査終了 ===');
-  // ★★★ ここまで ★★★
-  
-  strokePaths = extractStrokes(svgDoc);
-  if (strokePaths.length > 0) {
-    animateToStroke(0);
-  } else {
-    infoText.textContent = 'ストロークが見つかりません';
-    strokeInfo.textContent = '';
-  }
-}
+      // --- 文字を読み込んで表示（先に抽出、後で表示）---
+      async function loadAndDisplay(unicode) {
+        const svgDoc = await loadSvg(unicode);
+        currentSvgDoc = svgDoc;
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          infoText.textContent = '';
+          strokeInfo.textContent = '';
+          strokePaths = [];
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          return;
+        }
+        
+        // ★ 先にストロークを抽出（displaySvgの前！）
+        strokePaths = extractStrokes(svgDoc);
+        console.log('抽出したストローク数:', strokePaths.length);
+        
+        // ★ その後にSVGを表示
+        displaySvg(svgDoc);
+        
+        if (strokePaths.length > 0) {
+          animateToStroke(0);
+        } else {
+          infoText.textContent = 'ストロークが見つかりません';
+          strokeInfo.textContent = '';
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+        }
+      }
 
       // --- イベントリスナー ---
       showBtn.addEventListener('click', () => {

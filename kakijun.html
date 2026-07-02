@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase 1</title>
+  <title>書き順アニメーション - Phase 1 修正版</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -122,7 +122,6 @@
     <div class="info" id="infoText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
 
-    <!-- 速度調整UI -->
     <div style="margin:10px 0;">
       <span style="font-size:0.9rem; color:#888;">⚡ はやさ：</span>
       <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
@@ -178,13 +177,12 @@
 
       // --- 状態管理 ---
       let currentSvgDoc = null;
-      let strokePaths = [];            // path要素の配列
-      let strokeLengths = [];         // 各ストロークの長さ
+      let strokePaths = [];
+      let strokeLengths = [];
       let currentStrokeIndex = -1;
-      let animationSpeed = 'normal';  // 'slow' | 'normal' | 'fast'
-      let isAnimating = false;       // アニメーション中は操作をブロック
+      let animationSpeed = 'normal';
+      let isAnimating = false;
 
-      // 速度に対応するduration（ミリ秒）
       const speedDurations = {
         slow: 1500,
         normal: 600,
@@ -233,7 +231,6 @@
       // --- ストロークパスを抽出 ---
       function extractStrokes(svgDoc) {
         const paths = [];
-        
         const allG = svgDoc.querySelectorAll('g');
         let strokePathsG = null;
         allG.forEach(g => {
@@ -242,7 +239,6 @@
             strokePathsG = g;
           }
         });
-        
         if (strokePathsG) {
           const innerG = strokePathsG.querySelector('g');
           if (innerG) {
@@ -252,7 +248,6 @@
             });
           }
         }
-        
         if (paths.length === 0) {
           const allPaths = svgDoc.querySelectorAll('path');
           const tempPaths = [];
@@ -266,7 +261,6 @@
           tempPaths.sort((a, b) => a.num - b.num);
           tempPaths.forEach(item => paths.push(item.path));
         }
-        
         if (paths.length === 0) {
           const svgText = new XMLSerializer().serializeToString(svgDoc);
           const parser = new DOMParser();
@@ -276,12 +270,10 @@
             if (p.getAttribute('d')) paths.push(p);
           });
         }
-        
-        console.log('✅ 抽出したストローク数:', paths.length);
         return paths;
       }
 
-      // --- SVGを表示エリアにセット（アニメーション準備） ---
+      // --- SVGを表示エリアにセット ---
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
         if (!svgDoc) {
@@ -293,51 +285,40 @@
           svgContainer.innerHTML = '<p style="color:#ccc;">無効なSVGです</p>';
           return;
         }
-        
         svgRoot.setAttribute('width', '200');
         svgRoot.setAttribute('height', '200');
         svgRoot.style.display = 'block';
         svgRoot.style.margin = 'auto';
-        
-        // すべてのpathを非表示 ＆ スタイル調整
         const allPaths = svgRoot.querySelectorAll('path');
         allPaths.forEach(p => {
           p.style.display = 'none';
           p.style.stroke = '#444';
           p.style.strokeWidth = '9';
-          // とめ・はね・はらいの表現（roundで柔らかく）
           p.style.strokeLinecap = 'round';
           p.style.strokeLinejoin = 'round';
           p.style.fill = 'none';
-          // アニメーション用のtransitionを設定（後で上書き）
           p.style.transition = 'none';
         });
-        
-        // 数字テキストは非表示に
         const texts = svgRoot.querySelectorAll('text');
         texts.forEach(t => { t.style.display = 'none'; });
-
         svgContainer.appendChild(svgRoot);
         return svgRoot;
       }
 
-      // --- 各ストロークの長さを取得 ---
+      // --- ストロークの長さを取得 ---
       function calculateStrokeLengths() {
         strokeLengths = [];
         strokePaths.forEach(path => {
           try {
-            // getTotalLengthは表示状態でないと0を返すことがあるため、
-            // 一時的にdisplayをblockにして計測
             const prevDisplay = path.style.display;
             path.style.display = 'block';
             const len = path.getTotalLength();
             path.style.display = prevDisplay;
             strokeLengths.push(len);
           } catch (e) {
-            strokeLengths.push(100); // フォールバック
+            strokeLengths.push(100);
           }
         });
-        console.log('📏 ストローク長:', strokeLengths);
       }
 
       // --- 単一ストロークのアニメーション ---
@@ -345,29 +326,16 @@
         return new Promise(resolve => {
           const length = path.getTotalLength();
           if (length === 0) {
-            // 長さが取得できない場合は即時表示
             path.style.display = 'block';
-            path.style.strokeDasharray = 'none';
-            path.style.strokeDashoffset = '0';
             resolve();
             return;
           }
-          
-          // 初期状態：dasharrayを長さに設定、dashoffsetも長さ（非表示）
           path.style.display = 'block';
           path.style.strokeDasharray = length;
           path.style.strokeDashoffset = length;
-          
-          // transitionを設定
           path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-          
-          // 強制リフロー（transitionを確実に発火させる）
           path.getBoundingClientRect();
-          
-          // アニメーション開始
           path.style.strokeDashoffset = '0';
-          
-          // アニメーション完了を待つ
           const onTransitionEnd = () => {
             path.removeEventListener('transitionend', onTransitionEnd);
             path.style.transition = 'none';
@@ -375,10 +343,7 @@
             path.style.strokeDashoffset = '0';
             resolve();
           };
-          
           path.addEventListener('transitionend', onTransitionEnd);
-          
-          // フォールバック：duration + 100ms後に強制終了
           setTimeout(() => {
             if (path.style.strokeDasharray !== 'none') {
               path.style.transition = 'none';
@@ -400,10 +365,10 @@
         });
       }
 
-      // --- 指定した画までアニメーション付きで表示 ---
+      // --- 指定した画までアニメーション ---
       async function animateToStroke(targetIndex) {
         if (!strokePaths.length) return;
-        if (isAnimating) return; // アニメーション中は操作不可
+        if (isAnimating) return;
         
         if (targetIndex < 0) targetIndex = 0;
         if (targetIndex >= strokePaths.length) targetIndex = strokePaths.length - 1;
@@ -411,26 +376,21 @@
         const prevIndex = currentStrokeIndex;
         currentStrokeIndex = targetIndex;
         
-        // 戻る場合：全リセットして targetIndex までアニメーション
         if (targetIndex <= prevIndex || prevIndex === -1) {
           resetAllStrokes();
           currentStrokeIndex = -1;
         }
         
-        // 現在の位置から targetIndex まで1画ずつアニメーション
         isAnimating = true;
         updateUI();
         
         const duration = speedDurations[animationSpeed];
         
         for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
-          // 既に表示済みの画はスキップ（prevIndexより前は表示済みのはず）
           if (i <= prevIndex) continue;
-          
           try {
             await animateSingleStroke(strokePaths[i], duration);
           } catch (e) {
-            // エラー時は即時表示
             strokePaths[i].style.display = 'block';
             strokePaths[i].style.strokeDasharray = 'none';
             strokePaths[i].style.strokeDashoffset = '0';
@@ -440,9 +400,10 @@
         }
         
         isAnimating = false;
+        updateUI();  // ★ 修正：アニメーション終了後にUIを更新してボタンを有効化
       }
 
-      // --- すべての画を一気に表示（アニメーションなし） ---
+      // --- すべての画を一気に表示 ---
       function showAllStrokesInstant() {
         resetAllStrokes();
         strokePaths.forEach(p => {
@@ -451,6 +412,7 @@
           p.style.strokeDashoffset = '0';
         });
         currentStrokeIndex = strokePaths.length - 1;
+        isAnimating = false;
         updateUI();
       }
 
@@ -474,9 +436,7 @@
 
       // --- 文字を読み込んで表示 ---
       async function loadAndDisplay(unicode) {
-        // アニメーション中の操作をキャンセル
         isAnimating = false;
-        
         const svgDoc = await loadSvg(unicode);
         currentSvgDoc = svgDoc;
         if (!svgDoc) {
@@ -489,17 +449,10 @@
           nextBtn.disabled = true;
           return;
         }
-        
-        // ストローク抽出
         strokePaths = extractStrokes(svgDoc);
-        
-        // SVGを表示（DOMに追加）
         displaySvg(svgDoc);
-        
-        // 長さを計算（DOM追加後）
         if (strokePaths.length > 0) {
           calculateStrokeLengths();
-          // 最初の画をアニメーション表示
           currentStrokeIndex = -1;
           animateToStroke(0);
         } else {
@@ -510,7 +463,7 @@
         }
       }
 
-      // --- 速度ボタンのイベント ---
+      // --- 速度ボタン ---
       speedBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           speedBtns.forEach(b => b.classList.remove('active'));
@@ -520,24 +473,24 @@
       });
 
       // --- イベントリスナー ---
-      showBtn.addEventListener('click', function() {
+      showBtn.addEventListener('click', () => {
         const unicode = selectEl.value;
         if (unicode) loadAndDisplay(unicode);
       });
 
-      nextBtn.addEventListener('click', function() {
+      nextBtn.addEventListener('click', () => {
         if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {
           animateToStroke(currentStrokeIndex + 1);
         }
       });
 
-      prevBtn.addEventListener('click', function() {
+      prevBtn.addEventListener('click', () => {
         if (currentStrokeIndex > 0 && !isAnimating) {
           animateToStroke(currentStrokeIndex - 1);
         }
       });
 
-      replayBtn.addEventListener('click', function() {
+      replayBtn.addEventListener('click', () => {
         if (strokePaths.length > 0 && !isAnimating) {
           resetAllStrokes();
           currentStrokeIndex = -1;
@@ -546,13 +499,13 @@
         }
       });
 
-      showAllBtn.addEventListener('click', function() {
+      showAllBtn.addEventListener('click', () => {
         if (strokePaths.length > 0 && !isAnimating) {
           showAllStrokesInstant();
         }
       });
 
-      document.addEventListener('keydown', function(e) {
+      document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
           e.preventDefault();
           if (currentStrokeIndex < strokePaths.length - 1 && !isAnimating) {

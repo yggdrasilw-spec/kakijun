@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>書き順アニメーション - Phase4 履歴＆スタンプ</title>
   <style>
+    /* もとのスタイルをそのまま使う（省略） */
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
       text-align: center;
@@ -374,7 +375,7 @@
       let feedbackTimer = null;
 
       // 成績用
-      let strokeRatings = []; // 'good', 'ok', 'poor'
+      let strokeRatings = [];
 
       const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
       function getStrokeLineColor(idx) {
@@ -442,6 +443,87 @@
       let canvas, ctx;
       let isDrawing = false;
       let isFlashing = false;
+
+      // ---------- 音声改善：文字の種類を前置きする ----------
+      function getCharacterTypeDescription(char) {
+        const code = char.charCodeAt(0);
+        if (code >= 0x3040 && code <= 0x309F) return 'ひらがな';
+        if (code >= 0x30A0 && code <= 0x30FF) return 'カタカナ';
+        return '';
+      }
+
+      function speakCharacterWithType(char) {
+        if (!speechSynthesis) return;
+        speechSynthesis.cancel();
+        const type = getCharacterTypeDescription(char);
+        const phrase = type ? `${type}の、${char}` : char;
+        const u = new SpeechSynthesisUtterance(phrase);
+        u.lang = 'ja-JP';
+        u.rate = 0.8;
+        u.pitch = 1.2;
+        u.volume = 1;
+        const voices = speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+        if (jaVoice) u.voice = jaVoice;
+        speechSynthesis.speak(u);
+      }
+
+      // 従来の単体読み上げ（他の場所で使うかもしれないので残す）
+      function speakCharacter(char) {
+        if (!speechSynthesis) return;
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(char);
+        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
+        const voices = speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+        if (jaVoice) u.voice = jaVoice;
+        speechSynthesis.speak(u);
+      }
+
+      // 「もういちどきく」ボタン（前置き付きに変更）
+      function replaySound() {
+        if (currentChar) {
+          speakCharacterWithType(currentChar);
+          setFeedback('🔊 もういちど、きいてね');
+        }
+      }
+
+      // 文字を隠す／表示する
+      function hideCharacter() {
+        characterHidden = true;
+        svgContainer.classList.add('hidden-char');
+        if (placeholderText) placeholderText.textContent = '？';
+        revealCharBtn.style.display = 'inline-block';
+        replaySoundBtn.style.display = 'inline-block';
+      }
+      function revealCharacter() {
+        characterHidden = false;
+        svgContainer.classList.remove('hidden-char');
+        if (placeholderText) placeholderText.textContent = '';
+        revealCharBtn.style.display = 'none';
+        replaySoundBtn.style.display = 'none';
+        setFeedback(`👀 こたえは「${currentChar}」だよ！`);
+      }
+
+      function lockStrokeNumbers(locked) {
+        strokeNumbersLocked = locked;
+        if (locked) {
+          showNumbersCheckbox.checked = false;
+          showStrokeNumbers = false;
+          numberToggleArea.classList.add('locked');
+          showNumbersCheckbox.disabled = true;
+        } else {
+          numberToggleArea.classList.remove('locked');
+          showNumbersCheckbox.disabled = false;
+          showNumbersCheckbox.checked = true;
+          showStrokeNumbers = true;
+        }
+        updateStrokeNumbersVisibility();
+      }
+      function updateStrokeNumbersVisibility() {
+        const g = svgContainer.querySelector('#strokeNumbersGroup');
+        if (g) g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
+      }
 
       // 五十音表モーダル関連
       let selectedModalChar = null;
@@ -588,56 +670,6 @@
           selectedCharDisplay.textContent = currentChar;
         }
         return code;
-      }
-
-      function speakCharacter(char) {
-        if (!speechSynthesis) return;
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(char);
-        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
-        const voices = speechSynthesis.getVoices();
-        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
-        if (jaVoice) u.voice = jaVoice;
-        speechSynthesis.speak(u);
-      }
-      function replaySound() {
-        if (currentChar) { speakCharacter(currentChar); setFeedback('🔊 もういちど、きいてね'); }
-      }
-
-      function hideCharacter() {
-        characterHidden = true;
-        svgContainer.classList.add('hidden-char');
-        if (placeholderText) placeholderText.textContent = '？';
-        revealCharBtn.style.display = 'inline-block';
-        replaySoundBtn.style.display = 'inline-block';
-      }
-      function revealCharacter() {
-        characterHidden = false;
-        svgContainer.classList.remove('hidden-char');
-        if (placeholderText) placeholderText.textContent = '';
-        revealCharBtn.style.display = 'none';
-        replaySoundBtn.style.display = 'none';
-        setFeedback(`👀 こたえは「${currentChar}」だよ！`);
-      }
-
-      function lockStrokeNumbers(locked) {
-        strokeNumbersLocked = locked;
-        if (locked) {
-          showNumbersCheckbox.checked = false;
-          showStrokeNumbers = false;
-          numberToggleArea.classList.add('locked');
-          showNumbersCheckbox.disabled = true;
-        } else {
-          numberToggleArea.classList.remove('locked');
-          showNumbersCheckbox.disabled = false;
-          showNumbersCheckbox.checked = true;
-          showStrokeNumbers = true;
-        }
-        updateStrokeNumbersVisibility();
-      }
-      function updateStrokeNumbersVisibility() {
-        const g = svgContainer.querySelector('#strokeNumbersGroup');
-        if (g) g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
 
       // 練習モード
@@ -1189,7 +1221,8 @@
           p.style.display = 'block'; p.style.stroke = '#d0d0d0'; p.style.strokeWidth = '9';
           p.style.transition = 'none'; p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = '0';
         });
-        hideCharacter(); speakCharacter(currentChar);
+        hideCharacter();
+        speakCharacterWithType(currentChar);   // ★ 前置き付き読み上げ
         canvas.style.display = 'block'; retryTracingBtn.style.display = 'inline-block';
         if (quizMode !== 'select') nextCharBtn.style.display = 'inline-block';
         setupCanvas(); isAnimating = false; updateUI(); attachDrawEvents();
@@ -1218,18 +1251,14 @@
         else if (goodCount >= total * 0.7) { stamp = '👍'; message = 'よくできました！'; }
         else if (goodCount >= 1) { stamp = '😊'; message = 'がんばったね！'; }
         else { stamp = '💪'; message = 'もうすこし！'; }
-        // 結果ポップアップ表示
         stampEmoji.textContent = stamp;
         resultMessage.textContent = message;
         resultDetail.textContent = `${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
-        // サムネイル保存
         const thumbData = canvas.toDataURL('image/png');
         resultThumb.src = thumbData;
         resultThumb.style.display = 'inline-block';
         resultOverlay.style.display = 'flex';
-        // 履歴保存
         saveHistory({ char: currentChar, date: new Date().toLocaleString(), mode: practiceMode, rating: goodCount, total, stamp, thumb: thumbData });
-        // 練習モードを抜ける
         exitPracticeMode();
       }
 
@@ -1246,7 +1275,7 @@
       function saveHistory(record) {
         let history = getHistory();
         history.unshift(record);
-        if (history.length > 50) history = history.slice(0, 50); // 最大50件
+        if (history.length > 50) history = history.slice(0, 50);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       }
       function clearHistory() {
@@ -1336,7 +1365,10 @@
         ctx.clearRect(0,0,canvas.width,canvas.height);
         savedStrokes = []; expectedStrokeIndex = 0; userDrawnPoints = []; strokeRatings = [];
         updateHighlight(); updateUI();
-        if (practiceMode === 'listen') speakCharacter(currentChar);
+        if (practiceMode === 'listen') {
+          setFeedback('🔊 もういちど、おとをきいてかいてね');
+          speakCharacterWithType(currentChar); // ★ リトライ時も前置き付き
+        }
       });
       replaySoundBtn.addEventListener('click', replaySound);
       showNumbersCheckbox.addEventListener('change', () => {

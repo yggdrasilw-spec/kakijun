@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>書き順アニメーション - 暫定版</title>
+  <style>
+    body {
+      font-family: 'Yu Gothic', '游ゴシック', sans-serif;
+      text-align: center;
+      background: #faf8f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #4a4a4a;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    /* SVG表示エリア */
+    .kana-display {
+      width: 250px;
+      height: 250px;
+      margin: 20px auto;
+      background: #fffef9;
+      border: 3px dashed #e0d6c2;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kana-display svg {
+      width: 200px;
+      height: 200px;
+    }
+    /* ストロークの線 */
+    .stroke-path {
+      fill: none;
+      stroke: #444;
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    /* 塗り用（最後に切り替え） */
+    .fill-path {
+      fill: #444;
+      stroke: none;
+      opacity: 0;
+    }
+    .info {
+      font-size: 1.4rem;
+      margin: 10px 0;
+      min-height: 30px;
+    }
+    .stroke-counter {
+      font-size: 1rem;
+      color: #888;
+    }
+    button {
+      background: #f0e6d3;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      border-radius: 40px;
+      margin: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #5a4a3a;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #e0d6c2;
+    }
+    button:hover {
+      background: #e8d9be;
+    }
+    button:active {
+      background: #d4c3a5;
+      transform: scale(0.96);
+    }
+    .controls {
+      margin: 20px 0;
+    }
+    select {
+      padding: 10px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background: white;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✍️ 書き順アニメーション</h1>
+    
+    <!-- 文字選択 -->
+    <div>
+      <label for="charSelect">🔡 文字を選んでね：</label>
+      <select id="charSelect"></select>
+      <button id="showBtn">表示</button>
+    </div>
+
+    <!-- SVG表示エリア -->
+    <div class="kana-display" id="svgContainer">
+      <!-- SVGがここに挿入されます -->
+      <p style="color:#ccc;">文字を選んでね</p>
+    </div>
+
+    <!-- 情報表示 -->
+    <div class="info" id="infoText"></div>
+    <div class="stroke-counter" id="strokeInfo"></div>
+
+    <!-- 操作ボタン -->
+    <div class="controls">
+      <button id="prevBtn">◀ 前の画</button>
+      <button id="nextBtn">次の画 ▶</button>
+      <br>
+      <button id="replayBtn">🔄 もう一度</button>
+      <button id="showAllBtn">👀 すべて表示</button>
+    </div>
+  </div>
+  <div class="footer">made with ❤️</div>
+
+  <script>
+    (function() {
+      // --- ひらがな・カタカナ マッピング ---
+      const kanaMap = [
+        // ひらがな (清音)
+        "あ,3042","い,3044","う,3046","え,3048","お,304A",
+        "か,304B","き,304D","く,304F","け,3051","こ,3053",
+        "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
+        "た,305F","ち,3061","つ,3064","て,3066","と,3068",
+        "な,306A","に,306B","ぬ,306C","ね,306D","の,306E",
+        "は,306F","ひ,3072","ふ,3075","へ,3078","ほ,307B",
+        "ま,307E","み,307F","む,3080","め,3081","も,3082",
+        "や,3084","ゆ,3086","よ,3088",
+        "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
+        "わ,308F","を,3092","ん,3093",
+        // ひらがな (濁音・半濁音など)
+        "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
+        "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
+        "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
+        "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
+        "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
+        // カタカナ (清音)
+        "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
+        "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
+        "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
+        "タ,30BF","チ,30C1","ツ,30C4","テ,30C6","ト,30C8",
+        "ナ,30CA","ニ,30CB","ヌ,30CC","ネ,30CD","ノ,30CE",
+        "ハ,30CF","ヒ,30D2","フ,30D5","ヘ,30D8","ホ,30DB",
+        "マ,30DE","ミ,30DF","ム,30E0","メ,30E1","モ,30E2",
+        "ヤ,30E4","ユ,30E6","ヨ,30E8",
+        "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
+        "ワ,30EF","ヲ,30F2","ン,30F3",
+        // カタカナ (濁音・半濁音など)
+        "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
+        "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
+        "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
+        "バ,30D0","ビ,30D3","ブ,30D6","ベ,30D9","ボ,30DC",
+        "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
+      ];
+
+      // --- 状態管理 ---
+      let currentSvgDoc = null;     // 読み込んだSVGドキュメント
+      let strokePaths = [];         // 各ストロークのpath要素
+      let currentStrokeIndex = -1;  // 現在表示している画（-1は未開始）
+      let animationTimeout = null;
+
+      // --- DOM要素 ---
+      const selectEl = document.getElementById('charSelect');
+      const showBtn = document.getElementById('showBtn');
+      const svgContainer = document.getElementById('svgContainer');
+      const infoText = document.getElementById('infoText');
+      const strokeInfo = document.getElementById('strokeInfo');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const replayBtn = document.getElementById('replayBtn');
+      const showAllBtn = document.getElementById('showAllBtn');
+
+      // --- セレクトボックスに文字を追加 ---
+      function populateSelect() {
+        kanaMap.forEach(item => {
+          const [char, code] = item.split(',');
+          const option = document.createElement('option');
+          option.value = code;
+          option.textContent = char;
+          selectEl.appendChild(option);
+        });
+      }
+
+      // --- SVGを読み込む ---
+      async function loadSvg(unicode) {
+        try {
+          const response = await fetch(`svg/${unicode}.svg`);
+          if (!response.ok) throw new Error('SVG not found');
+          const svgText = await response.text();
+          const parser = new DOMParser();
+          const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+          return svgDoc;
+        } catch (err) {
+          console.error('SVG読み込みエラー:', err);
+          return null;
+        }
+      }
+
+      // --- ストロークパスを抽出 ---
+      function extractStrokes(svgDoc) {
+        // KanjiVGでは、書き順のパスは id="stroke1", "stroke2" ... が一般的
+        // もしくは特定のクラス名がついている場合もあります。
+        const paths = [];
+        // stroke番号が振られたパスを探す
+        for (let i = 1; i <= 20; i++) {
+          const path = svgDoc.getElementById(`stroke${i}`);
+          if (path) {
+            paths.push(path);
+          } else {
+            break; // 連番が途切れたら終了
+          }
+        }
+        // もし上記で取れなければ、全pathを取得（フォールバック）
+        if (paths.length === 0) {
+          const allPaths = svgDoc.querySelectorAll('path');
+          allPaths.forEach(p => {
+            if (p.getAttribute('d')) paths.push(p);
+          });
+        }
+        return paths;
+      }
+
+      // --- SVGを表示エリアにセット ---
+      function displaySvg(svgDoc) {
+        svgContainer.innerHTML = ''; // クリア
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          return;
+        }
+        const svgRoot = svgDoc.querySelector('svg');
+        if (!svgRoot) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">無効なSVGです</p>';
+          return;
+        }
+        // 表示用に属性を調整
+        svgRoot.setAttribute('width', '200');
+        svgRoot.setAttribute('height', '200');
+        svgRoot.style.display = 'block';
+        svgRoot.style.margin = 'auto';
+        
+        // すべてのパスを一旦非表示に
+        const allPaths = svgRoot.querySelectorAll('path');
+        allPaths.forEach(p => {
+          p.style.display = 'none';
+          p.style.fill = 'none';
+          p.style.stroke = '#444';
+          p.style.strokeWidth = '9';
+          p.style.strokeLinecap = 'round';
+          p.style.strokeLinejoin = 'round';
+        });
+
+        svgContainer.appendChild(svgRoot);
+        return svgRoot;
+      }
+
+      // --- 指定した画までアニメーション表示 ---
+      function animateToStroke(targetIndex) {
+        if (!strokePaths.length) return;
+        if (animationTimeout) clearTimeout(animationTimeout);
+        
+        // 範囲チェック
+        if (targetIndex < 0) targetIndex = 0;
+        if (targetIndex >= strokePaths.length) targetIndex = strokePaths.length - 1;
+        
+        currentStrokeIndex = targetIndex;
+        
+        // すべてのパスを非表示
+        strokePaths.forEach(p => { p.style.display = 'none'; });
+        
+        // targetIndexまで順にアニメーション表示
+        for (let i = 0; i <= targetIndex; i++) {
+          const path = strokePaths[i];
+          path.style.display = 'block';
+          path.style.strokeDasharray = 'none';
+          path.style.strokeDashoffset = 'none';
+        }
+        
+        updateUI();
+      }
+
+      // --- UI更新 ---
+      function updateUI() {
+        if (!strokePaths.length) {
+          infoText.textContent = 'ストロークが見つかりません';
+          strokeInfo.textContent = '';
+          return;
+        }
+        const total = strokePaths.length;
+        const current = currentStrokeIndex + 1;
+        infoText.textContent = `✏️ ${current} / ${total} 画`;
+        strokeInfo.textContent = `全 ${total} 画`;
+        
+        // ボタン制御
+        prevBtn.disabled = (currentStrokeIndex <= 0);
+        nextBtn.disabled = (currentStrokeIndex >= total - 1);
+      }
+
+      // --- 文字を読み込んで表示 ---
+      async function loadAndDisplay(unicode) {
+        const svgDoc = await loadSvg(unicode);
+        currentSvgDoc = svgDoc;
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          infoText.textContent = '';
+          strokeInfo.textContent = '';
+          strokePaths = [];
+          return;
+        }
+        displaySvg(svgDoc);
+        strokePaths = extractStrokes(svgDoc);
+        if (strokePaths.length > 0) {
+          // 最初は1画目だけ表示
+          animateToStroke(0);
+        } else {
+          infoText.textContent = 'ストロークが見つかりません';
+        }
+      }
+
+      // --- イベントリスナー ---
+      showBtn.addEventListener('click', () => {
+        const unicode = selectEl.value;
+        if (unicode) loadAndDisplay(unicode);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (currentStrokeIndex < strokePaths.length - 1) {
+          animateToStroke(currentStrokeIndex + 1);
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        if (currentStrokeIndex > 0) {
+          animateToStroke(currentStrokeIndex - 1);
+        }
+      });
+
+      replayBtn.addEventListener('click', () => {
+        if (strokePaths.length > 0) {
+          animateToStroke(0);
+        }
+      });
+
+      showAllBtn.addEventListener('click', () => {
+        if (strokePaths.length > 0) {
+          animateToStroke(strokePaths.length - 1);
+        }
+      });
+
+      // --- キーボード操作（左右矢印キー） ---
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          if (currentStrokeIndex < strokePaths.length - 1) {
+            animateToStroke(currentStrokeIndex + 1);
+          }
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          if (currentStrokeIndex > 0) {
+            animateToStroke(currentStrokeIndex - 1);
+          }
+        }
+      });
+
+      // --- 初期化 ---
+      function init() {
+        populateSelect();
+        // デフォルトで「あ」を選択して表示
+        if (kanaMap.length > 0) {
+          const firstCode = kanaMap[0].split(',')[1];
+          selectEl.value = firstCode;
+          loadAndDisplay(firstCode);
+        }
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

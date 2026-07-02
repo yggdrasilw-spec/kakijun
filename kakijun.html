@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase 2 デバッグ版</title>
+  <title>書き順アニメーション - Phase 2 判定付き</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -45,7 +45,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      pointer-events: none; /* ★ キャンバスの操作を邪魔しない */
+      pointer-events: none;
     }
     #drawCanvas {
       position: absolute;
@@ -62,6 +62,13 @@
       font-size: 1.4rem;
       margin: 10px 0;
       min-height: 30px;
+      transition: 0.2s;
+    }
+    .feedback {
+      font-size: 1.1rem;
+      color: #e07b39;
+      min-height: 24px;
+      margin: 5px 0;
     }
     .stroke-counter {
       font-size: 1rem;
@@ -136,6 +143,7 @@
     </div>
 
     <div class="info" id="infoText"></div>
+    <div class="feedback" id="feedbackText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
 
     <div style="margin:10px 0;">
@@ -195,17 +203,28 @@
 
       let currentSvgDoc = null;
       let strokePaths = [];
+      let strokeSamplePoints = []; // 各ストロークのサンプリング点配列
       let currentStrokeIndex = -1;
       let animationSpeed = 'normal';
       let isAnimating = false;
       let isTracingMode = false;
 
+      // なぞり練習用の状態
+      let expectedStrokeIndex = 0;          // 次に書くべき画のインデックス
+      let userDrawnPoints = [];            // 現在描いている画の点群
+      let feedbackTimer = null;            // フィードバック消去タイマー
+
       const speedDurations = { slow: 1500, normal: 600, fast: 200 };
+      // 判定用のしきい値
+      const DISTANCE_THRESHOLD_GOOD = 12;   // この平均距離以下なら「じょうず！」
+      const DISTANCE_THRESHOLD_OK = 25;     // この平均距離以下なら「まあまあ」
+      const START_DISTANCE_THRESHOLD = 30;  // 書き始めがこの距離以内なら正しい画と判定
 
       const selectEl = document.getElementById('charSelect');
       const showBtn = document.getElementById('showBtn');
       const svgContainer = document.getElementById('svgContainer');
       const infoText = document.getElementById('infoText');
+      const feedbackText = document.getElementById('feedbackText');
       const strokeInfo = document.getElementById('strokeInfo');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
@@ -230,18 +249,13 @@
       async function loadSvg(unicode) {
         try {
           const paddedCode = unicode.toLowerCase().padStart(5, '0');
-          const url = `svg/${paddedCode}.svg`;
-          console.log('📥 読み込み:', url); // デバッグ用
-          const response = await fetch(url);
-          if (!response.ok) {
-            console.error(`❌ ${url} が見つかりません (${response.status})`);
-            throw new Error('SVG not found');
-          }
+          const response = await fetch(`svg/${paddedCode}.svg`);
+          if (!response.ok) throw new Error('SVG not found');
           const svgText = await response.text();
           const parser = new DOMParser();
           return parser.parseFromString(svgText, 'image/svg+xml');
         } catch (err) {
-          console.error('loadSvg エラー:', err);
+          console.error(err);
           return null;
         }
       }
@@ -274,6 +288,49 @@
         return paths;
       }
 
+      // --- パスのサンプリング ---
+      function samplePath(path, step = 5) {
+        const points = [];
+        const length = path.getTotalLength();
+        if (length === 0) return points;
+        let dist = 0;
+        while (dist <= length) {
+          const pt = path.getPointAtLength(dist);
+          points.push({ x: pt.x, y: pt.y });
+          dist += step;
+        }
+        // 最後の点が入っていなければ追加
+        const endPt = path.getPointAtLength(length);
+        if (points.length === 0 || points[points.length-1].x !== endPt.x || points[points.length-1].y !== endPt.y) {
+          points.push({ x: endPt.x, y: endPt.y });
+        }
+        return points;
+      }
+
+      function calculateAllSamplePoints() {
+        strokeSamplePoints = strokePaths.map(path => samplePath(path, 5));
+      }
+
+      // --- 点とサンプル点群の最小距離 ---
+      function minDistanceToPath(point, samplePoints) {
+        let min = Infinity;
+        for (const sp of samplePoints) {
+          const dx = point.x - sp.x;
+          const dy = point.y - sp.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < min) min = dist;
+        }
+        return min;
+      }
+
+      // --- ユーザー描画点群とお手本パスの平均距離 ---
+      function averageDistance(drawnPoints, samplePoints) {
+        if (drawnPoints.length === 0) return Infinity;
+        const total = drawnPoints.reduce((sum, p) => sum + minDistanceToPath(p, samplePoints), 0);
+        return total / drawnPoints.length;
+      }
+
+      // --- SVG表示 ---
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
         if (!svgDoc) {
@@ -289,7 +346,6 @@
         svgRoot.setAttribute('height', '200');
         svgRoot.style.display = 'block';
         svgRoot.style.margin = 'auto';
-        // ★ SVG自体のポインターイベントを無効化
         svgRoot.style.pointerEvents = 'none';
         svgRoot.querySelectorAll('path').forEach(p => {
           p.style.display = 'none';
@@ -303,7 +359,6 @@
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
         svgContainer.appendChild(svgRoot);
 
-        // Canvas を再生成
         const newCanvas = document.createElement('canvas');
         newCanvas.id = 'drawCanvas';
         newCanvas.style.display = 'none';
@@ -333,6 +388,7 @@
         ctx.lineJoin = 'round';
       }
 
+      // --- なぞりモード切替 ---
       function toggleTracingMode() {
         isTracingMode = !isTracingMode;
         if (isTracingMode) {
@@ -342,8 +398,25 @@
         }
       }
 
+      function updateHighlight() {
+        // 期待する画だけ色を変える（青っぽく）
+        strokePaths.forEach((p, idx) => {
+          if (idx === expectedStrokeIndex) {
+            p.style.stroke = '#4a90d9';   // ハイライト色
+            p.style.strokeWidth = '10';
+          } else {
+            p.style.stroke = '#d0d0d0';
+            p.style.strokeWidth = '9';
+          }
+        });
+      }
+
       function enterTracingMode() {
         if (!strokePaths.length) return;
+        calculateAllSamplePoints();
+        expectedStrokeIndex = 0;
+        userDrawnPoints = [];
+        // 全パス表示＋ハイライト
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -352,13 +425,14 @@
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
+        updateHighlight();
         canvas.style.display = 'block';
         clearCanvasBtn.style.display = 'inline-block';
         setupCanvas();
         isAnimating = false;
         updateUI();
         attachDrawEvents();
-        console.log('🖊 なぞり練習モード開始');
+        setFeedback('🔵 あおい線をなぞってね');
       }
 
       function exitTracingMode() {
@@ -368,6 +442,7 @@
         strokePaths.forEach(p => {
           p.style.display = 'none';
           p.style.stroke = '#444';
+          p.style.strokeWidth = '9';
           p.style.transition = 'none';
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
@@ -376,9 +451,28 @@
         isAnimating = false;
         updateUI();
         removeDrawEvents();
-        console.log('🔙 アニメーションモードへ戻る');
+        clearFeedback();
       }
 
+      // --- フィードバック表示 ---
+      function setFeedback(msg, isGood = true) {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = msg;
+        feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
+        // 一定時間で消す（永続メッセージは除く）
+        if (msg !== '🔵 あおい線をなぞってね') {
+          feedbackTimer = setTimeout(() => {
+            feedbackText.textContent = '';
+          }, 2000);
+        }
+      }
+
+      function clearFeedback() {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = '';
+      }
+
+      // --- 描画イベント ---
       function attachDrawEvents() {
         canvas.addEventListener('pointerdown', onPointerDown);
         canvas.addEventListener('pointermove', onPointerMove);
@@ -405,9 +499,22 @@
 
       function onPointerDown(e) {
         if (!isTracingMode) return;
-        console.log('✏️ 描画開始', e.pointerType); // デバッグ用
-        isDrawing = true;
         const { x, y } = getCanvasCoords(e);
+        // 書き順チェック：現在の期待画のサンプル点との距離を計算
+        if (expectedStrokeIndex < strokeSamplePoints.length) {
+          const targetSample = strokeSamplePoints[expectedStrokeIndex];
+          const dist = minDistanceToPath({x, y}, targetSample);
+          if (dist > START_DISTANCE_THRESHOLD) {
+            // 間違った画から書き始めた
+            setFeedback('❌ 書き順がちがうよ！あおい線をなぞってね', false);
+            isDrawing = false;
+            e.preventDefault();
+            return;
+          }
+        }
+        // 正しい画
+        isDrawing = true;
+        userDrawnPoints = [{x, y}];
         ctx.beginPath();
         ctx.moveTo(x, y);
         e.preventDefault();
@@ -416,6 +523,7 @@
       function onPointerMove(e) {
         if (!isDrawing || !isTracingMode) return;
         const { x, y } = getCanvasCoords(e);
+        userDrawnPoints.push({x, y});
         ctx.lineTo(x, y);
         ctx.stroke();
         ctx.beginPath();
@@ -424,11 +532,45 @@
       }
 
       function onPointerUp(e) {
-        if (isDrawing) console.log('✏️ 描画終了');
+        if (!isDrawing || !isTracingMode) return;
         isDrawing = false;
         ctx.beginPath();
+        // 位置ずれ判定
+        if (userDrawnPoints.length > 0 && expectedStrokeIndex < strokeSamplePoints.length) {
+          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
+          if (avgDist <= DISTANCE_THRESHOLD_GOOD) {
+            setFeedback('🌟 じょうず！');
+          } else if (avgDist <= DISTANCE_THRESHOLD_OK) {
+            setFeedback('👍 まあまあ！');
+          } else {
+            setFeedback('💧 もうすこし！', false);
+          }
+          // 次の画へ
+          expectedStrokeIndex++;
+          if (expectedStrokeIndex >= strokePaths.length) {
+            setFeedback('🎉 ぜんぶかけたね！すごい！');
+            // なぞり練習完了（モードはそのまま、ハイライトは最後の画のまま）
+            updateHighlight();
+            updateUI();
+          } else {
+            updateHighlight();
+            updateUI();
+            setFeedback('🔵 つぎのあおい線をなぞってね');
+          }
+        }
+        userDrawnPoints = [];
       }
 
+      // --- キャンバスクリア ---
+      function clearCanvasAndRetry() {
+        if (!isTracingMode) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        userDrawnPoints = [];
+        // 期待画はそのまま（もう一度同じ画を練習）
+        setFeedback('🔵 もういちど、あおい線をなぞってね');
+      }
+
+      // --- アニメーション系（既存） ---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
           try {
@@ -517,15 +659,25 @@
           nextBtn.disabled = true;
           return;
         }
+        if (isTracingMode) {
+          infoText.textContent = `✏️ なぞり中：${expectedStrokeIndex + 1} / ${strokePaths.length} 画め`;
+          strokeInfo.textContent = `全 ${strokePaths.length} 画`;
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          replayBtn.disabled = true;
+          showAllBtn.disabled = true;
+          traceBtn.textContent = '🔙 もどる';
+          return;
+        }
         const total = strokePaths.length;
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
-        prevBtn.disabled = isTracingMode || (currentStrokeIndex <= 0) || isAnimating;
-        nextBtn.disabled = isTracingMode || (currentStrokeIndex >= total - 1) || isAnimating;
-        replayBtn.disabled = isTracingMode;
-        showAllBtn.disabled = isTracingMode;
-        traceBtn.textContent = isTracingMode ? '🔙 もどる' : '🖊 なぞり練習';
+        prevBtn.disabled = (currentStrokeIndex <= 0) || isAnimating;
+        nextBtn.disabled = (currentStrokeIndex >= total - 1) || isAnimating;
+        replayBtn.disabled = isAnimating;
+        showAllBtn.disabled = isAnimating;
+        traceBtn.textContent = '🖊 なぞり練習';
       }
 
       async function loadAndDisplay(unicode) {
@@ -590,9 +742,7 @@
 
       traceBtn.addEventListener('click', toggleTracingMode);
 
-      clearCanvasBtn.addEventListener('click', () => {
-        if (isTracingMode) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      });
+      clearCanvasBtn.addEventListener('click', clearCanvasAndRetry);
 
       document.addEventListener('keydown', (e) => {
         if (isTracingMode || isAnimating) return;

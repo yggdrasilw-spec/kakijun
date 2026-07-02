@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - ヒントなしチェック</title>
+  <title>書き順アニメーション - 厳格判定版</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -208,8 +208,7 @@
       let animationSpeed = 'normal';
       let isAnimating = false;
 
-      // 練習モード: 'none' | 'hint' | 'check'
-      let practiceMode = 'none';
+      let practiceMode = 'none'; // 'none', 'hint', 'check'
       let expectedStrokeIndex = 0;
       let userDrawnPoints = [];
       let feedbackTimer = null;
@@ -217,8 +216,11 @@
       const speedDurations = { slow: 1500, normal: 600, fast: 200 };
       const DISTANCE_THRESHOLD_GOOD = 12;
       const DISTANCE_THRESHOLD_OK = 25;
-      const START_DISTANCE_THRESHOLD = 30; // ヒントありモードの書き始めチェック用
-      const MATCH_DISTANCE_THRESHOLD = 30; // ヒントなし：どの画に最も近いか判定する最大距離
+      const START_DISTANCE_THRESHOLD = 30;
+      const MATCH_DISTANCE_THRESHOLD = 35; // ヒントなしでストロークを特定する最大距離
+      const COVERAGE_THRESHOLD_GOOD = 0.7;   // 70%以上カバーでじょうず
+      const COVERAGE_THRESHOLD_OK = 0.5;     // 50%以上でまあまあ
+      const LENGTH_RATIO_MIN = 0.3;          // お手本の長さの30%以上必要
 
       const selectEl = document.getElementById('charSelect');
       const showBtn = document.getElementById('showBtn');
@@ -237,6 +239,7 @@
       let canvas, ctx;
       let isDrawing = false;
 
+      // --- 初期化 ---
       function populateSelect() {
         kanaMap.forEach(item => {
           const [char, code] = item.split(',');
@@ -289,6 +292,7 @@
         return paths;
       }
 
+      // --- パス解析 ---
       function samplePath(path, step = 5) {
         const points = [];
         const length = path.getTotalLength();
@@ -327,20 +331,54 @@
         return total / drawnPoints.length;
       }
 
-      // ユーザーが書いた点群に最も近いストロークのインデックスを返す（閾値以下で最も近いもの）
-      function findClosestStrokeIndex(drawnPoints) {
-        let bestIndex = -1;
-        let bestAvgDist = Infinity;
-        for (let i = 0; i < strokeSamplePoints.length; i++) {
-          const avg = averageDistance(drawnPoints, strokeSamplePoints[i]);
-          if (avg < bestAvgDist && avg < MATCH_DISTANCE_THRESHOLD) {
-            bestAvgDist = avg;
-            bestIndex = i;
-          }
+      function calcCoverage(drawnPoints, samplePoints, threshold = 15) {
+        if (drawnPoints.length === 0 || samplePoints.length === 0) return 0;
+        let covered = 0;
+        for (const sp of samplePoints) {
+          const dist = minDistanceToPath(sp, drawnPoints);
+          if (dist <= threshold) covered++;
         }
-        return bestIndex;
+        return covered / samplePoints.length;
       }
 
+      function calcDrawnLength(points) {
+        let len = 0;
+        for (let i = 1; i < points.length; i++) {
+          const dx = points[i].x - points[i-1].x;
+          const dy = points[i].y - points[i-1].y;
+          len += Math.sqrt(dx*dx + dy*dy);
+        }
+        return len;
+      }
+
+      function checkStartPosition(drawnPoints, samplePoints, threshold) {
+        const checkCount = Math.min(5, drawnPoints.length);
+        if (checkCount === 0) return Infinity;
+        let total = 0;
+        for (let i = 0; i < checkCount; i++) {
+          total += minDistanceToPath(drawnPoints[i], samplePoints);
+        }
+        return total / checkCount;
+      }
+
+      // 最も近いストロークを見つける（複合スコア）
+      function findClosestStroke(drawnPoints) {
+        let bestIdx = -1;
+        let bestScore = Infinity;
+        for (let i = 0; i < strokeSamplePoints.length; i++) {
+          const avg = averageDistance(drawnPoints, strokeSamplePoints[i]);
+          if (avg > MATCH_DISTANCE_THRESHOLD) continue;
+          const cov = calcCoverage(drawnPoints, strokeSamplePoints[i], 15);
+          const score = avg - cov * 15; // 距離が小さくカバレッジが大きいほど良い
+          if (score < bestScore) {
+            bestScore = score;
+            bestIdx = i;
+          }
+        }
+        return bestIdx;
+      }
+
+      // --- SVG 表示 ---
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
         if (!svgDoc) {
@@ -405,7 +443,6 @@
         practiceMode = mode;
         expectedStrokeIndex = 0;
         userDrawnPoints = [];
-        // 全パスをグレー表示
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -418,7 +455,6 @@
           updateHighlight();
           setFeedback('🔵 あおい線をなぞってね');
         } else if (mode === 'check') {
-          // ヒントなしは全て同じグレー
           setFeedback('🔍 じぶんで書き順を考えてね');
         }
         canvas.style.display = 'block';
@@ -466,7 +502,7 @@
         if (feedbackTimer) clearTimeout(feedbackTimer);
         feedbackText.textContent = msg;
         feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
-        if (msg !== '🔵 あおい線をなぞってね' && msg !== '🔍 じぶんで書き順を考えてね') {
+        if (!msg.includes('あおい線') && !msg.includes('書き順を考えてね')) {
           feedbackTimer = setTimeout(() => {
             feedbackText.textContent = '';
           }, 2000);
@@ -478,7 +514,7 @@
         feedbackText.textContent = '';
       }
 
-      // --- 描画イベント ---
+      // --- 描画イベント（判定強化版）---
       function attachDrawEvents() {
         canvas.addEventListener('pointerdown', onPointerDown);
         canvas.addEventListener('pointermove', onPointerMove);
@@ -506,20 +542,6 @@
       function onPointerDown(e) {
         if (practiceMode === 'none') return;
         const { x, y } = getCanvasCoords(e);
-        if (practiceMode === 'hint') {
-          // ヒントあり：書き始め位置が期待画かチェック
-          if (expectedStrokeIndex < strokeSamplePoints.length) {
-            const targetSample = strokeSamplePoints[expectedStrokeIndex];
-            const dist = minDistanceToPath({x, y}, targetSample);
-            if (dist > START_DISTANCE_THRESHOLD) {
-              setFeedback('❌ 書き順がちがうよ！あおい線をなぞってね', false);
-              isDrawing = false;
-              e.preventDefault();
-              return;
-            }
-          }
-        }
-        // ヒントなしは自由に書き始めOK
         isDrawing = true;
         userDrawnPoints = [{x, y}];
         ctx.beginPath();
@@ -543,66 +565,112 @@
         isDrawing = false;
         ctx.beginPath();
 
-        if (userDrawnPoints.length === 0) return;
+        if (userDrawnPoints.length < 3) {
+          setFeedback('✍️ もっと長くなぞってね', false);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          userDrawnPoints = [];
+          return;
+        }
+
+        const drawnLength = calcDrawnLength(userDrawnPoints);
 
         if (practiceMode === 'hint') {
-          // ヒントあり：期待画で位置ずれ判定
-          if (expectedStrokeIndex < strokeSamplePoints.length) {
-            const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-            if (avgDist <= DISTANCE_THRESHOLD_GOOD) {
-              setFeedback('🌟 じょうず！');
-            } else if (avgDist <= DISTANCE_THRESHOLD_OK) {
-              setFeedback('👍 まあまあ！');
-            } else {
-              setFeedback('💧 もうすこし！', false);
-            }
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-            } else {
-              updateHighlight();
-              setFeedback('🔵 つぎのあおい線をなぞってね');
-            }
-          }
-        } else if (practiceMode === 'check') {
-          // ヒントなし：最も近いストロークを探す
-          const closestIdx = findClosestStrokeIndex(userDrawnPoints);
-          if (closestIdx === expectedStrokeIndex) {
-            // 正解
-            const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-            if (avgDist <= DISTANCE_THRESHOLD_GOOD) {
-              setFeedback('🌟 じょうず！');
-            } else if (avgDist <= DISTANCE_THRESHOLD_OK) {
-              setFeedback('👍 まあまあ！');
-            } else {
-              setFeedback('💧 もうすこし！', false);
-            }
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-            } else {
-              setFeedback('🔍 つぎの画を書いてね');
-            }
-          } else {
-            // 不正解：線を消してやり直し
-            setFeedback('❌ 書き順がちがうよ！もういちど', false);
-            // 今書いた線だけを消す（キャンバス全体をクリアする簡易実装）
+          // 書き始めチェック
+          const startAvg = checkStartPosition(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], START_DISTANCE_THRESHOLD);
+          if (startAvg > START_DISTANCE_THRESHOLD) {
+            setFeedback('❌ 書き順がちがうよ！あおい線をなぞってね', false);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // ユーザー点群もリセット
+            userDrawnPoints = [];
+            return;
           }
+
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
+            setFeedback('✍️ もっと長くなぞってね', false);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            userDrawnPoints = [];
+            return;
+          }
+
+          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
+          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
+
+          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            setFeedback('🌟 じょうず！');
+          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            setFeedback('👍 まあまあ！');
+          } else {
+            setFeedback('💧 もうすこし！', false);
+          }
+
+          expectedStrokeIndex++;
+          if (expectedStrokeIndex >= strokePaths.length) {
+            setFeedback('🎉 ぜんぶかけたね！すごい！');
+          } else {
+            updateHighlight();
+            setFeedback('🔵 つぎのあおい線をなぞってね');
+          }
+          updateUI();
+        } else if (practiceMode === 'check') {
+          // ヒントなし
+          const closestIdx = findClosestStroke(userDrawnPoints);
+          if (closestIdx === -1) {
+            setFeedback('❌ 書き順がわからないよ、もういちど', false);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            userDrawnPoints = [];
+            return;
+          }
+
+          if (closestIdx !== expectedStrokeIndex) {
+            setFeedback('❌ 書き順がちがうよ！もういちど', false);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            userDrawnPoints = [];
+            return;
+          }
+
+          // 正しい画なら長さチェック
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
+            setFeedback('✍️ もっと長くなぞってね', false);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            userDrawnPoints = [];
+            return;
+          }
+
+          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
+          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
+
+          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            setFeedback('🌟 じょうず！');
+          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            setFeedback('👍 まあまあ！');
+          } else {
+            setFeedback('💧 もうすこし！', false);
+          }
+
+          expectedStrokeIndex++;
+          if (expectedStrokeIndex >= strokePaths.length) {
+            setFeedback('🎉 ぜんぶかけたね！すごい！');
+          } else {
+            setFeedback('🔍 つぎの画を書いてね');
+          }
+          updateUI();
         }
         userDrawnPoints = [];
-        updateUI();
       }
 
       function clearCanvasAndRetry() {
         if (practiceMode === 'none') return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         userDrawnPoints = [];
-        setFeedback(practiceMode === 'hint' ? '🔵 もういちど、あおい線をなぞってね' : '🔍 もういちど書いてね');
+        if (practiceMode === 'hint') {
+          setFeedback('🔵 もういちど、あおい線をなぞってね');
+        } else {
+          setFeedback('🔍 もういちど書いてね');
+        }
       }
 
-      // --- アニメーション系 ---
+      // --- アニメーション（変更なし）---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
           try {
@@ -691,7 +759,6 @@
           nextBtn.disabled = true;
           return;
         }
-        // 練習モード中
         if (practiceMode === 'hint' || practiceMode === 'check') {
           infoText.textContent = `✏️ なぞり中：${expectedStrokeIndex + 1} / ${strokePaths.length} 画め`;
           strokeInfo.textContent = `全 ${strokePaths.length} 画`;
@@ -703,7 +770,6 @@
           traceCheckBtn.textContent = (practiceMode === 'check') ? '🔙 もどる' : '🔍 書き順チェック';
           return;
         }
-        // 通常アニメーションモード
         const total = strokePaths.length;
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
@@ -714,8 +780,6 @@
         showAllBtn.disabled = isAnimating;
         traceHintBtn.textContent = '🖊 なぞり練習';
         traceCheckBtn.textContent = '🔍 書き順チェック';
-        traceHintBtn.disabled = false;
-        traceCheckBtn.disabled = false;
       }
 
       async function loadAndDisplay(unicode) {
@@ -775,7 +839,6 @@
         if (practiceMode === 'hint') {
           exitPracticeMode();
         } else if (practiceMode === 'check') {
-          // チェックモード中は一度戻ってからヒントモードへ
           exitPracticeMode();
           enterPracticeMode('hint');
         } else {

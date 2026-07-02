@@ -141,6 +141,13 @@
       <p style="color:#ccc;">文字を選んでね</p>
     </div>
 
+    <div class="number-toggle" style="margin:8px 0;">
+      <label style="font-size:0.95rem; color:#666; cursor:pointer; user-select:none;">
+        <input type="checkbox" id="showNumbersCheckbox" checked style="vertical-align:middle; margin-right:4px;">
+        🔢 画数を表示
+      </label>
+    </div>
+
     <div class="info" id="infoText"></div>
     <div class="feedback" id="feedbackText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
@@ -210,6 +217,16 @@
       let savedStrokes = [];
       let feedbackTimer = null;
 
+      // 画数ごとの色分け設定
+      const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
+      function getStrokeLineColor(idx) {
+        return STROKE_LINE_COLORS[idx] !== undefined ? STROKE_LINE_COLORS[idx] : '#111111';
+      }
+      function getStrokeNumberColor(idx) {
+        return idx === 0 ? '#ff6fa5' : '#2196f3';
+      }
+      let showStrokeNumbers = true;
+
       // 速度設定（基準長さ200pxに対する時間）
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
       const BASE_LENGTH = 200; // 基準となるパスの長さ
@@ -235,6 +252,7 @@
       const traceHintBtn = document.getElementById('traceHintBtn');
       const traceCheckBtn = document.getElementById('traceCheckBtn');
       const retryTracingBtn = document.getElementById('retryTracingBtn');
+      const showNumbersCheckbox = document.getElementById('showNumbersCheckbox');
       let canvas, ctx;
       let isDrawing = false;
       let isFlashing = false;
@@ -375,6 +393,103 @@
         return bestIdx;
       }
 
+      function parseViewBox(svgRoot) {
+        const vb = svgRoot.getAttribute('viewBox');
+        if (vb) {
+          const parts = vb.trim().split(/\s+/).map(Number);
+          if (parts.length === 4 && parts.every(n => !isNaN(n))) {
+            return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+          }
+        }
+        return { x: 0, y: 0, w: 109, h: 109 };
+      }
+
+      function addCrosshairGuide(svgRoot) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const vb = parseViewBox(svgRoot);
+        const g = document.createElementNS(ns, 'g');
+        g.setAttribute('id', 'crosshairGuide');
+        const vLine = document.createElementNS(ns, 'line');
+        vLine.setAttribute('x1', vb.x + vb.w / 2);
+        vLine.setAttribute('y1', vb.y);
+        vLine.setAttribute('x2', vb.x + vb.w / 2);
+        vLine.setAttribute('y2', vb.y + vb.h);
+        const hLine = document.createElementNS(ns, 'line');
+        hLine.setAttribute('x1', vb.x);
+        hLine.setAttribute('y1', vb.y + vb.h / 2);
+        hLine.setAttribute('x2', vb.x + vb.w);
+        hLine.setAttribute('y2', vb.y + vb.h / 2);
+        [vLine, hLine].forEach(line => {
+          line.setAttribute('stroke', '#7ec8e3');
+          line.setAttribute('stroke-width', Math.max(0.5, vb.w * 0.006));
+          line.setAttribute('stroke-dasharray', `${vb.w * 0.02},${vb.w * 0.015}`);
+          g.appendChild(line);
+        });
+        svgRoot.insertBefore(g, svgRoot.firstChild);
+      }
+
+      function strokeStartLabelPos(path, offsetDist) {
+        const total = path.getTotalLength();
+        if (total === 0) {
+          return { x: 0, y: 0 };
+        }
+        const p0 = path.getPointAtLength(0);
+        const p1 = path.getPointAtLength(Math.min(total, 6));
+        let dx = p1.x - p0.x;
+        let dy = p1.y - p0.y;
+        const len = Math.sqrt(dx * dx + dy * dy) || 1;
+        dx /= len; dy /= len;
+        // perpendicular direction + slight backward direction, pointing away from the stroke body
+        const perpX = -dy;
+        const perpY = dx;
+        const backX = -dx;
+        const backY = -dy;
+        return {
+          x: p0.x + perpX * offsetDist * 0.7 + backX * offsetDist * 0.6,
+          y: p0.y + perpY * offsetDist * 0.7 + backY * offsetDist * 0.6
+        };
+      }
+
+      function addStrokeNumbers(svgRoot, paths) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const vb = parseViewBox(svgRoot);
+        const g = document.createElementNS(ns, 'g');
+        g.setAttribute('id', 'strokeNumbersGroup');
+        const fontSize = vb.w * 0.11;
+        const offsetDist = vb.w * 0.075;
+        paths.forEach((path, idx) => {
+          const pos = strokeStartLabelPos(path, offsetDist);
+          const text = document.createElementNS(ns, 'text');
+          text.textContent = String(idx + 1);
+          text.setAttribute('x', pos.x);
+          text.setAttribute('y', pos.y);
+          text.setAttribute('font-size', fontSize);
+          text.setAttribute('font-weight', 'bold');
+          text.setAttribute('fill', getStrokeNumberColor(idx));
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('dominant-baseline', 'central');
+          text.setAttribute('font-family', "'Yu Gothic', '游ゴシック', sans-serif");
+          text.style.paintOrder = 'stroke';
+          text.style.stroke = '#fff';
+          text.style.strokeWidth = String(fontSize * 0.18);
+          text.style.strokeLinejoin = 'round';
+          g.appendChild(text);
+        });
+        svgRoot.appendChild(g);
+        g.style.display = showStrokeNumbers ? '' : 'none';
+      }
+
+      function applyStrokeColors(paths) {
+        paths.forEach((p, idx) => {
+          p.style.stroke = getStrokeLineColor(idx);
+        });
+      }
+
+      function updateStrokeNumbersVisibility() {
+        const g = svgContainer.querySelector('#strokeNumbersGroup');
+        if (g) g.style.display = showStrokeNumbers ? '' : 'none';
+      }
+
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
         if (!svgDoc) {
@@ -393,7 +508,6 @@
         svgRoot.style.pointerEvents = 'none';
         svgRoot.querySelectorAll('path').forEach(p => {
           p.style.display = 'none';
-          p.style.stroke = '#444';
           p.style.strokeWidth = '9';
           p.style.strokeLinecap = 'round';
           p.style.strokeLinejoin = 'round';
@@ -401,6 +515,11 @@
           p.style.transition = 'none';
         });
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
+
+        addCrosshairGuide(svgRoot);
+        applyStrokeColors(strokePaths);
+        addStrokeNumbers(svgRoot, strokePaths);
+
         svgContainer.appendChild(svgRoot);
 
         const newCanvas = document.createElement('canvas');
@@ -467,12 +586,12 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         strokePaths.forEach(p => {
           p.style.display = 'none';
-          p.style.stroke = '#444';
           p.style.strokeWidth = '9';
           p.style.transition = 'none';
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
+        applyStrokeColors(strokePaths);
         practiceMode = 'none';
         currentStrokeIndex = -1;
         isAnimating = false;
@@ -881,6 +1000,11 @@
       });
 
       retryTracingBtn.addEventListener('click', retryTracing);
+
+      showNumbersCheckbox.addEventListener('change', () => {
+        showStrokeNumbers = showNumbersCheckbox.checked;
+        updateStrokeNumbersVisibility();
+      });
 
       document.addEventListener('keydown', (e) => {
         if (practiceMode !== 'none' || isAnimating || isFlashing) return;

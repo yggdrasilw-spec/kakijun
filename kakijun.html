@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - Phase 2 なぞり練習</title>
+  <title>書き順アニメーション - Phase 2 修正</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -53,8 +53,8 @@
       transform: translate(-50%, -50%);
       width: 200px;
       height: 200px;
-      touch-action: none; /* タッチ操作でスクロールしない */
-      display: none; /* 初期は非表示 */
+      touch-action: none;
+      display: none;
       z-index: 10;
     }
     .info {
@@ -132,8 +132,6 @@
 
     <div class="kana-display" id="svgContainer">
       <p style="color:#ccc;">文字を選んでね</p>
-      <!-- Canvas を SVG の上に重ねる -->
-      <canvas id="drawCanvas"></canvas>
     </div>
 
     <div class="info" id="infoText"></div>
@@ -195,7 +193,6 @@
         "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
       ];
 
-      // --- 状態管理 ---
       let currentSvgDoc = null;
       let strokePaths = [];
       let currentStrokeIndex = -1;
@@ -203,13 +200,8 @@
       let isAnimating = false;
       let isTracingMode = false;
 
-      const speedDurations = {
-        slow: 1500,
-        normal: 600,
-        fast: 200
-      };
+      const speedDurations = { slow: 1500, normal: 600, fast: 200 };
 
-      // --- DOM要素 ---
       const selectEl = document.getElementById('charSelect');
       const showBtn = document.getElementById('showBtn');
       const svgContainer = document.getElementById('svgContainer');
@@ -222,13 +214,9 @@
       const speedBtns = document.querySelectorAll('.speed-btn');
       const traceBtn = document.getElementById('traceBtn');
       const clearCanvasBtn = document.getElementById('clearCanvasBtn');
-      const canvas = document.getElementById('drawCanvas');
-      let ctx = canvas.getContext('2d');
-
-      // 描画中フラグ
+      let canvas, ctx;
       let isDrawing = false;
 
-      // --- セレクトボックスに文字を追加 ---
       function populateSelect() {
         kanaMap.forEach(item => {
           const [char, code] = item.split(',');
@@ -239,10 +227,9 @@
         });
       }
 
-      // --- SVGを読み込む ---
       async function loadSvg(unicode) {
         try {
-          const paddedCode = unicode.padStart(5, '0');
+          const paddedCode = unicode.toLowerCase().padStart(5, '0'); // ★ 小文字化
           const response = await fetch(`svg/${paddedCode}.svg`);
           if (!response.ok) throw new Error('SVG not found');
           const svgText = await response.text();
@@ -254,7 +241,6 @@
         }
       }
 
-      // --- ストロークパスを抽出 ---
       function extractStrokes(svgDoc) {
         const paths = [];
         const allG = svgDoc.querySelectorAll('g');
@@ -283,9 +269,8 @@
         return paths;
       }
 
-      // --- SVGを表示エリアにセット ---
       function displaySvg(svgDoc) {
-        svgContainer.innerHTML = '<canvas id="drawCanvas" style="display:none;"></canvas>'; // Canvasを再生成
+        svgContainer.innerHTML = ''; // 既存の内容をクリア
         if (!svgDoc) {
           svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
           return null;
@@ -311,43 +296,36 @@
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
         svgContainer.appendChild(svgRoot);
 
-        // canvas要素を再取得（innerHTMLで消えたため）
-        const newCanvas = document.getElementById('drawCanvas');
-        if (newCanvas) {
-          // 新しいcanvasに変数を付け替え
-          ctx = newCanvas.getContext('2d');
-          newCanvas.style.display = 'none';
-          // イベントは後で設定
-        }
+        // Canvas を再生成して重ねる
+        const newCanvas = document.createElement('canvas');
+        newCanvas.id = 'drawCanvas';
+        newCanvas.style.display = 'none';
+        svgContainer.appendChild(newCanvas);
+        canvas = newCanvas;
+        ctx = canvas.getContext('2d');
+        setupCanvas();
         return svgRoot;
       }
 
-      // --- Canvas のセットアップ（SVGのviewBoxに合わせる） ---
       function setupCanvas() {
+        if (!canvas) return;
         const svg = svgContainer.querySelector('svg');
-        if (!svg || !canvas) return;
-
+        if (!svg) return;
         const viewBox = svg.getAttribute('viewBox');
         if (viewBox) {
           const parts = viewBox.split(/\s+/);
-          const vbW = parseFloat(parts[2]);
-          const vbH = parseFloat(parts[3]);
-          canvas.width = vbW;
-          canvas.height = vbH;
-          // スタイルはCSSで200x200に固定済み
+          canvas.width = parseFloat(parts[2]);
+          canvas.height = parseFloat(parts[3]);
         } else {
-          // viewBoxがない場合はデフォルトで200x200
           canvas.width = 200;
           canvas.height = 200;
         }
-        // 描画設定
         ctx.lineWidth = 6;
         ctx.strokeStyle = '#333';
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
       }
 
-      // --- なぞり練習モードの切り替え ---
       function toggleTracingMode() {
         isTracingMode = !isTracingMode;
         if (isTracingMode) {
@@ -359,8 +337,6 @@
 
       function enterTracingMode() {
         if (!strokePaths.length) return;
-
-        // すべてのパスをグレーで表示
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -369,26 +345,18 @@
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
-
-        // Canvasを表示
         canvas.style.display = 'block';
         clearCanvasBtn.style.display = 'inline-block';
         setupCanvas();
-
-        // アニメーションボタンを無効化
-        isAnimating = false; // 念のため
+        isAnimating = false;
         updateUI();
-        // 描画イベントを有効にする（後で設定）
         attachDrawEvents();
       }
 
       function exitTracingMode() {
-        // Canvasを非表示＆クリア
         canvas.style.display = 'none';
         clearCanvasBtn.style.display = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // ストロークを元に戻す（全非表示、色を戻す）
         strokePaths.forEach(p => {
           p.style.display = 'none';
           p.style.stroke = '#444';
@@ -396,15 +364,12 @@
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
-
-        // アニメーション状態をリセット
         currentStrokeIndex = -1;
         isAnimating = false;
         updateUI();
         removeDrawEvents();
       }
 
-      // --- 描画イベント（タッチ＆マウス） ---
       function attachDrawEvents() {
         canvas.addEventListener('pointerdown', onPointerDown);
         canvas.addEventListener('pointermove', onPointerMove);
@@ -421,11 +386,12 @@
 
       function getCanvasCoords(e) {
         const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;   // canvas内部座標へのスケール
+        const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        const x = (e.clientX - rect.left) * scaleX;
-        const y = (e.clientY - rect.top) * scaleY;
-        return { x, y };
+        return {
+          x: (e.clientX - rect.left) * scaleX,
+          y: (e.clientY - rect.top) * scaleY
+        };
       }
 
       function onPointerDown(e) {
@@ -434,7 +400,7 @@
         const { x, y } = getCanvasCoords(e);
         ctx.beginPath();
         ctx.moveTo(x, y);
-        e.preventDefault(); // スクロール防止
+        e.preventDefault();
       }
 
       function onPointerMove(e) {
@@ -449,19 +415,14 @@
 
       function onPointerUp(e) {
         isDrawing = false;
-        ctx.beginPath(); // リセット
+        ctx.beginPath();
       }
 
-      // --- 単一ストロークアニメーション ---
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
           try {
             const length = path.getTotalLength();
-            if (length === 0) {
-              path.style.display = 'block';
-              resolve();
-              return;
-            }
+            if (length === 0) { path.style.display = 'block'; resolve(); return; }
             path.style.display = 'block';
             path.style.strokeDasharray = length;
             path.style.strokeDashoffset = length;
@@ -491,7 +452,6 @@
         });
       }
 
-      // --- 全ストローク非表示 ---
       function resetAllStrokes() {
         strokePaths.forEach(p => {
           p.style.display = 'none';
@@ -501,21 +461,16 @@
         });
       }
 
-      // --- 指定画までアニメーション ---
       async function animateToStroke(targetIndex) {
         if (!strokePaths.length || isAnimating || isTracingMode) return;
-
         targetIndex = Math.min(Math.max(targetIndex, 0), strokePaths.length - 1);
         const prevIndex = currentStrokeIndex;
-
         if (targetIndex <= prevIndex || prevIndex === -1) {
           resetAllStrokes();
           currentStrokeIndex = -1;
         }
-
         isAnimating = true;
         updateUI();
-
         try {
           const duration = speedDurations[animationSpeed];
           for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
@@ -530,7 +485,6 @@
         }
       }
 
-      // --- すべて表示（アニメなし） ---
       function showAllStrokesInstant() {
         if (isTracingMode) return;
         resetAllStrokes();
@@ -544,7 +498,6 @@
         updateUI();
       }
 
-      // --- UI更新 ---
       function updateUI() {
         if (!strokePaths.length) {
           infoText.textContent = 'ストロークが見つかりません';
@@ -557,9 +510,6 @@
         const current = currentStrokeIndex + 1;
         infoText.textContent = `✏️ ${current} / ${total} 画`;
         strokeInfo.textContent = `全 ${total} 画`;
-
-        // なぞりモード中はアニメーションボタンを無効、それ以外は通常
-        const animDisabled = isTracingMode || isAnimating;
         prevBtn.disabled = isTracingMode || (currentStrokeIndex <= 0) || isAnimating;
         nextBtn.disabled = isTracingMode || (currentStrokeIndex >= total - 1) || isAnimating;
         replayBtn.disabled = isTracingMode;
@@ -567,12 +517,8 @@
         traceBtn.textContent = isTracingMode ? '🔙 もどる' : '🖊 なぞり練習';
       }
 
-      // --- 文字読込＆表示 ---
       async function loadAndDisplay(unicode) {
-        // なぞりモードを強制終了
-        if (isTracingMode) {
-          exitTracingMode();
-        }
+        if (isTracingMode) exitTracingMode();
         isAnimating = false;
         const svgDoc = await loadSvg(unicode);
         currentSvgDoc = svgDoc;
@@ -584,7 +530,6 @@
         }
         strokePaths = extractStrokes(svgDoc);
         displaySvg(svgDoc);
-        // canvas再取得
         if (strokePaths.length > 0) {
           currentStrokeIndex = -1;
           animateToStroke(0);
@@ -593,7 +538,6 @@
         }
       }
 
-      // --- 速度ボタン ---
       speedBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           speedBtns.forEach(b => b.classList.remove('active'));
@@ -602,7 +546,6 @@
         });
       });
 
-      // --- イベントリスナー ---
       showBtn.addEventListener('click', () => {
         if (selectEl.value) loadAndDisplay(selectEl.value);
       });
@@ -637,9 +580,7 @@
       traceBtn.addEventListener('click', toggleTracingMode);
 
       clearCanvasBtn.addEventListener('click', () => {
-        if (isTracingMode) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+        if (isTracingMode) ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
 
       document.addEventListener('keydown', (e) => {
@@ -653,7 +594,6 @@
         }
       });
 
-      // --- 初期化 ---
       function init() {
         populateSelect();
         if (kanaMap.length) {

@@ -181,7 +181,6 @@
       color: white;
       border-color: #388e3c;
     }
-    /* 書き順チェック中は番号表示を強制オフ */
     .number-toggle.locked {
       opacity: 0.5;
       pointer-events: none;
@@ -295,7 +294,6 @@
         "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
       ];
 
-      // 出題モード
       let quizMode = 'select';
       let currentQuizIndex = 0;
       let isListeningMode = false;
@@ -311,7 +309,7 @@
       let animationSpeed = 'normal';
       let isAnimating = false;
 
-      let practiceMode = 'none'; // 'none' | 'hint' | 'check' | 'listen'
+      let practiceMode = 'none';
       let expectedStrokeIndex = 0;
       let userDrawnPoints = [];
       let savedStrokes = [];
@@ -325,7 +323,7 @@
         return idx === 0 ? '#ff6fa5' : '#2196f3';
       }
       let showStrokeNumbers = true;
-      let strokeNumbersLocked = false; // ★ 書き順チェック中はロック
+      let strokeNumbersLocked = false;
 
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
       const BASE_LENGTH = 200;
@@ -365,17 +363,14 @@
       let isDrawing = false;
       let isFlashing = false;
 
-      // ★ 番号表示のロック制御
       function lockStrokeNumbers(locked) {
         strokeNumbersLocked = locked;
         if (locked) {
-          // 強制的に非表示
           showNumbersCheckbox.checked = false;
           showStrokeNumbers = false;
           numberToggleArea.classList.add('locked');
           showNumbersCheckbox.disabled = true;
         } else {
-          // ロック解除（元の状態に戻す）
           numberToggleArea.classList.remove('locked');
           showNumbersCheckbox.disabled = false;
           showNumbersCheckbox.checked = true;
@@ -384,39 +379,32 @@
         updateStrokeNumbersVisibility();
       }
 
-      // ★ 番号表示のSVG更新（ロック状態を考慮）
       function updateStrokeNumbersVisibility() {
         const g = svgContainer.querySelector('#strokeNumbersGroup');
         if (g) {
-          // ロック中は強制非表示
-          if (strokeNumbersLocked) {
+          if (strokeNumbersLocked || !showStrokeNumbers) {
             g.style.display = 'none';
           } else {
-            g.style.display = showStrokeNumbers ? '' : 'none';
+            g.style.display = '';
           }
         }
       }
 
-      // ===== 音声読み上げ =====
       function speakCharacter(char) {
         if (!speechSynthesis) {
-          console.warn('Speech synthesis not supported');
           return;
         }
         speechSynthesis.cancel();
-        
         const utterance = new SpeechSynthesisUtterance(char);
         utterance.lang = 'ja-JP';
         utterance.rate = 0.8;
         utterance.pitch = 1.2;
         utterance.volume = 1;
-        
         const voices = speechSynthesis.getVoices();
         const jaVoice = voices.find(v => v.lang.startsWith('ja'));
         if (jaVoice) {
           utterance.voice = jaVoice;
         }
-        
         speechSynthesis.speak(utterance);
       }
 
@@ -427,12 +415,10 @@
         }
       }
 
-      // ===== 出題モード管理 =====
       function setQuizMode(mode) {
         quizMode = mode;
         modeBtns.forEach(b => b.classList.remove('active'));
         document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-        
         if (mode === 'select') {
           charSelectArea.style.display = 'block';
           nextCharBtn.style.display = 'none';
@@ -466,19 +452,15 @@
         } else {
           item = `${selectEl.options[selectEl.selectedIndex]?.textContent || kanaMap[0].split(',')[0]},${selectEl.value || kanaMap[0].split(',')[1]}`;
         }
-        
         const [char, code] = item.split(',');
         currentChar = char;
         currentUnicode = code;
-        
         if (quizMode !== 'select') {
           selectEl.value = code;
         }
-        
-        loadAndDisplay(code);
+        return code; // return code for external use
       }
 
-      // ===== 文字を隠す/表示 =====
       function hideCharacter() {
         characterHidden = true;
         svgContainer.classList.add('hidden-char');
@@ -496,20 +478,20 @@
         setFeedback(`👀 こたえは「${currentChar}」だよ！`);
       }
 
-      // ===== リスニングモード =====
-      function enterListeningMode() {
-        if (!strokePaths.length) return;
-        if (!speechSynthesis) {
-          setFeedback('⚠️ おとに非対応のブラウザです', false);
+      // アニメーションなしでSVGを読み込み表示する（マスク用）
+      async function loadSvgAndPrepare(unicode) {
+        const svgDoc = await loadSvg(unicode);
+        currentSvgDoc = svgDoc;
+        if (!svgDoc) {
+          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
+          strokePaths = [];
           return;
         }
-        
-        if (speechSynthesis.getVoices().length === 0) {
-          speechSynthesis.addEventListener('voiceschanged', () => {
-            startListeningMode();
-          }, { once: true });
-        } else {
-          startListeningMode();
+        strokePaths = extractStrokes(svgDoc);
+        displaySvg(svgDoc); // Canvasも生成
+        // マスクを維持
+        if (characterHidden) {
+          svgContainer.classList.add('hidden-char');
         }
       }
 
@@ -520,10 +502,7 @@
         expectedStrokeIndex = 0;
         userDrawnPoints = [];
         savedStrokes = [];
-        
-        // ★ リスニングモードでも番号はロックしない（ヒントありと同じ扱い）
         lockStrokeNumbers(false);
-        
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -532,23 +511,34 @@
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
-        
         hideCharacter();
         speakCharacter(currentChar);
-        
         canvas.style.display = 'block';
         retryTracingBtn.style.display = 'inline-block';
         listenTraceBtn.textContent = '🔙 書き順アニメーション';
-        
         if (quizMode !== 'select') {
           nextCharBtn.style.display = 'inline-block';
         }
-        
         setupCanvas();
         isAnimating = false;
         updateUI();
         attachDrawEvents();
         setFeedback('🔊 おとをきいて、かいてね');
+      }
+
+      function enterListeningMode() {
+        if (!strokePaths.length) return;
+        if (!speechSynthesis) {
+          setFeedback('⚠️ おとに非対応のブラウザです', false);
+          return;
+        }
+        if (speechSynthesis.getVoices().length === 0) {
+          speechSynthesis.addEventListener('voiceschanged', () => {
+            startListeningMode();
+          }, { once: true });
+        } else {
+          startListeningMode();
+        }
       }
 
       function exitListeningMode() {
@@ -559,9 +549,7 @@
         revealCharBtn.style.display = 'none';
         replaySoundBtn.style.display = 'none';
         nextCharBtn.style.display = 'none';
-        
-        lockStrokeNumbers(false); // ★ ロック解除
-        
+        lockStrokeNumbers(false);
         canvas.style.display = 'none';
         retryTracingBtn.style.display = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -596,18 +584,14 @@
         try {
           const paddedCode = unicode.toLowerCase().padStart(5, '0');
           const svgUrl = `${BASE_PATH}/svg/${paddedCode}.svg`;
-          
           let response = await fetch(svgUrl);
-          
           if (!response.ok) {
             const altUrl = `./svg/${paddedCode}.svg`;
             response = await fetch(altUrl);
           }
-          
           if (!response.ok) {
             throw new Error(`SVG load failed (status: ${response.status})`);
           }
-          
           const svgText = await response.text();
           const parser = new DOMParser();
           return parser.parseFromString(svgText, 'image/svg+xml');
@@ -811,12 +795,7 @@
           g.appendChild(text);
         });
         svgRoot.appendChild(g);
-        // 初期表示（ロック状態を考慮）
-        if (strokeNumbersLocked) {
-          g.style.display = 'none';
-        } else {
-          g.style.display = showStrokeNumbers ? '' : 'none';
-        }
+        g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
 
       function applyStrokeColors(paths) {
@@ -905,7 +884,6 @@
         userDrawnPoints = [];
         savedStrokes = [];
         
-        // ★★★ 書き順チェックモードでは番号を強制非表示にロック ★★★
         if (mode === 'check') {
           lockStrokeNumbers(true);
         } else {
@@ -935,9 +913,7 @@
       }
 
       function exitPracticeMode() {
-        // ★ ロック解除
         lockStrokeNumbers(false);
-        
         canvas.style.display = 'none';
         retryTracingBtn.style.display = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1353,14 +1329,13 @@
         btn.addEventListener('click', function() {
           const mode = this.dataset.mode;
           setQuizMode(mode);
-          
           if (practiceMode === 'listen') {
             exitListeningMode();
           } else if (practiceMode !== 'none') {
             exitPracticeMode();
           }
-          
           loadQuizChar();
+          loadAndDisplay(currentUnicode);
         });
       });
 
@@ -1421,23 +1396,34 @@
 
       revealCharBtn.addEventListener('click', revealCharacter);
 
-      nextCharBtn.addEventListener('click', () => {
+      nextCharBtn.addEventListener('click', async () => {
         if (practiceMode === 'listen') {
-          exitListeningMode();
+          // マスクを維持したまま次の問題へ
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          savedStrokes = [];
+          expectedStrokeIndex = 0;
+          userDrawnPoints = [];
+          updateHighlight();
+          updateUI();
+
+          const code = loadQuizChar();
+          // マスク状態を保ったままSVGを読み込む
+          await loadSvgAndPrepare(code);
+          // 再度リスニングモードの初期化（マスクはloadSvgAndPrepare内で維持）
+          startListeningMode();
+        } else {
+          // 通常モード（フォールバック）
+          loadQuizChar();
+          loadAndDisplay(currentUnicode);
         }
-        loadQuizChar();
-        setTimeout(() => {
-          enterListeningMode();
-        }, 500);
       });
 
       retryTracingBtn.addEventListener('click', retryTracing);
       
       replaySoundBtn.addEventListener('click', replaySound);
 
-      // ★ チェックボックスの変更イベント（ロック中は無効化されているので発火しない）
       showNumbersCheckbox.addEventListener('change', () => {
-        if (strokeNumbersLocked) return; // 念のため
+        if (strokeNumbersLocked) return;
         showStrokeNumbers = showNumbersCheckbox.checked;
         updateStrokeNumbersVisibility();
       });

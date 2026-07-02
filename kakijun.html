@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - 音声＆出題モード対応</title>
+  <title>書き順アニメーション - Phase4 履歴＆スタンプ</title>
   <style>
     body {
       font-family: 'Yu Gothic', '游ゴシック', sans-serif;
@@ -13,189 +13,157 @@
       padding: 20px;
       color: #333;
     }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #4a4a4a;
-    }
+    h1 { font-size: 1.8rem; margin-bottom: 1rem; color: #4a4a4a; }
     .container {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 24px;
-      padding: 30px 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      max-width: 500px; margin: 0 auto; background: white;
+      border-radius: 24px; padding: 30px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      position: relative;
     }
     .kana-display {
-      width: 250px;
-      height: 250px;
-      margin: 20px auto;
-      background: #fffef9;
-      border: 3px dashed #e0d6c2;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      width: 250px; height: 250px; margin: 20px auto; background: #fffef9;
+      border: 3px dashed #e0d6c2; border-radius: 20px;
+      display: flex; align-items: center; justify-content: center; position: relative;
       transition: background 0.3s;
     }
-    .kana-display.hidden-char {
-      background: #f0ebe0;
-      border-color: #ff9800;
-    }
+    .kana-display.hidden-char { background: #f0ebe0; border-color: #ff9800; }
     .kana-display svg {
-      width: 200px;
-      height: 200px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+      width: 200px; height: 200px; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); pointer-events: none;
     }
-    .kana-display.hidden-char svg {
-      opacity: 0.08;
-      filter: blur(4px);
-    }
+    .kana-display.hidden-char svg { opacity: 0.08; filter: blur(4px); }
     #drawCanvas {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 200px;
-      height: 200px;
-      touch-action: none;
-      display: none;
-      z-index: 10;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 200px; height: 200px; touch-action: none; display: none; z-index: 10;
     }
-    .info {
-      font-size: 1.4rem;
-      margin: 10px 0;
-      min-height: 30px;
-      transition: 0.2s;
-    }
-    .feedback {
-      font-size: 1.1rem;
-      min-height: 24px;
-      margin: 5px 0;
-    }
-    .stroke-counter {
-      font-size: 1rem;
-      color: #888;
-    }
+    .info { font-size: 1.4rem; margin: 10px 0; min-height: 30px; transition: 0.2s; }
+    .feedback { font-size: 1.1rem; min-height: 24px; margin: 5px 0; }
+    .stroke-counter { font-size: 1rem; color: #888; }
     button {
-      background: #f0e6d3;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      border-radius: 40px;
-      margin: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #5a4a3a;
-      transition: 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      border: 1px solid #e0d6c2;
-      min-width: 44px;
-      min-height: 44px;
+      background: #f0e6d3; border: none; padding: 12px 28px; font-size: 1.2rem;
+      border-radius: 40px; margin: 8px; cursor: pointer; font-weight: bold;
+      color: #5a4a3a; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #e0d6c2; min-width: 44px; min-height: 44px;
     }
-    button:hover {
-      background: #e8d9be;
-    }
-    button:active {
-      background: #d4c3a5;
-      transform: scale(0.96);
-    }
-    button:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
+    button:hover { background: #e8d9be; }
+    button:active { background: #d4c3a5; transform: scale(0.96); }
+    button:disabled { opacity: 0.4; cursor: default; }
     .speed-btn {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      margin: 4px;
-      background: #fff;
+      padding: 8px 16px; font-size: 0.9rem; margin: 4px; background: #fff;
       border: 1px solid #d4c3a5;
     }
-    .speed-btn.active {
-      background: #d4c3a5;
-      color: white;
-      border-color: #b8a080;
-    }
-    .controls {
-      margin: 20px 0;
-    }
+    .speed-btn.active { background: #d4c3a5; color: white; border-color: #b8a080; }
+    .controls { margin: 20px 0; }
     .mode-selector {
-      margin: 10px 0;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      margin: 10px 0; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
     }
     .mode-btn {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      background: #fff;
-      border: 2px solid #e0d6c2;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.2s;
+      padding: 8px 16px; font-size: 0.9rem; background: #fff;
+      border: 2px solid #e0d6c2; border-radius: 20px; cursor: pointer; transition: 0.2s;
       font-weight: normal;
     }
-    .mode-btn.active {
-      background: #ff9800;
-      color: white;
-      border-color: #f57c00;
+    .mode-btn.active { background: #ff9800; color: white; border-color: #f57c00; }
+    .char-select-area { margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .selected-char-display {
+      font-size: 2.2rem; font-weight: bold; margin: 0 10px; vertical-align: middle;
+      color: #5a4a3a; min-width: 60px; display: inline-block;
     }
-    select {
-      padding: 10px;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      background: white;
+    .footer { margin-top: 30px; font-size: 0.85rem; color: #aaa; }
+    .listen-btn { background: #ff9800; color: white; border-color: #f57c00; font-size: 1rem; }
+    .listen-btn:hover { background: #f57c00; }
+    .reveal-btn { background: #2196f3; color: white; border-color: #1976d2; font-size: 0.9rem; }
+    .next-char-btn { background: #4caf50; color: white; border-color: #388e3c; }
+    .number-toggle.locked { opacity: 0.5; pointer-events: none; }
+    .number-toggle.locked label { cursor: not-allowed; }
+    .mode-hint-text { font-size: 0.8rem; color: #e67e22; margin-top: 2px; display: none; }
+    .number-toggle.locked .mode-hint-text { display: block; }
+
+    /* 五十音表モーダル */
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+      justify-content: center; align-items: center;
     }
-    .char-select-area {
+    .modal-content {
+      background: white; border-radius: 20px; padding: 20px;
+      max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: modalFadeIn 0.3s;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 15px;
+    }
+    .modal-header h2 { margin: 0; font-size: 1.5rem; color: #5a4a3a; }
+    .modal-close {
+      background: none; border: none; font-size: 1.8rem; cursor: pointer;
+      color: #888; padding: 0 8px;
+    }
+    .tab-container {
+      display: flex; justify-content: center; gap: 8px; margin-bottom: 10px;
+    }
+    .tab-btn {
+      padding: 6px 14px; font-size: 0.9rem; background: #f0e6d3;
+      border: 1px solid #d4c3a5; border-radius: 20px; cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab-btn.active { background: #ff9800; color: white; border-color: #f57c00; }
+    .sub-tab-container {
+      display: flex; justify-content: center; gap: 6px; margin-bottom: 12px;
+    }
+    .sub-tab-btn {
+      padding: 4px 10px; font-size: 0.8rem; background: #fff;
+      border: 1px solid #ccc; border-radius: 16px; cursor: pointer;
+    }
+    .sub-tab-btn.active { background: #4caf50; color: white; border-color: #388e3c; }
+    .kana-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
       margin: 10px 0;
     }
-    .footer {
-      margin-top: 30px;
-      font-size: 0.85rem;
-      color: #aaa;
+    .kana-btn {
+      background: #fff; border: 2px solid #e0d6c2; border-radius: 12px;
+      padding: 10px 5px; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+      font-weight: bold; color: #5a4a3a;
     }
-    .listen-btn {
-      background: #ff9800;
-      color: white;
-      border-color: #f57c00;
-      font-size: 1rem;
+    .kana-btn:hover { background: #f5f0e8; }
+    .kana-btn.selected { background: #ff9800; color: white; border-color: #f57c00; }
+    .modal-select-btn {
+      background: #4caf50; color: white; border: none; padding: 12px 30px;
+      font-size: 1.2rem; border-radius: 30px; margin-top: 15px; cursor: pointer;
+      font-weight: bold; width: 100%;
     }
-    .listen-btn:hover {
-      background: #f57c00;
+
+    /* 結果表示ポップアップ */
+    .result-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
     }
-    .reveal-btn {
-      background: #2196f3;
-      color: white;
-      border-color: #1976d2;
-      font-size: 0.9rem;
+    .result-card {
+      background: white; border-radius: 30px; padding: 30px; text-align: center;
+      max-width: 320px; width: 80%; animation: popIn 0.4s;
     }
-    .next-char-btn {
-      background: #4caf50;
-      color: white;
-      border-color: #388e3c;
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
-    .number-toggle.locked {
-      opacity: 0.5;
-      pointer-events: none;
+    .stamp-emoji { font-size: 5rem; }
+    .result-message { font-size: 1.5rem; margin: 10px 0; }
+    .result-detail { font-size: 1rem; color: #666; margin: 10px 0; }
+    .history-list {
+      max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
     }
-    .number-toggle.locked label {
-      cursor: not-allowed;
+    .history-item {
+      display: flex; align-items: center; gap: 8px; padding: 8px; border-bottom: 1px solid #eee;
     }
-    .mode-hint-text {
-      font-size: 0.8rem;
-      color: #e67e22;
-      margin-top: 2px;
-      display: none;
+    .history-thumb {
+      width: 40px; height: 40px; border: 1px solid #ddd; border-radius: 8px; object-fit: contain;
     }
-    .number-toggle.locked .mode-hint-text {
-      display: block;
+    .history-char { font-size: 1.2rem; font-weight: bold; }
+    .history-stamp { font-size: 1.5rem; }
+    .clear-history-btn {
+      background: #e74c3c; color: white; border-color: #c0392b; font-size: 0.9rem; padding: 6px 16px;
     }
   </style>
 </head>
@@ -203,17 +171,15 @@
   <div class="container">
     <h1>✍️ 書き順アニメーション</h1>
 
-    <!-- 出題モード選択 -->
     <div class="mode-selector">
       <button class="mode-btn active" data-mode="select">📋 えらんでかく</button>
       <button class="mode-btn" data-mode="sequential">🔢 じゅんばんに</button>
       <button class="mode-btn" data-mode="random">🎲 おまかせ</button>
     </div>
 
-    <!-- 文字選択エリア（えらんでかくモード用） -->
     <div class="char-select-area" id="charSelectArea">
-      <label for="charSelect">🔡 文字を選んでね：</label>
-      <select id="charSelect"></select>
+      <button id="openKanaTableBtn">🔡 文字をえらぶ</button>
+      <span class="selected-char-display" id="selectedCharDisplay"></span>
       <button id="showBtn">表示</button>
     </div>
 
@@ -250,8 +216,56 @@
       <button id="nextCharBtn" style="display:none;" class="next-char-btn">▶ つぎのもんだい</button>
       <button id="retryTracingBtn" style="display:none;">🔄 もう一度</button>
       <button id="replaySoundBtn" style="display:none;" class="listen-btn">🔊 もういちどきく</button>
+      <br>
+      <button id="historyBtn">📋 れんしゅうのきろく</button>
     </div>
   </div>
+
+  <!-- 五十音表モーダル -->
+  <div class="modal" id="kanaModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔡 もじをえらんでね</h2>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="tab-container">
+        <button class="tab-btn active" data-kana-type="hiragana">ひらがな</button>
+        <button class="tab-btn" data-kana-type="katakana">カタカナ</button>
+      </div>
+      <div class="sub-tab-container" id="subTabContainer">
+        <button class="sub-tab-btn active" data-sub-type="basic">せいおん</button>
+        <button class="sub-tab-btn" data-sub-type="dakuten">だくおん</button>
+        <button class="sub-tab-btn" data-sub-type="handakuten">はんだくおん</button>
+      </div>
+      <div class="kana-grid" id="kanaGrid"></div>
+      <button class="modal-select-btn" id="modalSelectBtn">これにする</button>
+    </div>
+  </div>
+
+  <!-- 結果表示ポップアップ -->
+  <div class="result-overlay" id="resultOverlay">
+    <div class="result-card">
+      <div class="stamp-emoji" id="stampEmoji"></div>
+      <div class="result-message" id="resultMessage"></div>
+      <div class="result-detail" id="resultDetail"></div>
+      <img id="resultThumb" style="max-width:120px; margin:10px auto; display:none; border:1px solid #ddd; border-radius:10px;" />
+      <br>
+      <button id="closeResultBtn">とじる</button>
+    </div>
+  </div>
+
+  <!-- 履歴モーダル -->
+  <div class="modal" id="historyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📋 れんしゅうのきろく</h2>
+        <button class="modal-close" id="historyCloseBtn">&times;</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+      <button class="clear-history-btn" id="clearHistoryBtn">ぜんぶけす</button>
+    </div>
+  </div>
+
   <div class="footer">made with ❤️</div>
 
   <script>
@@ -294,13 +308,57 @@
         "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
       ];
 
+      // 五十音グリッド用データ
+      const hiraganaBasic = [
+        ["あ","い","う","え","お"],
+        ["か","き","く","け","こ"],
+        ["さ","し","す","せ","そ"],
+        ["た","ち","つ","て","と"],
+        ["な","に","ぬ","ね","の"],
+        ["は","ひ","ふ","へ","ほ"],
+        ["ま","み","む","め","も"],
+        ["や","","ゆ","","よ"],
+        ["ら","り","る","れ","ろ"],
+        ["わ","","","を","ん"]
+      ];
+      const hiraganaDakuten = [
+        ["が","ぎ","ぐ","げ","ご"],
+        ["ざ","じ","ず","ぜ","ぞ"],
+        ["だ","ぢ","づ","で","ど"],
+        ["ば","び","ぶ","べ","ぼ"]
+      ];
+      const hiraganaHandakuten = [
+        ["ぱ","ぴ","ぷ","ぺ","ぽ"]
+      ];
+      const katakanaBasic = [
+        ["ア","イ","ウ","エ","オ"],
+        ["カ","キ","ク","ケ","コ"],
+        ["サ","シ","ス","セ","ソ"],
+        ["タ","チ","ツ","テ","ト"],
+        ["ナ","ニ","ヌ","ネ","ノ"],
+        ["ハ","ヒ","フ","ヘ","ホ"],
+        ["マ","ミ","ム","メ","モ"],
+        ["ヤ","","ユ","","ヨ"],
+        ["ラ","リ","ル","レ","ロ"],
+        ["ワ","","","ヲ","ン"]
+      ];
+      const katakanaDakuten = [
+        ["ガ","ギ","グ","ゲ","ゴ"],
+        ["ザ","ジ","ズ","ゼ","ゾ"],
+        ["ダ","ヂ","ヅ","デ","ド"],
+        ["バ","ビ","ブ","ベ","ボ"]
+      ];
+      const katakanaHandakuten = [
+        ["パ","ピ","プ","ペ","ポ"]
+      ];
+
       let quizMode = 'select';
       let currentQuizIndex = 0;
       let isListeningMode = false;
       let characterHidden = false;
       let speechSynthesis = window.speechSynthesis;
-      let currentChar = '';
-      let currentUnicode = '';
+      let currentChar = 'あ';
+      let currentUnicode = '3042';
 
       let currentSvgDoc = null;
       let strokePaths = [];
@@ -314,6 +372,9 @@
       let userDrawnPoints = [];
       let savedStrokes = [];
       let feedbackTimer = null;
+
+      // 成績用
+      let strokeRatings = []; // 'good', 'ok', 'poor'
 
       const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
       function getStrokeLineColor(idx) {
@@ -337,7 +398,7 @@
       const COVERAGE_THRESHOLD_OK = 0.5;
       const LENGTH_RATIO_MIN = 0.3;
 
-      const selectEl = document.getElementById('charSelect');
+      // DOM
       const showBtn = document.getElementById('showBtn');
       const svgContainer = document.getElementById('svgContainer');
       const infoText = document.getElementById('infoText');
@@ -358,10 +419,206 @@
       const charSelectArea = document.getElementById('charSelectArea');
       const modeBtns = document.querySelectorAll('.mode-btn');
       const placeholderText = document.getElementById('placeholderText');
+      const openKanaTableBtn = document.getElementById('openKanaTableBtn');
+      const selectedCharDisplay = document.getElementById('selectedCharDisplay');
+      const modal = document.getElementById('kanaModal');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const kanaGrid = document.getElementById('kanaGrid');
+      const modalSelectBtn = document.getElementById('modalSelectBtn');
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const subTabContainer = document.getElementById('subTabContainer');
+      const historyBtn = document.getElementById('historyBtn');
+      const historyModal = document.getElementById('historyModal');
+      const historyCloseBtn = document.getElementById('historyCloseBtn');
+      const historyList = document.getElementById('historyList');
+      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+      const resultOverlay = document.getElementById('resultOverlay');
+      const stampEmoji = document.getElementById('stampEmoji');
+      const resultMessage = document.getElementById('resultMessage');
+      const resultDetail = document.getElementById('resultDetail');
+      const resultThumb = document.getElementById('resultThumb');
+      const closeResultBtn = document.getElementById('closeResultBtn');
       
       let canvas, ctx;
       let isDrawing = false;
       let isFlashing = false;
+
+      // 五十音表モーダル関連
+      let selectedModalChar = null;
+      let selectedModalCode = null;
+      let currentKanaType = 'hiragana';
+      let currentSubType = 'basic';
+
+      function getCodeForChar(char) {
+        const entry = kanaMap.find(item => item.startsWith(char + ','));
+        return entry ? entry.split(',')[1] : null;
+      }
+
+      function openModal() {
+        selectedModalChar = currentChar;
+        selectedModalCode = currentUnicode;
+        modal.style.display = 'flex';
+        renderGrid();
+      }
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+      modalCloseBtn.addEventListener('click', closeModal);
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentKanaType = this.dataset.kanaType;
+          currentSubType = 'basic';
+          document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelector('.sub-tab-btn[data-sub-type="basic"]').classList.add('active');
+          renderGrid();
+        });
+      });
+      subTabContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('sub-tab-btn')) {
+          document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          currentSubType = e.target.dataset.subType;
+          renderGrid();
+        }
+      });
+
+      function getGridData() {
+        if (currentKanaType === 'hiragana') {
+          if (currentSubType === 'basic') return hiraganaBasic;
+          if (currentSubType === 'dakuten') return hiraganaDakuten;
+          if (currentSubType === 'handakuten') return hiraganaHandakuten;
+        } else {
+          if (currentSubType === 'basic') return katakanaBasic;
+          if (currentSubType === 'dakuten') return katakanaDakuten;
+          if (currentSubType === 'handakuten') return katakanaHandakuten;
+        }
+        return [];
+      }
+
+      function renderGrid() {
+        const gridData = getGridData();
+        kanaGrid.innerHTML = '';
+        gridData.forEach(row => {
+          row.forEach(char => {
+            if (char === '') {
+              const emptyDiv = document.createElement('div');
+              kanaGrid.appendChild(emptyDiv);
+              return;
+            }
+            const btn = document.createElement('button');
+            btn.className = 'kana-btn';
+            btn.textContent = char;
+            const code = getCodeForChar(char);
+            if (code) {
+              btn.addEventListener('click', () => {
+                document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedModalChar = char;
+                selectedModalCode = code;
+              });
+            }
+            kanaGrid.appendChild(btn);
+          });
+        });
+        if (selectedModalChar) {
+          const buttons = kanaGrid.querySelectorAll('.kana-btn');
+          buttons.forEach(btn => {
+            if (btn.textContent === selectedModalChar) btn.classList.add('selected');
+          });
+        }
+      }
+
+      modalSelectBtn.addEventListener('click', () => {
+        if (selectedModalChar && selectedModalCode) {
+          currentChar = selectedModalChar;
+          currentUnicode = selectedModalCode;
+          selectedCharDisplay.textContent = currentChar;
+          closeModal();
+          loadAndDisplay(currentUnicode);
+        } else {
+          alert('文字を選んでね！');
+        }
+      });
+
+      openKanaTableBtn.addEventListener('click', openModal);
+
+      // 出題モード管理
+      function setQuizMode(mode) {
+        quizMode = mode;
+        modeBtns.forEach(b => b.classList.remove('active'));
+        document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+        if (mode === 'select') {
+          charSelectArea.style.display = 'flex';
+          nextCharBtn.style.display = 'none';
+        } else {
+          charSelectArea.style.display = 'none';
+          if (isListeningMode) nextCharBtn.style.display = 'inline-block';
+        }
+      }
+
+      function getNextSequentialChar() {
+        const item = kanaMap[currentQuizIndex];
+        currentQuizIndex = (currentQuizIndex + 1) % kanaMap.length;
+        return item;
+      }
+      function getRandomChar() {
+        const randomIndex = Math.floor(Math.random() * kanaMap.length);
+        return kanaMap[randomIndex];
+      }
+
+      function loadQuizChar() {
+        let item;
+        if (quizMode === 'sequential') {
+          item = getNextSequentialChar();
+        } else if (quizMode === 'random') {
+          item = getRandomChar();
+        } else {
+          return currentUnicode;
+        }
+        const [char, code] = item.split(',');
+        currentChar = char;
+        currentUnicode = code;
+        if (quizMode !== 'select') {
+          selectedCharDisplay.textContent = currentChar;
+        }
+        return code;
+      }
+
+      function speakCharacter(char) {
+        if (!speechSynthesis) return;
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(char);
+        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
+        const voices = speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+        if (jaVoice) u.voice = jaVoice;
+        speechSynthesis.speak(u);
+      }
+      function replaySound() {
+        if (currentChar) { speakCharacter(currentChar); setFeedback('🔊 もういちど、きいてね'); }
+      }
+
+      function hideCharacter() {
+        characterHidden = true;
+        svgContainer.classList.add('hidden-char');
+        if (placeholderText) placeholderText.textContent = '？';
+        revealCharBtn.style.display = 'inline-block';
+        replaySoundBtn.style.display = 'inline-block';
+      }
+      function revealCharacter() {
+        characterHidden = false;
+        svgContainer.classList.remove('hidden-char');
+        if (placeholderText) placeholderText.textContent = '';
+        revealCharBtn.style.display = 'none';
+        replaySoundBtn.style.display = 'none';
+        setFeedback(`👀 こたえは「${currentChar}」だよ！`);
+      }
 
       function lockStrokeNumbers(locked) {
         strokeNumbersLocked = locked;
@@ -378,131 +635,22 @@
         }
         updateStrokeNumbersVisibility();
       }
-
       function updateStrokeNumbersVisibility() {
         const g = svgContainer.querySelector('#strokeNumbersGroup');
-        if (g) {
-          if (strokeNumbersLocked || !showStrokeNumbers) {
-            g.style.display = 'none';
-          } else {
-            g.style.display = '';
-          }
-        }
+        if (g) g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
 
-      function speakCharacter(char) {
-        if (!speechSynthesis) {
-          return;
-        }
-        speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(char);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.8;
-        utterance.pitch = 1.2;
-        utterance.volume = 1;
-        const voices = speechSynthesis.getVoices();
-        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
-        if (jaVoice) {
-          utterance.voice = jaVoice;
-        }
-        speechSynthesis.speak(utterance);
-      }
-
-      function replaySound() {
-        if (currentChar) {
-          speakCharacter(currentChar);
-          setFeedback('🔊 もういちど、きいてね');
-        }
-      }
-
-      function setQuizMode(mode) {
-        quizMode = mode;
-        modeBtns.forEach(b => b.classList.remove('active'));
-        document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-        if (mode === 'select') {
-          charSelectArea.style.display = 'block';
-          nextCharBtn.style.display = 'none';
-          showBtn.style.display = 'inline-block';
-        } else {
-          charSelectArea.style.display = 'none';
-          showBtn.style.display = 'none';
-          if (isListeningMode) {
-            nextCharBtn.style.display = 'inline-block';
-          }
-        }
-      }
-
-      function getNextSequentialChar() {
-        const item = kanaMap[currentQuizIndex];
-        currentQuizIndex = (currentQuizIndex + 1) % kanaMap.length;
-        return item;
-      }
-
-      function getRandomChar() {
-        const randomIndex = Math.floor(Math.random() * kanaMap.length);
-        return kanaMap[randomIndex];
-      }
-
-      function loadQuizChar() {
-        let item;
-        if (quizMode === 'sequential') {
-          item = getNextSequentialChar();
-        } else if (quizMode === 'random') {
-          item = getRandomChar();
-        } else {
-          item = `${selectEl.options[selectEl.selectedIndex]?.textContent || kanaMap[0].split(',')[0]},${selectEl.value || kanaMap[0].split(',')[1]}`;
-        }
-        const [char, code] = item.split(',');
-        currentChar = char;
-        currentUnicode = code;
-        if (quizMode !== 'select') {
-          selectEl.value = code;
-        }
-        return code; // return code for external use
-      }
-
-      function hideCharacter() {
-        characterHidden = true;
-        svgContainer.classList.add('hidden-char');
-        if (placeholderText) placeholderText.textContent = '？';
-        revealCharBtn.style.display = 'inline-block';
-        replaySoundBtn.style.display = 'inline-block';
-      }
-
-      function revealCharacter() {
-        characterHidden = false;
-        svgContainer.classList.remove('hidden-char');
-        if (placeholderText) placeholderText.textContent = '';
-        revealCharBtn.style.display = 'none';
-        replaySoundBtn.style.display = 'none';
-        setFeedback(`👀 こたえは「${currentChar}」だよ！`);
-      }
-
-      // アニメーションなしでSVGを読み込み表示する（マスク用）
-      async function loadSvgAndPrepare(unicode) {
-        const svgDoc = await loadSvg(unicode);
-        currentSvgDoc = svgDoc;
-        if (!svgDoc) {
-          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
-          strokePaths = [];
-          return;
-        }
-        strokePaths = extractStrokes(svgDoc);
-        displaySvg(svgDoc); // Canvasも生成
-        // マスクを維持
-        if (characterHidden) {
-          svgContainer.classList.add('hidden-char');
-        }
-      }
-
-      function startListeningMode() {
+      // 練習モード
+      function enterPracticeMode(mode) {
+        if (!strokePaths.length) return;
         calculateAllSamplePoints();
-        practiceMode = 'listen';
-        isListeningMode = true;
+        practiceMode = mode;
         expectedStrokeIndex = 0;
         userDrawnPoints = [];
         savedStrokes = [];
-        lockStrokeNumbers(false);
+        strokeRatings = [];
+        if (mode === 'check') lockStrokeNumbers(true);
+        else lockStrokeNumbers(false);
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -511,44 +659,20 @@
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
         });
-        hideCharacter();
-        speakCharacter(currentChar);
+        if (mode === 'hint') {
+          updateHighlight();
+          setFeedback('🔵 あおい線をなぞってね');
+        } else if (mode === 'check') {
+          setFeedback('🔍 じぶんで書き順を考えてね（番号はかくされています）');
+        }
         canvas.style.display = 'block';
         retryTracingBtn.style.display = 'inline-block';
-        listenTraceBtn.textContent = '🔙 書き順アニメーション';
-        if (quizMode !== 'select') {
-          nextCharBtn.style.display = 'inline-block';
-        }
         setupCanvas();
         isAnimating = false;
         updateUI();
         attachDrawEvents();
-        setFeedback('🔊 おとをきいて、かいてね');
       }
-
-      function enterListeningMode() {
-        if (!strokePaths.length) return;
-        if (!speechSynthesis) {
-          setFeedback('⚠️ おとに非対応のブラウザです', false);
-          return;
-        }
-        if (speechSynthesis.getVoices().length === 0) {
-          speechSynthesis.addEventListener('voiceschanged', () => {
-            startListeningMode();
-          }, { once: true });
-        } else {
-          startListeningMode();
-        }
-      }
-
-      function exitListeningMode() {
-        isListeningMode = false;
-        characterHidden = false;
-        svgContainer.classList.remove('hidden-char');
-        if (placeholderText) placeholderText.textContent = '';
-        revealCharBtn.style.display = 'none';
-        replaySoundBtn.style.display = 'none';
-        nextCharBtn.style.display = 'none';
+      function exitPracticeMode() {
         lockStrokeNumbers(false);
         canvas.style.display = 'none';
         retryTracingBtn.style.display = 'none';
@@ -567,19 +691,31 @@
         updateUI();
         removeDrawEvents();
         clearFeedback();
-        listenTraceBtn.textContent = '🔊 おとをきいてかく';
       }
-
-      function populateSelect() {
-        kanaMap.forEach(item => {
-          const [char, code] = item.split(',');
-          const option = document.createElement('option');
-          option.value = code;
-          option.textContent = char;
-          selectEl.appendChild(option);
+      function updateHighlight() {
+        if (practiceMode !== 'hint') return;
+        strokePaths.forEach((p, idx) => {
+          if (idx === expectedStrokeIndex) {
+            p.style.stroke = '#4a90d9';
+            p.style.strokeWidth = '10';
+            p.parentNode.appendChild(p);
+          } else {
+            p.style.stroke = '#d0d0d0';
+            p.style.strokeWidth = '9';
+          }
         });
       }
+      function setFeedback(msg, isGood = true) {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = msg;
+        feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
+      }
+      function clearFeedback() {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = '';
+      }
 
+      // SVG読み込み
       async function loadSvg(unicode) {
         try {
           const paddedCode = unicode.toLowerCase().padStart(5, '0');
@@ -589,9 +725,7 @@
             const altUrl = `./svg/${paddedCode}.svg`;
             response = await fetch(altUrl);
           }
-          if (!response.ok) {
-            throw new Error(`SVG load failed (status: ${response.status})`);
-          }
+          if (!response.ok) throw new Error(`SVG load failed (status: ${response.status})`);
           const svgText = await response.text();
           const parser = new DOMParser();
           return parser.parseFromString(svgText, 'image/svg+xml');
@@ -600,7 +734,6 @@
           return null;
         }
       }
-
       function extractStrokes(svgDoc) {
         const paths = [];
         const allG = svgDoc.querySelectorAll('g');
@@ -628,7 +761,6 @@
         }
         return paths;
       }
-
       function samplePath(path, step = 5) {
         const points = [];
         const length = path.getTotalLength();
@@ -645,11 +777,9 @@
         }
         return points;
       }
-
       function calculateAllSamplePoints() {
         strokeSamplePoints = strokePaths.map(path => samplePath(path, 5));
       }
-
       function minDistanceToPath(point, samplePoints) {
         let min = Infinity;
         for (const sp of samplePoints) {
@@ -660,13 +790,11 @@
         }
         return min;
       }
-
       function averageDistance(drawnPoints, samplePoints) {
         if (drawnPoints.length === 0) return Infinity;
         const total = drawnPoints.reduce((sum, p) => sum + minDistanceToPath(p, samplePoints), 0);
         return total / drawnPoints.length;
       }
-
       function calcCoverage(drawnPoints, samplePoints, threshold = 15) {
         if (drawnPoints.length === 0 || samplePoints.length === 0) return 0;
         let covered = 0;
@@ -676,7 +804,6 @@
         }
         return covered / samplePoints.length;
       }
-
       function calcDrawnLength(points) {
         let len = 0;
         for (let i = 1; i < points.length; i++) {
@@ -686,7 +813,6 @@
         }
         return len;
       }
-
       function checkStartPosition(drawnPoints, samplePoints, threshold) {
         const checkCount = Math.min(5, drawnPoints.length);
         if (checkCount === 0) return Infinity;
@@ -696,7 +822,6 @@
         }
         return total / checkCount;
       }
-
       function findClosestStroke(drawnPoints) {
         let bestIdx = -1;
         let bestScore = Infinity;
@@ -712,7 +837,6 @@
         }
         return bestIdx;
       }
-
       function parseViewBox(svgRoot) {
         const vb = svgRoot.getAttribute('viewBox');
         if (vb) {
@@ -723,7 +847,6 @@
         }
         return { x: 0, y: 0, w: 109, h: 109 };
       }
-
       function addCrosshairGuide(svgRoot) {
         const ns = 'http://www.w3.org/2000/svg';
         const vb = parseViewBox(svgRoot);
@@ -747,28 +870,19 @@
         });
         svgRoot.insertBefore(g, svgRoot.firstChild);
       }
-
       function strokeStartLabelPos(path, offsetDist) {
         const total = path.getTotalLength();
-        if (total === 0) {
-          return { x: 0, y: 0 };
-        }
+        if (total === 0) return { x: 0, y: 0 };
         const p0 = path.getPointAtLength(0);
         const p1 = path.getPointAtLength(Math.min(total, 6));
-        let dx = p1.x - p0.x;
-        let dy = p1.y - p0.y;
-        const len = Math.sqrt(dx * dx + dy * dy) || 1;
+        let dx = p1.x - p0.x, dy = p1.y - p0.y;
+        const len = Math.sqrt(dx*dx+dy*dy) || 1;
         dx /= len; dy /= len;
-        const perpX = -dy;
-        const perpY = dx;
-        const backX = -dx;
-        const backY = -dy;
         return {
-          x: p0.x + perpX * offsetDist * 0.7 + backX * offsetDist * 0.6,
-          y: p0.y + perpY * offsetDist * 0.7 + backY * offsetDist * 0.6
+          x: p0.x - dy * offsetDist * 0.7 - dx * offsetDist * 0.6,
+          y: p0.y + dx * offsetDist * 0.7 - dy * offsetDist * 0.6
         };
       }
-
       function addStrokeNumbers(svgRoot, paths) {
         const ns = 'http://www.w3.org/2000/svg';
         const vb = parseViewBox(svgRoot);
@@ -787,76 +901,46 @@
           text.setAttribute('fill', getStrokeNumberColor(idx));
           text.setAttribute('text-anchor', 'middle');
           text.setAttribute('dominant-baseline', 'central');
-          text.setAttribute('font-family', "'Yu Gothic', '游ゴシック', sans-serif");
           text.style.paintOrder = 'stroke';
           text.style.stroke = '#fff';
           text.style.strokeWidth = String(fontSize * 0.18);
-          text.style.strokeLinejoin = 'round';
           g.appendChild(text);
         });
         svgRoot.appendChild(g);
         g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
-
       function applyStrokeColors(paths) {
-        paths.forEach((p, idx) => {
-          p.style.stroke = getStrokeLineColor(idx);
-        });
+        paths.forEach((p, idx) => { p.style.stroke = getStrokeLineColor(idx); });
       }
-
       function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
-        const placeholderP = document.createElement('p');
-        placeholderP.style.cssText = 'color:#ccc;';
-        placeholderP.id = 'placeholderText';
-        placeholderP.textContent = characterHidden ? '？' : '';
-        svgContainer.appendChild(placeholderP);
-        
-        if (!svgDoc) {
-          placeholderP.textContent = 'SVGが見つかりませんでした';
-          return null;
-        }
+        const p = document.createElement('p');
+        p.style.cssText = 'color:#ccc;'; p.id = 'placeholderText';
+        p.textContent = characterHidden ? '？' : '';
+        svgContainer.appendChild(p);
+        if (!svgDoc) { p.textContent = 'SVGが見つかりませんでした'; return null; }
         const svgRoot = svgDoc.querySelector('svg');
-        if (!svgRoot) {
-          placeholderP.textContent = '無効なSVGです';
-          return null;
-        }
-        svgRoot.setAttribute('width', '200');
-        svgRoot.setAttribute('height', '200');
-        svgRoot.style.display = 'block';
-        svgRoot.style.margin = 'auto';
-        svgRoot.style.pointerEvents = 'none';
-        svgRoot.querySelectorAll('path').forEach(p => {
-          p.style.display = 'none';
-          p.style.strokeWidth = '9';
-          p.style.strokeLinecap = 'round';
-          p.style.strokeLinejoin = 'round';
-          p.style.fill = 'none';
-          p.style.transition = 'none';
+        if (!svgRoot) { p.textContent = '無効なSVGです'; return null; }
+        svgRoot.setAttribute('width', '200'); svgRoot.setAttribute('height', '200');
+        svgRoot.style.display = 'block'; svgRoot.style.margin = 'auto'; svgRoot.style.pointerEvents = 'none';
+        svgRoot.querySelectorAll('path').forEach(path => {
+          path.style.display = 'none'; path.style.strokeWidth = '9';
+          path.style.strokeLinecap = 'round'; path.style.strokeLinejoin = 'round';
+          path.style.fill = 'none'; path.style.transition = 'none';
         });
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
-
         addCrosshairGuide(svgRoot);
         applyStrokeColors(strokePaths);
         addStrokeNumbers(svgRoot, strokePaths);
-
         svgContainer.appendChild(svgRoot);
-
         const newCanvas = document.createElement('canvas');
-        newCanvas.id = 'drawCanvas';
-        newCanvas.style.display = 'none';
+        newCanvas.id = 'drawCanvas'; newCanvas.style.display = 'none';
         svgContainer.appendChild(newCanvas);
-        canvas = newCanvas;
-        ctx = canvas.getContext('2d');
+        canvas = newCanvas; ctx = canvas.getContext('2d');
         setupCanvas();
-        
-        if (characterHidden) {
-          svgContainer.classList.add('hidden-char');
-        }
-        
+        if (characterHidden) svgContainer.classList.add('hidden-char');
         return svgRoot;
       }
-
       function setupCanvas() {
         if (!canvas) return;
         const svg = svgContainer.querySelector('svg');
@@ -864,149 +948,147 @@
         const viewBox = svg.getAttribute('viewBox');
         if (viewBox) {
           const parts = viewBox.split(/\s+/);
-          canvas.width = parseFloat(parts[2]);
-          canvas.height = parseFloat(parts[3]);
-        } else {
-          canvas.width = 200;
-          canvas.height = 200;
-        }
-        ctx.lineWidth = 6;
-        ctx.strokeStyle = '#333';
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+          canvas.width = parseFloat(parts[2]); canvas.height = parseFloat(parts[3]);
+        } else { canvas.width = 200; canvas.height = 200; }
+        ctx.lineWidth = 6; ctx.strokeStyle = '#333'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       }
 
-      function enterPracticeMode(mode) {
-        if (!strokePaths.length) return;
-        calculateAllSamplePoints();
-        practiceMode = mode;
-        expectedStrokeIndex = 0;
-        userDrawnPoints = [];
-        savedStrokes = [];
-        
-        if (mode === 'check') {
-          lockStrokeNumbers(true);
-        } else {
-          lockStrokeNumbers(false);
-        }
-        
-        strokePaths.forEach(p => {
-          p.style.display = 'block';
-          p.style.stroke = '#d0d0d0';
-          p.style.strokeWidth = '9';
-          p.style.transition = 'none';
-          p.style.strokeDasharray = 'none';
-          p.style.strokeDashoffset = '0';
-        });
-        if (mode === 'hint') {
-          updateHighlight();
-          setFeedback('🔵 あおい線をなぞってね');
-        } else if (mode === 'check') {
-          setFeedback('🔍 じぶんで書き順を考えてね（番号はかくされています）');
-        }
-        canvas.style.display = 'block';
-        retryTracingBtn.style.display = 'inline-block';
-        setupCanvas();
-        isAnimating = false;
-        updateUI();
-        attachDrawEvents();
+      // 描画イベント
+      function getCanvasCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left) * (canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (canvas.height / rect.height)
+        };
       }
-
-      function exitPracticeMode() {
-        lockStrokeNumbers(false);
-        canvas.style.display = 'none';
-        retryTracingBtn.style.display = 'none';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        strokePaths.forEach(p => {
-          p.style.display = 'none';
-          p.style.strokeWidth = '9';
-          p.style.transition = 'none';
-          p.style.strokeDasharray = 'none';
-          p.style.strokeDashoffset = '0';
-        });
-        applyStrokeColors(strokePaths);
-        practiceMode = 'none';
-        currentStrokeIndex = -1;
-        isAnimating = false;
-        updateUI();
-        removeDrawEvents();
-        clearFeedback();
+      function onPointerDown(e) {
+        if (practiceMode === 'none' || isFlashing) return;
+        const { x, y } = getCanvasCoords(e);
+        isDrawing = true;
+        userDrawnPoints = [{x, y}];
+        ctx.beginPath(); ctx.moveTo(x, y);
+        e.preventDefault();
       }
-
-      function updateHighlight() {
-        if (practiceMode !== 'hint') return;
-        strokePaths.forEach((p, idx) => {
-          if (idx === expectedStrokeIndex) {
-            p.style.stroke = '#4a90d9';
-            p.style.strokeWidth = '10';
-            p.parentNode.appendChild(p);
-          } else {
-            p.style.stroke = '#d0d0d0';
-            p.style.strokeWidth = '9';
+      function onPointerMove(e) {
+        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
+        const { x, y } = getCanvasCoords(e);
+        userDrawnPoints.push({x, y});
+        ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
+        e.preventDefault();
+      }
+      function onPointerUp(e) {
+        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
+        isDrawing = false;
+        ctx.beginPath();
+        if (userDrawnPoints.length < 3) {
+          setFeedback('✍️ もっと長くなぞってね', false);
+          redrawCanvas();
+          userDrawnPoints = [];
+          return;
+        }
+        const drawnLength = calcDrawnLength(userDrawnPoints);
+        let rating = 'poor';
+        if (practiceMode === 'hint' || practiceMode === 'listen') {
+          const startAvg = checkStartPosition(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], START_DISTANCE_THRESHOLD);
+          if (startAvg > START_DISTANCE_THRESHOLD) {
+            setFeedback('❌ 書き順がちがうよ！', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
           }
-        });
-      }
-
-      function setFeedback(msg, isGood = true) {
-        if (feedbackTimer) clearTimeout(feedbackTimer);
-        feedbackText.textContent = msg;
-        feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
-        if (!msg.includes('あおい線') && !msg.includes('書き順を考えてね') && !msg.includes('つぎの画') && !msg.includes('きいてね') && !msg.includes('番号')) {
-          feedbackTimer = setTimeout(() => {
-            feedbackText.textContent = '';
-          }, 2000);
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
+            setFeedback('✍️ もっと長くなぞってね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
+          }
+          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
+          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
+          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            rating = 'good';
+            setFeedback('🌟 じょうず！');
+          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            rating = 'ok';
+            setFeedback('👍 まあまあ！');
+          } else {
+            setFeedback('💧 もうすこし！もういちど書いてね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
+          }
+          savedStrokes.push([...userDrawnPoints]);
+          strokeRatings.push(rating);
+          expectedStrokeIndex++;
+          if (expectedStrokeIndex >= strokePaths.length) {
+            finishCharacter();
+          } else {
+            updateHighlight();
+          }
+        } else if (practiceMode === 'check') {
+          const closestIdx = findClosestStroke(userDrawnPoints);
+          if (closestIdx !== expectedStrokeIndex) {
+            setFeedback('❌ 書き順がちがうよ！', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
+          }
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
+            setFeedback('✍️ もっと長くなぞってね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
+          }
+          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
+          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
+          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
+            rating = 'good'; setFeedback('🌟 じょうず！');
+          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
+            rating = 'ok'; setFeedback('👍 まあまあ！');
+          } else {
+            setFeedback('💧 もうすこし！もういちど書いてね', false);
+            flashAndRemoveWrongStroke(userDrawnPoints);
+            userDrawnPoints = [];
+            return;
+          }
+          savedStrokes.push([...userDrawnPoints]);
+          strokeRatings.push(rating);
+          expectedStrokeIndex++;
+          if (expectedStrokeIndex >= strokePaths.length) {
+            finishCharacter();
+          }
         }
+        userDrawnPoints = [];
       }
-
-      function clearFeedback() {
-        if (feedbackTimer) clearTimeout(feedbackTimer);
-        feedbackText.textContent = '';
-      }
-
       function redrawCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 6;
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
         for (const path of savedStrokes) {
           ctx.beginPath();
           ctx.moveTo(path[0].x, path[0].y);
-          for (let i = 1; i < path.length; i++) {
-            ctx.lineTo(path[i].x, path[i].y);
-          }
+          for (let i = 1; i < path.length; i++) ctx.lineTo(path[i].x, path[i].y);
           ctx.stroke();
         }
       }
-
       function flashAndRemoveWrongStroke(points) {
-        if (!points || points.length === 0) return;
-        isFlashing = true;
-        canvas.style.pointerEvents = 'none';
-        
-        ctx.strokeStyle = '#e74c3c';
-        ctx.lineWidth = 8;
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i].y);
-        }
+        isFlashing = true; canvas.style.pointerEvents = 'none';
+        ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 8;
+        ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
         ctx.stroke();
-
         setTimeout(() => {
           redrawCanvas();
-          ctx.strokeStyle = '#333';
-          ctx.lineWidth = 6;
-          isFlashing = false;
-          canvas.style.pointerEvents = 'auto';
+          ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
+          isFlashing = false; canvas.style.pointerEvents = 'auto';
         }, 500);
       }
-
       function attachDrawEvents() {
         canvas.addEventListener('pointerdown', onPointerDown);
         canvas.addEventListener('pointermove', onPointerMove);
         canvas.addEventListener('pointerup', onPointerUp);
         canvas.addEventListener('pointerleave', onPointerUp);
       }
-
       function removeDrawEvents() {
         canvas.removeEventListener('pointerdown', onPointerDown);
         canvas.removeEventListener('pointermove', onPointerMove);
@@ -1014,219 +1096,35 @@
         canvas.removeEventListener('pointerleave', onPointerUp);
       }
 
-      function getCanvasCoords(e) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        return {
-          x: (e.clientX - rect.left) * scaleX,
-          y: (e.clientY - rect.top) * scaleY
-        };
-      }
-
-      function onPointerDown(e) {
-        if (practiceMode === 'none' || isFlashing) return;
-        const { x, y } = getCanvasCoords(e);
-        isDrawing = true;
-        userDrawnPoints = [{x, y}];
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        e.preventDefault();
-      }
-
-      function onPointerMove(e) {
-        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
-        const { x, y } = getCanvasCoords(e);
-        userDrawnPoints.push({x, y});
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        e.preventDefault();
-      }
-
-      function handleStrokeCompletion() {
-        if (practiceMode === 'listen' && expectedStrokeIndex >= strokePaths.length) {
-          setFeedback('🎉 ぜんぶかけたね！すごい！');
-          if (characterHidden) {
-            setTimeout(() => {
-              revealCharacter();
-            }, 1000);
-          }
-          if (quizMode !== 'select') {
-            nextCharBtn.style.display = 'inline-block';
-          }
-        }
-      }
-
-      function onPointerUp(e) {
-        if (!isDrawing || practiceMode === 'none' || isFlashing) return;
-        isDrawing = false;
-        ctx.beginPath();
-
-        if (userDrawnPoints.length < 3) {
-          setFeedback('✍️ もっと長くなぞってね', false);
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          redrawCanvas();
-          userDrawnPoints = [];
-          return;
-        }
-
-        const drawnLength = calcDrawnLength(userDrawnPoints);
-
-        if (practiceMode === 'hint' || practiceMode === 'listen') {
-          const startAvg = checkStartPosition(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], START_DISTANCE_THRESHOLD);
-          if (startAvg > START_DISTANCE_THRESHOLD) {
-            setFeedback('❌ 書き順がちがうよ！あおい線をなぞってね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-
-          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
-            setFeedback('✍️ もっと長くなぞってね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-
-          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
-
-          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
-            savedStrokes.push([...userDrawnPoints]);
-            setFeedback('🌟 じょうず！');
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-              handleStrokeCompletion();
-            } else {
-              updateHighlight();
-              setFeedback(practiceMode === 'listen' ? '🔊 つぎの画を書いてね' : '🔵 つぎのあおい線をなぞってね');
-            }
-          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
-            savedStrokes.push([...userDrawnPoints]);
-            setFeedback('👍 まあまあ！');
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-              handleStrokeCompletion();
-            } else {
-              updateHighlight();
-              setFeedback(practiceMode === 'listen' ? '🔊 つぎの画を書いてね' : '🔵 つぎのあおい線をなぞってね');
-            }
-          } else {
-            setFeedback('💧 もうすこし！もういちど書いてね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-          }
-          updateUI();
-        } else if (practiceMode === 'check') {
-          const closestIdx = findClosestStroke(userDrawnPoints);
-          if (closestIdx === -1) {
-            setFeedback('❌ 書き順がわからないよ、もういちど', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-
-          if (closestIdx !== expectedStrokeIndex) {
-            setFeedback('❌ 書き順がちがうよ！もういちど（ヒント：番号はかくされています）', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-
-          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength < pathLength * LENGTH_RATIO_MIN) {
-            setFeedback('✍️ もっと長くなぞってね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-            userDrawnPoints = [];
-            return;
-          }
-
-          const avgDist = averageDistance(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex]);
-          const coverage = calcCoverage(userDrawnPoints, strokeSamplePoints[expectedStrokeIndex], 15);
-
-          if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) {
-            savedStrokes.push([...userDrawnPoints]);
-            setFeedback('🌟 じょうず！');
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-            } else {
-              setFeedback('🔍 つぎの画を書いてね');
-            }
-          } else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) {
-            savedStrokes.push([...userDrawnPoints]);
-            setFeedback('👍 まあまあ！');
-            expectedStrokeIndex++;
-            if (expectedStrokeIndex >= strokePaths.length) {
-              setFeedback('🎉 ぜんぶかけたね！すごい！');
-            } else {
-              setFeedback('🔍 つぎの画を書いてね');
-            }
-          } else {
-            setFeedback('💧 もうすこし！もういちど書いてね', false);
-            flashAndRemoveWrongStroke(userDrawnPoints);
-          }
-          updateUI();
-        }
-        userDrawnPoints = [];
-      }
-
-      function retryTracing() {
-        if (practiceMode === 'none') return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        savedStrokes = [];
-        expectedStrokeIndex = 0;
-        userDrawnPoints = [];
-        updateHighlight();
-        updateUI();
-        if (practiceMode === 'listen') {
-          setFeedback('🔊 もういちど、おとをきいてかいてね');
-          speakCharacter(currentChar);
-        } else if (practiceMode === 'hint') {
-          setFeedback('🔵 もういちど、あおい線をなぞってね');
-        } else if (practiceMode === 'check') {
-          setFeedback('🔍 もういちど書いてね（番号はかくされています）');
-        }
-      }
-
+      // アニメーション
       function animateSingleStroke(path, duration) {
         return new Promise(resolve => {
-          try {
-            const length = path.getTotalLength();
-            if (length === 0) { path.style.display = 'block'; resolve(); return; }
-            path.style.display = 'block';
-            path.style.strokeDasharray = length;
-            path.style.strokeDashoffset = length;
-            path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-            path.getBoundingClientRect();
+          const length = path.getTotalLength();
+          if (length === 0) { path.style.display = 'block'; resolve(); return; }
+          path.style.display = 'block';
+          path.style.strokeDasharray = length;
+          path.style.strokeDashoffset = length;
+          path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
+          path.getBoundingClientRect();
+          path.style.strokeDashoffset = '0';
+          const onEnd = () => {
+            path.removeEventListener('transitionend', onEnd);
+            path.style.transition = 'none';
+            path.style.strokeDasharray = 'none';
             path.style.strokeDashoffset = '0';
-            const onEnd = () => {
-              path.removeEventListener('transitionend', onEnd);
+            resolve();
+          };
+          path.addEventListener('transitionend', onEnd);
+          setTimeout(() => {
+            if (path.style.strokeDasharray !== 'none') {
               path.style.transition = 'none';
               path.style.strokeDasharray = 'none';
               path.style.strokeDashoffset = '0';
               resolve();
-            };
-            path.addEventListener('transitionend', onEnd);
-            setTimeout(() => {
-              if (path.style.strokeDasharray !== 'none') {
-                path.style.transition = 'none';
-                path.style.strokeDasharray = 'none';
-                path.style.strokeDashoffset = '0';
-                resolve();
-              }
-            }, duration + 100);
-          } catch (e) {
-            path.style.display = 'block';
-            resolve();
-          }
+            }
+          }, duration + 100);
         });
       }
-
       function resetAllStrokes() {
         strokePaths.forEach(p => {
           p.style.display = 'none';
@@ -1235,216 +1133,228 @@
           p.style.strokeDashoffset = '0';
         });
       }
-
       async function animateToStroke(targetIndex) {
         if (!strokePaths.length || isAnimating || practiceMode !== 'none') return;
         targetIndex = Math.min(Math.max(targetIndex, 0), strokePaths.length - 1);
-        const prevIndex = currentStrokeIndex;
-        if (targetIndex <= prevIndex || prevIndex === -1) {
+        if (targetIndex <= currentStrokeIndex || currentStrokeIndex === -1) {
           resetAllStrokes();
           currentStrokeIndex = -1;
         }
-        isAnimating = true;
-        updateUI();
-        try {
-          for (let i = Math.max(0, prevIndex + 1); i <= targetIndex; i++) {
-            if (i <= prevIndex) continue;
-            const pathLength = strokePaths[i].getTotalLength();
-            const baseDuration = speedBaseDurations[animationSpeed];
-            let duration = (pathLength / BASE_LENGTH) * baseDuration;
-            if (duration < MIN_DURATION) duration = MIN_DURATION;
-            await animateSingleStroke(strokePaths[i], duration);
-            currentStrokeIndex = i;
-            updateUI();
-          }
-        } finally {
-          isAnimating = false;
-          updateUI();
+        isAnimating = true; updateUI();
+        for (let i = Math.max(0, currentStrokeIndex + 1); i <= targetIndex; i++) {
+          const pathLength = strokePaths[i].getTotalLength();
+          let duration = (pathLength / BASE_LENGTH) * speedBaseDurations[animationSpeed];
+          if (duration < MIN_DURATION) duration = MIN_DURATION;
+          await animateSingleStroke(strokePaths[i], duration);
+          currentStrokeIndex = i; updateUI();
         }
+        isAnimating = false; updateUI();
       }
-
       function updateUI() {
-        if (!strokePaths.length) {
-          infoText.textContent = 'ストロークが見つかりません';
-          strokeInfo.textContent = '';
-          nextBtn.disabled = true;
-          return;
-        }
-
-        if (practiceMode === 'hint' || practiceMode === 'check' || practiceMode === 'listen') {
+        if (!strokePaths.length) { infoText.textContent = 'ストロークが見つかりません'; return; }
+        if (practiceMode !== 'none') {
           const displayIndex = Math.min(expectedStrokeIndex + 1, strokePaths.length);
-          let modeLabel = 'なぞり中';
-          if (practiceMode === 'listen') modeLabel = 'おとをきいてかく';
-          else if (practiceMode === 'check') modeLabel = '書き順チェック';
-          infoText.textContent = `✏️ ${modeLabel}：${displayIndex} / ${strokePaths.length} 画め`;
+          let label = 'なぞり中';
+          if (practiceMode === 'listen') label = 'おとをきいてかく';
+          else if (practiceMode === 'check') label = '書き順チェック';
+          infoText.textContent = `✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;
           strokeInfo.textContent = `全 ${strokePaths.length} 画`;
-          nextBtn.style.display = 'none';
-          speedControl.style.display = 'none';
-          
-          traceHintBtn.textContent = (practiceMode === 'hint') ? '🔙 書き順アニメーション' : '🖊 なぞり練習';
-          traceCheckBtn.textContent = (practiceMode === 'check') ? '🔙 書き順アニメーション' : '🔍 書き順チェック';
-          listenTraceBtn.textContent = (practiceMode === 'listen') ? '🔙 書き順アニメーション' : '🔊 おとをきいてかく';
+          nextBtn.style.display = 'none'; speedControl.style.display = 'none';
           retryTracingBtn.style.display = 'inline-block';
-          return;
+        } else {
+          const cur = currentStrokeIndex + 1;
+          infoText.textContent = `✏️ ${cur} / ${strokePaths.length} 画`;
+          strokeInfo.textContent = `全 ${strokePaths.length} 画`;
+          nextBtn.style.display = 'inline-block'; nextBtn.disabled = isAnimating;
+          speedControl.style.display = 'block';
+          retryTracingBtn.style.display = 'none';
         }
-
-        const total = strokePaths.length;
-        const current = currentStrokeIndex + 1;
-        infoText.textContent = `✏️ ${current} / ${total} 画`;
-        strokeInfo.textContent = `全 ${total} 画`;
-        nextBtn.style.display = 'inline-block';
-        nextBtn.disabled = isAnimating;
-        speedControl.style.display = 'block';
-        
-        traceHintBtn.textContent = '🖊 なぞり練習';
-        traceCheckBtn.textContent = '🔍 書き順チェック';
-        listenTraceBtn.textContent = '🔊 おとをきいてかく';
-        retryTracingBtn.style.display = 'none';
       }
 
-      async function loadAndDisplay(unicode) {
-        if (practiceMode !== 'none') exitPracticeMode();
-        isAnimating = false;
+      // リスニングモード
+      async function loadSvgAndPrepare(unicode) {
         const svgDoc = await loadSvg(unicode);
         currentSvgDoc = svgDoc;
-        if (!svgDoc) {
-          svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>';
-          strokePaths = [];
-          updateUI();
-          return;
-        }
+        if (!svgDoc) return;
         strokePaths = extractStrokes(svgDoc);
         displaySvg(svgDoc);
-        if (strokePaths.length > 0) {
-          currentStrokeIndex = -1;
-          animateToStroke(0);
-        } else {
-          updateUI();
-        }
+        if (characterHidden) svgContainer.classList.add('hidden-char');
+      }
+      function startListeningMode() {
+        calculateAllSamplePoints();
+        practiceMode = 'listen'; isListeningMode = true;
+        expectedStrokeIndex = 0; userDrawnPoints = []; savedStrokes = []; strokeRatings = [];
+        lockStrokeNumbers(false);
+        strokePaths.forEach(p => {
+          p.style.display = 'block'; p.style.stroke = '#d0d0d0'; p.style.strokeWidth = '9';
+          p.style.transition = 'none'; p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = '0';
+        });
+        hideCharacter(); speakCharacter(currentChar);
+        canvas.style.display = 'block'; retryTracingBtn.style.display = 'inline-block';
+        if (quizMode !== 'select') nextCharBtn.style.display = 'inline-block';
+        setupCanvas(); isAnimating = false; updateUI(); attachDrawEvents();
+        setFeedback('🔊 おとをきいて、かいてね');
+      }
+      function exitListeningMode() {
+        isListeningMode = false; characterHidden = false;
+        svgContainer.classList.remove('hidden-char');
+        revealCharBtn.style.display = 'none'; replaySoundBtn.style.display = 'none'; nextCharBtn.style.display = 'none';
+        lockStrokeNumbers(false);
+        canvas.style.display = 'none'; retryTracingBtn.style.display = 'none';
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        strokePaths.forEach(p => { p.style.display = 'none'; });
+        applyStrokeColors(strokePaths);
+        practiceMode = 'none'; currentStrokeIndex = -1; isAnimating = false;
+        updateUI(); removeDrawEvents(); clearFeedback();
       }
 
-      // ===== Event Listeners =====
-      
+      // 結果表示と保存
+      function finishCharacter() {
+        const goodCount = strokeRatings.filter(r => r === 'good').length;
+        const total = strokePaths.length;
+        let stamp = '';
+        let message = '';
+        if (goodCount === total) { stamp = '🌟'; message = 'パーフェクト！'; }
+        else if (goodCount >= total * 0.7) { stamp = '👍'; message = 'よくできました！'; }
+        else if (goodCount >= 1) { stamp = '😊'; message = 'がんばったね！'; }
+        else { stamp = '💪'; message = 'もうすこし！'; }
+        // 結果ポップアップ表示
+        stampEmoji.textContent = stamp;
+        resultMessage.textContent = message;
+        resultDetail.textContent = `${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
+        // サムネイル保存
+        const thumbData = canvas.toDataURL('image/png');
+        resultThumb.src = thumbData;
+        resultThumb.style.display = 'inline-block';
+        resultOverlay.style.display = 'flex';
+        // 履歴保存
+        saveHistory({ char: currentChar, date: new Date().toLocaleString(), mode: practiceMode, rating: goodCount, total, stamp, thumb: thumbData });
+        // 練習モードを抜ける
+        exitPracticeMode();
+      }
+
+      closeResultBtn.addEventListener('click', () => {
+        resultOverlay.style.display = 'none';
+      });
+
+      // localStorage履歴管理
+      const HISTORY_KEY = 'kakijun_history';
+      function getHistory() {
+        try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+        catch { return []; }
+      }
+      function saveHistory(record) {
+        let history = getHistory();
+        history.unshift(record);
+        if (history.length > 50) history = history.slice(0, 50); // 最大50件
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      }
+      function clearHistory() {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+      }
+
+      function renderHistory() {
+        const history = getHistory();
+        historyList.innerHTML = history.length === 0 ? '<p>きろくはまだないよ</p>' : '';
+        history.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          div.innerHTML = `
+            <span class="history-char">${item.char}</span>
+            <span class="history-stamp">${item.stamp}</span>
+            <span style="font-size:0.8rem; color:#888;">${item.date}</span>
+          `;
+          if (item.thumb) {
+            const img = document.createElement('img');
+            img.className = 'history-thumb';
+            img.src = item.thumb;
+            div.prepend(img);
+          }
+          historyList.appendChild(div);
+        });
+      }
+
+      historyBtn.addEventListener('click', () => {
+        renderHistory();
+        historyModal.style.display = 'flex';
+      });
+      historyCloseBtn.addEventListener('click', () => historyModal.style.display = 'none');
+      window.addEventListener('click', (e) => { if (e.target === historyModal) historyModal.style.display = 'none'; });
+      clearHistoryBtn.addEventListener('click', clearHistory);
+
+      // その他のイベント
       modeBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           const mode = this.dataset.mode;
           setQuizMode(mode);
-          if (practiceMode === 'listen') {
-            exitListeningMode();
-          } else if (practiceMode !== 'none') {
-            exitPracticeMode();
-          }
-          loadQuizChar();
-          loadAndDisplay(currentUnicode);
+          if (practiceMode === 'listen') exitListeningMode();
+          else if (practiceMode !== 'none') exitPracticeMode();
+          if (mode !== 'select') { loadQuizChar(); loadAndDisplay(currentUnicode); }
         });
       });
-
       showBtn.addEventListener('click', () => {
-        if (selectEl.value) {
-          const char = selectEl.options[selectEl.selectedIndex].textContent;
-          currentChar = char;
-          currentUnicode = selectEl.value;
-          loadAndDisplay(selectEl.value);
-        }
+        if (currentUnicode) loadAndDisplay(currentUnicode);
       });
-
       nextBtn.addEventListener('click', () => {
         if (practiceMode !== 'none' || isAnimating) return;
-        if (currentStrokeIndex >= strokePaths.length - 1) {
-          animateToStroke(0);
-        } else {
-          animateToStroke(currentStrokeIndex + 1);
-        }
+        if (currentStrokeIndex >= strokePaths.length - 1) animateToStroke(0);
+        else animateToStroke(currentStrokeIndex + 1);
       });
-
       traceHintBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') {
-          exitListeningMode();
-          enterPracticeMode('hint');
-        } else if (practiceMode === 'hint') {
-          exitPracticeMode();
-        } else if (practiceMode === 'check') {
-          exitPracticeMode();
-          enterPracticeMode('hint');
-        } else {
-          enterPracticeMode('hint');
-        }
+        if (practiceMode === 'listen') { exitListeningMode(); enterPracticeMode('hint'); }
+        else if (practiceMode === 'hint') exitPracticeMode();
+        else if (practiceMode === 'check') { exitPracticeMode(); enterPracticeMode('hint'); }
+        else enterPracticeMode('hint');
       });
-
       traceCheckBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') {
-          exitListeningMode();
-          enterPracticeMode('check');
-        } else if (practiceMode === 'check') {
-          exitPracticeMode();
-        } else if (practiceMode === 'hint') {
-          exitPracticeMode();
-          enterPracticeMode('check');
-        } else {
-          enterPracticeMode('check');
-        }
+        if (practiceMode === 'listen') { exitListeningMode(); enterPracticeMode('check'); }
+        else if (practiceMode === 'check') exitPracticeMode();
+        else if (practiceMode === 'hint') { exitPracticeMode(); enterPracticeMode('check'); }
+        else enterPracticeMode('check');
       });
-
       listenTraceBtn.addEventListener('click', () => {
-        if (practiceMode === 'listen') {
-          exitListeningMode();
-        } else {
-          if (practiceMode !== 'none') exitPracticeMode();
-          enterListeningMode();
-        }
+        if (practiceMode === 'listen') exitListeningMode();
+        else { if (practiceMode !== 'none') exitPracticeMode(); enterListeningMode(); }
       });
-
       revealCharBtn.addEventListener('click', revealCharacter);
-
       nextCharBtn.addEventListener('click', async () => {
         if (practiceMode === 'listen') {
-          // マスクを維持したまま次の問題へ
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          savedStrokes = [];
-          expectedStrokeIndex = 0;
-          userDrawnPoints = [];
-          updateHighlight();
-          updateUI();
-
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          savedStrokes = []; expectedStrokeIndex = 0; userDrawnPoints = []; strokeRatings = [];
+          updateHighlight(); updateUI();
           const code = loadQuizChar();
-          // マスク状態を保ったままSVGを読み込む
           await loadSvgAndPrepare(code);
-          // 再度リスニングモードの初期化（マスクはloadSvgAndPrepare内で維持）
           startListeningMode();
         } else {
-          // 通常モード（フォールバック）
           loadQuizChar();
           loadAndDisplay(currentUnicode);
         }
       });
-
-      retryTracingBtn.addEventListener('click', retryTracing);
-      
+      retryTracingBtn.addEventListener('click', () => {
+        if (practiceMode === 'none') return;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        savedStrokes = []; expectedStrokeIndex = 0; userDrawnPoints = []; strokeRatings = [];
+        updateHighlight(); updateUI();
+        if (practiceMode === 'listen') speakCharacter(currentChar);
+      });
       replaySoundBtn.addEventListener('click', replaySound);
-
       showNumbersCheckbox.addEventListener('change', () => {
         if (strokeNumbersLocked) return;
         showStrokeNumbers = showNumbersCheckbox.checked;
         updateStrokeNumbersVisibility();
       });
-
       document.addEventListener('keydown', (e) => {
         if (practiceMode !== 'none' || isAnimating || isFlashing) return;
         if (e.key === 'ArrowRight') {
           e.preventDefault();
-          if (currentStrokeIndex >= strokePaths.length - 1) {
-            animateToStroke(0);
-          } else if (currentStrokeIndex < strokePaths.length - 1) {
-            animateToStroke(currentStrokeIndex + 1);
-          }
+          if (currentStrokeIndex >= strokePaths.length - 1) animateToStroke(0);
+          else animateToStroke(currentStrokeIndex + 1);
         } else if (e.key === 'ArrowLeft') {
           e.preventDefault();
-          if (currentStrokeIndex > 0) {
-            animateToStroke(currentStrokeIndex - 1);
-          }
+          if (currentStrokeIndex > 0) animateToStroke(currentStrokeIndex - 1);
         }
       });
-
       speedBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           speedBtns.forEach(b => b.classList.remove('active'));
@@ -1453,20 +1363,25 @@
         });
       });
 
-      function init() {
-        populateSelect();
-        if (kanaMap.length) {
-          const firstItem = kanaMap[0];
-          const [char, code] = firstItem.split(',');
-          currentChar = char;
-          currentUnicode = code;
-          selectEl.value = code;
-          loadAndDisplay(code);
-        }
-        setQuizMode('select');
-        listenTraceBtn.style.display = 'inline-block';
+      async function loadAndDisplay(unicode) {
+        if (practiceMode !== 'none') exitPracticeMode();
+        isAnimating = false;
+        const svgDoc = await loadSvg(unicode);
+        currentSvgDoc = svgDoc;
+        if (!svgDoc) { svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりませんでした</p>'; strokePaths = []; updateUI(); return; }
+        strokePaths = extractStrokes(svgDoc);
+        displaySvg(svgDoc);
+        if (strokePaths.length > 0) { currentStrokeIndex = -1; animateToStroke(0); }
+        else updateUI();
       }
 
+      // 初期化
+      function init() {
+        selectedCharDisplay.textContent = currentChar;
+        setQuizMode('select');
+        listenTraceBtn.style.display = 'inline-block';
+        loadAndDisplay(currentUnicode);
+      }
       init();
     })();
   </script>

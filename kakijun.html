@@ -181,6 +181,23 @@
       color: white;
       border-color: #388e3c;
     }
+    /* 書き順チェック中は番号表示を強制オフ */
+    .number-toggle.locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .number-toggle.locked label {
+      cursor: not-allowed;
+    }
+    .mode-hint-text {
+      font-size: 0.8rem;
+      color: #e67e22;
+      margin-top: 2px;
+      display: none;
+    }
+    .number-toggle.locked .mode-hint-text {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -205,11 +222,12 @@
       <p style="color:#ccc;" id="placeholderText">文字を選んでね</p>
     </div>
 
-    <div class="number-toggle" style="margin:8px 0;">
+    <div class="number-toggle" id="numberToggleArea" style="margin:8px 0;">
       <label style="font-size:0.95rem; color:#666; cursor:pointer; user-select:none;">
         <input type="checkbox" id="showNumbersCheckbox" checked style="vertical-align:middle; margin-right:4px;">
         🔢 画数を表示
       </label>
+      <div class="mode-hint-text">⚠️ 書き順チェック中は番号を表示できません</div>
     </div>
 
     <div class="info" id="infoText"></div>
@@ -278,7 +296,7 @@
       ];
 
       // 出題モード
-      let quizMode = 'select'; // 'select' | 'sequential' | 'random'
+      let quizMode = 'select';
       let currentQuizIndex = 0;
       let isListeningMode = false;
       let characterHidden = false;
@@ -293,7 +311,7 @@
       let animationSpeed = 'normal';
       let isAnimating = false;
 
-      let practiceMode = 'none';
+      let practiceMode = 'none'; // 'none' | 'hint' | 'check' | 'listen'
       let expectedStrokeIndex = 0;
       let userDrawnPoints = [];
       let savedStrokes = [];
@@ -307,6 +325,7 @@
         return idx === 0 ? '#ff6fa5' : '#2196f3';
       }
       let showStrokeNumbers = true;
+      let strokeNumbersLocked = false; // ★ 書き順チェック中はロック
 
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
       const BASE_LENGTH = 200;
@@ -337,6 +356,7 @@
       const retryTracingBtn = document.getElementById('retryTracingBtn');
       const replaySoundBtn = document.getElementById('replaySoundBtn');
       const showNumbersCheckbox = document.getElementById('showNumbersCheckbox');
+      const numberToggleArea = document.getElementById('numberToggleArea');
       const charSelectArea = document.getElementById('charSelectArea');
       const modeBtns = document.querySelectorAll('.mode-btn');
       const placeholderText = document.getElementById('placeholderText');
@@ -345,22 +365,52 @@
       let isDrawing = false;
       let isFlashing = false;
 
+      // ★ 番号表示のロック制御
+      function lockStrokeNumbers(locked) {
+        strokeNumbersLocked = locked;
+        if (locked) {
+          // 強制的に非表示
+          showNumbersCheckbox.checked = false;
+          showStrokeNumbers = false;
+          numberToggleArea.classList.add('locked');
+          showNumbersCheckbox.disabled = true;
+        } else {
+          // ロック解除（元の状態に戻す）
+          numberToggleArea.classList.remove('locked');
+          showNumbersCheckbox.disabled = false;
+          showNumbersCheckbox.checked = true;
+          showStrokeNumbers = true;
+        }
+        updateStrokeNumbersVisibility();
+      }
+
+      // ★ 番号表示のSVG更新（ロック状態を考慮）
+      function updateStrokeNumbersVisibility() {
+        const g = svgContainer.querySelector('#strokeNumbersGroup');
+        if (g) {
+          // ロック中は強制非表示
+          if (strokeNumbersLocked) {
+            g.style.display = 'none';
+          } else {
+            g.style.display = showStrokeNumbers ? '' : 'none';
+          }
+        }
+      }
+
       // ===== 音声読み上げ =====
       function speakCharacter(char) {
         if (!speechSynthesis) {
           console.warn('Speech synthesis not supported');
           return;
         }
-        // 既存の発話をキャンセル
         speechSynthesis.cancel();
         
         const utterance = new SpeechSynthesisUtterance(char);
         utterance.lang = 'ja-JP';
-        utterance.rate = 0.8; // ゆっくりめ
-        utterance.pitch = 1.2; // 少し高め（子ども向け）
+        utterance.rate = 0.8;
+        utterance.pitch = 1.2;
         utterance.volume = 1;
         
-        // 日本語音声を探す
         const voices = speechSynthesis.getVoices();
         const jaVoice = voices.find(v => v.lang.startsWith('ja'));
         if (jaVoice) {
@@ -383,7 +433,6 @@
         modeBtns.forEach(b => b.classList.remove('active'));
         document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
         
-        // UI切り替え
         if (mode === 'select') {
           charSelectArea.style.display = 'block';
           nextCharBtn.style.display = 'none';
@@ -415,7 +464,6 @@
         } else if (quizMode === 'random') {
           item = getRandomChar();
         } else {
-          // select モード
           item = `${selectEl.options[selectEl.selectedIndex]?.textContent || kanaMap[0].split(',')[0]},${selectEl.value || kanaMap[0].split(',')[1]}`;
         }
         
@@ -423,7 +471,6 @@
         currentChar = char;
         currentUnicode = code;
         
-        // セレクトボックスも更新
         if (quizMode !== 'select') {
           selectEl.value = code;
         }
@@ -457,7 +504,6 @@
           return;
         }
         
-        // 音声APIの準備
         if (speechSynthesis.getVoices().length === 0) {
           speechSynthesis.addEventListener('voiceschanged', () => {
             startListeningMode();
@@ -475,6 +521,9 @@
         userDrawnPoints = [];
         savedStrokes = [];
         
+        // ★ リスニングモードでも番号はロックしない（ヒントありと同じ扱い）
+        lockStrokeNumbers(false);
+        
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -484,10 +533,7 @@
           p.style.strokeDashoffset = '0';
         });
         
-        // 文字を隠す
         hideCharacter();
-        
-        // 音声を再生
         speakCharacter(currentChar);
         
         canvas.style.display = 'block';
@@ -513,6 +559,8 @@
         revealCharBtn.style.display = 'none';
         replaySoundBtn.style.display = 'none';
         nextCharBtn.style.display = 'none';
+        
+        lockStrokeNumbers(false); // ★ ロック解除
         
         canvas.style.display = 'none';
         retryTracingBtn.style.display = 'none';
@@ -763,18 +811,18 @@
           g.appendChild(text);
         });
         svgRoot.appendChild(g);
-        g.style.display = showStrokeNumbers ? '' : 'none';
+        // 初期表示（ロック状態を考慮）
+        if (strokeNumbersLocked) {
+          g.style.display = 'none';
+        } else {
+          g.style.display = showStrokeNumbers ? '' : 'none';
+        }
       }
 
       function applyStrokeColors(paths) {
         paths.forEach((p, idx) => {
           p.style.stroke = getStrokeLineColor(idx);
         });
-      }
-
-      function updateStrokeNumbersVisibility() {
-        const g = svgContainer.querySelector('#strokeNumbersGroup');
-        if (g) g.style.display = showStrokeNumbers ? '' : 'none';
       }
 
       function displaySvg(svgDoc) {
@@ -856,6 +904,14 @@
         expectedStrokeIndex = 0;
         userDrawnPoints = [];
         savedStrokes = [];
+        
+        // ★★★ 書き順チェックモードでは番号を強制非表示にロック ★★★
+        if (mode === 'check') {
+          lockStrokeNumbers(true);
+        } else {
+          lockStrokeNumbers(false);
+        }
+        
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
@@ -868,7 +924,7 @@
           updateHighlight();
           setFeedback('🔵 あおい線をなぞってね');
         } else if (mode === 'check') {
-          setFeedback('🔍 じぶんで書き順を考えてね');
+          setFeedback('🔍 じぶんで書き順を考えてね（番号はかくされています）');
         }
         canvas.style.display = 'block';
         retryTracingBtn.style.display = 'inline-block';
@@ -879,6 +935,9 @@
       }
 
       function exitPracticeMode() {
+        // ★ ロック解除
+        lockStrokeNumbers(false);
+        
         canvas.style.display = 'none';
         retryTracingBtn.style.display = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -916,7 +975,7 @@
         if (feedbackTimer) clearTimeout(feedbackTimer);
         feedbackText.textContent = msg;
         feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
-        if (!msg.includes('あおい線') && !msg.includes('書き順を考えてね') && !msg.includes('つぎの画') && !msg.includes('きいてね')) {
+        if (!msg.includes('あおい線') && !msg.includes('書き順を考えてね') && !msg.includes('つぎの画') && !msg.includes('きいてね') && !msg.includes('番号')) {
           feedbackTimer = setTimeout(() => {
             feedbackText.textContent = '';
           }, 2000);
@@ -1011,7 +1070,6 @@
       }
 
       function handleStrokeCompletion() {
-        // リスニングモードでの完了処理
         if (practiceMode === 'listen' && expectedStrokeIndex >= strokePaths.length) {
           setFeedback('🎉 ぜんぶかけたね！すごい！');
           if (characterHidden) {
@@ -1097,7 +1155,7 @@
           }
 
           if (closestIdx !== expectedStrokeIndex) {
-            setFeedback('❌ 書き順がちがうよ！もういちど', false);
+            setFeedback('❌ 書き順がちがうよ！もういちど（ヒント：番号はかくされています）', false);
             flashAndRemoveWrongStroke(userDrawnPoints);
             userDrawnPoints = [];
             return;
@@ -1154,8 +1212,8 @@
           speakCharacter(currentChar);
         } else if (practiceMode === 'hint') {
           setFeedback('🔵 もういちど、あおい線をなぞってね');
-        } else {
-          setFeedback('🔍 もういちど書いてね');
+        } else if (practiceMode === 'check') {
+          setFeedback('🔍 もういちど書いてね（番号はかくされています）');
         }
       }
 
@@ -1239,7 +1297,9 @@
 
         if (practiceMode === 'hint' || practiceMode === 'check' || practiceMode === 'listen') {
           const displayIndex = Math.min(expectedStrokeIndex + 1, strokePaths.length);
-          const modeLabel = practiceMode === 'listen' ? 'おとをきいてかく' : 'なぞり中';
+          let modeLabel = 'なぞり中';
+          if (practiceMode === 'listen') modeLabel = 'おとをきいてかく';
+          else if (practiceMode === 'check') modeLabel = '書き順チェック';
           infoText.textContent = `✏️ ${modeLabel}：${displayIndex} / ${strokePaths.length} 画め`;
           strokeInfo.textContent = `全 ${strokePaths.length} 画`;
           nextBtn.style.display = 'none';
@@ -1247,6 +1307,7 @@
           
           traceHintBtn.textContent = (practiceMode === 'hint') ? '🔙 書き順アニメーション' : '🖊 なぞり練習';
           traceCheckBtn.textContent = (practiceMode === 'check') ? '🔙 書き順アニメーション' : '🔍 書き順チェック';
+          listenTraceBtn.textContent = (practiceMode === 'listen') ? '🔙 書き順アニメーション' : '🔊 おとをきいてかく';
           retryTracingBtn.style.display = 'inline-block';
           return;
         }
@@ -1288,20 +1349,17 @@
 
       // ===== Event Listeners =====
       
-      // 出題モード切り替え
       modeBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           const mode = this.dataset.mode;
           setQuizMode(mode);
           
-          // 現在の練習モードをリセット
           if (practiceMode === 'listen') {
             exitListeningMode();
           } else if (practiceMode !== 'none') {
             exitPracticeMode();
           }
           
-          // 新しい文字を読み込み
           loadQuizChar();
         });
       });
@@ -1368,7 +1426,6 @@
           exitListeningMode();
         }
         loadQuizChar();
-        // 新しい文字を読み込んだ後、再びリスニングモードに
         setTimeout(() => {
           enterListeningMode();
         }, 500);
@@ -1378,7 +1435,9 @@
       
       replaySoundBtn.addEventListener('click', replaySound);
 
+      // ★ チェックボックスの変更イベント（ロック中は無効化されているので発火しない）
       showNumbersCheckbox.addEventListener('change', () => {
+        if (strokeNumbersLocked) return; // 念のため
         showStrokeNumbers = showNumbersCheckbox.checked;
         updateStrokeNumbersVisibility();
       });

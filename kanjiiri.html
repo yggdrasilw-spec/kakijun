@@ -262,6 +262,7 @@
     }
 
     /* ==================== 横長画面（Chromebook 16:9 想定） ==================== */
+    /* 案B：3カラム型。中央に文字表示を大きく独立させ、左＝もじ選択系、右＝操作ボタンを縦一列に */
     @media (orientation: landscape) and (min-width: 700px) {
       body { padding: 10px; overflow: hidden; }
       .container {
@@ -269,25 +270,42 @@
         margin: 0; border-radius: 16px; padding: 14px 22px;
         display: flex; flex-direction: column; overflow: hidden;
       }
-      h1 { font-size: 1.2rem; margin: 0 0 8px; flex: 0 0 auto; }
+      h1 { font-size: 1.15rem; margin: 0 0 8px; flex: 0 0 auto; }
       .footer { display: none; }
 
       .app-grid {
-        display: flex; flex-direction: row; gap: 22px; flex: 1 1 auto; min-height: 0;
+        display: flex; flex-direction: row; gap: 18px; flex: 1 1 auto; min-height: 0;
       }
       .panel { display: flex; flex-direction: column; min-height: 0; }
+
       .panel-left {
-        flex: 0 0 300px; overflow-y: auto; align-items: center; padding-right: 6px;
+        flex: 0 0 190px; overflow-y: auto; align-items: stretch; padding-right: 4px;
       }
+      .panel-left .mode-selector { display: flex; flex-direction: column; gap: 6px; margin: 4px 0; }
+      .panel-left .mode-selector .mode-btn { margin: 0; width: 100%; }
+      .panel-left .char-select-area, .panel-left .custom-string-area {
+        display: flex; flex-direction: column; gap: 6px; margin: 10px 0; padding-top: 10px;
+        border-top: 1px solid #f0ebe0;
+      }
+      .panel-left .char-select-area button, .panel-left .custom-string-area button,
+      .panel-left .custom-string-area input { width: 100%; margin: 0; }
+      .panel-left .selected-char-display { margin: 4px 0; }
+
+      .panel-center {
+        flex: 1 1 auto; align-items: center; justify-content: center; overflow-y: auto;
+      }
+      .panel-center .kana-display { width: min(300px, 34vh); height: min(300px, 34vh); margin: 4px auto; }
+      .panel-center .number-toggle { margin: 6px 0; }
+      .panel-center .info, .panel-center .feedback, .panel-center .stroke-counter { text-align: center; }
+
       .panel-right {
-        flex: 1 1 auto; overflow-y: auto; padding-left: 14px; border-left: 1px solid #f0ebe0;
+        flex: 0 0 210px; overflow-y: auto; padding-left: 14px; border-left: 1px solid #f0ebe0;
       }
-      .kana-display { width: 190px; height: 190px; margin: 10px auto; }
-      .mode-selector { margin: 4px 0; }
-      .char-select-area, .custom-string-area { margin: 6px 0; }
-      .controls { margin: 10px 0; }
-      button { padding: 9px 20px; font-size: 1.05rem; margin: 5px; min-width: 40px; min-height: 40px; }
-      .speed-btn { padding: 6px 12px; font-size: 0.85rem; }
+      .panel-right #speedControl { text-align: center; margin: 4px 0 12px; }
+      .panel-right .speed-btn { display: block; width: 100%; margin: 4px 0; padding: 7px 10px; font-size: 0.85rem; }
+      .panel-right .controls { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+      .panel-right .controls button { width: 100%; margin: 0; padding: 9px 10px; font-size: 0.95rem; min-height: 38px; }
+      .panel-right .controls br { display: none; }
 
       .sentence-practice-area {
         flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-top: 0;
@@ -332,6 +350,8 @@
       <button id="stopCustomStringBtn" style="display:none;">⏹ おわる</button>
     </div>
 
+    </div>
+    <div class="panel panel-center">
     <div class="kana-display" id="svgContainer">
       <p style="color:#ccc;" id="placeholderText">文字を選んでね</p>
     </div>
@@ -344,12 +364,11 @@
       <div class="mode-hint-text">⚠️ 書き順チェック中は番号を表示できません</div>
     </div>
 
-    </div>
-    <div class="panel panel-right">
     <div class="info" id="infoText"></div>
     <div class="feedback" id="feedbackText"></div>
     <div class="stroke-counter" id="strokeInfo"></div>
-
+    </div>
+    <div class="panel panel-right">
     <div id="speedControl" style="margin:10px 0;">
       <span style="font-size:0.9rem; color:#888;">⚡ はやさ：</span>
       <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
@@ -1125,6 +1144,15 @@
         return state;
       }
 
+      // 画数に応じてキャンバスの大きさと線の太さを変える。
+      // 画数が多い字ほど線が重なって潰れて見えるため、キャンバスを大きく・線を細くする。
+      function getCardSizeConfig(strokeCount) {
+        if (strokeCount >= 14) return { display: 230, guideWidth: 4.5, drawWidth: 3, span: 2 };
+        if (strokeCount >= 9)  return { display: 180, guideWidth: 6,   drawWidth: 4, span: 2 };
+        if (strokeCount >= 5)  return { display: 150, guideWidth: 7.5, drawWidth: 5, span: 1 };
+        return { display: 130, guideWidth: 9, drawWidth: 6, span: 1 };
+      }
+
       async function initCard(state) {
         const svgDoc = await loadSvg(state.code);
         const svgRoot = svgDoc ? svgDoc.querySelector('svg') : null;
@@ -1137,16 +1165,23 @@
         state.hasSvg = true;
         svgRoot.removeAttribute('width'); svgRoot.removeAttribute('height');
         svgRoot.style.display = 'block'; svgRoot.style.pointerEvents = 'none';
-        svgRoot.querySelectorAll('path').forEach(p => {
-          p.style.display = 'block'; p.style.fill = 'none';
-          p.style.strokeLinecap = 'round'; p.style.strokeLinejoin = 'round';
-          p.style.stroke = '#d9d0bd'; p.style.strokeWidth = '9'; p.style.transition = 'none';
-        });
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
 
         const paths = extractStrokes(svgDoc);
         state.strokePaths = paths;
         state.strokeSamplePoints = paths.map(p => samplePath(p, 5));
+
+        const cfg = getCardSizeConfig(paths.length);
+        state.drawWidth = cfg.drawWidth;
+        state.element.style.maxWidth = (cfg.span > 1 ? (cfg.display * 2 + 12) + 'px' : '');
+        if (cfg.span > 1) state.element.style.gridColumn = `span ${cfg.span}`;
+        state.display.style.maxWidth = cfg.display + 'px';
+
+        paths.forEach(p => {
+          p.style.display = 'block'; p.style.fill = 'none';
+          p.style.strokeLinecap = 'round'; p.style.strokeLinejoin = 'round';
+          p.style.stroke = '#d9d0bd'; p.style.strokeWidth = String(cfg.guideWidth); p.style.transition = 'none';
+        });
 
         state.display.innerHTML = '';
         state.display.appendChild(svgRoot);
@@ -1157,7 +1192,7 @@
         state.canvas = canvas; state.ctx = canvas.getContext('2d');
         const vb = parseViewBox(svgRoot);
         canvas.width = vb.w; canvas.height = vb.h;
-        state.ctx.lineWidth = 6; state.ctx.strokeStyle = '#333';
+        state.ctx.lineWidth = cfg.drawWidth; state.ctx.strokeStyle = '#333';
         state.ctx.lineCap = 'round'; state.ctx.lineJoin = 'round';
 
         attachCardDrawEvents(state);
@@ -1197,7 +1232,7 @@
 
       function redrawCard(state) {
         state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
-        state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = 6;
+        state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = state.drawWidth || 6;
         for (const pts of state.savedStrokes) {
           state.ctx.beginPath(); state.ctx.moveTo(pts[0].x, pts[0].y);
           for (let i = 1; i < pts.length; i++) state.ctx.lineTo(pts[i].x, pts[i].y);
@@ -1206,12 +1241,12 @@
       }
       function flashCardWrongStroke(state, points) {
         state.isFlashing = true; state.canvas.style.pointerEvents = 'none';
-        state.ctx.strokeStyle = '#e74c3c'; state.ctx.lineWidth = 8;
+        state.ctx.strokeStyle = '#e74c3c'; state.ctx.lineWidth = (state.drawWidth || 6) + 2;
         state.ctx.beginPath(); state.ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; i++) state.ctx.lineTo(points[i].x, points[i].y);
         state.ctx.stroke();
         setTimeout(() => {
-          redrawCard(state); state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = 6;
+          redrawCard(state); state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = state.drawWidth || 6;
           state.isFlashing = false; state.canvas.style.pointerEvents = 'auto';
         }, 450);
       }
@@ -1694,7 +1729,7 @@
       nextBtn.addEventListener('click',()=>{if(practiceMode!=='none'||isAnimating)return;if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);});
       traceHintBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('hint');}else if(practiceMode==='hint')exitPracticeMode();else if(practiceMode==='check'){exitPracticeMode();enterPracticeMode('hint');}else enterPracticeMode('hint');});
       traceCheckBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('check');}else if(practiceMode==='check')exitPracticeMode();else if(practiceMode==='hint'){exitPracticeMode();enterPracticeMode('check');}else enterPracticeMode('check');});
-      listenTraceBtn.addEventListener('click',()=>{if(practiceMode==='listen')exitListeningMode();else{if(practiceMode!=='none')exitPracticeMode();enterListeningMode();}});
+      listenTraceBtn.addEventListener('click',()=>{if(practiceMode==='listen')exitListeningMode();else{if(practiceMode!=='none')exitPracticeMode();startListeningMode();}});
       revealCharBtn.addEventListener('click',revealCharacter);
       nextCharBtn.addEventListener('click',async()=>{
         if(practiceMode==='listen'){

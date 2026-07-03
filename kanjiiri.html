@@ -2,657 +2,1731 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>書き順アニメーション - 学年漢字・テキスト対応</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>書き順アニメーション - 全文字対応版</title>
   <style>
-    /* 基本設定（元のコードを継承しつつレスポンシブ強化） */
     body {
-      font-family: 'Yu Gothic', '游ゴシック', 'Noto Sans JP', sans-serif;
+      font-family: 'Yu Gothic', '游ゴシック', sans-serif;
+      text-align: center;
       background: #faf8f5;
       margin: 0;
-      padding: 16px;
+      padding: 20px;
       color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
-
-    /* メインコンテナ：横長時は最大幅を広げ、縦長時はスマホサイズ */
-    .app-container {
-      width: 100%;
-      max-width: 1300px;       /* Chromebook 16:9でも余白あり */
-      background: white;
-      border-radius: 32px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    h1 { font-size: 1.8rem; margin-bottom: 1rem; color: #4a4a4a; }
+    .container {
+      max-width: 500px; margin: 0 auto; background: white;
+      border-radius: 24px; padding: 30px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      position: relative;
     }
-
-    h1 {
-      font-size: 1.8rem;
-      margin: 0 0 8px 0;
-      color: #4a4a4a;
-      text-align: left;
-    }
-
-    /* メインレイアウト：横並び（デフォルト）→ 狭い画面では縦並び */
-    .main-layout {
-      display: flex;
-      gap: 24px;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .control-panel {
-      flex: 0 0 300px;
-      background: #fefcf7;
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
-    }
-
-    .viewer-panel {
-      flex: 1;
-      background: #fffef9;
-      border-radius: 24px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-y: auto;
-      min-height: 400px;
-    }
-
-    /* 従来の単一文字表示用スタイル */
     .kana-display {
-      width: 100%;
-      max-width: 300px;
-      aspect-ratio: 1/1;
-      margin: 0 auto 20px;
-      background: #ffffff;
-      border: 3px dashed #e0d6c2;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      width: 250px; height: 250px; margin: 20px auto; background: #fffef9;
+      border: 3px dashed #e0d6c2; border-radius: 20px;
+      display: flex; align-items: center; justify-content: center; position: relative;
+      transition: background 0.3s;
     }
+    .kana-display.hidden-char { background: #f0ebe0; border-color: #ff9800; }
     .kana-display svg {
-      width: 85%;
-      height: 85%;
+      width: 200px; height: 200px; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); pointer-events: none;
     }
-    .info {
-      font-size: 1.5rem;
-      margin: 10px 0;
-      font-weight: bold;
+    .kana-display.hidden-char svg { opacity: 0.08; filter: blur(4px); }
+    #drawCanvas {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 200px; height: 200px; touch-action: none; display: none; z-index: 10;
     }
-    .stroke-counter {
-      font-size: 1rem;
-      color: #888;
+    .info { font-size: 1.4rem; margin: 10px 0; min-height: 30px; transition: 0.2s; }
+    .feedback { font-size: 1.1rem; min-height: 24px; margin: 5px 0; }
+    .stroke-counter { font-size: 1rem; color: #888; }
+    button {
+      background: #f0e6d3; border: none; padding: 12px 28px; font-size: 1.2rem;
+      border-radius: 40px; margin: 8px; cursor: pointer; font-weight: bold;
+      color: #5a4a3a; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #e0d6c2; min-width: 44px; min-height: 44px;
+    }
+    button:hover { background: #e8d9be; }
+    button:active { background: #d4c3a5; transform: scale(0.96); }
+    button:disabled { opacity: 0.4; cursor: default; }
+    .speed-btn {
+      padding: 8px 16px; font-size: 0.9rem; margin: 4px; background: #fff;
+      border: 1px solid #d4c3a5;
+    }
+    .speed-btn.active { background: #d4c3a5; color: white; border-color: #b8a080; }
+    .controls { margin: 20px 0; }
+    .mode-selector {
+      margin: 10px 0; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    .mode-btn {
+      padding: 8px 16px; font-size: 0.9rem; background: #fff;
+      border: 2px solid #e0d6c2; border-radius: 20px; cursor: pointer; transition: 0.2s;
+      font-weight: normal;
+    }
+    .mode-btn.active { background: #ff9800; color: white; border-color: #f57c00; }
+    .char-select-area { margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .selected-char-display {
+      font-size: 2.2rem; font-weight: bold; margin: 0 10px; vertical-align: middle;
+      color: #5a4a3a; min-width: 60px; display: inline-block;
+    }
+    .footer { margin-top: 30px; font-size: 0.85rem; color: #aaa; }
+    .listen-btn { background: #ff9800; color: white; border-color: #f57c00; font-size: 1rem; }
+    .listen-btn:hover { background: #f57c00; }
+    .reveal-btn { background: #2196f3; color: white; border-color: #1976d2; font-size: 0.9rem; }
+    .next-char-btn { background: #4caf50; color: white; border-color: #388e3c; }
+    .number-toggle.locked { opacity: 0.5; pointer-events: none; }
+    .number-toggle.locked label { cursor: not-allowed; }
+    .mode-hint-text { font-size: 0.8rem; color: #e67e22; margin-top: 2px; display: none; }
+    .number-toggle.locked .mode-hint-text { display: block; }
+
+    .custom-string-area {
+      margin: 10px 0; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+    }
+    #customStringInput {
+      padding: 8px 12px; font-size: 1rem; border: 2px solid #e0d6c2; border-radius: 20px;
+      width: 180px; text-align: center;
     }
 
-    /* テキスト入力の複数表示用カード */
-    .text-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-      width: 100%;
+    /* 五十音表モーダル */
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+      justify-content: center; align-items: center;
     }
-    .char-card {
-      background: white;
-      border: 1px solid #f0e6d3;
-      border-radius: 20px;
-      padding: 16px;
+    .modal-content {
+      background: white; border-radius: 20px; padding: 20px;
+      max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: modalFadeIn 0.3s;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 15px;
+    }
+    .modal-header h2 { margin: 0; font-size: 1.5rem; color: #5a4a3a; }
+    .modal-close {
+      background: none; border: none; font-size: 1.8rem; cursor: pointer;
+      color: #888; padding: 0 8px;
+    }
+    .tab-container {
+      display: flex; justify-content: center; gap: 8px; margin-bottom: 10px;
+    }
+    .tab-btn {
+      padding: 6px 14px; font-size: 0.9rem; background: #f0e6d3;
+      border: 1px solid #d4c3a5; border-radius: 20px; cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab-btn.active { background: #ff9800; color: white; border-color: #f57c00; }
+    .sub-tab-container {
+      display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .sub-tab-btn {
+      padding: 4px 10px; font-size: 0.8rem; background: #fff;
+      border: 1px solid #ccc; border-radius: 16px; cursor: pointer;
+    }
+    .sub-tab-btn.active { background: #4caf50; color: white; border-color: #388e3c; }
+    .kana-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+      margin: 10px 0;
+    }
+    .kana-btn {
+      background: #fff; border: 2px solid #e0d6c2; border-radius: 12px;
+      padding: 10px 5px; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+      font-weight: bold; color: #5a4a3a;
+    }
+    .kana-btn:hover { background: #f5f0e8; }
+    .kana-btn.selected { background: #ff9800; color: white; border-color: #f57c00; }
+    .modal-select-btn {
+      background: #4caf50; color: white; border: none; padding: 12px 30px;
+      font-size: 1.2rem; border-radius: 30px; margin-top: 15px; cursor: pointer;
+      font-weight: bold; width: 100%;
+    }
+
+    /* 結果表示ポップアップ */
+    .result-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
+    }
+    .result-card {
+      background: white; border-radius: 30px; padding: 30px; text-align: center;
+      max-width: 320px; width: 80%; animation: popIn 0.4s;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .stamp-emoji { font-size: 5rem; }
+    .result-message { font-size: 1.5rem; margin: 10px 0; }
+    .result-detail { font-size: 1rem; color: #666; margin: 10px 0; }
+    .history-list {
+      max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
+    }
+    .history-item {
+      display: flex; align-items: center; gap: 8px; padding: 8px; border-bottom: 1px solid #eee;
+    }
+    .history-thumb {
+      width: 40px; height: 40px; border: 1px solid #ddd; border-radius: 8px; object-fit: contain;
+    }
+    .history-char { font-size: 1.2rem; font-weight: bold; }
+    .history-stamp { font-size: 1.5rem; }
+    .clear-history-btn {
+      background: #e74c3c; color: white; border-color: #c0392b; font-size: 0.9rem; padding: 6px 16px;
+    }
+
+    /* ==================== レイアウト共通 ==================== */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    .app-grid { }
+    .panel { }
+    .single-practice-block { }
+
+    /* ---- 五十音・かん字モーダルの高さ対策（一覧が切れる問題の修正） ---- */
+    .modal-content {
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      width: 150px;
     }
-    .char-svg-box {
-      width: 120px;
-      height: 120px;
-      background: #fffef9;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #f0e6d3;
+    .kana-grid {
+      overflow-y: auto;
+      max-height: 42vh;
+      padding-right: 4px;
     }
-    .char-svg-box svg {
-      width: 90px;
-      height: 90px;
+    .char-search-area {
+      display: flex; gap: 6px; margin-bottom: 10px;
     }
-    .char-label {
-      font-size: 1.3rem;
-      font-weight: bold;
+    #charSearchInput {
+      flex: 1; padding: 8px 12px; font-size: 1rem; border: 2px solid #e0d6c2;
+      border-radius: 20px; text-align: center;
     }
-    .card-controls button {
-      padding: 4px 10px;
-      font-size: 0.8rem;
-      margin: 0 2px;
+    .char-search-hint { font-size: 0.75rem; color: #999; margin: -6px 0 8px; }
+    .search-result-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 8px;
+    }
+    .search-result-grid .kana-btn.no-svg { opacity: 0.35; cursor: not-allowed; }
+    .search-empty-note { font-size: 0.85rem; color: #c0392b; margin: 4px 0; }
+
+    .variant-row {
+      display: none; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center;
+      margin: 4px 0 10px; padding: 8px; background: #faf6ee; border-radius: 12px;
+    }
+    .variant-row.show { display: flex; }
+    .variant-row .variant-label { font-size: 0.8rem; color: #888; margin-right: 2px; }
+    .variant-chip {
+      padding: 5px 12px; font-size: 0.8rem; background: #fff; border: 1px solid #d4c3a5;
+      border-radius: 16px; cursor: pointer;
+    }
+    .variant-chip.active { background: #4a90d9; color: #fff; border-color: #3a78bd; }
+
+    /* ==================== 文章れんしゅう（複数キャンバス） ==================== */
+    .sentence-practice-area { display: none; flex-direction: column; margin-top: 10px; }
+    .sp-header {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+      gap: 8px; margin-bottom: 10px;
+    }
+    .sp-progress { font-size: 0.95rem; color: #5a4a3a; font-weight: bold; }
+    .sp-pagination { display: flex; align-items: center; gap: 8px; }
+    .sp-pagination button {
+      padding: 6px 14px; font-size: 0.9rem; min-width: auto; min-height: auto;
+    }
+    .sp-page-label { font-size: 0.85rem; color: #888; min-width: 3.5em; text-align: center; }
+    .sp-stop-btn { background: #e74c3c; color: #fff; border-color: #c0392b; font-size: 0.9rem; padding: 6px 16px; }
+    .sp-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    }
+    .sp-card {
+      position: relative; background: #fffef9; border: 2px solid #e0d6c2; border-radius: 16px;
+      padding: 8px; display: flex; flex-direction: column; align-items: center;
+    }
+    .sp-card.completed { border-color: #4caf50; background: #f3fbf3; }
+    .sp-card.nosvg { border-color: #ccc; background: #f5f5f5; }
+    .sp-card-index {
+      position: absolute; top: 4px; left: 6px; font-size: 0.7rem; color: #aaa; font-weight: bold;
+    }
+    .sp-card-display {
+      width: 100%; max-width: 150px; aspect-ratio: 1/1; background: #fff;
+      border: 2px dashed #e8e0d0; border-radius: 12px; position: relative;
+      display: flex; align-items: center; justify-content: center; margin: 6px 0;
+    }
+    .sp-card-display svg { width: 88%; height: 88%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .sp-card-canvas { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; height: 88%; touch-action: none; }
+    .sp-card-nosvg-msg { font-size: 0.75rem; color: #bbb; text-align: center; padding: 6px; }
+    .sp-card-progress { font-size: 0.75rem; color: #888; min-height: 1.1em; }
+    .sp-card-btns { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; justify-content: center; }
+    .sp-card-btns button {
+      padding: 4px 9px; font-size: 0.8rem; min-width: auto; min-height: auto; margin: 0;
+    }
+    .sp-card-stamp {
+      position: absolute; top: -6px; right: -6px; font-size: 1.6rem;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
     }
 
-    button {
-      background: #f0e6d3;
-      border: 1px solid #e0d6c2;
-      padding: 10px 20px;
-      font-size: 0.95rem;
-      border-radius: 40px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #5a4a3a;
-      transition: 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    button:hover {
-      background: #e8d9be;
-    }
-    button:active {
-      background: #d4c3a5;
-      transform: scale(0.96);
-    }
-    button:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-    select, textarea {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      background: white;
-      width: 100%;
-      font-family: inherit;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-    .hidden {
-      display: none !important;
+    /* ==================== 横長画面（Chromebook 16:9 想定） ==================== */
+    @media (orientation: landscape) and (min-width: 700px) {
+      body { padding: 10px; overflow: hidden; }
+      .container {
+        max-width: 100%; width: 100%; height: calc(100vh - 20px);
+        margin: 0; border-radius: 16px; padding: 14px 22px;
+        display: flex; flex-direction: column; overflow: hidden;
+      }
+      h1 { font-size: 1.2rem; margin: 0 0 8px; flex: 0 0 auto; }
+      .footer { display: none; }
+
+      .app-grid {
+        display: flex; flex-direction: row; gap: 22px; flex: 1 1 auto; min-height: 0;
+      }
+      .panel { display: flex; flex-direction: column; min-height: 0; }
+      .panel-left {
+        flex: 0 0 300px; overflow-y: auto; align-items: center; padding-right: 6px;
+      }
+      .panel-right {
+        flex: 1 1 auto; overflow-y: auto; padding-left: 14px; border-left: 1px solid #f0ebe0;
+      }
+      .kana-display { width: 190px; height: 190px; margin: 10px auto; }
+      .mode-selector { margin: 4px 0; }
+      .char-select-area, .custom-string-area { margin: 6px 0; }
+      .controls { margin: 10px 0; }
+      button { padding: 9px 20px; font-size: 1.05rem; margin: 5px; min-width: 40px; min-height: 40px; }
+      .speed-btn { padding: 6px 12px; font-size: 0.85rem; }
+
+      .sentence-practice-area {
+        flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-top: 0;
+      }
+      .sp-grid {
+        grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; overflow-y: auto; align-content: start;
+      }
+      .sp-card-display { max-width: 130px; }
+
+      .modal-content { max-width: min(760px, 90vw); }
+      .kana-grid { grid-template-columns: repeat(10, 1fr); max-height: 56vh; }
+      .search-result-grid { grid-template-columns: repeat(10, 1fr); }
     }
 
-    /* レスポンシブ：768px以下で縦並びに */
-    @media (max-width: 768px) {
-      .main-layout {
-        flex-direction: column;
-      }
-      .control-panel {
-        flex: 0 0 auto;
-        width: 100%;
-      }
-      .char-card {
-        width: 130px;
-      }
-      .char-svg-box {
-        width: 100px;
-        height: 100px;
-      }
+    /* とても横幅が狭いランドスケープ（小さめタブレット等）向けの調整 */
+    @media (orientation: landscape) and (max-width: 699px) {
+      .kana-grid { max-height: 34vh; }
     }
   </style>
 </head>
 <body>
-<div class="app-container">
-  <h1>✍️ 書き順アニメーション</h1>
-  <div class="main-layout">
-    <!-- 左コントロールパネル -->
-    <div class="control-panel">
-      <div>
-        <label>🎒 学年フィルター</label>
-        <select id="gradeFilter">
-          <option value="all">すべての文字（かな・漢字）</option>
-          <option value="1">小学1年生</option>
-          <option value="2">小学2年生</option>
-          <option value="3">小学3年生</option>
-          <option value="4">小学4年生</option>
-          <option value="5">小学5年生</option>
-          <option value="6">小学6年生</option>
-        </select>
-      </div>
-      <div>
-        <label>🔡 文字選択</label>
-        <select id="charSelect" size="8" style="height: auto;"></select>
-        <button id="showBtn" style="width:100%; margin-top:8px;">📺 表示する</button>
-      </div>
-      <div>
-        <label>📝 テキスト入力（1文字ずつ表示）</label>
-        <textarea id="textInput" placeholder="例：山月火水木金土">漢字練習</textarea>
-        <button id="renderTextBtn" style="width:100%; margin-top:8px;">✨ テキストを展開</button>
-      </div>
-      <div style="margin-top: auto; font-size: 0.8rem; color: #b8a386;">
-        KanjiVG SVGが必要です<br>「svg/」フォルダに配置
-      </div>
+  <div class="container">
+    <h1>✍️ 書き順アニメーション</h1>
+
+    <div class="app-grid" id="appGrid">
+    <div class="panel panel-left">
+    <div class="mode-selector">
+      <button class="mode-btn active" data-mode="select">📋 えらんでかく</button>
+      <button class="mode-btn" data-mode="sequential">🔢 じゅんばんに</button>
+      <button class="mode-btn" data-mode="random">🎲 おまかせ</button>
     </div>
 
-    <!-- 右ビューア -->
-    <div class="viewer-panel" id="viewerPanel">
-      <!-- 単一文字ビュー（従来の表示） -->
-      <div id="singleView">
-        <div class="kana-display" id="svgContainer">
-          <p style="color:#ccc;">文字を選んでね</p>
+    <div class="char-select-area" id="charSelectArea">
+      <button id="openKanaTableBtn">🔡 文字をえらぶ</button>
+      <span class="selected-char-display" id="selectedCharDisplay"></span>
+      <button id="showBtn">表示</button>
+    </div>
+
+    <div class="custom-string-area" id="customStringArea">
+      <input type="text" id="customStringInput" placeholder="れんしゅうしたい もじ">
+      <button id="startCustomStringBtn">▶ このもじでれんしゅう</button>
+      <button id="stopCustomStringBtn" style="display:none;">⏹ おわる</button>
+    </div>
+
+    <div class="kana-display" id="svgContainer">
+      <p style="color:#ccc;" id="placeholderText">文字を選んでね</p>
+    </div>
+
+    <div class="number-toggle" id="numberToggleArea" style="margin:8px 0;">
+      <label style="font-size:0.95rem; color:#666; cursor:pointer; user-select:none;">
+        <input type="checkbox" id="showNumbersCheckbox" checked style="vertical-align:middle; margin-right:4px;">
+        🔢 画数を表示
+      </label>
+      <div class="mode-hint-text">⚠️ 書き順チェック中は番号を表示できません</div>
+    </div>
+
+    </div>
+    <div class="panel panel-right">
+    <div class="info" id="infoText"></div>
+    <div class="feedback" id="feedbackText"></div>
+    <div class="stroke-counter" id="strokeInfo"></div>
+
+    <div id="speedControl" style="margin:10px 0;">
+      <span style="font-size:0.9rem; color:#888;">⚡ はやさ：</span>
+      <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
+      <button class="speed-btn active" data-speed="normal">🐇 ふつう</button>
+      <button class="speed-btn" data-speed="fast">🐆 はやい</button>
+    </div>
+
+    <div class="controls">
+      <button id="nextBtn">次の画 ▶</button>
+      <br>
+      <button id="traceHintBtn">🖊 なぞり練習</button>
+      <button id="traceCheckBtn">🔍 書き順チェック</button>
+      <button id="listenTraceBtn" style="display:none;">🔊 おとをきいてかく</button>
+      <button id="revealCharBtn" style="display:none;" class="reveal-btn">👀 こたえをみる</button>
+      <button id="nextCharBtn" style="display:none;" class="next-char-btn">▶ つぎのもんだい</button>
+      <button id="retryTracingBtn" style="display:none;">🔄 もう一度</button>
+      <button id="replaySoundBtn" style="display:none;" class="listen-btn">🔊 もういちどきく</button>
+      <br>
+      <button id="historyBtn">📋 れんしゅうのきろく</button>
+    </div>
+    </div>
+    </div>
+
+    <div class="sentence-practice-area" id="sentencePracticeArea">
+      <div class="sp-header">
+        <span class="sp-progress" id="spProgress"></span>
+        <div class="sp-pagination">
+          <button id="spPrevBtn">◀ 前</button>
+          <span class="sp-page-label" id="spPageLabel"></span>
+          <button id="spNextBtn">つぎ ▶</button>
         </div>
-        <div class="info" id="infoText"></div>
-        <div class="stroke-counter" id="strokeInfo"></div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:10px;">
-          <button id="prevBtn">◀ 前の画</button>
-          <button id="nextBtn">次の画 ▶</button>
-          <button id="replayBtn">🔄 もう一度</button>
-          <button id="showAllBtn">👀 すべて表示</button>
-        </div>
+        <button class="sp-stop-btn" id="spStopBtn">⏹ おわる</button>
       </div>
-      <!-- 複数文字テキストビュー -->
-      <div id="textMultiView" class="text-grid hidden"></div>
+      <div class="sp-grid" id="spGrid"></div>
     </div>
   </div>
-</div>
 
-<script>
-  (function() {
-    // --- 全文字マッピング：ひらがな・カタカナ + 学年別漢字 ---
-    const GRADE_KANJI = {
-      1: "一右雨円王音下火花貝学気九休玉金空月犬見五口校左三山子四糸字耳七車手十出女小上森人水正生青夕石赤千川先早草足村大男竹中虫町天田土二日入年白八八百文木本名目立力林六",
-      2: "引羽雲園遠何科夏家歌画回会海絵外角楽活間丸岩顔汽記帰弓牛魚京強教近兄形計元言原戸古午後語工公広交光考行高黄合谷国黒今才細作算止市矢姉思紙寺自時室社弱首秋週春書少場色食心新親図数西声星晴切雪船線前組走多太体台地池知茶昼長鳥朝直通弟店点電刀冬当東答頭同道読内南肉馬売買麦半番父風分聞米歩母方北毎妹万明鳴毛門夜野友用曜来里理話",
-      3: "悪安暗医委意育員院飲運泳駅央横屋温化荷界開階寒感漢館岸起期客究急級宮球去橋業曲局銀区苦具君係軽血決研県庫湖向幸港号根祭皿仕死使始指歯詩次事持式実写者主守取酒受州拾終習集住重宿所暑助昭消商章勝乗植申身神真深進世整昔全相送想息速族他打対待代第題炭短談着注柱丁帳調追定庭笛鉄転都度投豆島湯登等動童農波配倍箱畑発反坂板皮悲美鼻筆氷表秒病品負部服福物平返勉放味命面問役薬由油有遊予羊洋葉陽様落流旅両緑礼列練路和",
-      4: "愛案以衣位囲胃印英栄塩億加果貨課芽改械害街各覚完官管関観願希季紀喜旗器機議求泣救給挙漁共協鏡競極訓軍郡径型景芸欠結建健験固功好候航康告差菜最材昨札刷殺察参産散残士氏史司試児治辞失借種周祝順初松笑唱焼象照賞臣信成省清静席積折節説浅戦選然争倉巣束側続卒孫帯隊達単置仲貯兆腸低底停的典伝徒努灯堂働特得毒熱念敗梅博飯飛費必票標不夫付府副粉兵別辺変便包法望牧末満未脈民無約勇要養浴利陸良料量輪類令冷例歴連老労録",
-      5: "圧移因永営衛易益液演応往桜恩可仮価河過快解格確額刊幹慣眼基寄規技義逆久旧居許境均禁句群経潔件券険検限現減故個護効厚耕鉱構興講混査再災妻採際在財罪雑酸賛支志枝師資飼示似識質舎謝授修述術準序招承証条状常情織職制性政勢精製税責績接設舌絶銭祖素総造像増則測属率損退貸態団断築張提程適敵統銅導徳独任燃能破犯判版比肥非備俵評貧布婦富武復複仏編弁保墓報豊防貿暴務夢迷綿輸余預容略留領",
-      6: "異遺域宇映延沿我灰拡革閣割株干巻看簡危机揮貴疑吸供胸郷勤筋系敬警劇激穴絹権憲源厳己呼誤后孝皇紅降鋼刻穀骨困砂座済裁策冊蚕至私姿視詞誌磁射捨尺若樹収宗就衆従縦縮熟純処署諸除将傷障城蒸針仁垂推寸盛聖誠宣専泉洗染善奏窓創装層操蔵臓存尊宅担探誕段暖値宙忠著庁頂潮賃痛展討党糖届難乳認納脳派拝背肺俳班晩否批秘腹奮並陛閉片補暮宝訪亡忘棒枚幕密盟模訳郵優幼欲翌乱卵覧裏律臨朗論"
-    };
+  <!-- 五十音表モーダル -->
+  <div class="modal" id="kanaModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔡 もじをえらんでね</h2>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="tab-container">
+        <button class="tab-btn active" data-kana-type="hiragana">ひらがな</button>
+        <button class="tab-btn" data-kana-type="katakana">カタカナ</button>
+        <button class="tab-btn" data-kana-type="kanji">かん字</button>
+      </div>
+      <div class="char-search-area">
+        <input type="text" id="charSearchInput" placeholder="🔍 文字で検索（例：薔薇）">
+      </div>
+      <div class="char-search-hint">常用漢字いがいの文字も、SVGがあれば使えます</div>
+      <div class="sub-tab-container" id="subTabContainer">
+        <button class="sub-tab-btn active" data-sub-type="basic">せいおん</button>
+        <button class="sub-tab-btn" data-sub-type="dakuten">だくおん</button>
+        <button class="sub-tab-btn" data-sub-type="handakuten">はんだくおん</button>
+      </div>
+      <div class="kana-grid" id="kanaGrid"></div>
+      <div class="variant-row" id="variantRow"></div>
+      <button class="modal-select-btn" id="modalSelectBtn">これにする</button>
+    </div>
+  </div>
 
-    // 従来のひらがな・カタカナマッピング（文字,Unicode）
-    const KANA_MAP_BASE = [
-      "あ,3042","い,3044","う,3046","え,3048","お,304A",
-      "か,304B","き,304D","く,304F","け,3051","こ,3053",
-      "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
-      "た,305F","ち,3061","つ,3064","て,3066","と,3068",
-      "な,306A","に,306B","ぬ,306C","ね,306D","の,306E",
-      "は,306F","ひ,3072","ふ,3075","へ,3078","ほ,307B",
-      "ま,307E","み,307F","む,3080","め,3081","も,3082",
-      "や,3084","ゆ,3086","よ,3088",
-      "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
-      "わ,308F","を,3092","ん,3093",
-      "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
-      "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
-      "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
-      "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
-      "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
-      "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
-      "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
-      "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
-      "タ,30BF","チ,30C1","ツ,30C4","テ,30C6","ト,30C8",
-      "ナ,30CA","ニ,30CB","ヌ,30CC","ネ,30CD","ノ,30CE",
-      "ハ,30CF","ヒ,30D2","フ,30D5","ヘ,30D8","ホ,30DB",
-      "マ,30DE","ミ,30DF","ム,30E0","メ,30E1","モ,30E2",
-      "ヤ,30E4","ユ,30E6","ヨ,30E8",
-      "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
-      "ワ,30EF","ヲ,30F2","ン,30F3",
-      "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
-      "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
-      "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
-      "バ,30D0","ビ,30D3","ブ,30D6","ベ,30D9","ボ,30DC",
-      "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
-    ];
+  <!-- 結果表示ポップアップ -->
+  <div class="result-overlay" id="resultOverlay">
+    <div class="result-card">
+      <div class="stamp-emoji" id="stampEmoji"></div>
+      <div class="result-message" id="resultMessage"></div>
+      <div class="result-detail" id="resultDetail"></div>
+      <img id="resultThumb" style="max-width:120px; margin:10px auto; display:none; border:1px solid #ddd; border-radius:10px;" />
+      <br>
+      <button id="closeResultBtn">とじる</button>
+    </div>
+  </div>
 
-    // 全文字マップ（かな＋漢字）を構築
-    function buildFullCharMap() {
-      const map = new Map(); // key: char, value: unicode
-      // かな・カタカナを追加
-      KANA_MAP_BASE.forEach(item => {
-        const [char, code] = item.split(',');
-        map.set(char, code);
-      });
-      // 学年漢字を追加
-      for (let grade = 1; grade <= 6; grade++) {
-        const chars = GRADE_KANJI[grade];
-        for (const char of chars) {
-          const code = char.charCodeAt(0).toString(16).padStart(5, '0').toUpperCase();
-          map.set(char, code);
+  <!-- 履歴モーダル -->
+  <div class="modal" id="historyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📋 れんしゅうのきろく</h2>
+        <button class="modal-close" id="historyCloseBtn">&times;</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+      <button class="clear-history-btn" id="clearHistoryBtn">ぜんぶけす</button>
+    </div>
+  </div>
+
+  <div class="footer">made with ❤️</div>
+
+  <script>
+    (function() {
+      const pathParts = window.location.pathname.split('/');
+      const repoName = pathParts.length > 2 ? pathParts[1] : '';
+      const BASE_PATH = repoName ? `/${repoName}` : '';
+
+      const kanaMap = [
+        "あ,3042","い,3044","う,3046","え,3048","お,304A",
+        "か,304B","き,304D","く,304F","け,3051","こ,3053",
+        "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
+        "た,305F","ち,3061","つ,3064","て,3066","と,3068",
+        "な,306A","に,306B","ぬ,306C","ね,306D","の,306E",
+        "は,306F","ひ,3072","ふ,3075","へ,3078","ほ,307B",
+        "ま,307E","み,307F","む,3080","め,3081","も,3082",
+        "や,3084","ゆ,3086","よ,3088",
+        "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
+        "わ,308F","を,3092","ん,3093",
+        "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
+        "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
+        "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
+        "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
+        "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
+        "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
+        "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
+        "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
+        "タ,30BF","チ,30C1","ツ,30C4","テ,30C6","ト,30C8",
+        "ナ,30CA","ニ,30CB","ヌ,30CC","ネ,30CD","ノ,30CE",
+        "ハ,30CF","ヒ,30D2","フ,30D5","ヘ,30D8","ホ,30DB",
+        "マ,30DE","ミ,30DF","ム,30E0","メ,30E1","モ,30E2",
+        "ヤ,30E4","ユ,30E6","ヨ,30E8",
+        "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
+        "ワ,30EF","ヲ,30F2","ン,30F3",
+        "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
+        "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
+        "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
+        "バ,30D0","ビ,30D3","ブ,30D6","ベ,30D9","ボ,30DC",
+        "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
+      ];
+
+      // 学年別漢字配当表（小1〜小6：教育漢字、7：のこりの常用漢字）
+      // 文字コード(unicode)は保持せず、文字から動的に計算する（charToHexCode参照）
+      const gradeKanji = {
+  1: ["一","二","三","四","五","六","七","八","九","十","百","千","上","下","左","右","中","大","小","月","日","年","早","木","林","山","川","土","空","田","天","生","花","草","虫","犬","人","名","女","男","子","目","耳","口","手","足","見","音","力","気","円","入","出","立","休","先","夕","本","文","字","学","校","村","町","森","正","水","火","玉","王","石","竹","糸","貝","車","金","雨","赤","青","白"],
+  2: ["引","羽","雲","園","遠","何","科","夏","家","歌","画","回","会","海","絵","外","角","楽","活","間","丸","岩","顔","汽","記","帰","弓","牛","魚","京","強","教","近","兄","形","計","元","言","原","戸","古","午","後","語","工","公","広","交","光","考","行","高","黄","合","谷","国","黒","今","才","作","算","止","市","矢","姉","思","紙","寺","自","時","室","社","弱","首","秋","週","春","書","少","場","色","食","心","新","親","図","数","西","声","星","晴","切","雪","船","線","前","組","走","多","太","体","台","地","池","知","茶","昼","長","鳥","朝","直","通","弟","店","点","電","刀","冬","当","東","答","頭","同","道","読","内","南","肉","馬","売","買","麦","半","番","父","風","分","聞","米","歩","母","方","北","毎","妹","万","明","鳴","毛","門","夜","野","友","用","曜","来","里","理","話"],
+  3: ["悪","安","暗","医","委","意","育","員","院","飲","運","泳","駅","央","横","屋","温","化","荷","界","開","階","寒","感","漢","館","岸","起","期","客","究","急","級","宮","球","去","橋","業","曲","局","銀","区","苦","具","君","係","軽","血","決","研","県","庫","湖","向","幸","港","号","根","祭","皿","仕","死","使","始","指","歯","詩","次","事","持","式","実","写","者","主","守","取","酒","受","州","拾","終","習","集","住","重","宿","所","暑","助","昭","消","商","章","勝","乗","植","申","身","神","真","深","進","世","整","昔","全","相","送","想","息","速","族","他","打","対","待","代","第","題","炭","短","談","着","注","柱","丁","帳","調","追","定","庭","笛","鉄","転","都","度","投","豆","島","湯","登","等","動","童","農","波","配","倍","箱","畑","発","反","坂","板","皮","悲","美","鼻","筆","氷","表","秒","病","品","負","部","服","福","物","平","返","勉","放","万","味","命","面","問","役","薬","由","油","有","遊","予","羊","洋","葉","陽","様","落","流","旅","両","緑","礼","列","練","路","和"],
+  4: ["愛","案","以","衣","位","囲","胃","印","英","栄","塩","億","加","果","貨","課","芽","改","械","害","街","各","覚","完","官","管","関","観","願","希","季","紀","喜","旗","器","機","議","求","泣","救","給","挙","漁","共","協","鏡","競","極","訓","軍","郡","径","型","景","芸","欠","結","建","健","験","固","功","好","候","航","康","告","差","菜","最","材","昨","札","刷","殺","察","参","産","散","残","士","氏","史","司","試","児","治","辞","失","借","種","周","祝","順","初","松","笑","唱","焼","象","照","賞","臣","信","真","成","省","清","静","席","積","折","節","説","浅","戦","選","然","争","倉","巣","束","側","続","卒","孫","帯","隊","達","単","置","仲","貯","兆","腸","低","底","停","的","典","伝","徒","努","灯","堂","働","毒","熱","念","敗","梅","博","飯","飛","費","必","票","標","不","夫","付","府","副","粉","兵","別","辺","変","便","包","法","望","牧","末","満","未","脈","民","無","約","勇","要","養","浴","利","陸","良","料","量","輪","類","令","冷","例","歴","連","老","労","録"],
+  5: ["圧","移","因","永","営","衛","易","益","液","演","応","往","桜","恩","可","仮","価","河","過","快","解","格","確","額","刊","幹","慣","眼","基","寄","規","技","義","逆","久","旧","居","許","境","均","禁","句","群","経","潔","件","券","険","検","限","現","減","故","個","護","効","厚","耕","鉱","構","興","講","混","査","再","災","妻","採","際","在","財","罪","雑","酸","賛","支","志","枝","師","資","飼","示","似","識","質","舎","謝","授","修","述","術","準","序","招","承","証","条","状","常","情","織","職","制","性","政","勢","精","製","税","責","績","接","設","舌","絶","銭","祖","素","総","造","像","増","則","測","属","率","損","退","貸","態","団","断","築","張","提","程","適","敵","統","銅","導","徳","独","任","燃","能","破","犯","判","版","比","肥","非","備","俵","評","貧","布","婦","富","武","復","複","仏","編","弁","保","墓","報","豊","防","貿","暴","未","務","無","迷","綿","輸","余","預","容","略","留","領"],
+  6: ["異","遺","域","宇","映","延","沿","我","灰","拡","革","閣","割","株","干","巻","看","簡","危","机","揮","貴","疑","吸","供","胸","郷","勤","筋","系","敬","警","劇","激","穴","絹","権","憲","源","厳","己","呼","誤","后","孝","皇","紅","降","鋼","刻","穀","骨","困","砂","座","済","裁","策","冊","蚕","至","私","姿","視","詞","誌","磁","射","捨","尺","若","樹","収","宗","就","衆","従","縦","縮","熟","純","処","署","諸","除","将","傷","障","城","蒸","針","仁","垂","推","寸","盛","聖","誠","宣","専","泉","洗","染","善","奏","窓","創","装","層","操","蔵","臓","存","尊","宅","担","探","誕","段","暖","値","宙","忠","著","庁","頂","潮","賃","痛","展","討","党","糖","届","難","乳","認","納","脳","派","拝","背","肺","俵","班","晩","否","批","秘","腹","奮","並","陛","閉","片","補","暮","宝","訪","亡","忘","棒","枚","幕","密","盟","模","訳","郵","優","幼","欲","翌","乱","卵","覧","裏","律","臨","朗","論"],
+  7: ["亜","哀","挨","曖","握","扱","宛","嵐","依","威","為","畏","尉","萎","偉","椅","彙","違","維","慰","緯","壱","逸","茨","芋","咽","姻","淫","陰","隠","韻","唄","鬱","畝","浦","詠","影","鋭","疫","悦","越","謁","閲","炎","怨","宴","媛","援","煙","猿","鉛","縁","艶","汚","凹","押","旺","欧","殴","翁","奥","岡","憶","臆","虞","乙","俺","卸","穏","佳","苛","架","華","菓","渦","嫁","暇","禍","靴","寡","箇","稼","蚊","牙","瓦","賀","雅","餓","介","戒","怪","拐","悔","皆","塊","楷","潰","壊","懐","諧","劾","崖","涯","慨","蓋","該","概","骸","垣","柿","核","殻","郭","較","隔","獲","嚇","穫","岳","顎","掛","潟","括","喝","渇","葛","滑","褐","轄","且","釜","鎌","刈","甘","汗","缶","肝","冠","陥","乾","勘","患","貫","喚","堪","換","敢","棺","款","閑","勧","寛","歓","監","緩","憾","還","環","韓","艦","鑑","含","玩","頑","企","伎","岐","忌","奇","祈","軌","既","飢","鬼","亀","幾","棋","棄","毀","畿","輝","騎","宜","偽","欺","儀","戯","擬","犠","菊","吉","喫","詰","却","脚","虐","及","丘","朽","臼","糾","嗅","窮","巨","拒","拠","虚","距","御","凶","叫","狂","享","況","峡","挟","狭","恐","恭","脅","矯","響","驚","仰","暁","凝","巾","斤","菌","琴","僅","緊","錦","謹","襟","吟","駆","惧","愚","偶","遇","隅","串","屈","掘","窟","熊","繰","勲","薫","刑","茎","契","恵","啓","掲","渓","蛍","傾","携","継","詣","慶","憬","稽","憩","鶏","迎","鯨","隙","撃","桁","傑","肩","倹","兼","剣","拳","軒","圏","堅","嫌","献","遣","賢","謙","鍵","繭","顕","懸","幻","玄","弦","舷","股","虎","孤","弧","枯","雇","誇","鼓","錮","顧","互","呉","娯","悟","碁","勾","孔","巧","甲","江","坑","抗","攻","更","拘","肯","侯","恒","洪","荒","郊","香","貢","控","梗","喉","慌","硬","絞","項","溝","綱","酵","稿","衡","購","乞","拷","剛","傲","豪","克","酷","獄","駒","込","頃","昆","恨","婚","痕","紺","魂","墾","懇","佐","沙","唆","詐","鎖","挫","采","砕","宰","栽","彩","斎","細","債","催","塞","歳","載","埼","剤","崎","削","柵","索","酢","搾","錯","咲","刹","拶","撮","擦","桟","惨","傘","斬","暫","旨","伺","刺","祉","肢","施","恣","脂","紫","嗣","雌","摯","賜","諮","侍","滋","慈","餌","璽","鹿","軸","𠮟","疾","執","湿","嫉","漆","芝","赦","斜","煮","遮","邪","蛇","酌","釈","爵","寂","朱","狩","殊","珠","腫","趣","寿","呪","需","儒","囚","舟","秀","臭","袖","羞","愁","酬","醜","蹴","襲","汁","充","柔","渋","銃","獣","叔","淑","粛","塾","俊","瞬","旬","巡","盾","准","殉","循","潤","遵","庶","緒","如","叙","徐","升","召","匠","床","抄","肖","尚","昇","沼","宵","症","祥","称","渉","紹","訟","掌","晶","焦","硝","粧","詔","奨","詳","彰","憧","衝","償","礁","鐘","丈","冗","浄","剰","畳","縄","壌","嬢","錠","譲","醸","拭","殖","飾","触","嘱","辱","尻","伸","芯","辛","侵","津","唇","娠","振","浸","紳","診","寝","慎","審","震","薪","刃","尽","迅","甚","陣","尋","腎","須","吹","炊","帥","粋","衰","酔","遂","睡","穂","随","髄","枢","崇","据","杉","裾","瀬","是","井","姓","征","斉","牲","凄","逝","婿","誓","請","醒","斥","析","脊","隻","惜","戚","跡","籍","拙","窃","摂","仙","占","扇","栓","旋","煎","羨","腺","詮","践","箋","潜","遷","薦","繊","鮮","禅","漸","膳","繕","狙","阻","租","措","粗","疎","訴","塑","遡","礎","双","壮","荘","捜","挿","桑","掃","曹","曽","爽","喪","痩","葬","僧","遭","槽","踪","燥","霜","騒","藻","憎","贈","即","促","捉","俗","賊","遜","汰","妥","唾","堕","惰","駄","耐","怠","胎","泰","堆","袋","逮","替","滞","戴","滝","択","沢","卓","拓","託","濯","諾","濁","但","脱","奪","棚","誰","丹","旦","胆","淡","嘆","端","綻","鍛","弾","壇","恥","致","遅","痴","稚","緻","畜","逐","蓄","秩","窒","嫡","沖","抽","衷","酎","鋳","駐","弔","挑","彫","眺","釣","貼","超","跳","徴","嘲","澄","聴","懲","勅","捗","沈","珍","朕","陳","鎮","椎","墜","塚","漬","坪","爪","鶴","呈","廷","抵","邸","亭","貞","帝","訂","逓","偵","堤","艇","締","諦","泥","摘","滴","溺","迭","哲","徹","撤","添","塡","殿","斗","吐","妬","途","渡","塗","賭","奴","怒","到","逃","倒","凍","唐","桃","透","悼","盗","陶","塔","搭","棟","痘","筒","稲","踏","謄","藤","闘","騰","洞","胴","瞳","峠","匿","特","得","督","篤","栃","凸","突","屯","豚","頓","貪","鈍","曇","丼","那","奈","梨","謎","鍋","軟","尼","弐","匂","虹","尿","妊","忍","寧","捻","粘","悩","濃","把","覇","婆","罵","杯","俳","排","廃","輩","培","陪","媒","賠","伯","拍","泊","迫","剝","舶","薄","漠","縛","爆","箸","肌","鉢","髪","伐","抜","罰","閥","氾","帆","汎","伴","阪","畔","般","販","斑","搬","煩","頒","範","繁","藩","蛮","盤","妃","彼","披","卑","疲","被","扉","碑","罷","避","尾","眉","微","膝","肘","匹","泌","姫","漂","苗","描","猫","浜","賓","頻","敏","瓶","扶","怖","阜","附","訃","赴","浮","符","普","腐","敷","膚","賦","譜","侮","舞","封","伏","幅","覆","払","沸","紛","雰","噴","墳","憤","丙","併","柄","塀","幣","弊","蔽","餅","壁","璧","癖","蔑","偏","遍","哺","捕","舗","募","慕","簿","芳","邦","奉","抱","泡","胞","俸","倣","峰","砲","崩","蜂","飽","褒","縫","乏","忙","坊","妨","房","肪","某","冒","剖","紡","傍","帽","貌","膨","謀","頰","朴","睦","僕","墨","撲","没","勃","堀","奔","翻","凡","盆","麻","摩","磨","魔","昧","埋","膜","枕","又","抹","慢","漫","魅","岬","蜜","妙","眠","矛","夢","霧","娘","冥","銘","滅","免","麺","茂","妄","盲","耗","猛","網","黙","紋","冶","弥","厄","躍","闇","喩","愉","諭","癒","唯","幽","悠","湧","猶","裕","雄","誘","憂","融","与","誉","妖","庸","揚","揺","溶","腰","瘍","踊","窯","擁","謡","抑","沃","翼","拉","裸","羅","雷","頼","絡","酪","辣","濫","藍","欄","吏","痢","履","璃","離","慄","柳","竜","粒","隆","硫","侶","虜","慮","了","涼","猟","陵","僚","寮","療","瞭","糧","厘","倫","隣","瑠","涙","累","塁","励","戻","鈴","零","霊","隷","齢","麗","暦","劣","烈","裂","恋","廉","錬","呂","炉","賂","露","弄","郎","浪","廊","楼","漏","籠","麓","賄","脇","惑","枠","湾","腕"]
+};
+      const gradeLabels = {1:'小1',2:'小2',3:'小3',4:'小4',5:'小5',6:'小6',7:'常用'};
+
+      // KanjiVGの字形バリエーション一覧（キー：5桁16進コード、値：バリエーション名をカンマ区切り）
+      // 常用漢字だけでなく、SVGが存在するすべての文字に対応（ファイル名 = 文字コードなので個別マッピング不要）
+      const variantManifest = {"04e14":"Kaisho","04e3b":"VtLst","04e4b":"Kaisho","04e57":"Kaisho","04e58":"Kaisho","04e7e":"Kaisho","04e80":"Kaisho","04e98":"Kaisho","04e9b":"HzFst","04ea0":"Kaisho","04ea1":"Kaisho","04ea2":"Kaisho","04ea5":"Kaisho","04ea6":"Kaisho","04ea8":"Kaisho","04eab":"Kaisho","04eac":"Kaisho","04ead":"Kaisho","04eae":"Kaisho","04eb0":"Kaisho","04eb3":"Kaisho","04eb6":"Kaisho","04ee4":"Insatsu","04f01":"HzFst","04f09":"Kaisho","04f11":"Kaisho","04f2f":"Kaisho","04f34":"HzFst","04f36":"Insatsu","04f38":"Kaisho","04f43":"Kaisho","04f46":"Kaisho","04f47":"Kaisho","04f4d":"Kaisho","04f4f":"VtLst","04f57":"Kaisho","04f70":"Kaisho","04f7b":"MidFst","04f7c":"Kaisho","04f86":"Kaisho","04f8f":"Kaisho","04f91":"Kaisho","04f96":"Kaisho","04f98":"Kaisho","04f9d":"Kaisho","04fab":"Kaisho","04fb5":"Kaisho","04fbf":"Kaisho","04fc2":"Kaisho","04fce":"Kaisho","04fd0":"Kaisho","04fd1":"Kaisho","04fd4":"Kaisho","04fda":"Kaisho,KaishoVtLst","04fdd":"Kaisho","04fe4":"Kaisho","04fe5":"Kaisho","04fef":"Kaisho","04ff1":"Kaisho","04ff3":"MdFst","04ff5":"HzLst","04ff6":"HzFst","04ffa":"Kaisho","04ffe":"Kaisho","05005":"Kaisho","0500d":"Kaisho","05011":"Kaisho","05012":"VtFst","0501f":"Kaisho","05021":"Kaisho","05023":"Kaisho","05024":"Kaisho","05025":"Kaisho","05026":"Hyougai","05029":"VtLst","0502a":"HzLst","0502b":"Kaisho","0502c":"Kaisho,KaishoHzFst","05036":"Kaisho","05043":"Kaisho","05048":"Kaisho","0504f":"Kaisho","05050":"Kaisho","05055":"Kaisho","05056":"Kaisho","0505c":"Kaisho","05072":"Kaisho","05074":"Kaisho","05075":"Kaisho,KaishoHzFst","05076":"Kaisho","05080":"Kaisho","05085":"Kaisho","0508d":"Kaisho","05091":"Kaisho","05099":"Insatsu,InsatsuKaisho,Kaisho","0509a":"Kaisho","050ad":"Kaisho","050b2":"Kaisho","050b5":"Kaisho,KaishoVtLst","050b7":"Kaisho","050be":"Kaisho","050c5":"Hyougai,Jinmei","050cd":"Kaisho,KaishoVtLst","050da":"Kaisho","050e3":"Kaisho","050e7":"Kaisho","050ed":"Kaisho","050ee":"Kaisho,KaishoVtLst","050f5":"Kaisho","050f9":"Kaisho","050fb":"Kaisho","05102":"Kaisho,KaishoVtLst","05104":"Kaisho","05115":"Kaisho,KaishoVt12","05116":"HzFst","05118":"VtFst","0511f":"Kaisho","05121":"Kaisho","0512a":"Kaisho","05132":"Hyougai,HyougaiKaisho,Kaisho","05137":"Kaisho","0513b":"VtLst","0513c":"Kaisho,KaishoVt3","05145":"Kaisho","05146":"MidFst","0514e":"Hyougai,Jinmei","05150":"Kaisho","05152":"HzLst","0515c":"Kaisho","05168":"VtLst","0516d":"Kaisho","05176":"Kaisho","05177":"Kaisho","05178":"Kaisho,KaishoVtLst","05180":"Kaisho","05190":"Kaisho","05191":"Kaisho,KaishoVtLst","05192":"Kaisho","05193":"Kaisho","051a4":"Hyougai","051a5":"Kaisho","051a8":"Kaisho","051a9":"HzLst","051aa":"Kaisho","051b7":"Insatsu","051c4":"VtLst","051c9":"Kaisho","051cd":"Kaisho","051db":"Kaisho","051dc":"Kaisho","051dd":"Kaisho","051e9":"Kaisho","051ea":"HzFst","051f0":"Kaisho,KaishoVtLst","05207":"Kaisho","0520a":"Kaisho","05224":"Kaisho","05229":"Kaisho","05230":"VtFst","05239":"Kaisho","0523a":"Kaisho","0523b":"Kaisho","05243":"Kaisho","05247":"Kaisho","0524a":"Kaisho","0524c":"Kaisho","0524d":"Kaisho","05254":"Kaisho","05256":"Kaisho","05264":"Kaisho,KaishoVt6","05265":"Jinmei,Kaisho","05269":"Kaisho","0526f":"Kaisho","05270":"Kaisho","05272":"Kaisho,KaishoVtLst","0527f":"Kaisho","05283":"Kaisho","05287":"HzFstLeRi,HzFstRiLe,VtFstRiLe","05288":"Kaisho","05291":"Kaisho,KaishoVt12","052a9":"Kaisho","052b9":"Kaisho","052be":"Kaisho","052c5":"Kaisho","052c7":"Kaisho","052cd":"Kaisho","052d5":"Kaisho,KaishoVtLst","052d7":"Kaisho","052d8":"Kaisho","052dd":"Kaisho","052df":"Kaisho","052e3":"Kaisho,KaishoVtLst","052e4":"VtLst","052e6":"Kaisho","052f2":"Kaisho,KaishoVtLst","052f3":"VtLst","052f5":"Kaisho","0530d":"Kaisho","05310":"Kaisho","05317":"Kaisho","05319":"Kaisho","05321":"VtLst","05323":"Kaisho","0532a":"MdFst","05331":"Kaisho","05351":"Kaisho","05352":"Kaisho","05353":"Kaisho,KaishoHzFst","05358":"Kaisho","0535a":"Kaisho","0535e":"Kaisho","05360":"HzFst","05373":"Kaisho","05375":"TenLst","0537f":"Hyougai,HyougaiKaisho,Kaisho","05398":"Kaisho,KaishoVtLst","0539a":"Kaisho","0539f":"Kaisho","053a0":"Kaisho","053a6":"Kaisho","053a9":"Hyougai,HyougaiKaisho,Jinmei,JinmeiKaisho","053ad":"Kaisho","053ae":"Kaisho","053b3":"Kaisho,KaishoVt3","053c9":"Jinmei","053d4":"HzFst","053d6":"Kaisho,KaishoVt3","053db":"Hyougai","053df":"Hyougai,VtLst","053e1":"Kaisho","053e2":"Kaisho,KaishoVt3","0541d":"Kaisho","0542d":"Kaisho","05446":"Kaisho","05448":"VtLst","0545f":"Kaisho","05470":"HzFst","05473":"Kaisho","05477":"Kaisho","0547b":"Kaisho","05480":"Kaisho","0548c":"Kaisho","054a4":"Kaisho","054a5":"VtFst","054ac":"Hyougai,HyougaiKaisho","054b3":"Kaisho","054bc":"HzFst","054c0":"Kaisho","054e2":"VtLst","054e8":"Hyougai,HyougaiKaisho,Kaisho","054e9":"Kaisho,KaishoVtLst","054fa":"Kaisho","054fd":"Kaisho","05504":"Kaisho","05510":"Kaisho,KaishoHzLst,KaishoVt5","05531":"Kaisho","05539":"Kaisho","0553e":"VtLst","05545":"Kaisho,KaishoHzFst","05546":"Kaisho","0554c":"Kaisho","0554f":"Kaisho","05557":"HzLst","0555d":"Kaisho","0557b":"Kaisho","0557c":"Kaisho","0557e":"Kaisho","05580":"Kaisho","05587":"Kaisho","0558b":"Kaisho","0559d":"Kaisho","0559e":"Kaisho","0559f":"Kaisho","055a7":"Kaisho","055a8":"Kaisho","055ab":"VtLst","055ae":"Kaisho","055b0":"Hyougai,HyougaiKaisho","055c4":"Kaisho","055c5":"Kaisho","055d4":"Kaisho","055dc":"Kaisho","055e3":"Kaisho","055f7":"Kaisho","055f9":"Kaisho","055fd":"Kaisho","055fe":"Kaisho","05616":"Kaisho,KaishoVtLst","05617":"Kaisho","05618":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0561b":"Kaisho","0562f":"Kaisho,KaishoVt6","05632":"Hyougai,HyougaiKaisho","05634":"Kaisho,KaishoHzFst","05636":"Kaisho","05638":"HzLst","05642":"Hyougai,HyougaiKaisho","0564c":"Hyougai,HyougaiKaisho","0565b":"HzFst","0566a":"Kaisho","0566b":"Kaisho","05674":"Kaisho","05678":"Kaisho","0567a":"Kaisho","05680":"Kaisho","05686":"Kaisho","0568a":"Kaisho","0568f":"Kaisho","05694":"Kaisho","056a2":"Jinmei","056ae":"Kaisho","056b4":"Kaisho,KaishoVt3","056b6":"Kaisho","056bc":"Kaisho","056c0":"Hyougai,HyougaiKaisho","056c1":"Kaisho,KaishoVt3","056c2":"Kaisho","056c3":"Kaisho","056ce":"Kaisho","056d3":"HzFst","056f0":"Kaisho","056f9":"Insatsu","056fd":"VtLst","056ff":"Kaisho","05700":"Kaisho","05703":"Kaisho","05716":"Kaisho","05740":"HzFst","05747":"Kaisho","0574a":"Kaisho","05750":"VtLst","05751":"Kaisho","05764":"Kaisho","05766":"Kaisho","05769":"Kaisho","05782":"VtLst","05793":"Kaisho","057a0":"Kaisho","057a3":"Kaisho","057a4":"VtFst","057b0":"HzFst","057c6":"Kaisho","057cb":"Kaisho,KaishoVtLst","057d4":"Kaisho","057e3":"Kaisho","057f4":"Kaisho","057f9":"Kaisho","057fa":"Kaisho","05805":"HzFst","0580b":"Kaisho","05815":"Kaisho","0581d":"HzFst","05821":"Kaisho","05824":"Kaisho","0582a":"Kaisho","05830":"Kaisho","05831":"VtFst","05834":"Kaisho","05835":"Hyougai,HyougaiKaisho,Kaisho","0583a":"Kaisho","0583d":"HzFst","05841":"Kaisho","0584a":"Kaisho","05851":"Kaisho","05852":"Kaisho","05858":"Kaisho,KaishoHzLst,KaishoVt5","05859":"Kaisho","0585e":"Kaisho,KaishoVtLst","05861":"Kaisho","0586b":"Kaisho","05872":"Kaisho","05875":"Kaisho","05879":"Kaisho","0587e":"Kaisho","05883":"Kaisho","05885":"Kaisho,KaishoVtLst","05893":"Kaisho","05897":"Kaisho","0589f":"HzFstLeRi,HzFstRiLe,VtFstRiLe","058a8":"Kaisho,KaishoVtLst","058ab":"Kaisho","058ae":"Kaisho","058b3":"Kaisho","058b8":"Kaisho","058b9":"Kaisho","058be":"Kaisho","058c1":"Kaisho","058c5":"Kaisho","058c7":"Kaisho","058ca":"Kaisho","058cc":"Kaisho,KaishoVtLst","058d3":"Kaisho","058d5":"Kaisho","058d7":"VtFst","058d8":"Kaisho","058d9":"Kaisho,KaishoVtLst","058dc":"Kaisho","058de":"Kaisho","058df":"Kaisho","058e4":"Kaisho","058e5":"VtLst","058f1":"Kaisho","058fb":"Kaisho","05909":"Kaisho","0590f":"Kaisho","05910":"Kaisho","0591b":"Kaisho","0591c":"Kaisho","05925":"Kaisho","05929":"Kaisho","05944":"Kaisho","05951":"VtLst","05955":"Kaisho","05957":"HzFst","05960":"Kaisho","05962":"Kaisho","0596e":"Kaisho","05984":"Kaisho","059a3":"Kaisho","059a8":"Kaisho","059b2":"Kaisho","059b9":"Kaisho","059bb":"VtLst","059be":"Kaisho","059c9":"Kaisho","059d0":"Kaisho","059d3":"VtLst","059d4":"Kaisho","059da":"MidFst","059ea":"VtFst","059eb":"HzFst","059ff":"Kaisho","05a09":"Kaisho,KaishoVtLst","05a18":"Kaisho","05a1a":"Kaisho","05a1f":"Kaisho","05a29":"Hyougai,Jinmei","05a35":"Kaisho,KaishoVt3","05a36":"Kaisho,KaishoVt3","05a3c":"Kaisho","05a49":"Kaisho","05a5a":"Kaisho","05a62":"Kaisho","05a66":"Kaisho","05a7f":"Kaisho","05a92":"Kaisho","05a9a":"Kaisho","05abd":"Vt6","05abe":"Kaisho","05ac1":"Kaisho","05ac2":"MdFst,MdLst","05ac9":"Kaisho","05ad0":"Kaisho","05ae1":"Kaisho","05ae3":"HzFst","05ae9":"Kaisho","05afa":"Kaisho","05afb":"Kaisho","05b0b":"Kaisho","05b16":"Kaisho","05b22":"Kaisho,KaishoVtLst","05b2a":"Kaisho","05b30":"Kaisho","05b32":"Kaisho","05b36":"Kaisho","05b3e":"Kaisho","05b40":"Kaisho","05b43":"Kaisho,KaishoVtLst","05b57":"Kaisho","05b63":"Kaisho","05b69":"Kaisho","05b6b":"Kaisho","05b70":"Kaisho","05b75":"TenLst","05b78":"LeFst","05b80":"Kaisho","05b83":"Kaisho","05b85":"Kaisho","05b87":"Kaisho","05b88":"Kaisho","05b89":"Kaisho","05b8b":"Kaisho","05b8c":"Kaisho","05b8d":"Kaisho","05b8f":"Kaisho","05b95":"Kaisho","05b97":"Kaisho","05b98":"Kaisho","05b99":"Kaisho,KaishoVtLst","05b9a":"Kaisho","05b9b":"Kaisho","05b9c":"Kaisho","05b9d":"Kaisho,KaishoVtLst","05b9f":"Kaisho","05ba2":"Kaisho","05ba3":"Kaisho","05ba4":"Kaisho,KaishoVtFst","05ba5":"Kaisho","05ba6":"Kaisho,KaishoHzFst","05bae":"Kaisho","05bb0":"Kaisho","05bb3":"Kaisho,KaishoVtLst","05bb4":"Kaisho","05bb5":"Kaisho","05bb6":"Kaisho","05bb8":"Kaisho","05bb9":"Kaisho","05bbf":"Kaisho","05bc2":"Kaisho,KaishoHzFst","05bc3":"Kaisho","05bc4":"Kaisho","05bc5":"Kaisho,KaishoVtLst","05bc6":"Kaisho,KaishoTen3","05bc7":"Kaisho","05bc9":"Kaisho","05bcc":"Kaisho","05bd0":"Kaisho","05bd2":"Kaisho,KaishoVtLst","05bd3":"Kaisho","05bd4":"Kaisho","05bdb":"Kaisho","05bdd":"Kaisho","05bde":"Kaisho","05bdf":"Kaisho","05be1":"Kaisho","05be2":"Kaisho","05be4":"Kaisho","05be5":"Kaisho","05be6":"Kaisho","05be7":"Kaisho","05be8":"Kaisho,KaishoVtLst","05be9":"Kaisho","05beb":"Kaisho,KaishoHzLst","05bee":"Kaisho","05bf0":"Kaisho","05bf3":"Kaisho,KaishoVtLst","05bf5":"Kaisho","05bf6":"Kaisho,KaishoVtLst","05bfe":"Kaisho","05c02":"Kaisho,KaishoVt4,KaishoVtLst","05c04":"Kaisho","05c0a":"Kaisho","05c0b":"Kaisho","05c0d":"VtLst","05c0e":"Kaisho","05c20":"Kaisho","05c31":"Kaisho","05c41":"Kaisho","05c4a":"Kaisho,KaishoVtLst","05c4b":"VtFst","05c4e":"Kaisho","05c51":"Hyougai,HyougaiKaisho,Kaisho","05c53":"Kaisho","05c60":"Hyougai,HyougaiKaisho","05c64":"Kaisho","05c65":"Kaisho","05ca8":"Kaisho","05cab":"Kaisho,KaishoVtLst","05cac":"Kaisho","05cb6":"Kaisho","05cbe":"HzFst","05ce0":"HzFst","05ced":"Kaisho","05cf6":"Kaisho","05cfa":"Kaisho","05d07":"Kaisho","05d11":"Kaisho","05d18":"Kaisho","05d19":"Kaisho","05d29":"Kaisho","05d4b":"Kaisho","05d4c":"Kaisho","05d4e":"Kaisho","05d5c":"Kaisho","05d69":"Kaisho","05d6c":"Kaisho","05d6f":"VtLst","05d73":"VtLst","05d82":"Kaisho","05d84":"Kaisho","05d8b":"Kaisho","05d8c":"Kaisho","05d90":"VtLst","05d9d":"Dg3,DgLst","05db7":"Kaisho","05dba":"Insatsu,Kaisho","05dc9":"Kaisho","05dcc":"Kaisho,KaishoVt3","05dcd":"Kaisho","05dd2":"Kaisho","05dd3":"Kaisho","05dd6":"Kaisho,KaishoVt3","05de3":"Kaisho","05de8":"HzFst","05dee":"VtLst","05df7":"Hyougai,HyougaiKaisho","05dfb":"Kaisho","05e02":"Kaisho","05e16":"HzFst","05e1b":"Kaisho","05e1d":"Kaisho","05e2d":"Kaisho","05e30":"Kaisho","05e33":"HzFst","05e3d":"Kaisho","05e40":"Kaisho,KaishoHzFst","05e44":"VtFst","05e45":"Kaisho","05e4c":"Kaisho","05e4e":"Kaisho","05e54":"Kaisho","05e55":"Kaisho","05e5f":"Kaisho","05e61":"Kaisho","05e62":"Kaisho,KaishoVtLst","05e78":"Kaisho","05e79":"Kaisho","05e7f":"Kaisho","05e81":"Kaisho","05e83":"Kaisho","05e84":"Kaisho","05e87":"Kaisho","05e8a":"Kaisho","05e8f":"Kaisho","05e95":"Kaisho","05e96":"Hyougai,HyougaiKaisho","05e97":"Kaisho,KaishoHzFst","05e9a":"Kaisho","05e9c":"Kaisho","05ea0":"Kaisho","05ea6":"Kaisho","05ea7":"Kaisho,KaishoVtLst,VtLst","05eab":"Kaisho","05ead":"Kaisho","05eb5":"Kaisho","05eb6":"Kaisho","05eb7":"Kaisho","05eb8":"Kaisho","05ec1":"Kaisho","05ec2":"Kaisho","05ec3":"Kaisho,KaishoDg3,KaishoDgLst","05ec8":"Kaisho","05ec9":"Kaisho","05eca":"Kaisho","05ecf":"Kaisho","05ed0":"Kaisho","05ed3":"Kaisho","05ed6":"Kaisho","05eda":"Kaisho","05edb":"Kaisho,KaishoVtLst","05edd":"Kaisho","05edf":"Hyougai,HyougaiKaisho,Kaisho","05ee0":"Kaisho","05ee1":"Kaisho,KaishoHzLst","05ee2":"Kaisho,KaishoDg3,KaishoDgLst","05ee3":"Kaisho,KaishoVtLst","05ee8":"Kaisho","05ee9":"Kaisho","05eec":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","05ef0":"Kaisho,KaishoVt3","05ef1":"Kaisho","05ef3":"Kaisho,KaishoVt3,KaishoVt3VtLst,KaishoVtLst","05ef6":"HzFst","05ef8":"Kaisho,KaishoVtLst","05efb":"Hyougai,Jinmei","05f03":"Kaisho","05f04":"VtLst","05f11":"Kaisho","05f1f":"Kaisho","05f26":"Kaisho","05f2d":"Kaisho,KaishoVt3","05f2f":"Kaisho","05f35":"HzFst","05f38":"Kaisho","05f3c":"Kaisho","05f3e":"Kaisho","05f48":"Kaisho","05f4a":"Kaisho","05f4e":"Kaisho","05f53":"Kaisho","05f59":"Kaisho","05f66":"Kaisho","05f69":"Kaisho","05f6a":"HzFstLeRi,HzFstRiLe,VtFstRiLe","05f6c":"Kaisho","05f70":"Kaisho","05f71":"Kaisho","05f77":"Kaisho","05f80":"VtLst","05f81":"HzFst","05f82":"Kaisho","05f83":"VtLst","05f87":"Kaisho","05f88":"Kaisho","05f97":"Kaisho","05f98":"Hyougai,HyougaiMdFst","05f99":"HzFst","05fa0":"Kaisho","05fa8":"Kaisho,KaishoVtLst","05fa9":"Kaisho","05faa":"Kaisho","05fb4":"VtLst","05fb9":"Kaisho","05fbc":"Kaisho","05fbd":"Hyougai,HyougaiKaisho,Kaisho","05fc5":"Ten3","05fd8":"Kaisho","05fd9":"Kaisho","05fdc":"Kaisho","06015":"Kaisho","0601b":"Kaisho","0601c":"Insatsu","0601d":"Kaisho","06025":"Kaisho","06027":"VtLst","06042":"Kaisho","0604b":"Kaisho","06052":"Kaisho","06062":"Hyougai","06065":"Kaisho,KaishoVt3","06068":"Kaisho","0606f":"Kaisho","06075":"Kaisho,KaishoVt4,KaishoVtLst","06077":"Kaisho","06081":"Kaisho","06083":"Kaisho","06084":"Kaisho","0608b":"Kaisho","0608c":"Kaisho","0608d":"Kaisho","0609a":"Kaisho","060a7":"Kaisho","060b2":"MdFst","060b3":"Kaisho","060b4":"Kaisho","060b5":"HzFst","060b6":"Kaisho","060b8":"Kaisho","060bc":"Kaisho,KaishoHzFst","060bd":"VtLst","060c5":"Kaisho,KaishoVtLst","060c7":"Kaisho","060d8":"Kaisho","060dc":"Kaisho","060e0":"Kaisho","060e3":"Kaisho","060e7":"Kaisho","060f0":"Kaisho","060f3":"Kaisho","060f6":"Kaisho,KaishoVtLst","060f7":"Kaisho","060fa":"Kaisho,KaishoVtLst","060fb":"Kaisho","06100":"Kaisho","06101":"Kaisho","06103":"Kaisho","06108":"Hyougai,HyougaiKaisho","06109":"Kaisho","0610e":"Kaisho","0610f":"Kaisho","0611a":"Kaisho","06127":"Kaisho","0612c":"Kaisho","0613c":"Kaisho","0613d":"Kaisho","0613e":"Kaisho","0613f":"Kaisho","06142":"Kaisho","06144":"Kaisho","0614b":"Kaisho","0614c":"Kaisho","0614e":"Kaisho","06155":"Kaisho","06159":"Kaisho","0615a":"Kaisho","0615f":"Kaisho,KaishoVtLst","06162":"Kaisho","06163":"Kaisho","06167":"Kaisho","06168":"Kaisho","0616e":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0616f":"Kaisho","06173":"HzFst","06174":"Kaisho","06175":"Kaisho","06176":"Kaisho","06177":"Kaisho","06182":"Kaisho","06187":"Kaisho","0618a":"Kaisho","0618e":"Kaisho","06191":"Vt6","06196":"Kaisho","0619a":"Kaisho","061a4":"Kaisho","061a7":"Kaisho,KaishoVtLst","061a9":"Kaisho","061ab":"Kaisho","061ac":"Kaisho","061ae":"HzLst","061b2":"Kaisho,KaishoVtLst","061b6":"Kaisho","061c3":"VtLst","061c6":"Kaisho","061c7":"Kaisho","061c8":"Kaisho","061cb":"Kaisho,KaishoLeFst,LeFst","061cd":"Kaisho","061d0":"Kaisho","061f2":"VtLst","061f6":"Kaisho","061f7":"Kaisho","061f8":"Kaisho","061fc":"Kaisho","061fe":"Kaisho,KaishoVt3","06200":"Kaisho","0621a":"HzFst","0621b":"Kaisho","0621d":"Kaisho","0621e":"Kaisho","0621f":"Kaisho","06221":"Kaisho","06226":"Kaisho","0622f":"HzFstLeRi,HzFstLeRiTenFst,HzFstRiLe,HzFstRiLeTenFst,VtFstLeRiTenFst,VtFstRiLe,VtFstRiLeTenFst","06230":"Kaisho","06232":"HzFstLeRi,HzFstRiLe,VtFstRiLe","06234":"Kaisho","0623f":"Kaisho","06241":"Hyougai,HyougaiKaisho","06249":"MdFst","06279":"Kaisho","06282":"VtLst","06283":"Kaisho","06297":"Kaisho","062b9":"Kaisho","062bb":"Kaisho","062bc":"Kaisho","062bd":"Kaisho,KaishoVtLst","062c5":"Kaisho","062c8":"HzFst","062c9":"Kaisho","062cd":"Kaisho","062d1":"Kaisho","062d2":"HzFst","062e1":"Kaisho","062f7":"Kaisho","06307":"Kaisho","06309":"Kaisho","06311":"MidFst","0632b":"VtLst","0633a":"Hyougai,Jinmei","0633d":"Hyougai,Jinmei","0633f":"Kaisho","0634d":"Kaisho","0634f":"Kaisho","06350":"Kaisho","06355":"Kaisho","06357":"Hyougai,HyougaiHzFst","0635c":"Kaisho","0636b":"Kaisho","06372":"Hyougai,Jinmei","06376":"VtLst","06383":"Kaisho","06389":"Kaisho,KaishoHzFst","06392":"MdFst","06396":"Kaisho","0639f":"Kaisho","063a0":"Kaisho","063a1":"Kaisho","063a2":"Kaisho","063a5":"Kaisho","063a7":"Kaisho","063a9":"Kaisho","063aa":"Kaisho","063ab":"Kaisho,KaishoVt3","063ac":"Kaisho","063b2":"Kaisho","063b4":"VtLst","063c0":"Kaisho","063c3":"Hyougai,HyougaiKaisho","063c6":"Dg3,DgLst","063c9":"Kaisho","063cf":"Kaisho","063d0":"Kaisho","063d2":"MdFst","063d6":"Kaisho,KaishoVt3","063da":"Kaisho","063e1":"VtFst","063e9":"Kaisho","063ee":"Kaisho","063f6":"Kaisho,KaishoVt3","06406":"Kaisho","0640f":"Kaisho","06413":"VtLst","06417":"Kaisho","0641c":"MdFst","06428":"Kaisho","06434":"Kaisho,KaishoVtLst","0643e":"Kaisho","06442":"Kaisho,KaishoVt3","06458":"Kaisho","06469":"Kaisho","06478":"Kaisho","0647a":"Hyougai,HyougaiKaisho,Kaisho","06483":"Kaisho","06492":"Kaisho","06495":"Kaisho","0649e":"Kaisho,KaishoVtLst","064a4":"Kaisho","064a5":"Dg3,DgLst","064a9":"Kaisho","064ab":"HzLst","064ad":"Kaisho","064ae":"Kaisho,KaishoVt3","064b0":"Hyougai","064b9":"Kaisho","064c1":"Kaisho","064c2":"Kaisho","064c5":"Kaisho","064cd":"Kaisho","064d2":"Kaisho","064d8":"Kaisho","064da":"HzFstLeRi,HzFstRiLe,VtFstRiLe","064e0":"Kaisho,KaishoVt12","064e1":"VtFst","064e2":"Hyougai","064e6":"Kaisho","064e7":"LeFst","064ec":"Kaisho","064ef":"Kaisho","064f1":"Kaisho","064f2":"Kaisho","064f4":"Kaisho,KaishoVtLst","064f6":"Kaisho","064fa":"Kaisho","064fd":"Kaisho","064fe":"Kaisho","06500":"KaishoLeFst,LeFst","06505":"Kaisho","06518":"Kaisho","0651d":"Kaisho,KaishoVt3","06523":"Kaisho","0652a":"Kaisho","0652b":"Kaisho","0652c":"Kaisho,KaishoHzFst","06539":"Kaisho","0653e":"Kaisho","0653f":"HzFst","06548":"Kaisho","06555":"Kaisho","06556":"Kaisho","06557":"Kaisho","06562":"Kaisho,KaishoVt3","06563":"Kaisho","06566":"Kaisho","06572":"Kaisho","06574":"HzFst","06575":"Kaisho","06577":"Kaisho,KaishoVt3,KaishoVtLst","06587":"Kaisho","06588":"Kaisho","06589":"Kaisho,KaishoVt12","0658c":"Kaisho,KaishoHzFst","0658e":"Kaisho,KaishoMdFst,KaishoVt6","06590":"Kaisho,KaishoMdFst","06591":"Kaisho,KaishoVtLst","06599":"Kaisho","0659b":"Kaisho","0659f":"Kaisho","065a1":"Kaisho","065a7":"Hyougai,Jinmei","065ac":"Kaisho","065af":"Kaisho","065b0":"Kaisho","065b9":"Kaisho","065bc":"Kaisho","065bd":"Kaisho","065c1":"Kaisho","065c3":"Kaisho","065c4":"Kaisho","065c5":"Kaisho","065c6":"Kaisho","065cb":"Kaisho","065cc":"Kaisho,KaishoVtLst","065cf":"Kaisho","065d2":"Kaisho","065d7":"Kaisho","065d9":"Kaisho","065db":"Kaisho","065e2":"Kaisho","065e5":"Kaisho","065e6":"Kaisho","065e7":"Kaisho","065e8":"Kaisho","065e9":"Kaisho","065ec":"Kaisho","065ed":"Kaisho","065f1":"Kaisho","065fa":"Kaisho,KaishoVtLst","065fb":"Kaisho","06602":"Kaisho","06603":"Kaisho","06606":"Kaisho","06607":"Kaisho","0660a":"Kaisho","0660c":"Kaisho","0660e":"Kaisho","0660f":"Kaisho","06613":"Kaisho","06614":"Kaisho","0661c":"Kaisho","0661f":"Kaisho,KaishoVtLst","06620":"Kaisho","06625":"Kaisho","06627":"Kaisho","06628":"Kaisho","0662d":"Kaisho","0662f":"Kaisho","06634":"Kaisho","06635":"Kaisho","06636":"Kaisho","0663c":"Kaisho","0663f":"Kaisho","06641":"Kaisho,KaishoMidFst","06642":"Kaisho","06643":"Kaisho","06644":"Kaisho","06649":"Kaisho","0664b":"Kaisho","0664f":"Kaisho","06652":"Kaisho","0665d":"Kaisho","0665e":"Kaisho","0665f":"Kaisho","06662":"Kaisho","06664":"Kaisho","06666":"Hyougai,HyougaiKaisho,Jinmei,JinmeiKaisho","06667":"Kaisho","06668":"Kaisho","06669":"Kaisho","0666e":"Kaisho","0666f":"Kaisho","06670":"Kaisho","06674":"Kaisho,KaishoVtLst","06676":"Kaisho","0667a":"Kaisho","06681":"Kaisho","06683":"Kaisho,KaishoMdFst","06684":"Kaisho","06687":"Kaisho,KaishoVtFst","06688":"Kaisho","06689":"Kaisho","0668e":"Kaisho","06691":"Kaisho","06696":"Kaisho","06697":"Kaisho","06698":"Kaisho","0669d":"Kaisho","066a2":"Kaisho","066a6":"Kaisho","066ab":"Kaisho","066ae":"Kaisho","066b4":"Kaisho","066b8":"Kaisho","066b9":"Kaisho","066bc":"Kaisho","066be":"Kaisho","066c1":"Kaisho","066c4":"Kaisho","066c7":"Kaisho","066c9":"Kaisho","066d6":"Kaisho","066d9":"Kaisho","066da":"Kaisho","066dc":"Kaisho","066dd":"Kaisho","066e0":"Kaisho,KaishoVtLst","066e6":"Kaisho","066e9":"Kaisho","066f2":"Kaisho,KaishoVtLst","066f3":"Kaisho","066f4":"Kaisho","066f7":"Kaisho","066f8":"Kaisho","066f9":"Kaisho,KaishoVtLst","066fc":"Kaisho","066fd":"Kaisho","066fe":"Kaisho","066ff":"Kaisho","06700":"Kaisho,KaishoVt3","06703":"Kaisho","06708":"Kaisho","06709":"Kaisho","0670b":"Kaisho","0670d":"Kaisho,KaishoVtFst","0670f":"Kaisho","06714":"Kaisho","06715":"Kaisho","06716":"Kaisho","06717":"Kaisho","0671b":"Kaisho,KaishoVtLst","0671d":"Kaisho","0671e":"Kaisho","0671f":"Kaisho","06726":"Kaisho","06727":"Kaisho","06728":"Kaisho","0672a":"Kaisho","0672b":"Kaisho","0672d":"Kaisho","0672e":"Kaisho","06731":"Kaisho","06734":"Kaisho","06736":"Kaisho","06737":"Kaisho","06738":"Kaisho","0673a":"Kaisho","0673d":"Kaisho","0673f":"Kaisho","06741":"Kaisho","06746":"Kaisho","06749":"Kaisho","06750":"Kaisho","06751":"Kaisho","06753":"Hyougai,HyougaiKaisho","06756":"Hyougai,HyougaiKaisho,Jinmei","06759":"Kaisho","0675c":"Kaisho","0675e":"Kaisho","0675f":"Kaisho","06760":"Kaisho","06761":"Kaisho","06763":"Kaisho","06764":"Kaisho","06765":"Kaisho","0676a":"Kaisho","0676d":"Kaisho","0676f":"Kaisho","06770":"Kaisho","06771":"Kaisho","06772":"Kaisho","06773":"Kaisho","06775":"Kaisho","06777":"Kaisho","0677c":"Kaisho","0677e":"Kaisho","0677f":"Kaisho","06785":"Kaisho","06787":"Kaisho","06789":"Kaisho,KaishoVtLst","0678b":"Kaisho","0678c":"Kaisho","06790":"Kaisho","06795":"Kaisho","06797":"Kaisho","0679a":"Kaisho","0679c":"Kaisho","0679d":"Kaisho","067a0":"Kaisho","067a1":"Kaisho","067a2":"Kaisho","067a6":"Kaisho","067a9":"Kaisho","067af":"Kaisho","067b3":"Kaisho","067b4":"Kaisho","067b6":"Kaisho","067b7":"Kaisho","067b8":"Kaisho","067b9":"Kaisho","067c1":"Kaisho","067c4":"Kaisho","067c6":"Kaisho","067ca":"Kaisho","067ce":"Kaisho","067cf":"Kaisho","067d0":"Kaisho","067d1":"Kaisho","067d3":"Kaisho","067d4":"Kaisho","067d8":"Kaisho","067da":"Kaisho,KaishoVtLst","067dd":"Kaisho","067de":"Kaisho","067e2":"Kaisho","067e4":"Kaisho","067e7":"Kaisho","067e9":"Kaisho","067ec":"Kaisho","067ee":"Kaisho","067ef":"Kaisho","067f1":"Kaisho,KaishoVtLst","067f3":"Kaisho","067f4":"Kaisho,KaishoHzFst","067f5":"Kaisho","067fb":"Kaisho","067fe":"Kaisho,KaishoHzFst","067ff":"Kaisho","06802":"Kaisho","06803":"Kaisho","06804":"Kaisho","06813":"Kaisho,KaishoVtLst","06816":"Kaisho","06817":"Kaisho","0681e":"Kaisho","06821":"Kaisho","06822":"Kaisho","06829":"Kaisho","0682a":"Kaisho","0682b":"Kaisho","06832":"Kaisho","06834":"Kaisho","06838":"Kaisho","06839":"Kaisho","0683c":"Kaisho","0683d":"Kaisho","06840":"Hyougai,Kaisho","06841":"Kaisho","06842":"Kaisho","06843":"Kaisho,KaishoMidFst","06846":"Kaisho,KaishoVtLst","06848":"Kaisho","0684d":"Kaisho","0684e":"Kaisho,KaishoVtFst","06850":"Kaisho","06851":"Kaisho","06853":"Kaisho","06854":"Kaisho","06859":"Kaisho","0685c":"Kaisho","0685d":"Hyougai,Kaisho","0685f":"Kaisho","06863":"Kaisho","06867":"Kaisho","06874":"Kaisho","06876":"Kaisho","06877":"Kaisho","0687e":"Kaisho","0687f":"Kaisho","06881":"Kaisho","06883":"Kaisho","06885":"Kaisho","0688d":"Kaisho","0688f":"Kaisho","06893":"Kaisho","06894":"Kaisho","06897":"Jinmei,JinmeiKaisho,Kaisho","0689b":"Jinmei,Kaisho","0689d":"Kaisho","0689f":"Kaisho","068a0":"Kaisho","068a2":"Kaisho","068a7":"Kaisho","068a8":"Kaisho","068ad":"Kaisho","068af":"Kaisho","068b0":"Kaisho","068b1":"Kaisho","068b3":"Kaisho","068b6":"Kaisho","068b9":"Kaisho","068bc":"Kaisho","068c4":"Kaisho","068c6":"Kaisho","068c9":"Kaisho","068ca":"Kaisho","068cb":"Kaisho","068cd":"Kaisho","068d2":"Kaisho","068d4":"Kaisho","068d5":"Kaisho","068d7":"Kaisho","068d8":"Hyougai,HyougaiKaisho","068da":"Kaisho","068df":"Kaisho","068e0":"Kaisho","068e1":"Kaisho","068e3":"Kaisho","068e7":"Kaisho","068ee":"Kaisho","068ef":"Kaisho","068f2":"Kaisho,KaishoVtLst","068f9":"Kaisho,KaishoHzFst","068fa":"Kaisho","06900":"Kaisho","06901":"Kaisho","06904":"Kaisho","06905":"Kaisho","06908":"Kaisho","0690b":"Kaisho","0690c":"Kaisho","0690d":"Kaisho","0690e":"Kaisho","0690f":"Kaisho","06912":"Kaisho,KaishoHzFst","06919":"Kaisho","0691a":"Kaisho","0691b":"Kaisho","0691c":"Kaisho","06921":"Kaisho,KaishoVtFst","06922":"Kaisho,KaishoVtLst","06923":"Kaisho,KaishoVtLst","06925":"Kaisho","06926":"Kaisho","06928":"Kaisho","0692a":"Kaisho","06930":"Kaisho,KaishoVt3","06934":"Kaisho","06936":"Kaisho","06939":"Kaisho","0693d":"Kaisho","0693f":"Kaisho","0694a":"Kaisho","06953":"Kaisho","06954":"Kaisho","06955":"Kaisho","06959":"Kaisho","0695c":"Kaisho","0695d":"Kaisho","0695e":"Kaisho","06960":"Kaisho","06961":"Kaisho","06962":"Hyougai,HyougaiKaisho","0696a":"Kaisho","0696b":"Kaisho,KaishoVt3","0696d":"Kaisho","0696e":"Kaisho","0696f":"Hyougai,HyougaiKaisho,Jinmei,JinmeiKaisho","06973":"Kaisho","06974":"Kaisho","06975":"Kaisho","06977":"Kaisho","06978":"Kaisho","06979":"Kaisho","0697c":"Kaisho","0697d":"Kaisho","0697e":"Kaisho","06981":"Kaisho,KaishoVtFst","06982":"Kaisho","0698a":"Hyougai,HyougaiKaisho,Kaisho","0698e":"Kaisho","06991":"Kaisho","06994":"Hyougai,HyougaiKaisho","06995":"Kaisho","0699b":"Kaisho","0699c":"Kaisho","069a0":"Kaisho","069a7":"Kaisho,KaishoMdFst","069ae":"Kaisho","069b1":"Kaisho","069b2":"Kaisho","069b4":"Kaisho","069bb":"Kaisho","069be":"Kaisho,KaishoHzFst","069bf":"Kaisho","069c1":"Kaisho","069c3":"Kaisho","069c7":"Kaisho","069ca":"Kaisho","069cb":"Kaisho","069cc":"Hyougai,HyougaiKaisho","069cd":"Kaisho","069ce":"Kaisho,KaishoVtLst","069d0":"Kaisho","069d3":"Kaisho","069d8":"Kaisho","069d9":"Kaisho","069dd":"Kaisho","069de":"Kaisho","069e7":"Kaisho","069e8":"Kaisho","069eb":"Kaisho","069ed":"Kaisho,KaishoHzFst,KaishoHzFstTenFst","069f2":"Kaisho","069f9":"Kaisho","069fb":"Kaisho","069fd":"Kaisho,KaishoVtLst","069ff":"Kaisho","06a02":"Kaisho","06a05":"Kaisho","06a0b":"Hyougai,HyougaiKaisho,Kaisho","06a0c":"Kaisho","06a12":"Kaisho,KaishoTen3","06a13":"Kaisho","06a14":"Kaisho","06a17":"Kaisho","06a19":"Kaisho","06a1b":"Kaisho","06a1e":"Kaisho","06a1f":"Kaisho","06a21":"Kaisho","06a22":"Kaisho","06a23":"Kaisho","06a29":"Kaisho","06a2a":"Kaisho,KaishoVtLst","06a2b":"Kaisho,KaishoHzFst","06a2e":"Kaisho","06a35":"Kaisho","06a36":"Kaisho,KaishoVt3","06a38":"Kaisho","06a39":"Kaisho","06a3a":"Kaisho","06a3d":"Hyougai,HyougaiKaisho","06a44":"Kaisho,KaishoVt3","06a47":"Kaisho","06a48":"Kaisho","06a4b":"Kaisho","06a58":"Kaisho","06a59":"Hyougai,HyougaiKaisho,HyougaiKaishoDg3,HyougaiKaishoDgLst","06a5f":"Kaisho","06a61":"Kaisho","06a62":"Kaisho","06a66":"Kaisho,KaishoVtLst","06a72":"Kaisho","06a78":"Kaisho","06a7f":"Kaisho","06a80":"Kaisho","06a84":"Kaisho","06a8d":"Kaisho","06a8e":"Kaisho","06a90":"Kaisho","06a97":"Kaisho","06a9c":"Kaisho","06aa0":"Kaisho","06aa2":"Kaisho","06aa3":"Kaisho","06aaa":"Kaisho","06aac":"Kaisho","06aae":"Kaisho","06ab3":"Kaisho","06ab8":"Kaisho","06abb":"Kaisho,KaishoHzFst","06ac1":"Kaisho,KaishoTen3","06ac2":"Kaisho","06ac3":"Kaisho","06ad1":"Kaisho","06ad3":"Kaisho","06ada":"Kaisho","06adb":"Hyougai,HyougaiKaisho,Jinmei,JinmeiKaisho","06ade":"Kaisho","06adf":"Kaisho","06ae8":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","06aea":"HzFst","06afa":"Kaisho","06afb":"Kaisho","06b04":"Kaisho","06b05":"Kaisho,KaishoLeFst","06b0a":"Kaisho","06b12":"Kaisho","06b16":"Kaisho,KaishoHzFst","06b1d":"Kaisho,KaishoLeFst","06b1f":"Kaisho","06b3a":"Kaisho","06b43":"MdFst","06b47":"Kaisho","06b4e":"Hyougai","06b54":"HzFstLeRi,HzFstRiLe,VtFstRiLe","06b5f":"LeFst","06b62":"HzFst","06b63":"HzFst","06b64":"HzFst","06b66":"HzFst","06b69":"HzFst","06b6a":"HzFst","06b6f":"HzFst","06b73":"HzFst,HzFstTenFst,TenFst","06b74":"Kaisho,KaishoHzFst","06b78":"HzFst","06b89":"Kaisho","06b8a":"Kaisho","06b95":"Kaisho","06b96":"Kaisho","06ba4":"Kaisho","06bab":"Kaisho","06baf":"Kaisho","06bba":"Kaisho","06bc0":"HzLst","06bc5":"Kaisho","06bd2":"VtLst","06bd3":"Kaisho","06bd4":"Kaisho","06bd8":"Kaisho","06beb":"Kaisho","06c08":"Kaisho","06c13":"Kaisho","06c23":"Kaisho","06c68":"Kaisho","06c6a":"VtLst","06c72":"Hyougai,Jinmei","06c90":"Kaisho","06c93":"Kaisho","06c9a":"HzFst","06c9b":"Hyougai","06cab":"Kaisho","06cae":"Kaisho","06cb1":"Kaisho","06cb9":"Kaisho,KaishoVtLst","06cba":"Kaisho","06cbe":"HzFst","06cc9":"Kaisho","06cca":"Kaisho","06ccc":"Ten3","06ce3":"Kaisho","06ce8":"VtLst","06cea":"Kaisho","06d19":"Kaisho","06d29":"Kaisho","06d35":"Kaisho","06d41":"Kaisho","06d63":"Kaisho","06d64":"Kaisho","06d66":"Kaisho","06d6a":"Kaisho","06d6c":"Kaisho,KaishoVtLst","06d78":"Kaisho","06d85":"Kaisho","06d88":"Kaisho","06d8c":"Kaisho","06d8e":"HzFst","06d93":"Kaisho","06d95":"Kaisho","06db2":"Kaisho","06dbc":"Kaisho","06dc0":"Kaisho","06dc5":"Kaisho","06dc6":"Kaisho","06dc7":"Kaisho","06dcb":"Kaisho","06dd1":"HzFst","06dd2":"VtLst","06dd9":"Kaisho","06dde":"Kaisho","06de4":"Kaisho","06dea":"Kaisho","06deb":"Hyougai","06dec":"Kaisho","06df1":"Kaisho","06df3":"Kaisho","06df7":"Kaisho","06df9":"Kaisho","06e05":"Kaisho,KaishoVtLst","06e07":"Kaisho","06e08":"Kaisho","06e09":"HzFst","06e0b":"HzFst","06e1a":"Kaisho","06e1f":"Kaisho","06e20":"Kaisho,KaishoHzFst","06e21":"Kaisho","06e23":"Kaisho","06e25":"VtFst","06e26":"HzFst","06e29":"Kaisho","06e2b":"Kaisho","06e2c":"Kaisho","06e2d":"Kaisho","06e2f":"Kaisho","06e38":"Kaisho","06e3a":"Kaisho","06e3e":"Kaisho","06e56":"Kaisho","06e58":"Kaisho","06e5b":"Kaisho","06e5f":"Kaisho,KaishoVtLst","06e67":"Kaisho","06e6b":"Kaisho","06e6f":"Kaisho","06e76":"Kaisho","06e7e":"Kaisho","06e7f":"Kaisho","06e82":"Kaisho","06e8c":"Dg3,DgLst","06e8f":"Kaisho,KaishoVt5,KaishoVtLst","06e90":"Kaisho","06e9c":"Kaisho","06e9d":"Kaisho","06e9f":"Kaisho","06ea2":"Hyougai","06ea5":"Kaisho","06eaf":"Kaisho","06eb2":"MdLst","06eb6":"Kaisho","06eba":"Hyougai","06ec2":"Kaisho","06ec9":"Kaisho","06ecc":"Kaisho","06ed1":"Kaisho,KaishoHzFst","06ed3":"Kaisho","06ed4":"HzLst","06ed5":"Kaisho","06edd":"Kaisho","06ef4":"Kaisho","06efe":"Kaisho","06f01":"Kaisho","06f09":"Kaisho","06f11":"Kaisho","06f13":"Kaisho","06f14":"Kaisho,KaishoVtLst","06f15":"Kaisho,KaishoVtLst","06f20":"Kaisho","06f23":"Hyougai,HyougaiKaisho,Kaisho","06f2b":"Kaisho","06f2c":"Kaisho,KaishoVtLst","06f31":"Kaisho","06f32":"HzFst","06f38":"Kaisho","06f41":"Kaisho","06f54":"Kaisho","06f58":"Kaisho","06f5b":"Kaisho","06f5c":"Kaisho","06f5f":"HzLst","06f64":"Kaisho,KaishoVtLst","06f66":"Kaisho","06f6d":"Kaisho","06f6e":"Kaisho","06f70":"Kaisho","06f74":"Kaisho","06f78":"Kaisho","06f7c":"Kaisho,KaishoVtLst","06f80":"HzFst","06f81":"HzFst","06f82":"VtLst","06f84":"Dg3,DgLst","06f91":"Kaisho","06f97":"Kaisho","06fa1":"Kaisho","06fa3":"Kaisho","06faa":"Insatsu","06fc0":"Kaisho","06fc2":"Kaisho","06fc3":"Kaisho,KaishoVtLst","06fc6":"Kaisho","06fd5":"Kaisho","06fd8":"Kaisho","06fdf":"Kaisho,KaishoVt12","06fe0":"Kaisho","06feb":"HzFst","06fec":"Kaisho","06ff1":"Kaisho","06ff3":"Kaisho","06ff6":"Kaisho","06ffa":"Kaisho","06ffe":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","07001":"Kaisho,KaishoVtLst","07009":"Kaisho,KaishoHzLst","0700b":"Kaisho","07011":"Kaisho","07015":"Hyougai,HyougaiKaisho,HyougaiKaishoHzFst,Jinmei,JinmeiKaisho","07018":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0701a":"Kaisho","0701b":"Kaisho,LeFst","0701d":"HzFst","0701e":"Hyougai,HyougaiKaisho,HyougaiKaishoVtLst","0701f":"Kaisho,KaishoVt6","07026":"Hyougai,HyougaiKaisho","07027":"Kaisho","0702c":"Kaisho","0703e":"Kaisho","07051":"Kaisho","07058":"Hyougai,Jinmei","07063":"Kaisho","07078":"Hyougai","0707c":"Hyougai","070ac":"HzFst","070b9":"HzFst","070cb":"Kaisho","070df":"Kaisho","070f9":"Kaisho","07109":"HzFst","07114":"Kaisho","07119":"Kaisho","0711c":"Kaisho","07121":"Kaisho,KaishoHzLst","07149":"Hyougai,HyougaiKaisho,Jinmei","0714c":"Kaisho,KaishoVtLst","0714e":"Hyougai,HyougaiKaisho","07164":"Kaisho","07166":"Kaisho","07167":"Kaisho","07169":"Kaisho","0716c":"Kaisho","0716e":"Kaisho","0717d":"Hyougai","07184":"Kaisho","07188":"HzFst","0718a":"Kaisho","0718f":"VtLst","07194":"Kaisho","07195":"Kaisho","0719f":"Kaisho","071ac":"Kaisho","071be":"Kaisho","071c8":"Dg3,DgLst","071c9":"Kaisho","071ce":"Kaisho","071d0":"Hyougai","071d4":"Kaisho","071d7":"Kaisho","071e5":"Kaisho","071e6":"Kaisho","071ec":"HzLst","071fb":"VtLst","071fc":"Vt4","07206":"Kaisho","0720d":"Kaisho","07210":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0721b":"Kaisho","07228":"MdFst","07235":"Kaisho","0723a":"Hyougai,HyougaiKaisho,HyougaiKaishoVt3,Kaisho","0723c":"Kaisho","07240":"Kaisho","0724c":"Hyougai,HyougaiKaisho","07252":"Kaisho","07258":"Kaisho","07259":"Jinmei","0725d":"Kaisho","07261":"Kaisho","07262":"Kaisho","07267":"Kaisho","07269":"Kaisho","07272":"Kaisho,KaishoVtLst","07274":"Kaisho","07279":"Kaisho","0727d":"Hyougai,HyougaiKaisho,Kaisho","0727e":"Kaisho","07281":"Kaisho","07282":"Kaisho","07287":"Kaisho","07292":"Kaisho","072a0":"Kaisho","072a2":"Kaisho","072a7":"Kaisho","072c2":"VtLst","072ce":"Kaisho","072d9":"Kaisho","072db":"Kaisho","072e0":"Kaisho","072e1":"Hyougai,HyougaiKaisho","072e9":"Kaisho","072f7":"Kaisho","072f8":"Kaisho,KaishoVtLst","072fc":"Kaisho","072fd":"Kaisho","0730a":"HzLst","07316":"Kaisho","0731c":"VtLst","0731d":"Kaisho","0731f":"Kaisho","07325":"Kaisho","07329":"Kaisho,KaishoVtLst","0732a":"Kaisho","0732b":"Kaisho","07336":"Kaisho","07337":"Hyougai,HyougaiKaisho","0733e":"Kaisho,KaishoHzFst","0734f":"Kaisho","07363":"Kaisho","0736a":"Kaisho","07370":"Kaisho","07378":"Kaisho","0737a":"Kaisho","0737b":"HzFstLeRi,HzFstRiLe,VtFstRiLe","07384":"Kaisho","07387":"Kaisho","07389":"VtLst","0738b":"VtLst","07396":"VtLst","073b2":"Insatsu,VtLst","073b3":"VtLst","073bb":"VtLst","073c0":"Kaisho,KaishoVtLst","073c8":"VtLst","073ca":"VtLst","073cd":"VtLst","073ce":"VtLst","073de":"VtLst","073e0":"Kaisho,KaishoVtLst","073e5":"Kaisho,KaishoVtLst,KaishoVtLstVt3","073ea":"VtLst","073ed":"VtLst","073ee":"VtLst","073f1":"VtLst","073f8":"VtLst","073fe":"Kaisho,KaishoVtLst","07403":"VtLst","07405":"Kaisho,KaishoVtLst","07406":"Kaisho,KaishoVtLst","07409":"Kaisho,KaishoVtLst","07422":"VtLst","07425":"HzFstLeRi,HzFstRiLe,RiLe,VtLst,VtLstHzFstLeRi,VtLstHzFstRiLe,VtLstRiLe","07432":"MdFst","07433":"Kaisho,KaishoVtLst","07434":"VtLst","07435":"Kaisho,KaishoVtLst","07436":"VtLst","0743a":"VtLst","0743f":"Kaisho,KaishoVtLst","07441":"Kaisho,KaishoVtLst","07455":"VtLst","07459":"VtLst","0745a":"Kaisho,KaishoVtLst","0745b":"VtLst","0745c":"VtLst","0745e":"VtLst","0745f":"Ten3","07460":"Kaisho,KaishoVtLst","07463":"Kaisho,KaishoVtLst","07464":"VtLst","07469":"VtLst","0746a":"Vt6,VtLst,VtLstVt6","0746f":"Kaisho,KaishoVtLst","07470":"Kaisho,KaishoVtLst","07473":"VtLst,VtLstVt4,VtLstVtLst","07476":"VtLst","0747e":"VtLst","07483":"Kaisho,KaishoVtLst","0748b":"Kaisho,KaishoVtLst","0749e":"VtLst","074a2":"Kaisho,KaishoVtLst","074a7":"Kaisho,KaishoVtLst","074b0":"VtLst","074bd":"VtLst","074ca":"Kaisho,KaishoVtLst","074cf":"Kaisho,KaishoVtLst","074d4":"Kaisho,KaishoVtLst","074e3":"Kaisho","074e6":"HzLst","074f8":"Kaisho","07503":"Kaisho","07505":"Kaisho","07511":"Hyougai,Kaisho","07513":"Kaisho","07515":"Hyougai,Kaisho","07518":"Kaisho","0751a":"Kaisho","0751c":"Kaisho","0751e":"Kaisho","0751f":"VtLst","07523":"Kaisho,KaishoVtLst","07525":"Kaisho,KaishoVtLst","07526":"Hyougai,HyougaiKaisho,HyougaiKaishoVtLst","07528":"Kaisho","0752b":"Kaisho","0752c":"Kaisho","07530":"Kaisho","07531":"Kaisho,KaishoVtLst","07532":"Kaisho","07533":"Kaisho","07537":"Kaisho","07538":"Kaisho","0753a":"Kaisho","0753b":"Kaisho,KaishoVtLst","0753c":"Kaisho","07544":"Kaisho","07546":"Kaisho","07549":"Kaisho","0754a":"Kaisho","0754b":"Kaisho","0754c":"Kaisho","0754d":"Kaisho","0754f":"Kaisho","07551":"Kaisho","07554":"Kaisho","07559":"Kaisho","0755a":"Kaisho","0755b":"Kaisho","0755c":"Kaisho","0755d":"Kaisho","07560":"Kaisho","07562":"Kaisho","07564":"Kaisho","07565":"Kaisho","07566":"Kaisho","07567":"Kaisho","07569":"Kaisho","0756a":"Kaisho","0756b":"Kaisho,KaishoVt4","0756d":"Kaisho","07570":"Kaisho","07573":"Kaisho","07574":"Kaisho","07576":"Kaisho","07577":"Kaisho","07578":"Kaisho","0757f":"Kaisho","07582":"Kaisho","07586":"Kaisho","07587":"Kaisho","07589":"Kaisho","0758a":"Kaisho","0758e":"Kaisho","0758f":"Kaisho","07591":"Kaisho","07592":"Kaisho","07594":"Kaisho","0759a":"Kaisho","0759d":"Kaisho","075a3":"Kaisho","075a5":"Kaisho","075ab":"Kaisho","075b1":"Kaisho","075b2":"Kaisho","075b3":"Kaisho","075b5":"Kaisho,KaishoHzFst","075b8":"Kaisho","075b9":"Kaisho","075bc":"Hyougai,HyougaiKaisho","075bd":"Kaisho","075be":"Kaisho","075c2":"Kaisho","075c3":"Kaisho","075c5":"Kaisho","075c7":"Kaisho,KaishoHzFst","075ca":"Kaisho,KaishoVtLst","075cd":"Kaisho","075d2":"Kaisho","075d4":"Kaisho","075d5":"Kaisho","075d8":"Kaisho","075d9":"Kaisho","075db":"Kaisho","075de":"Kaisho","075e2":"Kaisho","075e3":"Kaisho","075e9":"Kaisho","075f0":"Kaisho","075f2":"Kaisho","075f3":"Kaisho","075f4":"Kaisho","075fa":"Kaisho","075fc":"Kaisho","075fe":"Kaisho","075ff":"Kaisho","07601":"Kaisho","07609":"Kaisho","0760b":"Kaisho","0760d":"Kaisho","0761f":"Kaisho","07620":"Kaisho","07621":"Kaisho","07622":"Kaisho","07624":"Kaisho","07627":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","07630":"Kaisho","07634":"Kaisho","0763b":"Kaisho","07642":"Kaisho","07646":"Kaisho","07647":"Kaisho","07648":"Kaisho,KaishoDg3,KaishoDgLst","0764c":"Kaisho","07652":"Kaisho","07656":"Kaisho","07658":"Kaisho","0765c":"Kaisho","07661":"Kaisho","07662":"Kaisho,KaishoVtLst","07667":"Kaisho,KaishoHzFst","07668":"Kaisho","07669":"Kaisho","0766a":"Kaisho,KaishoVtLst","0766c":"Kaisho","07670":"Kaisho","07672":"Kaisho","07676":"Dg3,DgLst","07678":"Dg3,DgLst","0767a":"Dg3,DgLst","0767b":"Dg3,DgLst","0767c":"Dg3,DgLst","0767d":"Kaisho","0767e":"Kaisho","07680":"Kaisho","07683":"Kaisho","07684":"Kaisho","07686":"Kaisho","07687":"Kaisho,KaishoVtLst","07688":"Kaisho","0768b":"Kaisho","0768e":"Kaisho","07690":"Kaisho","07693":"Kaisho","07696":"Kaisho","07699":"Kaisho","0769a":"Kaisho","076b8":"Kaisho","076b9":"Kaisho","076df":"Kaisho","076e1":"VtFst","076e3":"HzFst","076e7":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","076ea":"Kaisho","076ee":"Kaisho","076f2":"Kaisho","076f4":"Kaisho","076f8":"Kaisho","076fb":"Kaisho","076fe":"Kaisho","07701":"Kaisho","07704":"Kaisho","07707":"Kaisho","07708":"Kaisho","07709":"Kaisho","0770b":"Kaisho","0770c":"Kaisho","0771b":"Kaisho","0771e":"Kaisho","0771f":"Kaisho","07720":"Kaisho","07724":"Kaisho","07725":"Kaisho,KaishoHzFst","07726":"Kaisho,KaishoHzFst","07729":"Kaisho","07737":"Kaisho","07738":"Kaisho","0773a":"Kaisho,KaishoMidFst","0773c":"Kaisho","07740":"Kaisho,KaishoVtLst","07747":"Kaisho","0775a":"Kaisho","0775b":"Kaisho,KaishoVtLst","07761":"Kaisho,KaishoVtLst","07763":"Kaisho,KaishoHzFst","07765":"Kaisho","07766":"Kaisho","07768":"Kaisho,KaishoHzLst","0776b":"Kaisho","07779":"Kaisho","0777e":"Kaisho","0777f":"Kaisho","0778b":"Kaisho","0778e":"Kaisho","07791":"Kaisho","0779e":"Kaisho","077a0":"Kaisho","077a5":"Hyougai,HyougaiKaisho,Kaisho","077ac":"Kaisho","077ad":"Kaisho","077b0":"Kaisho,KaishoVt3","077b3":"Kaisho,KaishoVtLst","077b6":"Kaisho","077b9":"Kaisho","077bb":"Kaisho","077bc":"Kaisho","077bd":"Kaisho","077bf":"Kaisho","077c7":"Kaisho","077cd":"Kaisho","077d7":"Kaisho","077da":"Kaisho","077e9":"HzFst","07812":"Kaisho","07820":"Kaisho","07826":"HzFst","07827":"HzFst","0783f":"Kaisho","0785d":"Kaisho","0786b":"Kaisho","0786c":"Kaisho","0786f":"Kaisho","0787c":"Kaisho","07881":"Kaisho","07887":"Kaisho","0788d":"Kaisho","0788e":"Kaisho","07891":"Kaisho","07897":"Kaisho","0789a":"Kaisho","078a3":"Kaisho","078a7":"Kaisho,KaishoVtLst","078a9":"Kaisho","078aa":"Kaisho","078b5":"Kaisho,KaishoHzFst","078bc":"Vt6","078c5":"Kaisho","078c6":"Kaisho,KaishoHzFst","078cb":"VtLst","078d4":"Hyougai,Kaisho","078e7":"Kaisho,KaishoVtLst","078e8":"Kaisho","078f4":"Dg3,DgLst","07911":"Kaisho","07919":"Kaisho","07926":"Kaisho,KaishoVtLst","0792a":"Kaisho","0792b":"Kaisho","0792c":"Kaisho","07941":"Hyougai","07947":"Hyougai","07949":"HzFst","07955":"Ten3","07956":"Kaisho","0795e":"Kaisho","0795f":"Hyougai","0797a":"Kaisho","07980":"Kaisho","07981":"Kaisho","07984":"Kaisho","07985":"Kaisho","0798d":"HzFst","0798e":"Kaisho,KaishoHzFst","0798f":"Kaisho","0799d":"Kaisho","079aa":"Kaisho","079ae":"Kaisho,KaishoVtLst","079b0":"Hyougai","079b3":"Kaisho","079ba":"Kaisho","079bd":"Kaisho","079be":"Kaisho","079c0":"Kaisho","079c1":"Kaisho","079c9":"Kaisho","079cb":"Kaisho","079d1":"Kaisho","079d2":"Kaisho","079d5":"Kaisho","079d8":"Kaisho,KaishoTen3","079df":"Kaisho","079e1":"Kaisho","079e3":"Kaisho","079e4":"Hyougai,HyougaiKaisho","079e6":"Kaisho","079e7":"Kaisho","079e9":"Kaisho","079ec":"Kaisho,KaishoHzFst","079f0":"Kaisho","079fb":"Kaisho","07a00":"Kaisho","07a08":"Kaisho","07a0b":"Kaisho,KaishoVtLst","07a0d":"Kaisho","07a0e":"Kaisho","07a14":"Kaisho","07a17":"Hyougai,HyougaiKaisho","07a18":"Kaisho","07a19":"Kaisho","07a1a":"Kaisho","07a1c":"Kaisho","07a1f":"Kaisho","07a20":"Kaisho","07a2e":"Kaisho,KaishoVtLst","07a31":"Kaisho","07a32":"Kaisho","07a37":"Kaisho","07a3b":"Kaisho,KaishoHzLst","07a3c":"Kaisho","07a3d":"Kaisho","07a3e":"Kaisho","07a3f":"Kaisho","07a40":"Kaisho","07a42":"Kaisho,KaishoVt4,KaishoVtLst","07a43":"Kaisho","07a46":"Kaisho","07a49":"Kaisho","07a4d":"Kaisho,KaishoVtLst","07a4e":"Kaisho","07a4f":"Kaisho","07a50":"Kaisho","07a57":"Kaisho","07a61":"Kaisho","07a62":"Kaisho,KaishoHzFst,KaishoHzFstTenFst","07a63":"Kaisho","07a69":"Kaisho","07a6b":"Kaisho","07a70":"Kaisho","07a74":"Kaisho","07a76":"Kaisho","07a79":"Kaisho","07a7a":"Kaisho","07a7d":"Kaisho","07a7f":"Hyougai,HyougaiKaisho,Kaisho","07a81":"Kaisho","07a83":"Kaisho","07a84":"Kaisho","07a88":"Kaisho","07a92":"Kaisho,KaishoVtFst","07a93":"Kaisho","07a95":"Kaisho,KaishoMidFst","07a96":"Kaisho","07a97":"Kaisho","07a98":"Kaisho","07a9f":"Kaisho","07aa9":"Kaisho,KaishoHzFst","07aaa":"Kaisho","07aae":"Kaisho","07aaf":"Kaisho,KaishoVtLst","07ab0":"Kaisho","07ab6":"Kaisho","07aba":"Kaisho","07abf":"Kaisho,KaishoVtLst","07ac3":"Kaisho","07ac4":"Kaisho,KaishoHzLst","07ac5":"Kaisho","07ac7":"Kaisho","07ac8":"Hyougai,HyougaiKaisho","07aca":"Kaisho,KaishoHzFst","07acb":"Kaisho","07acd":"Kaisho","07acf":"Kaisho","07ad2":"Kaisho","07ad3":"Kaisho","07ad5":"Kaisho","07ad9":"Kaisho,KaishoHzFst","07ada":"Kaisho","07adc":"Kaisho","07add":"Kaisho","07adf":"Kaisho","07ae0":"Kaisho","07ae1":"Kaisho","07ae2":"Kaisho","07ae3":"Kaisho","07ae5":"Kaisho,KaishoVtLst","07ae6":"Kaisho","07aea":"Kaisho,KaishoHzFst","07aed":"Kaisho","07aef":"Kaisho","07af0":"Kaisho,KaishoVtLst","07af6":"Kaisho","07af8":"Kaisho","07b08":"Hyougai,Jinmei","07b18":"HzFst","07b19":"VtLst","07b1b":"Kaisho,KaishoVtLst","07b20":"Kaisho","07b2c":"Kaisho","07b4b":"Kaisho","07b4c":"VtLst","07b4d":"Kaisho","07b50":"VtLst","07b56":"Kaisho","07b67":"Kaisho","07b75":"Hyougai,HyougaiHzFst","07b7a":"VtLst","07b86":"Kaisho","07b94":"Kaisho","07b95":"Kaisho","07b97":"Kaisho","07b98":"Kaisho","07b99":"Kaisho,KaishoVtFst","07b9c":"Kaisho","07b9d":"Kaisho","07b9f":"Kaisho","07ba1":"Kaisho","07baa":"Kaisho","07bad":"Hyougai,HyougaiKaisho","07bb1":"Kaisho","07bb8":"Hyougai,HyougaiKaisho,Kaisho","07bc0":"Kaisho","07bc1":"Kaisho,KaishoVtLst","07bc4":"Kaisho","07bc7":"Hyougai,HyougaiKaisho,Jinmei,JinmeiKaisho","07bc9":"Kaisho","07bcf":"Kaisho","07bdd":"Hyougai,HyougaiKaisho","07be0":"Kaisho","07be4":"Vt6","07be5":"Kaisho","07be6":"Kaisho","07bed":"Kaisho","07bf3":"Kaisho","07bf6":"HzFst","07c00":"Kaisho,KaishoVtLst","07c07":"Kaisho","07c11":"Kaisho","07c12":"Kaisho","07c14":"Kaisho","07c17":"Kaisho","07c1e":"Kaisho","07c1f":"Kaisho","07c21":"Kaisho","07c23":"Kaisho","07c27":"VtLst","07c2a":"Hyougai,Kaisho","07c2b":"Kaisho,KaishoVt6","07c38":"Kaisho","07c3e":"Hyougai,HyougaiKaisho,Kaisho","07c3f":"Kaisho","07c40":"Kaisho","07c43":"HzFst","07c4d":"Kaisho","07c4f":"Kaisho","07c50":"Kaisho","07c58":"Kaisho","07c5f":"Kaisho","07c60":"Kaisho","07c65":"Kaisho","07c6c":"Kaisho","07c73":"Kaisho","07c75":"Kaisho","07c7e":"Hyougai,HyougaiKaisho,Kaisho","07c81":"Kaisho","07c82":"Hyougai,HyougaiKaisho","07c83":"Kaisho","07c89":"Kaisho","07c8b":"Kaisho","07c8d":"Kaisho","07c90":"Kaisho","07c92":"Kaisho","07c95":"Kaisho","07c97":"Kaisho","07c98":"Kaisho,KaishoHzFst","07c9f":"Kaisho","07ca1":"Kaisho","07ca2":"Kaisho","07ca5":"Kaisho","07ca7":"Kaisho","07ca8":"Kaisho","07cab":"Kaisho","07cad":"Kaisho","07cae":"Kaisho","07cb1":"Kaisho","07cb2":"Kaisho","07cb3":"Kaisho","07cb9":"Kaisho","07cbd":"Kaisho","07cbe":"Kaisho,KaishoVtLst","07cc0":"Kaisho","07cc2":"Kaisho","07cc5":"Kaisho","07cca":"Kaisho","07cce":"Kaisho,KaishoVtLst","07cd2":"Kaisho","07cd6":"Kaisho,KaishoVt5,KaishoVtLst","07cd8":"Kaisho","07cdc":"Kaisho","07cde":"Kaisho","07cdf":"Kaisho,KaishoVtLst","07ce0":"Kaisho","07ce2":"Kaisho","07ce7":"Kaisho,KaishoVtLst","07cef":"Kaisho","07cf2":"Kaisho","07cf4":"Kaisho","07cf6":"Kaisho","07cf8":"Kaisho","07cfa":"Kaisho","07cfb":"Kaisho","07cfe":"Kaisho","07d00":"Kaisho","07d02":"Kaisho","07d04":"Kaisho","07d05":"Kaisho","07d06":"Kaisho","07d0a":"Kaisho","07d0b":"Kaisho","07d0d":"Kaisho","07d10":"Kaisho","07d14":"Kaisho","07d15":"Kaisho","07d17":"Kaisho","07d18":"Kaisho","07d19":"Kaisho","07d1a":"Kaisho","07d1b":"Kaisho","07d1c":"Kaisho","07d20":"Kaisho,KaishoVtLst","07d21":"Kaisho","07d22":"Kaisho","07d2b":"Kaisho,KaishoHzFst","07d2c":"Kaisho,KaishoVtLst","07d2e":"Kaisho","07d2f":"Kaisho","07d30":"Kaisho","07d32":"Kaisho","07d33":"Kaisho","07d35":"Kaisho","07d39":"Kaisho","07d3a":"Kaisho","07d3f":"Kaisho","07d42":"Kaisho","07d43":"Kaisho","07d44":"Kaisho","07d45":"Kaisho","07d46":"Kaisho","07d4b":"Kaisho","07d4c":"Kaisho","07d4e":"Kaisho","07d4f":"Kaisho","07d50":"Kaisho","07d56":"Kaisho","07d5b":"Kaisho","07d5e":"Kaisho","07d61":"Kaisho","07d62":"Kaisho","07d63":"Kaisho","07d66":"Kaisho","07d68":"Kaisho","07d6e":"Kaisho","07d71":"Kaisho","07d72":"Kaisho","07d73":"Kaisho","07d75":"Kaisho","07d76":"Kaisho","07d79":"Kaisho","07d7d":"Kaisho","07d89":"Kaisho","07d8f":"Kaisho","07d93":"Kaisho","07d99":"Kaisho","07d9a":"Kaisho","07d9b":"Kaisho","07d9c":"Kaisho","07d9f":"Kaisho","07da2":"Kaisho","07da3":"Kaisho","07dab":"Kaisho","07dac":"Kaisho","07dad":"Kaisho","07dae":"Kaisho","07daf":"Kaisho","07db0":"Kaisho","07db1":"Kaisho","07db2":"Kaisho","07db4":"Kaisho","07db5":"Kaisho","07db8":"Kaisho","07dba":"Kaisho","07dbb":"Kaisho","07dbd":"Kaisho,KaishoHzFst","07dbe":"Kaisho","07dbf":"Kaisho","07dc7":"Kaisho","07dca":"Kaisho,KaishoHzFst","07dcb":"Kaisho,KaishoMdFst","07dcf":"Kaisho","07dd1":"Kaisho","07dd2":"Kaisho","07dd5":"Kaisho,KaishoVt6","07dd8":"Kaisho","07dda":"Kaisho","07ddc":"Kaisho","07ddd":"Kaisho,KaishoVt3","07dde":"Kaisho","07de0":"Kaisho","07de1":"Kaisho","07de4":"Kaisho","07de8":"Kaisho","07de9":"Kaisho","07dec":"Kaisho","07def":"Kaisho","07df2":"Kaisho","07df4":"Kaisho","07dfb":"Kaisho,KaishoVtFst","07e01":"Kaisho","07e04":"Kaisho","07e05":"Kaisho","07e09":"Kaisho","07e0a":"Kaisho","07e0b":"Kaisho","07e12":"Kaisho,KaishoVtLst","07e1b":"Kaisho","07e1e":"Kaisho","07e1f":"Kaisho","07e21":"Kaisho","07e22":"Kaisho","07e23":"Kaisho","07e26":"Kaisho","07e2b":"Kaisho","07e2e":"Kaisho","07e31":"Kaisho","07e32":"Kaisho","07e35":"Kaisho","07e37":"Kaisho","07e39":"Kaisho","07e3a":"Kaisho","07e3b":"Kaisho","07e3d":"Kaisho","07e3e":"Kaisho,KaishoVtLst","07e41":"Kaisho","07e43":"Kaisho","07e46":"Kaisho","07e4a":"Kaisho","07e4b":"Kaisho","07e4d":"Kaisho","07e54":"Kaisho","07e55":"Kaisho","07e56":"Kaisho","07e59":"Kaisho","07e5a":"Kaisho","07e5d":"Kaisho","07e5e":"Kaisho","07e61":"Kaisho","07e66":"Kaisho","07e67":"Kaisho","07e69":"Kaisho","07e6a":"Kaisho","07e6b":"Kaisho","07e6d":"Kaisho","07e70":"Kaisho","07e79":"Kaisho","07e7b":"Kaisho","07e7c":"Kaisho","07e7d":"Kaisho","07e7f":"Kaisho,KaishoHzFst","07e82":"Kaisho","07e83":"Kaisho,KaishoVt12","07e88":"Kaisho","07e89":"Kaisho","07e8c":"Kaisho","07e8e":"Kaisho","07e8f":"Kaisho,KaishoVtLst","07e90":"Kaisho","07e92":"Kaisho,KaishoVtLst","07e93":"Kaisho","07e94":"Kaisho","07e96":"Kaisho","07e9b":"Kaisho,KaishoVtLst","07e9c":"Kaisho,KaishoHzFst","07f45":"HzFstLeRi,HzFstRiLe,VtFstRiLe","07f4c":"Kaisho","07f4d":"Kaisho","07f4e":"Kaisho","07f54":"Kaisho","07f67":"Kaisho","07f68":"Kaisho","07f69":"Kaisho,KaishoHzFst","07f6a":"MdFst","07f6e":"Kaisho","07f72":"Kaisho","07f75":"Vt6","07f77":"Kaisho","07f82":"Kaisho","07f83":"Kaisho","07f85":"Kaisho","07f86":"Kaisho","07f88":"Vt6","07f8e":"Kaisho,KaishoVtLst","07f94":"VtLst","07f9a":"Insatsu","07f9e":"VtLst","07fae":"VtLst","07faf":"Kaisho","07fb6":"Kaisho","07fb8":"Kaisho,LeFst","07fb9":"VtLst","07fbd":"Kaisho","07fca":"Kaisho","07fcc":"Kaisho","07fd2":"Kaisho","07fe0":"Kaisho","07fe1":"MdFst","07fe9":"Kaisho","07feb":"Hyougai,HyougaiKaisho","07ff0":"Hyougai,HyougaiKaisho","07ffb":"Kaisho","07ffc":"Kaisho","08001":"Kaisho","08003":"Kaisho","08005":"Kaisho","08006":"Kaisho","0800b":"VtFst","08012":"Kaisho","08015":"Kaisho","08017":"Kaisho","08018":"Kaisho","08019":"Kaisho","0801c":"Kaisho","08021":"Kaisho","08028":"Kaisho","08033":"Kaisho,KaishoVt3","08036":"Kaisho,KaishoVt3","0803b":"Kaisho,KaishoHzFst,KaishoVt3,KaishoVt3HzFst","0803d":"Kaisho,KaishoVt3","0803f":"Kaisho,KaishoVt3","08046":"Insatsu,Kaisho,KaishoVt3","0804a":"Kaisho,KaishoVt3","08052":"Kaisho,KaishoVt3","08056":"Kaisho,KaishoVt3,KaishoVt3VtLst,KaishoVtLst","08058":"Kaisho,KaishoVt3Vt3,KaishoVt3VtLst","0805a":"Kaisho,KaishoVt3","0805e":"Kaisho,KaishoVt3","0805f":"Kaisho,KaishoVt3","08061":"Kaisho,KaishoVt3","08062":"Kaisho,KaishoVt3","08068":"Kaisho,KaishoVt3","0806f":"Kaisho,KaishoVt3","08070":"Kaisho,KaishoVt3","08072":"Kaisho,KaishoVt3","08073":"Kaisho,KaishoVt3","08074":"Kaisho,KaishoVt3","08076":"Kaisho,KaishoVt3","08077":"Kaisho,KaishoVt3","08079":"Kaisho,KaishoVt3","0807d":"Kaisho,KaishoVt3,KaishoVt3VtLst,KaishoVtLst","0807e":"Kaisho,KaishoVt3","08085":"Kaisho,KaishoVt6","08086":"HzFst","0808b":"Kaisho","0808c":"Kaisho","08093":"Kaisho","08096":"Kaisho","08098":"Kaisho","0809a":"Kaisho","0809b":"Kaisho","0809d":"Kaisho","080a1":"Kaisho","080a2":"Kaisho","080a5":"Kaisho","080a9":"Kaisho","080aa":"Kaisho","080ac":"Kaisho","080ad":"Kaisho","080af":"Kaisho,KaishoHzFst","080b1":"Kaisho","080b2":"Kaisho","080b4":"Kaisho","080ba":"Kaisho","080c3":"Kaisho","080c4":"Kaisho,KaishoVtLst","080c6":"Kaisho","080cc":"Kaisho","080ce":"Kaisho","080d6":"Kaisho","080d9":"Kaisho","080da":"Kaisho","080db":"Kaisho","080dd":"Kaisho","080de":"Kaisho","080e1":"Kaisho","080e4":"Kaisho","080e5":"Kaisho","080ef":"Kaisho","080f1":"Kaisho","080f4":"Kaisho","080f8":"Kaisho","080fc":"Kaisho","080fd":"Kaisho","08102":"Kaisho","08105":"Kaisho","08106":"Kaisho","08107":"Kaisho","08108":"Kaisho","08109":"Kaisho","0810a":"Kaisho","0811a":"Kaisho","0811b":"Kaisho","08123":"Kaisho","08129":"Kaisho","0812f":"Kaisho","08131":"Kaisho","08133":"Kaisho","08139":"Kaisho,KaishoHzFst","0813e":"Kaisho","08146":"Kaisho,KaishoVtLst","0814b":"Kaisho","0814e":"Kaisho,KaishoHzFst","08150":"Kaisho","08151":"Kaisho","08153":"Kaisho,KaishoMdFst","08154":"Kaisho","08155":"Kaisho","0815f":"Kaisho,KaishoVtFst","08165":"Kaisho,KaishoVtLst","08166":"Kaisho","0816b":"Kaisho,KaishoVtLst","0816e":"Kaisho","08170":"Kaisho","08171":"Hyougai,HyougaiKaisho","08174":"Kaisho","08178":"Kaisho","08179":"Kaisho","0817a":"Kaisho","0817f":"Hyougai,HyougaiKaisho,Kaisho","08180":"Kaisho","08182":"Kaisho","08183":"Kaisho","08188":"Kaisho","0818a":"Kaisho","0818f":"Hyougai,HyougaiKaisho","08193":"Kaisho","08195":"Kaisho","0819a":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0819c":"Kaisho","0819d":"Kaisho","081a0":"Kaisho","081a3":"Kaisho,KaishoVtFst","081a4":"Kaisho","081a8":"Kaisho","081a9":"Kaisho","081b0":"Kaisho","081b3":"Kaisho","081b5":"Kaisho","081b8":"Kaisho","081ba":"Kaisho","081bd":"Kaisho","081be":"Kaisho","081bf":"Kaisho,KaishoVtLst","081c0":"Kaisho","081c2":"Kaisho","081c6":"Kaisho","081c8":"Kaisho","081c9":"Kaisho","081cd":"Kaisho,KaishoVt12","081d1":"Kaisho","081d3":"Kaisho,KaishoHzFst,KaishoHzFstTenFst","081d8":"Kaisho","081d9":"Kaisho","081da":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","081df":"Kaisho,KaishoHzFst,KaishoHzFstTenFst","081e0":"Kaisho","081e3":"HzFst","081e5":"HzFst","081e7":"HzFst,HzFstTenFst","081e8":"HzFst","081ea":"Kaisho","081ed":"Kaisho","081f3":"VtFst","081f4":"VtFst","081fa":"VtFst","081fb":"Kaisho,KaishoVtFst","081fc":"HzLst","08201":"HzLst","08202":"HzLst","08205":"Kaisho,KaishoHzLst","08207":"LeFst","08208":"MdFst","08209":"LeFst","0820a":"HzLst","08216":"Kaisho","08217":"Kaisho","08218":"Kaisho","0821e":"Kaisho,KaishoHzLst","0822a":"Kaisho","0822b":"Kaisho","08233":"Kaisho,KaishoVtLst","08235":"Kaisho","08236":"Kaisho","08237":"Kaisho","08239":"Kaisho","08258":"Hyougai,MdFst,VtLst","0825a":"Kaisho,KaishoVtLst","0825f":"Kaisho,KaishoVtLst","08266":"HzFst","0826a":"Kaisho","0826b":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0826e":"Kaisho","0826f":"Kaisho","08271":"Kaisho","08276":"Kaisho,KaishoVtLst","08292":"Hyougai,HyougaiKaisho","082a6":"Hyougai","082b3":"Kaisho","082d3":"Insatsu","082d7":"Kaisho","082d9":"Kaisho","082dc":"Kaisho","082e3":"HzFst","082e7":"Kaisho","082eb":"HzFst","082f1":"Kaisho","082f4":"Kaisho","08309":"Kaisho","08328":"Hyougai","0832b":"Kaisho","08331":"Kaisho","08336":"Kaisho","08338":"Kaisho,KaishoVt3","08340":"Kaisho","08349":"Kaisho","08352":"Kaisho","08385":"Kaisho","08387":"Kaisho","08389":"Kaisho","0839a":"HzFst","0839e":"Kaisho","083a0":"Kaisho","083a8":"Kaisho","083ab":"Kaisho","083b1":"Kaisho","083c1":"VtLst","083c5":"Kaisho","083ca":"Kaisho","083cc":"Kaisho","083ce":"Kaisho","083d3":"Kaisho","083d6":"Kaisho","083d8":"Kaisho","083dc":"Kaisho","083e9":"Kaisho","083eb":"VtLst","083f2":"MdFst","083f4":"Kaisho","083fb":"Kaisho","083fd":"HzFst","08403":"Kaisho","08407":"HzFst","0840b":"VtLst","0840c":"Kaisho","08413":"Kaisho","08429":"Kaisho","0842a":"Kaisho","0842c":"Kaisho","08431":"Kaisho","08435":"HzFst","08446":"Kaisho","08449":"Kaisho","08457":"Kaisho","0845b":"Hyougai,HyougaiKaisho,Kaisho","08461":"Kaisho","08463":"Kaisho,KaishoVtLst","08469":"Kaisho","0846b":"Kaisho","0846d":"VtFst","0846f":"Kaisho","08475":"Dg3,DgLst","08477":"Kaisho","08479":"Kaisho","0847a":"Kaisho,KaishoVt3","08482":"Kaisho","08490":"Kaisho","08494":"Kaisho","0849f":"Kaisho","084a1":"Kaisho","084b2":"Kaisho","084bf":"Kaisho","084c1":"Kaisho","084c4":"Kaisho","084c6":"Kaisho","084c9":"Kaisho","084cd":"Kaisho","084d1":"Kaisho","084d6":"Kaisho","084d9":"Kaisho,KaishoVtLst,VtLst","084ec":"Hyougai","084ee":"Kaisho","084ff":"Kaisho","08500":"Kaisho","08511":"Hyougai","08513":"Kaisho","08514":"Kaisho","08517":"Kaisho","0851f":"Kaisho","08526":"Kaisho","0852c":"Kaisho","08535":"HzFst,HzFstTenFst","0853d":"Hyougai","08540":"Kaisho","08543":"Kaisho","08548":"Kaisho","0854b":"HzFst","08555":"Kaisho","08569":"Kaisho","0856a":"HzLst","0856d":"Kaisho,KaishoVt6","08577":"Kaisho","0857e":"Kaisho","08584":"Kaisho","08588":"Kaisho","0858a":"Kaisho","08590":"Kaisho","08591":"Kaisho","0859b":"Kaisho","0859c":"Kaisho","085a6":"Kaisho","085a9":"Hyougai,HyougaiKaisho,HyougaiKaishoVtLst,Kaisho","085aa":"Kaisho","085ab":"Kaisho,KaishoVtLst","085ac":"Kaisho","085af":"Hyougai,HyougaiKaisho","085b9":"VtFst","085ba":"Kaisho,KaishoVt12","085c1":"Kaisho","085c9":"Kaisho","085cd":"HzFst","085cf":"HzFst,HzFstTenFst","085d0":"Kaisho","085d5":"Kaisho","085dc":"Kaisho","085e4":"Kaisho","085e5":"Kaisho","085e9":"Kaisho","085f7":"Hyougai,HyougaiKaisho","085f9":"Kaisho","085fa":"Kaisho","085fb":"Kaisho","085fe":"Kaisho","08602":"Kaisho","08606":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","08607":"Kaisho","0860a":"Kaisho","0860b":"Kaisho,KaishoHzFst","08613":"Kaisho","08616":"Kaisho","08617":"Kaisho","0861a":"Kaisho","08622":"Kaisho","0862d":"Kaisho","0862f":"Kaisho","08630":"Kaisho","0863f":"Kaisho","0864d":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0864e":"HzFstLeRi,HzFstRiLe,VtFstRiLe","08650":"HzFstLeRi,HzFstRiLe,VtFstRiLe","08654":"Hyougai,HyougaiKaisho,HyougaiKaishoHzFstLeRi,HyougaiKaishoHzFstRiLe,HyougaiKaishoVtFstRiLe","08655":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0865a":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0865c":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0865e":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0865f":"HzFstLeRi,HzFstRiLe,VtFstRiLe","08667":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0867b":"Kaisho","0868a":"Kaisho","08695":"Kaisho","086b0":"Kaisho,KaishoVtLst","086b6":"Kaisho","086c6":"Kaisho","086c7":"Kaisho","086c9":"Insatsu","086db":"Kaisho","086df":"Kaisho","086ee":"Kaisho","086f8":"Hyougai,HyougaiKaisho","086f9":"Kaisho","08703":"Hyougai","08706":"Kaisho","0870a":"Kaisho","08711":"HzFst","08712":"HzFst","0871a":"MdFst","0871c":"Kaisho,KaishoTen3","08725":"Kaisho","08734":"Kaisho","0873b":"VtLst","0873f":"Kaisho","08749":"Kaisho","0874b":"Kaisho","0874c":"Kaisho","0874e":"Kaisho","08755":"Hyougai,HyougaiKaisho,Kaisho","08757":"Kaisho,KaishoVtLst","08759":"Kaisho","0875f":"Kaisho","08760":"Kaisho","08763":"Kaisho","0876a":"Kaisho","0876e":"Kaisho","08774":"Kaisho","08776":"Kaisho","08778":"HzFst","0877f":"Kaisho","08782":"Kaisho","0879f":"Kaisho","087af":"Kaisho","087ba":"Kaisho","087c0":"Kaisho","087c6":"Kaisho","087c7":"Kaisho","087e0":"Kaisho","087ec":"Kaisho","087f6":"Kaisho,KaishoVt3","087f7":"Kaisho","087f9":"Kaisho","08805":"Hyougai","0880d":"Kaisho","0880f":"Kaisho","08811":"Kaisho","08822":"Kaisho","08823":"Kaisho","08836":"Hyougai,Kaisho","0883b":"Kaisho","08852":"Kaisho","08853":"Kaisho","0885d":"Kaisho,KaishoVtLst","08861":"Kaisho","08862":"Kaisho","08863":"Kaisho","08868":"HzLst","08870":"Kaisho","08875":"Kaisho","08877":"Hyougai","0887e":"Kaisho","08888":"Kaisho","0888b":"Kaisho","08892":"Kaisho","08896":"Kaisho,KaishoVtLst","08899":"Kaisho","0889e":"Kaisho","088a4":"Kaisho","088b0":"Kaisho","088c1":"Kaisho","088c2":"Kaisho","088c3":"HzFst","088c5":"Kaisho","088cf":"Kaisho,KaishoVtLst","088d4":"Kaisho","088d8":"Kaisho","088dc":"Kaisho","088dd":"Kaisho","088df":"Kaisho","088e1":"Kaisho,KaishoVtLst","088e8":"Kaisho","088f3":"Kaisho","088f4":"Kaisho,KaishoMdFst","088f8":"Kaisho","088f9":"Kaisho","088fc":"Kaisho","088fd":"Kaisho","08904":"VtLst","08907":"Kaisho","0890a":"Kaisho","0890c":"Kaisho","08910":"Kaisho","08912":"Kaisho","08913":"Kaisho","0891d":"Kaisho","0892a":"Kaisho","0892b":"HzFstLeRi,HzFstRiLe,VtFstRiLe","08936":"Kaisho","0893b":"Kaisho","08943":"Kaisho","08944":"Kaisho","0894c":"Kaisho","0894d":"Kaisho","08956":"Hyougai","0895e":"Kaisho","08960":"Kaisho","08964":"HzFst","0896d":"Kaisho","0896f":"Kaisho","08972":"Kaisho","08974":"Kaisho","08977":"LeFst","08983":"Kaisho","08986":"Kaisho","08987":"Kaisho","08988":"Kaisho","0898a":"Vt6","0898b":"Kaisho","0898f":"Kaisho","08993":"Kaisho","08996":"Kaisho","08997":"Kaisho","08998":"Kaisho,KaishoHzFst","0899a":"Kaisho","089a1":"Kaisho","089a6":"Kaisho","089a7":"Kaisho,KaishoHzFst","089a9":"Kaisho","089aa":"Kaisho","089ac":"Kaisho","089af":"Kaisho","089b2":"Kaisho","089b3":"Kaisho","089ba":"Kaisho","089bd":"Kaisho,KaishoHzFst","089bf":"Kaisho","089c0":"Kaisho","089d2":"Kaisho","089da":"Kaisho","089dc":"Kaisho,KaishoHzFst","089dd":"Kaisho","089e3":"Kaisho","089e6":"Kaisho","089e7":"Kaisho","089f4":"Kaisho","089f8":"Kaisho","08a0a":"Hyougai","08a1d":"Hyougai","08a2a":"Kaisho","08a3b":"Hyougai,HyougaiVtLst","08a3c":"HzFst","08a51":"Kaisho","08a5b":"Kaisho","08a62":"Kaisho","08a63":"Kaisho","08a6b":"Kaisho","08a6e":"Hyougai,HyougaiVtLst","08a72":"Kaisho","08a82":"MidFst","08a84":"Kaisho","08a85":"Kaisho","08a91":"VtLst","08a95":"HzFst","08a98":"Kaisho","08a9a":"Kaisho","08aa6":"Kaisho","08ab2":"Kaisho","08ab9":"Hyougai,HyougaiMdFst,Jinmei","08abc":"Kaisho","08ac2":"HzLst","08ac4":"Kaisho","08acb":"Kaisho,KaishoVtLst","08acc":"Kaisho","08acf":"Kaisho,KaishoVt3","08ad2":"Kaisho","08ad6":"Kaisho","08ada":"Kaisho","08adc":"Kaisho","08ade":"Kaisho","08ae0":"Kaisho","08ae2":"Kaisho","08ae6":"Kaisho","08ae7":"Kaisho","08aeb":"Kaisho","08aed":"Kaisho","08af3":"Kaisho","08af8":"Kaisho","08afa":"Hyougai,HyougaiKaisho,Kaisho","08b00":"Kaisho","08b01":"Kaisho","08b02":"Kaisho","08b04":"Kaisho","08b07":"Kaisho","08b0e":"Hyougai,HyougaiKaisho,Kaisho","08b10":"Ten3","08b14":"HzFstLeRi,HzFstRiLe,VtFstRiLe","08b16":"Kaisho","08b17":"Kaisho","08b1b":"Kaisho","08b1d":"Kaisho","08b28":"Kaisho","08b2b":"Kaisho","08b2c":"Hyougai","08b39":"VtLst","08b3e":"Kaisho","08b49":"Dg3,DgLst","08b56":"Kaisho","08b58":"Kaisho","08b5a":"Kaisho","08b5b":"Kaisho","08b5c":"Kaisho","08b5f":"Kaisho","08b6c":"Kaisho","08b72":"Kaisho,KaishoVtLst","08b7d":"LeFst","08b80":"Kaisho","08b83":"Kaisho","08b8a":"Kaisho","08b92":"Kaisho","08b93":"Kaisho,KaishoVtLst","08b9a":"Kaisho","08c41":"Kaisho","08c4a":"Kaisho,KaishoVtLst","08c4c":"Kaisho","08c4e":"HzFst","08c5a":"Kaisho","08c6a":"Kaisho","08c6c":"Kaisho","08c79":"Hyougai","08c7c":"Kaisho","08c85":"Kaisho","08c8a":"Kaisho","08c8c":"Kaisho","08c8d":"Kaisho,KaishoVtLst","08c8e":"HzLst","08c94":"Kaisho","08c98":"Kaisho","08c9d":"Kaisho","08c9e":"Kaisho,KaishoHzFst","08ca0":"Kaisho","08ca1":"Kaisho","08ca2":"Kaisho","08ca7":"Kaisho","08ca9":"Kaisho","08caa":"Kaisho","08cab":"Kaisho","08cac":"Kaisho,KaishoVtLst","08cad":"Kaisho","08cae":"Kaisho","08caf":"Kaisho","08cb0":"Kaisho","08cb2":"Kaisho,KaishoHzFst","08cb3":"Kaisho","08cb4":"Kaisho","08cb6":"Kaisho","08cb8":"Kaisho","08cbb":"Kaisho","08cbc":"Kaisho,KaishoHzFst","08cbd":"Kaisho","08cbf":"Kaisho","08cc0":"Kaisho","08cc1":"Kaisho","08cc2":"Kaisho","08cc3":"Kaisho","08cc4":"Kaisho","08cc7":"Kaisho","08cc8":"Kaisho","08cca":"Kaisho","08ccd":"Kaisho","08cce":"Kaisho","08cd1":"Kaisho","08cd3":"Kaisho","08cda":"Kaisho","08cdb":"Kaisho","08cdc":"Kaisho","08cde":"Kaisho","08ce0":"Kaisho","08ce2":"Kaisho,KaishoHzFst","08ce3":"Kaisho","08ce4":"Kaisho","08ce6":"Kaisho,KaishoHzFst","08cea":"Kaisho","08ced":"Hyougai,HyougaiKaisho,Kaisho","08cfa":"Kaisho","08cfb":"Kaisho","08cfc":"Kaisho","08cfd":"Kaisho","08d04":"Kaisho","08d05":"Kaisho","08d07":"Kaisho,KaishoHzFst","08d08":"Kaisho","08d0a":"Kaisho","08d0b":"Kaisho","08d0d":"Kaisho","08d0f":"Kaisho,LeFst","08d10":"Kaisho,KaishoVtLst","08d13":"Kaisho,KaishoHzFst,KaishoHzFstTenFst","08d14":"Kaisho","08d16":"Kaisho","08d6d":"Kaisho","08d77":"Kaisho","08d99":"Kaisho","08da3":"Kaisho,KaishoVt3","08dbe":"HzFst","08ddd":"HzFst","08ddf":"Kaisho","08de1":"Kaisho","08df3":"MidFst","08e08":"Kaisho","08e09":"Kaisho","08e0a":"Kaisho","08e0f":"Kaisho","08e1d":"Kaisho","08e2a":"Kaisho","08e34":"Kaisho","08e35":"Kaisho,KaishoVtLst","08e42":"Kaisho","08e44":"Kaisho","08e47":"Kaisho","08e48":"HzLst","08e49":"VtLst","08e50":"Kaisho","08e55":"Kaisho","08e59":"HzFst,HzFstTenFst","08e5f":"Kaisho,KaishoVtLst","08e60":"Kaisho","08e72":"Kaisho","08e74":"Kaisho","08e81":"Kaisho","08e84":"Kaisho","08e87":"Kaisho","08e8b":"Kaisho,KaishoVt12","08e91":"Kaisho","08e93":"Kaisho","08e94":"Kaisho,KaishoVtLst","08e99":"Kaisho","08ea1":"Kaisho,KaishoVt3","08eaa":"Kaisho","08eab":"Kaisho","08eac":"Kaisho","08eaf":"Kaisho","08eb0":"Kaisho","08eb1":"Kaisho","08ebe":"Kaisho,KaishoVtLst","08ec5":"Kaisho","08ec6":"Kaisho,KaishoVtLst","08ec8":"Kaisho","08eca":"Kaisho","08ecb":"Kaisho","08ecc":"Kaisho","08ecd":"Kaisho","08ed2":"Kaisho","08edb":"Kaisho","08edf":"Kaisho","08ee2":"Kaisho","08ee3":"Kaisho","08eeb":"Kaisho","08ef8":"Kaisho,KaishoVtLst","08efb":"Kaisho","08efc":"Kaisho","08efd":"Kaisho","08efe":"Kaisho","08f03":"Kaisho","08f05":"Kaisho","08f09":"Kaisho","08f0a":"Kaisho,KaishoVtFst","08f0c":"Kaisho","08f12":"Kaisho,KaishoVt3","08f13":"Kaisho","08f14":"Kaisho","08f15":"Kaisho","08f19":"Kaisho,KaishoVt3","08f1b":"Kaisho","08f1c":"Kaisho","08f1d":"Kaisho","08f1f":"Kaisho","08f26":"Kaisho","08f29":"Kaisho,KaishoMdFst","08f2a":"Kaisho","08f2f":"Kaisho,KaishoVt3","08f33":"Kaisho","08f38":"Kaisho","08f39":"Kaisho","08f3b":"Kaisho","08f3e":"Kaisho","08f3f":"Kaisho","08f42":"Kaisho","08f44":"Kaisho,KaishoVtLst","08f45":"Kaisho","08f46":"Kaisho","08f49":"Kaisho","08f4c":"Kaisho","08f4d":"Kaisho","08f4e":"Kaisho","08f57":"Kaisho","08f5c":"Kaisho","08f5f":"Kaisho","08f61":"Kaisho","08f62":"Kaisho","08f63":"Kaisho,KaishoHzFst","08f64":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","08f9b":"Kaisho","08f9c":"Kaisho","08f9e":"Kaisho","08f9f":"Kaisho","08fa3":"Kaisho","08fa7":"Kaisho","08fa8":"Kaisho","08fad":"Kaisho","08fae":"Kaisho","08faf":"Kaisho","08fb2":"Kaisho,KaishoVtLst","08fbb":"Hyougai","08fbf":"Hyougai","08fc2":"Hyougai","08fc4":"Hyougai","08fe6":"Hyougai","08fea":"Kaisho,KaishoVtLst","08feb":"Kaisho","08ff0":"Kaisho","08ff7":"Kaisho","08ff9":"Kaisho","09000":"Kaisho","09003":"MidFst","0900b":"Kaisho","0900d":"Kaisho","0900e":"Kaisho","0900f":"Kaisho","09017":"Hyougai","09019":"Hyougai","0901a":"Kaisho","0901e":"VtLst","0901f":"Kaisho","09022":"Hyougai","09023":"Kaisho","0903c":"Hyougai,HyougaiKaisho","09041":"Hyougai,HyougaiKaisho,Kaisho","09047":"Kaisho","09049":"Kaisho,KaishoHzFst","0904a":"Kaisho","0904b":"Kaisho","0904d":"Kaisho","0904e":"HzFst","0904f":"Kaisho","09051":"Kaisho,KaishoVtLst","09052":"Kaisho","09053":"Kaisho","09058":"Kaisho","0905c":"Hyougai","0905e":"HzFstLeRi,HzFstRiLe,VtFstRiLe","09061":"Hyougai,HyougaiKaisho,Kaisho","09068":"Kaisho","09069":"Kaisho","0906d":"Kaisho,KaishoVtLst","0906e":"Kaisho","0906f":"Kaisho","09075":"Kaisho","0907a":"Kaisho","0907c":"Kaisho","0907d":"HzFstLeRi,HzFstRiLe,VtFstRiLe","0907f":"Kaisho","09080":"Kaisho","09081":"Kaisho","09082":"Kaisho","09083":"Kaisho","09089":"Kaisho","0908a":"Kaisho","0908f":"Kaisho","090af":"Kaisho","090c1":"Kaisho","090ca":"Kaisho","090ce":"Kaisho","090e8":"Kaisho","090ed":"Kaisho","090f5":"VtLst","090f7":"Kaisho","090fd":"Kaisho","09119":"Kaisho","0912d":"Hyougai,HyougaiKaisho","09132":"Kaisho","09149":"Kaisho","0914a":"Kaisho","0914b":"Hyougai,HyougaiKaisho","0914c":"Kaisho","0914d":"Kaisho","0914e":"Kaisho","09152":"Kaisho","09154":"Kaisho","09156":"Kaisho","09158":"Kaisho","09162":"Kaisho","09163":"Kaisho","09165":"Kaisho","09169":"Kaisho","0916a":"Kaisho","0916c":"Kaisho","09172":"Kaisho","09173":"Kaisho","09175":"Kaisho","09177":"Kaisho","09178":"Kaisho","09182":"Kaisho","09187":"Kaisho","09189":"Kaisho","0918b":"Kaisho","0918d":"Kaisho","09190":"Kaisho","09192":"Kaisho,KaishoVtLst","09197":"Kaisho,KaishoDg3,KaishoDgLst","0919c":"Kaisho","091a2":"Kaisho","091a4":"Kaisho","091aa":"Kaisho","091ab":"Kaisho","091af":"Kaisho","091b4":"Kaisho,KaishoVtLst","091b5":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","091b8":"Kaisho,KaishoVtLst","091ba":"Kaisho,KaishoVtLst","091c0":"Kaisho,KaishoVtLst","091c1":"Kaisho,MdFst","091c6":"Kaisho","091c7":"Kaisho","091c8":"Kaisho","091c9":"Kaisho,KaishoVtLst","091cb":"Kaisho","091cc":"Kaisho,KaishoVtLst","091cd":"Kaisho,KaishoVtLst","091ce":"Kaisho,KaishoVtLst","091cf":"Kaisho,KaishoVtLst","091d0":"Kaisho,KaishoVtLst","091dc":"Hyougai","09234":"Insatsu","0923f":"Kaisho","09245":"HzFst","09248":"Kaisho","09249":"Kaisho","09257":"Kaisho","09266":"HzFst","09271":"Kaisho","09280":"Kaisho","09283":"Kaisho","09293":"VtLst","09296":"Kaisho","0929a":"MidFst","092b7":"Kaisho","092b9":"Kaisho","092e4":"Kaisho","092e9":"Kaisho","092ea":"Kaisho","092fa":"Kaisho","09306":"Hyougai,HyougaiKaisho,HyougaiKaishoVtLst","09318":"VtLst","09319":"Kaisho","09320":"Kaisho","09326":"Kaisho","09328":"Kaisho","0932b":"Kaisho","0932c":"Kaisho","0932f":"Kaisho","09332":"Kaisho","0933a":"Kaisho","0933b":"HzFst","09344":"Kaisho","0934b":"HzFst","0934d":"Kaisho","09356":"Kaisho","09360":"Kaisho,KaishoVtLst","0936c":"Kaisho","09375":"Hyougai","0937e":"Kaisho,KaishoVtLst","09394":"Kaisho","09396":"Kaisho","0939a":"Hyougai","093ac":"Kaisho","093ad":"Kaisho","093ae":"Kaisho","093c3":"Kaisho","093c8":"Kaisho","093d1":"Kaisho","093d6":"Kaisho","093d7":"HzFst","093dd":"Kaisho","093e1":"Kaisho","093e5":"Kaisho","093e8":"Kaisho","09407":"Kaisho","09410":"Kaisho","09413":"Kaisho","09414":"Kaisho","09418":"Kaisho,KaishoVtLst","09419":"Dg3,DgLst","09435":"VtLst","0943a":"Kaisho","09451":"HzFst","09452":"HzFst","09453":"Hyougai","0945a":"Kaisho","0945b":"Kaisho,KaishoVtLst","09460":"Kaisho","09462":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","0946a":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","09470":"Kaisho","09477":"Kaisho,KaishoVt3","0947c":"Kaisho","0947d":"Kaisho","0947e":"Kaisho","09481":"Kaisho","09577":"HzFst","09580":"Kaisho","09582":"Kaisho","09583":"Kaisho","09587":"Kaisho","09589":"Kaisho","0958a":"Kaisho","0958b":"Kaisho","0958f":"Kaisho","09591":"Kaisho","09593":"Kaisho","09594":"Kaisho","09596":"Kaisho","09598":"Kaisho","09599":"Kaisho","095a0":"Kaisho,KaishoVtLst","095a2":"Kaisho","095a3":"Kaisho","095a4":"Kaisho","095a5":"Kaisho","095a7":"Kaisho","095a8":"Kaisho","095ad":"Kaisho","095b2":"Kaisho","095b9":"Kaisho","095bb":"Kaisho,KaishoHzLst","095bc":"Kaisho","095be":"Kaisho","095c3":"Kaisho","095c7":"Kaisho","095ca":"Kaisho","095cc":"Kaisho","095cd":"Kaisho","095d4":"Kaisho","095d5":"Kaisho","095d6":"Kaisho,KaishoVt6","095d8":"Kaisho","095dc":"Kaisho","095e1":"Kaisho","095e2":"Kaisho","095e5":"Kaisho","0962f":"HzFst","09632":"Kaisho","0963b":"Kaisho","09640":"Kaisho","0964c":"Kaisho","0964f":"Kaisho","09650":"Kaisho","0965b":"Kaisho","0965f":"HzFst","09662":"Kaisho","09663":"Kaisho","09665":"Kaisho","0966a":"Kaisho","0966c":"Kaisho,KaishoVt3","09672":"VtLst","09673":"Kaisho","09677":"HzLst","0967d":"Kaisho","09685":"Kaisho","09686":"VtLst","09688":"Kaisho","0968b":"Kaisho","0968d":"Kaisho,KaishoVtLst","0968e":"Kaisho","0968f":"Kaisho","09697":"Kaisho","09699":"Hyougai,HyougaiKaisho,Kaisho","0969c":"Kaisho","096a0":"Kaisho","096a8":"Kaisho","096b0":"Kaisho","096b2":"Vt6","096b4":"Kaisho","096b8":"Kaisho","096c6":"Kaisho","096cc":"HzFst,HzFstVtLst,VtLst","096cd":"Kaisho","096ce":"Kaisho","096d1":"Kaisho","096dc":"Kaisho","096e2":"Kaisho","096ea":"Kaisho","096f6":"Insatsu","096f7":"Kaisho","096fb":"Kaisho","09704":"Kaisho","0970e":"Kaisho","0970f":"MdFst","09711":"HzFst","09713":"HzLst","09716":"Kaisho","0971c":"Kaisho","0971e":"VtFst","09724":"Kaisho","09730":"Kaisho","09738":"Kaisho","09739":"Kaisho","0973d":"Kaisho,KaishoVt12","0973e":"Kaisho,KaishoVtLst","09742":"HzFst","09744":"Hyougai,HyougaiKaisho","09748":"MdFst","09752":"Kaisho,KaishoVtLst","09756":"Kaisho,KaishoVtLst","09759":"Kaisho,KaishoVtLst","0975c":"VtLst","0975e":"MdFst","09760":"MdFst","09761":"Kaisho,KaishoMdFst","09766":"Kaisho","09768":"Kaisho","09771":"Hyougai","0977a":"Kaisho","0977c":"Kaisho","09784":"Hyougai","0978d":"Kaisho","09790":"HzFst","09798":"Hyougai,HyougaiKaisho,Kaisho","0979c":"Kaisho","097a0":"Kaisho","097a3":"Kaisho","097a6":"Kaisho","097a8":"Kaisho","097ad":"Hyougai,HyougaiKaisho,Kaisho","097b4":"Kaisho","097d3":"Kaisho","097dc":"HzFst","097f2":"Kaisho","097f3":"Kaisho","097f5":"Kaisho","097f6":"Kaisho","097fb":"Kaisho","097ff":"Kaisho","09801":"Kaisho","09802":"Kaisho","09803":"Kaisho","09805":"Kaisho","09806":"Kaisho","09808":"Kaisho","0980c":"Kaisho","0980f":"Kaisho","09810":"Kaisho","09811":"Kaisho","09812":"Kaisho","09813":"Kaisho","09817":"Kaisho","09818":"Insatsu,Kaisho","0981a":"Kaisho","09821":"Kaisho","09824":"Kaisho","0982c":"Kaisho","0982d":"Kaisho","09830":"Kaisho","09834":"Kaisho","09837":"Kaisho","09838":"Kaisho","0983b":"Kaisho,KaishoHzFst","0983c":"Kaisho","0983d":"Kaisho","09846":"Kaisho","0984b":"Kaisho","0984c":"Kaisho","0984d":"Kaisho","0984e":"Kaisho","0984f":"Kaisho","09854":"Kaisho","09855":"Kaisho","09858":"Kaisho","0985a":"Kaisho","0985b":"Kaisho","0985e":"Kaisho","09867":"Kaisho","0986b":"Kaisho","0986f":"Kaisho","09870":"Kaisho,KaishoHzFst","09871":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","09873":"Kaisho,KaishoVt3","09874":"Kaisho","098af":"Kaisho","098b6":"Kaisho","098dc":"Kaisho","098df":"Kaisho","098e2":"Kaisho","098e9":"Kaisho","098eb":"Kaisho","098ed":"Kaisho","098ee":"Kaisho","098ef":"Kaisho","098f2":"Kaisho","098f4":"Hyougai,HyougaiKaisho","098fc":"Kaisho","098fd":"Kaisho","098fe":"Kaisho","09903":"Kaisho","09905":"Hyougai,HyougaiKaisho,Kaisho","09909":"Kaisho","0990a":"Kaisho,KaishoVtLst","0990c":"Hyougai,HyougaiKaisho,HyougaiKaishoVt3,Kaisho,KaishoVt3","09910":"Hyougai,HyougaiKaisho","09912":"Kaisho","09913":"Kaisho","09914":"Kaisho","09918":"Kaisho","0991d":"Kaisho","0991e":"Kaisho","09920":"Kaisho","09921":"Kaisho,KaishoHzLst","09924":"Kaisho","09928":"Kaisho","0992c":"Kaisho","0993d":"Kaisho","0993e":"Kaisho","09942":"Kaisho","09945":"Kaisho","09949":"Kaisho","0994b":"Kaisho","0994c":"Kaisho","09950":"Kaisho","09951":"Kaisho","09952":"Kaisho","09955":"HzFstLeRi,HzFstRiLe,VtFstRiLe","09957":"Hyougai,HyougaiKaisho,JinmeiKaisho,NoDot","09996":"Kaisho","09997":"Kaisho","09998":"Kaisho","09999":"Kaisho","099a5":"Kaisho","099a8":"Kaisho","099ac":"Vt6","099ad":"Vt6","099ae":"Vt6","099b3":"Vt6","099b4":"Vt6","099bc":"Kaisho,KaishoVt6","099c1":"Hyougai,HyougaiVt6","099c4":"Vt6","099c5":"Vt6","099c6":"Vt6","099c8":"Vt6","099d0":"Vt6VtLst,VtLst","099d1":"Vt6","099d2":"Vt6","099d5":"Vt6","099d8":"Vt6","099db":"Vt6","099dd":"Kaisho,KaishoVt6","099df":"Vt6","099e2":"Vt6","099ed":"Kaisho,KaishoVt6","099ee":"Kaisho,KaishoVt6","099f1":"Vt6","099f2":"Vt6","099f8":"Vt6","099fb":"Kaisho,KaishoVt6","099ff":"Vt6","09a01":"Kaisho,KaishoVtLst","09a05":"Vt6","09a0e":"Vt6","09a0f":"Kaisho,KaishoVt6","09a12":"Vt6","09a13":"Vt6","09a19":"Hyougai,HyougaiKaisho,HyougaiKaishoVt6","09a28":"Kaisho,KaishoVt6","09a2b":"Kaisho,KaishoVt6","09a30":"Kaisho,KaishoVt6","09a37":"Vt6","09a3e":"Kaisho,KaishoVt6","09a40":"Kaisho,KaishoVt6","09a42":"Vt6","09a43":"Vt6","09a45":"Vt6","09a4d":"Vt6","09a55":"Vt6","09a57":"Vt6","09a5a":"Vt6","09a5b":"Vt6","09a5f":"Kaisho,KaishoVt3Vt3,KaishoVt6Vt3,KaishoVt6Vt6","09a62":"Kaisho,KaishoHzFstRiLe,KaishoVt3HzFstLeRi,KaishoVt3VtFstRiLe,KaishoVt6HzFstLeRi,KaishoVt6HzFstRiLe,KaishoVt6VtFstRiLe","09a64":"Kaisho,KaishoVtLst","09a65":"Kaisho,KaishoVt6","09a69":"Vt6","09a6a":"Kaisho,KaishoVt6","09a6b":"Vt6","09aa8":"Kaisho,KaishoHzFst","09aad":"Kaisho,KaishoHzFst","09ab0":"Kaisho,KaishoHzFst","09ab8":"Kaisho,KaishoHzFst","09abc":"Kaisho,KaishoHzFst","09ac0":"Kaisho,KaishoHzFst","09ac4":"Kaisho,KaishoHzFst","09acf":"Kaisho,KaishoHzFst","09ad1":"Kaisho,KaishoHzFst","09ad3":"Kaisho,KaishoHzFst","09ad4":"Kaisho,KaishoHzFst","09ad8":"Kaisho","09ade":"Kaisho","09adf":"HzFst","09ae2":"HzFst","09ae3":"Kaisho,KaishoHzFst","09ae6":"HzFst","09aea":"HzFst","09aeb":"HzFst","09aed":"HzFst,HzFstHzFst,VtFstHzFst","09aee":"HzFst","09aef":"HzFst","09af1":"HzFst","09af4":"HzFst","09af7":"Kaisho,KaishoHzFst","09afb":"HzFst","09b06":"Kaisho,KaishoHzFst","09b18":"Kaisho,KaishoHzFst","09b1a":"Kaisho,KaishoHzFst","09b1f":"HzFst","09b22":"Kaisho,KaishoHzFst","09b23":"HzFst","09b25":"VtLst","09b27":"Kaisho,KaishoVtLst","09b28":"VtLst","09b29":"HzLst,VtLst,VtLstHzLst","09b2a":"VtLst","09b2e":"VtLst","09b3c":"Kaisho","09b41":"Kaisho","09b42":"Kaisho","09b43":"Kaisho","09b44":"Kaisho","09b45":"Kaisho","09b4d":"Kaisho","09b4e":"Kaisho","09b4f":"Kaisho","09b51":"Kaisho","09b54":"Kaisho","09b58":"Kaisho","09b5a":"Kaisho","09b6f":"Kaisho","09b74":"Kaisho","09b83":"Kaisho","09b8e":"Kaisho,KaishoHzFst","09b91":"Kaisho","09b92":"Kaisho","09b93":"Kaisho","09b96":"Kaisho","09b97":"Kaisho","09b9f":"Kaisho","09ba0":"Kaisho","09ba8":"Kaisho","09baa":"Kaisho","09bab":"Hyougai,HyougaiKaisho","09bad":"Kaisho","09bae":"Kaisho","09bb4":"Kaisho","09bb9":"Kaisho","09bc0":"Kaisho","09bc6":"Kaisho","09bc9":"Kaisho,KaishoVtLst","09bca":"Kaisho","09bcf":"Kaisho","09bd1":"Kaisho","09bd2":"Kaisho","09bd4":"Kaisho","09bd6":"Hyougai,HyougaiKaisho,HyougaiKaishoVtLst","09bdb":"Kaisho","09be1":"Kaisho,KaishoMdFst","09be2":"Kaisho,KaishoHzLst","09be3":"Kaisho","09be4":"Kaisho","09be8":"Kaisho","09bf0":"Kaisho","09bf1":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","09bf2":"Kaisho","09bf5":"Kaisho","09c04":"Kaisho","09c06":"Kaisho","09c08":"Kaisho","09c09":"Kaisho,KaishoVtLst","09c0a":"Kaisho","09c0c":"Kaisho","09c0d":"Kaisho","09c10":"Kaisho","09c12":"Kaisho","09c13":"Kaisho","09c14":"Kaisho","09c15":"Kaisho,KaishoVtFst","09c1b":"Kaisho","09c21":"Kaisho","09c24":"Kaisho","09c25":"Kaisho","09c2d":"Kaisho","09c2e":"Kaisho","09c2f":"Hyougai,HyougaiKaisho,Kaisho","09c30":"Kaisho","09c32":"Kaisho","09c39":"Kaisho,KaishoHzFst","09c3a":"Kaisho","09c3b":"Kaisho","09c3e":"Kaisho","09c46":"Kaisho","09c47":"Kaisho","09c48":"Kaisho","09c52":"Hyougai,HyougaiKaisho,Kaisho","09c57":"Kaisho","09c5a":"Kaisho","09c60":"Kaisho","09c67":"Kaisho,KaishoVtLst","09c76":"Kaisho,KaishoVtLst","09c78":"Kaisho,KaishoHzFstLeRi,KaishoHzFstRiLe,KaishoVtFstRiLe","09ce5":"Kaisho","09ce7":"Kaisho","09ce9":"Kaisho","09ceb":"Kaisho","09cec":"Kaisho","09cf0":"Kaisho","09cf3":"Kaisho","09cf4":"Kaisho","09cf6":"Kaisho","09d03":"Kaisho","09d06":"Kaisho","09d07":"Kaisho","09d08":"Kaisho","09d09":"Hyougai,HyougaiKaisho","09d0e":"Kaisho","09d12":"Insatsu,Kaisho","09d15":"Kaisho","09d1b":"Kaisho","09d1f":"Kaisho","09d23":"Kaisho","09d26":"Kaisho","09d28":"Kaisho","09d2a":"Kaisho","09d2b":"Kaisho","09d2c":"Kaisho","09d3b":"Kaisho","09d3e":"Kaisho","09d3f":"Kaisho","09d41":"Kaisho","09d44":"Kaisho,KaishoVtFst","09d46":"Kaisho","09d48":"Kaisho,KaishoVt3","09d50":"Kaisho","09d51":"Kaisho","09d59":"Kaisho","09d5c":"Kaisho","09d5d":"Kaisho","09d5e":"Kaisho","09d60":"Hyougai,HyougaiKaisho","09d61":"Kaisho,KaishoHzFst","09d64":"Kaisho","09d6c":"Kaisho","09d6f":"Kaisho","09d72":"Kaisho","09d7a":"Kaisho","09d87":"Kaisho","09d89":"Kaisho","09d8f":"Kaisho","09d9a":"Kaisho","09da4":"Kaisho","09da9":"Kaisho","09dab":"Kaisho","09daf":"Kaisho","09db2":"Kaisho","09db4":"Kaisho","09db8":"Kaisho","09dba":"Kaisho","09dbb":"Kaisho,KaishoHzFst","09dc1":"Kaisho","09dc2":"Kaisho","09dc4":"Kaisho","09dc6":"Kaisho","09dcf":"Kaisho","09dd3":"Kaisho","09dd7":"Kaisho","09dd9":"Kaisho","09de6":"Kaisho","09ded":"Kaisho","09def":"Kaisho","09df2":"Kaisho","09df8":"Kaisho","09df9":"Kaisho","09dfa":"Kaisho","09dfd":"Kaisho,KaishoLeFst","09e1a":"Kaisho","09e1b":"Kaisho","09e1e":"Kaisho","09e7d":"HzFst","09e7f":"Kaisho","09e81":"Kaisho","09e88":"Kaisho,KaishoVtLst","09e8b":"Kaisho","09e8c":"Kaisho","09e91":"Kaisho,KaishoHzLst","09e92":"Kaisho","09e93":"Kaisho","09e95":"Kaisho","09e97":"Kaisho","09e9d":"Kaisho","09e9f":"Kaisho","09ea6":"VtLst","09eb8":"VtLst","09eb9":"Kaisho,KaishoVtLst","09eba":"VtLst","09ebb":"Kaisho","09ebc":"Kaisho","09ebe":"Kaisho","09ebf":"Kaisho","09ec4":"VtLst","09ecc":"LeFst","09ece":"Kaisho","09ecf":"HzFst","09ed0":"Kaisho","09ed2":"Kaisho,KaishoVtLst","09ed4":"VtLst","09ed8":"VtLst","09ed9":"Kaisho,KaishoVtLst","09edb":"Kaisho,KaishoVtLst","09edc":"VtLst","09edd":"VtLst","09ede":"HzFst,VtLst,VtLstHzFst","09ee0":"VtLst","09ee5":"Kaisho,KaishoVtLst","09ee8":"VtLst","09eef":"Kaisho,KaishoVtLst","09ef4":"VtLst","09ef6":"Kaisho,KaishoVtLst","09ef7":"Kaisho,KaishoVtLst","09efc":"Kaisho","09f07":"Kaisho","09f0e":"Kaisho","09f20":"HzLst","09f21":"Kaisho","09f2c":"Kaisho,KaishoHzLst","09f3b":"Kaisho","09f3e":"Kaisho","09f4a":"Kaisho,KaishoVt12","09f4b":"Kaisho,KaishoVt12","09f4e":"Kaisho,KaishoVt12","09f4f":"Kaisho,KaishoVt12","09f52":"HzFst","09f54":"HzFst","09f5f":"Kaisho,KaishoHzFst","09f60":"HzFst","09f61":"HzFst,Insatsu","09f62":"HzFst,Insatsu","09f63":"HzFst","09f66":"Kaisho,KaishoHzFst","09f67":"HzFst","09f6a":"HzFst","09f6c":"HzFst","09f72":"HzFst","09f76":"HzFst","09f77":"HzFst,HzFstVtFst,VtFst","09f8d":"Kaisho","09f95":"Kaisho","09f9d":"Kaisho","09fa0":"Kaisho","26951":"HzFst"};
+
+      const hiraganaBasic = [["あ","い","う","え","お"],["か","き","く","け","こ"],["さ","し","す","せ","そ"],["た","ち","つ","て","と"],["な","に","ぬ","ね","の"],["は","ひ","ふ","へ","ほ"],["ま","み","む","め","も"],["や","","ゆ","","よ"],["ら","り","る","れ","ろ"],["わ","","","を","ん"]];
+      const hiraganaDakuten = [["が","ぎ","ぐ","げ","ご"],["ざ","じ","ず","ぜ","ぞ"],["だ","ぢ","づ","で","ど"],["ば","び","ぶ","べ","ぼ"]];
+      const hiraganaHandakuten = [["ぱ","ぴ","ぷ","ぺ","ぽ"]];
+      const katakanaBasic = [["ア","イ","ウ","エ","オ"],["カ","キ","ク","ケ","コ"],["サ","シ","ス","セ","ソ"],["タ","チ","ツ","テ","ト"],["ナ","ニ","ヌ","ネ","ノ"],["ハ","ヒ","フ","ヘ","ホ"],["マ","ミ","ム","メ","モ"],["ヤ","","ユ","","ヨ"],["ラ","リ","ル","レ","ロ"],["ワ","","","ヲ","ン"]];
+      const katakanaDakuten = [["ガ","ギ","グ","ゲ","ゴ"],["ザ","ジ","ズ","ゼ","ゾ"],["ダ","ヂ","ヅ","デ","ド"],["バ","ビ","ブ","ベ","ボ"]];
+      const katakanaHandakuten = [["パ","ピ","プ","ペ","ポ"]];
+
+      let quizMode = 'select';
+      let currentQuizIndex = 0;
+      let isListeningMode = false;
+      let characterHidden = false;
+      let speechSynthesis = window.speechSynthesis;
+      let currentChar = 'あ';
+      let currentUnicode = '3042';
+
+      let currentSvgDoc = null;
+      let strokePaths = [];
+      let strokeSamplePoints = [];
+      let currentStrokeIndex = -1;
+      let animationSpeed = 'normal';
+      let isAnimating = false;
+
+      let practiceMode = 'none';
+      let expectedStrokeIndex = 0;
+      let userDrawnPoints = [];
+      let savedStrokes = [];
+      let feedbackTimer = null;
+      let strokeRatings = [];
+
+      // 文章れんしゅう（複数キャンバス）用の状態
+      let isSentenceMode = false;
+      let spChars = [];      // 入力された文字列全体（1文字ずつ）
+      let spCards = [];      // 現在のページに表示中のカードのインスタンス
+      let spPage = 0;        // 現在のページ番号（0始まり）
+      let spCompletedCount = 0;
+
+      const STROKE_LINE_COLORS = ['#ff6fa5', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#111111'];
+      function getStrokeLineColor(idx) { return STROKE_LINE_COLORS[idx] !== undefined ? STROKE_LINE_COLORS[idx] : '#111111'; }
+      function getStrokeNumberColor(idx) { return idx === 0 ? '#ff6fa5' : '#2196f3'; }
+      let showStrokeNumbers = true;
+      let strokeNumbersLocked = false;
+
+      const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
+      const BASE_LENGTH = 200;
+      const MIN_DURATION = 100;
+      const DISTANCE_THRESHOLD_GOOD = 12;
+      const DISTANCE_THRESHOLD_OK = 25;
+      const START_DISTANCE_THRESHOLD = 30;
+      const MATCH_DISTANCE_THRESHOLD = 35;
+      const COVERAGE_THRESHOLD_GOOD = 0.7;
+      const COVERAGE_THRESHOLD_OK = 0.5;
+      const LENGTH_RATIO_MIN = 0.3;
+
+      // DOM elements
+      const showBtn = document.getElementById('showBtn');
+      const svgContainer = document.getElementById('svgContainer');
+      const infoText = document.getElementById('infoText');
+      const feedbackText = document.getElementById('feedbackText');
+      const strokeInfo = document.getElementById('strokeInfo');
+      const nextBtn = document.getElementById('nextBtn');
+      const speedControl = document.getElementById('speedControl');
+      const speedBtns = document.querySelectorAll('.speed-btn');
+      const traceHintBtn = document.getElementById('traceHintBtn');
+      const traceCheckBtn = document.getElementById('traceCheckBtn');
+      const listenTraceBtn = document.getElementById('listenTraceBtn');
+      const revealCharBtn = document.getElementById('revealCharBtn');
+      const nextCharBtn = document.getElementById('nextCharBtn');
+      const retryTracingBtn = document.getElementById('retryTracingBtn');
+      const replaySoundBtn = document.getElementById('replaySoundBtn');
+      const showNumbersCheckbox = document.getElementById('showNumbersCheckbox');
+      const numberToggleArea = document.getElementById('numberToggleArea');
+      const charSelectArea = document.getElementById('charSelectArea');
+      const modeBtns = document.querySelectorAll('.mode-btn');
+      const placeholderText = document.getElementById('placeholderText');
+      const openKanaTableBtn = document.getElementById('openKanaTableBtn');
+      const selectedCharDisplay = document.getElementById('selectedCharDisplay');
+      const modal = document.getElementById('kanaModal');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const kanaGrid = document.getElementById('kanaGrid');
+      const modalSelectBtn = document.getElementById('modalSelectBtn');
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const subTabContainer = document.getElementById('subTabContainer');
+      const historyBtn = document.getElementById('historyBtn');
+      const historyModal = document.getElementById('historyModal');
+      const historyCloseBtn = document.getElementById('historyCloseBtn');
+      const historyList = document.getElementById('historyList');
+      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+      const resultOverlay = document.getElementById('resultOverlay');
+      const stampEmoji = document.getElementById('stampEmoji');
+      const resultMessage = document.getElementById('resultMessage');
+      const resultDetail = document.getElementById('resultDetail');
+      const resultThumb = document.getElementById('resultThumb');
+      const closeResultBtn = document.getElementById('closeResultBtn');
+      const customStringInput = document.getElementById('customStringInput');
+      const startCustomStringBtn = document.getElementById('startCustomStringBtn');
+      const stopCustomStringBtn = document.getElementById('stopCustomStringBtn');
+      const variantRow = document.getElementById('variantRow');
+      const charSearchInput = document.getElementById('charSearchInput');
+      const appGrid = document.getElementById('appGrid');
+      const sentencePracticeArea = document.getElementById('sentencePracticeArea');
+      const spGrid = document.getElementById('spGrid');
+      const spProgress = document.getElementById('spProgress');
+      const spPageLabel = document.getElementById('spPageLabel');
+      const spPrevBtn = document.getElementById('spPrevBtn');
+      const spNextBtn = document.getElementById('spNextBtn');
+      const spStopBtn = document.getElementById('spStopBtn');
+      
+      let canvas, ctx;
+      let isDrawing = false;
+      let isFlashing = false;
+
+      let selectedModalChar = null;
+      let selectedModalCode = null;
+      let currentKanaType = 'hiragana';
+      let currentSubType = 'basic';
+      let currentGrade = 1;
+
+      // ---- 音声まわりの改善 ----
+      // Chromebook等では speechSynthesis.getVoices() が最初は空配列を返すことがあるため、
+      // voiceschanged イベントで日本語ボイスをキャッシュしておく。
+      let cachedJaVoice = null;
+      function refreshJaVoice() {
+        if (!speechSynthesis) return;
+        const voices = speechSynthesis.getVoices();
+        if (voices && voices.length) {
+          cachedJaVoice = voices.find(v => v.lang === 'ja-JP') || voices.find(v => v.lang.startsWith('ja')) || null;
         }
       }
-      return map;
-    }
-    const FULL_CHAR_MAP = buildFullCharMap();
-
-    // 学年フィルター用の漢字セット
-    function getKanjiSetForGrade(grade) {
-      if (!grade || grade === 'all') return null;
-      return new Set(GRADE_KANJI[grade] || '');
-    }
-
-    // --- 状態管理 ---
-    let currentSvgDoc = null;
-    let strokePaths = [];
-    let currentStrokeIndex = -1;
-
-    // --- DOM要素 ---
-    const gradeFilter = document.getElementById('gradeFilter');
-    const charSelect = document.getElementById('charSelect');
-    const showBtn = document.getElementById('showBtn');
-    const svgContainer = document.getElementById('svgContainer');
-    const infoText = document.getElementById('infoText');
-    const strokeInfo = document.getElementById('strokeInfo');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const replayBtn = document.getElementById('replayBtn');
-    const showAllBtn = document.getElementById('showAllBtn');
-    const textInput = document.getElementById('textInput');
-    const renderTextBtn = document.getElementById('renderTextBtn');
-    const textMultiView = document.getElementById('textMultiView');
-    const singleView = document.getElementById('singleView');
-
-    // --- セレクトボックス更新 ---
-    function populateCharSelect(filterGrade = 'all') {
-      charSelect.innerHTML = '';
-      const kanjiSet = getKanjiSetForGrade(filterGrade);
-      
-      // ソートされた文字リストを作成
-      const entries = Array.from(FULL_CHAR_MAP.entries());
-      entries.sort((a, b) => a[0].localeCompare(b[0], 'ja'));
-      
-      for (const [char, code] of entries) {
-        // フィルターがあれば適用
-        if (kanjiSet && !kanjiSet.has(char)) continue;
-        const option = document.createElement('option');
-        option.value = code;
-        option.textContent = char;
-        charSelect.appendChild(option);
+      if (speechSynthesis) {
+        refreshJaVoice();
+        speechSynthesis.addEventListener('voiceschanged', refreshJaVoice);
+        // 最初のタップ／クリックで無音の発話を1回行い、以降の読み上げが確実に鳴るようにする（ブラウザの自動再生制限対策）
+        const primeSpeech = () => {
+          refreshJaVoice();
+          try {
+            const u = new SpeechSynthesisUtterance(' ');
+            u.volume = 0; u.lang = 'ja-JP';
+            speechSynthesis.speak(u);
+          } catch {}
+          document.removeEventListener('pointerdown', primeSpeech);
+        };
+        document.addEventListener('pointerdown', primeSpeech, { once: true });
       }
-      
-      if (charSelect.options.length > 0) {
-        charSelect.selectedIndex = 0;
-      }
-    }
 
-    // --- SVG読み込み（元のコードと同一） ---
-    async function loadSvg(unicode) {
-      try {
-        const paddedCode = unicode.padStart(5, '0').toUpperCase();
-        const response = await fetch(`svg/${paddedCode}.svg`);
-        if (!response.ok) throw new Error('SVG not found');
-        const svgText = await response.text();
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-        return svgDoc;
-      } catch (err) {
-        console.error('SVG読み込みエラー:', err);
-        return null;
+      function getCharacterTypeDescription(char) {
+        const code = char.codePointAt(0);
+        if (code >= 0x3040 && code <= 0x309F) return 'ひらがな';
+        if (code >= 0x30A0 && code <= 0x30FF) return 'カタカナ';
+        for (let g = 1; g <= 6; g++) {
+          if (gradeKanji[g] && gradeKanji[g].includes(char)) return `小学${g}年の漢字`;
+        }
+        if (gradeKanji[7] && gradeKanji[7].includes(char)) return '常用漢字';
+        return '';
       }
-    }
 
-    // --- ストローク抽出（元のコードの強化版） ---
-    function extractStrokes(svgDoc) {
-      const paths = [];
-      const allG = svgDoc.querySelectorAll('g');
-      let strokePathsG = null;
-      allG.forEach(g => {
-        const id = g.getAttribute('id') || '';
-        if (id.indexOf('StrokePaths') !== -1) strokePathsG = g;
+      function speakCharacterWithType(char) {
+        if (!speechSynthesis) return;
+        speechSynthesis.cancel();
+        if (!cachedJaVoice) refreshJaVoice();
+        const type = getCharacterTypeDescription(char);
+        const phrase = type ? `${type}の、${char}` : char;
+        const u = new SpeechSynthesisUtterance(phrase);
+        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
+        if (cachedJaVoice) u.voice = cachedJaVoice;
+        speechSynthesis.speak(u);
+      }
+
+      function speakCharacter(char) {
+        if (!speechSynthesis) return;
+        speechSynthesis.cancel();
+        if (!cachedJaVoice) refreshJaVoice();
+        const u = new SpeechSynthesisUtterance(char);
+        u.lang = 'ja-JP'; u.rate = 0.8; u.pitch = 1.2; u.volume = 1;
+        if (cachedJaVoice) u.voice = cachedJaVoice;
+        speechSynthesis.speak(u);
+      }
+
+      function replaySound() {
+        if (currentChar) {
+          speakCharacterWithType(currentChar);
+          setFeedback('🔊 もういちど、きいてね');
+        }
+      }
+
+      function hideCharacter() {
+        characterHidden = true;
+        svgContainer.classList.add('hidden-char');
+        if (placeholderText) placeholderText.textContent = '？';
+        revealCharBtn.style.display = 'inline-block';
+        replaySoundBtn.style.display = 'inline-block';
+      }
+      function revealCharacter() {
+        characterHidden = false;
+        svgContainer.classList.remove('hidden-char');
+        if (placeholderText) placeholderText.textContent = '';
+        revealCharBtn.style.display = 'none';
+        replaySoundBtn.style.display = 'none';
+        setFeedback(`👀 こたえは「${currentChar}」だよ！`);
+      }
+
+      function lockStrokeNumbers(locked) {
+        strokeNumbersLocked = locked;
+        if (locked) {
+          showNumbersCheckbox.checked = false;
+          showStrokeNumbers = false;
+          numberToggleArea.classList.add('locked');
+          showNumbersCheckbox.disabled = true;
+        } else {
+          numberToggleArea.classList.remove('locked');
+          showNumbersCheckbox.disabled = false;
+          showNumbersCheckbox.checked = true;
+          showStrokeNumbers = true;
+        }
+        updateStrokeNumbersVisibility();
+      }
+      function updateStrokeNumbersVisibility() {
+        const g = svgContainer.querySelector('#strokeNumbersGroup');
+        if (g) g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
+      }
+
+      // 文字→SVGファイルコードを計算する（KanjiVGのファイル名は文字コードそのものなので、
+      // 常用漢字かどうかに関わらず、SVGさえあればどんな文字でも扱える）
+      function charToHexCode(char) {
+        const cp = char.codePointAt(0);
+        return cp.toString(16).toLowerCase().padStart(5, '0');
+      }
+      function getCodeForChar(char) {
+        const entry = kanaMap.find(item => item.startsWith(char + ','));
+        if (entry) return entry.split(',')[1];
+        return charToHexCode(char);
+      }
+      // 指定コードの字形バリエーション一覧（フルコード配列）を返す。無ければ空配列
+      function getVariantsForCode(code) {
+        const base = code.toLowerCase().padStart(5, '0').split('-')[0];
+        const raw = variantManifest[base];
+        if (!raw) return [];
+        return raw.split(',').map(suffix => `${base}-${suffix}`);
+      }
+      function baseCodeOf(code) { return code.split('-')[0]; }
+
+      function openModal() {
+        selectedModalChar = currentChar;
+        selectedModalCode = currentUnicode;
+        modal.style.display = 'flex';
+        if (charSearchInput) charSearchInput.value = '';
+        clearSearchResults();
+        if (currentKanaType === 'kanji') switchSubTabsForKanji();
+        renderGrid();
+        renderVariantRow(selectedModalChar, selectedModalCode);
+      }
+      function closeModal() { modal.style.display = 'none'; }
+      modalCloseBtn.addEventListener('click', closeModal);
+      window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      function switchSubTabsForKanji() {
+        subTabContainer.innerHTML = '';
+        for (let g = 1; g <= 7; g++) {
+          const btn = document.createElement('button');
+          btn.className = 'sub-tab-btn';
+          btn.dataset.grade = g;
+          btn.textContent = gradeLabels[g];
+          if (g === currentGrade) btn.classList.add('active');
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentGrade = parseInt(this.dataset.grade);
+            renderGrid();
+          });
+          subTabContainer.appendChild(btn);
+        }
+      }
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          if (charSearchInput) charSearchInput.value = '';
+          searchResultsActive = false;
+          kanaGrid.classList.remove('search-result-grid');
+          currentKanaType = this.dataset.kanaType;
+          if (currentKanaType === 'kanji') {
+            switchSubTabsForKanji();
+            currentSubType = null;
+          } else {
+            subTabContainer.innerHTML = `
+              <button class="sub-tab-btn active" data-sub-type="basic">せいおん</button>
+              <button class="sub-tab-btn" data-sub-type="dakuten">だくおん</button>
+              <button class="sub-tab-btn" data-sub-type="handakuten">はんだくおん</button>
+            `;
+            currentSubType = 'basic';
+            document.querySelectorAll('.sub-tab-btn').forEach(b => {
+              b.addEventListener('click', function() {
+                document.querySelectorAll('.sub-tab-btn').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+                currentSubType = this.dataset.subType;
+                renderGrid();
+              });
+            });
+          }
+          renderGrid();
+        });
       });
-      
-      if (strokePathsG) {
-        const innerG = strokePathsG.querySelector('g');
-        if (innerG) {
-          innerG.querySelectorAll('path').forEach(p => {
-            if (p.getAttribute('d')) paths.push(p);
+
+      function getGridData() {
+        if (currentKanaType === 'kanji') {
+          const kanjiList = gradeKanji[currentGrade] || [];
+          const cols = 5;
+          const rows = [];
+          for (let i = 0; i < kanjiList.length; i += cols) {
+            rows.push(kanjiList.slice(i, i + cols));
+          }
+          return rows;
+        } else if (currentKanaType === 'hiragana') {
+          if (currentSubType === 'basic') return hiraganaBasic;
+          if (currentSubType === 'dakuten') return hiraganaDakuten;
+          if (currentSubType === 'handakuten') return hiraganaHandakuten;
+        } else if (currentKanaType === 'katakana') {
+          if (currentSubType === 'basic') return katakanaBasic;
+          if (currentSubType === 'dakuten') return katakanaDakuten;
+          if (currentSubType === 'handakuten') return katakanaHandakuten;
+        }
+        return [];
+      }
+
+      function renderGrid() {
+        searchResultsActive = false;
+        kanaGrid.classList.remove('search-result-grid');
+        const gridData = getGridData();
+        kanaGrid.innerHTML = '';
+        gridData.forEach(row => {
+          row.forEach(item => {
+            let char, code;
+            if (Array.isArray(item)) {
+              char = item[0];
+              code = item[1];
+            } else {
+              char = item;
+              code = getCodeForChar(char);
+            }
+            if (char === '' || char === undefined) {
+              const emptyDiv = document.createElement('div');
+              kanaGrid.appendChild(emptyDiv);
+              return;
+            }
+            const btn = document.createElement('button');
+            btn.className = 'kana-btn';
+            btn.textContent = char;
+            if (code) {
+              btn.addEventListener('click', () => {
+                document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedModalChar = char;
+                selectedModalCode = code;
+                renderVariantRow(char, code);
+              });
+            }
+            kanaGrid.appendChild(btn);
+          });
+        });
+        if (selectedModalChar) {
+          const buttons = kanaGrid.querySelectorAll('.kana-btn');
+          buttons.forEach(btn => {
+            if (btn.textContent === selectedModalChar) btn.classList.add('selected');
           });
         }
       }
-      
-      if (paths.length === 0) {
-        const allPaths = svgDoc.querySelectorAll('path');
-        const temp = [];
-        allPaths.forEach(p => {
-          const id = p.getAttribute('id') || '';
-          const match = id.match(/-s(\d+)$/);
-          if (match && p.getAttribute('d')) {
-            temp.push({ path: p, num: parseInt(match[1]) });
-          }
+
+      // 選んだ文字に字形バリエーションがあれば選択チップを表示する
+      function renderVariantRow(char, mainCode) {
+        const variants = getVariantsForCode(mainCode);
+        if (!variants.length) { variantRow.classList.remove('show'); variantRow.innerHTML = ''; return; }
+        variantRow.innerHTML = '';
+        const label = document.createElement('span');
+        label.className = 'variant-label';
+        label.textContent = '字形:';
+        variantRow.appendChild(label);
+        const options = [{ code: baseCodeOf(mainCode), label: '標準' }]
+          .concat(variants.map((v, i) => ({ code: v, label: `字形${i + 2}` })));
+        options.forEach(opt => {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'variant-chip' + (selectedModalCode === opt.code ? ' active' : '');
+          chip.textContent = opt.label;
+          chip.addEventListener('click', () => {
+            selectedModalCode = opt.code;
+            variantRow.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+          });
+          variantRow.appendChild(chip);
         });
-        temp.sort((a, b) => a.num - b.num);
-        temp.forEach(item => paths.push(item.path));
+        variantRow.classList.add('show');
       }
-      
-      if (paths.length === 0) {
-        svgDoc.querySelectorAll('path').forEach(p => {
-          if (p.getAttribute('d')) paths.push(p);
+
+      let searchResultsActive = false;
+      function clearSearchResults() {
+        if (!searchResultsActive) return;
+        searchResultsActive = false;
+        kanaGrid.classList.remove('search-result-grid');
+        renderGrid();
+      }
+      // どの文字でも（常用漢字外・人名用漢字・旧字体なども）SVGファイルさえあれば選べるようにする検索。
+      // KanjiVGのファイル名＝文字コードなので、事前の対応表なしにその場でコードを計算できる。
+      function performCharSearch(query) {
+        const chars = Array.from(new Set(Array.from(query).filter(c => c.trim() !== '')));
+        if (!chars.length) { clearSearchResults(); return; }
+        searchResultsActive = true;
+        kanaGrid.classList.add('search-result-grid');
+        kanaGrid.innerHTML = '';
+        chars.forEach(char => {
+          const code = getCodeForChar(char);
+          const btn = document.createElement('button');
+          btn.className = 'kana-btn';
+          btn.textContent = char;
+          btn.title = '確認中…';
+          btn.addEventListener('click', () => {
+            if (btn.classList.contains('no-svg')) return;
+            document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedModalChar = char;
+            selectedModalCode = code;
+            renderVariantRow(char, code);
+          });
+          kanaGrid.appendChild(btn);
+          verifySvgAvailable(code).then(ok => {
+            if (!ok) { btn.classList.add('no-svg'); btn.title = 'この文字の書き順データが見つかりませんでした'; }
+            else btn.title = '';
+          });
         });
       }
-      
-      return paths;
-    }
-
-    // --- SVG表示用セットアップ ---
-    function setupSvgForDisplay(svgDoc, width, height) {
-      const svgRoot = svgDoc.querySelector('svg');
-      if (!svgRoot) return null;
-      svgRoot.setAttribute('width', width);
-      svgRoot.setAttribute('height', height);
-      svgRoot.style.display = 'block';
-      svgRoot.style.margin = 'auto';
-      svgRoot.querySelectorAll('path').forEach(p => {
-        p.style.display = 'none';
-        p.style.stroke = '#444';
-        p.style.strokeWidth = '9';
-        p.style.strokeLinecap = 'round';
-        p.style.strokeLinejoin = 'round';
-        p.style.fill = 'none';
-      });
-      svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
-      return svgRoot;
-    }
-
-    function animateToStroke(paths, targetIndex) {
-      if (!paths.length) return 0;
-      if (targetIndex < 0) targetIndex = 0;
-      if (targetIndex >= paths.length) targetIndex = paths.length - 1;
-      paths.forEach(p => p.style.display = 'none');
-      for (let i = 0; i <= targetIndex; i++) {
-        paths[i].style.display = 'block';
+      async function verifySvgAvailable(code) {
+        try {
+          const paddedCode = code.toLowerCase().padStart(5, '0');
+          const url = `${BASE_PATH}/svg/${paddedCode}.svg`;
+          let res = await fetch(url, { method: 'HEAD' });
+          if (!res.ok) res = await fetch(`./svg/${paddedCode}.svg`, { method: 'HEAD' });
+          return res.ok;
+        } catch { return false; }
       }
-      return targetIndex;
-    }
+      if (charSearchInput) {
+        let searchDebounce = null;
+        charSearchInput.addEventListener('input', () => {
+          clearTimeout(searchDebounce);
+          searchDebounce = setTimeout(() => performCharSearch(charSearchInput.value), 150);
+        });
+      }
 
-    // --- 単一文字ビュー操作 ---
-    async function loadAndDisplaySingle(unicode) {
-      const svgDoc = await loadSvg(unicode);
-      currentSvgDoc = svgDoc;
-      svgContainer.innerHTML = '';
-      if (!svgDoc) {
-        svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりません</p>';
-        strokePaths = [];
-        updateSingleUI(0, -1);
-        return;
-      }
-      
-      strokePaths = extractStrokes(svgDoc);
-      const svgRoot = setupSvgForDisplay(svgDoc, '200', '200');
-      if (svgRoot) svgContainer.appendChild(svgRoot);
-      
-      if (strokePaths.length > 0) {
-        currentStrokeIndex = animateToStroke(strokePaths, 0);
-        updateSingleUI(strokePaths.length, currentStrokeIndex);
-      } else {
-        updateSingleUI(0, -1);
-      }
-    }
-
-    function updateSingleUI(total, current) {
-      if (total === 0) {
-        infoText.textContent = 'ストロークが見つかりません';
-        strokeInfo.textContent = '';
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
-        return;
-      }
-      infoText.textContent = `✏️ ${current + 1} / ${total} 画`;
-      strokeInfo.textContent = `全 ${total} 画`;
-      prevBtn.disabled = (current <= 0);
-      nextBtn.disabled = (current >= total - 1);
-    }
-
-    // --- テキスト複数表示ビュー ---
-    async function renderText(text) {
-      textMultiView.innerHTML = '';
-      const chars = [...text].filter(c => c.trim() !== '');
-      if (chars.length === 0) {
-        textMultiView.innerHTML = '<p>文字を入力してください。</p>';
-        return;
-      }
-      
-      // 単一ビューを隠し、テキストビューを表示
-      singleView.classList.add('hidden');
-      textMultiView.classList.remove('hidden');
-      
-      for (const char of chars) {
-        const card = document.createElement('div');
-        card.className = 'char-card';
-        
-        const label = document.createElement('div');
-        label.className = 'char-label';
-        label.textContent = char;
-        
-        const svgBox = document.createElement('div');
-        svgBox.className = 'char-svg-box';
-        svgBox.innerHTML = '<span style="color:#ccc;">読込中</span>';
-        
-        card.appendChild(label);
-        card.appendChild(svgBox);
-        
-        const controls = document.createElement('div');
-        controls.className = 'card-controls';
-        controls.innerHTML = `
-          <button class="card-prev">◀</button>
-          <button class="card-next">▶</button>
-          <button class="card-replay">↺</button>
-        `;
-        card.appendChild(controls);
-        textMultiView.appendChild(card);
-        
-        // SVG読み込みとセットアップ
-        const code = FULL_CHAR_MAP.get(char) || char.charCodeAt(0).toString(16).padStart(5, '0');
-        const svgDoc = await loadSvg(code);
-        svgBox.innerHTML = '';
-        if (svgDoc) {
-          const paths = extractStrokes(svgDoc);
-          const svgRoot = setupSvgForDisplay(svgDoc, '90', '90');
-          if (svgRoot) {
-            svgBox.appendChild(svgRoot);
-            let cardIndex = paths.length - 1; // 最初は全画表示
-            animateToStroke(paths, cardIndex);
-            
-            controls.querySelector('.card-prev').addEventListener('click', (e) => {
-              e.stopPropagation();
-              if (cardIndex > 0) cardIndex = animateToStroke(paths, cardIndex - 1);
-            });
-            controls.querySelector('.card-next').addEventListener('click', (e) => {
-              e.stopPropagation();
-              if (cardIndex < paths.length - 1) cardIndex = animateToStroke(paths, cardIndex + 1);
-            });
-            controls.querySelector('.card-replay').addEventListener('click', (e) => {
-              e.stopPropagation();
-              cardIndex = animateToStroke(paths, 0);
-            });
-            
-            // カードクリックで単一ビューに戻りその文字を表示
-            card.addEventListener('click', () => {
-              singleView.classList.remove('hidden');
-              textMultiView.classList.add('hidden');
-              loadAndDisplaySingle(code);
-            });
-            card.style.cursor = 'pointer';
-          } else {
-            svgBox.innerHTML = '<span style="color:#ccc;">表示不可</span>';
-          }
+      modalSelectBtn.addEventListener('click', () => {
+        if (selectedModalChar && selectedModalCode) {
+          currentChar = selectedModalChar;
+          currentUnicode = selectedModalCode;
+          selectedCharDisplay.textContent = currentChar;
+          closeModal();
+          if (isSentenceMode) stopCustomStringMode();
+          loadAndDisplay(currentUnicode);
         } else {
-          svgBox.innerHTML = '<span style="color:#ccc;">SVGなし</span>';
+          alert('文字を選んでね！');
+        }
+      });
+
+      openKanaTableBtn.addEventListener('click', openModal);
+
+      function setQuizMode(mode) {
+        quizMode = mode;
+        modeBtns.forEach(b => b.classList.remove('active'));
+        document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+        if (mode === 'select') {
+          charSelectArea.style.display = 'flex';
+          nextCharBtn.style.display = 'none';
+        } else {
+          charSelectArea.style.display = 'none';
+          if (isListeningMode) nextCharBtn.style.display = 'inline-block';
         }
       }
-    }
 
-    // --- イベントリスナー ---
-    gradeFilter.addEventListener('change', (e) => {
-      populateCharSelect(e.target.value);
-    });
+      function getNextSequentialChar() {
+        const item = kanaMap[currentQuizIndex];
+        currentQuizIndex = (currentQuizIndex + 1) % kanaMap.length;
+        return item;
+      }
+      function getRandomChar() {
+        const randomIndex = Math.floor(Math.random() * kanaMap.length);
+        return kanaMap[randomIndex];
+      }
 
-    showBtn.addEventListener('click', () => {
-      if (charSelect.value) {
-        singleView.classList.remove('hidden');
-        textMultiView.classList.add('hidden');
-        loadAndDisplaySingle(charSelect.value);
+      function loadQuizChar() {
+        let item;
+        if (quizMode === 'sequential') {
+          item = getNextSequentialChar();
+        } else if (quizMode === 'random') {
+          item = getRandomChar();
+        } else {
+          return currentUnicode;
+        }
+        const [char, code] = item.split(',');
+        currentChar = char;
+        currentUnicode = code;
+        if (quizMode !== 'select') selectedCharDisplay.textContent = currentChar;
+        return code;
       }
-    });
 
-    renderTextBtn.addEventListener('click', () => {
-      const text = textInput.value.trim();
-      if (text) renderText(text);
-    });
+      // ============ 文章れんしゅう（複数キャンバスモード） ============
+      // startCustomStringMode/stopCustomStringMode は既存の入力欄・ボタンにそのまま紐づく。
+      // 1つの文字を1つのキャンバスで順番に練習する代わりに、複数の文字を同時に画面へ並べて練習できる。
+      function startCustomStringMode() {
+        const raw = customStringInput.value.trim();
+        if (!raw) return;
+        if (practiceMode !== 'none') exitPracticeMode();
+        if (isListeningMode) exitListeningMode();
+        spChars = Array.from(raw).filter(c => c.trim() !== '');
+        if (!spChars.length) return;
+        spPage = 0;
+        spCompletedCount = 0;
+        isSentenceMode = true;
+        startCustomStringBtn.style.display = 'none';
+        stopCustomStringBtn.style.display = 'inline-block';
+        appGrid.style.display = 'none';
+        sentencePracticeArea.style.display = 'flex';
+        renderSentencePage();
+      }
 
-    // 単一ビュー操作ボタン
-    nextBtn.addEventListener('click', () => {
-      if (strokePaths.length && currentStrokeIndex < strokePaths.length - 1) {
-        currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex + 1);
-        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      function stopCustomStringMode() {
+        if (!isSentenceMode) return;
+        isSentenceMode = false;
+        spChars = [];
+        spCards = [];
+        spGrid.innerHTML = '';
+        startCustomStringBtn.style.display = 'inline-block';
+        stopCustomStringBtn.style.display = 'none';
+        appGrid.style.display = '';
+        sentencePracticeArea.style.display = 'none';
       }
-    });
-    prevBtn.addEventListener('click', () => {
-      if (strokePaths.length && currentStrokeIndex > 0) {
-        currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex - 1);
-        updateSingleUI(strokePaths.length, currentStrokeIndex);
-      }
-    });
-    replayBtn.addEventListener('click', () => {
-      if (strokePaths.length) {
-        currentStrokeIndex = animateToStroke(strokePaths, 0);
-        updateSingleUI(strokePaths.length, currentStrokeIndex);
-      }
-    });
-    showAllBtn.addEventListener('click', () => {
-      if (strokePaths.length) {
-        currentStrokeIndex = animateToStroke(strokePaths, strokePaths.length - 1);
-        updateSingleUI(strokePaths.length, currentStrokeIndex);
-      }
-    });
 
-    // キーボードショートカット（単一ビュー時のみ）
-    document.addEventListener('keydown', (e) => {
-      if (!singleView.classList.contains('hidden')) {
-        if (e.key === 'ArrowRight') {
+      startCustomStringBtn.addEventListener('click', startCustomStringMode);
+      stopCustomStringBtn.addEventListener('click', stopCustomStringMode);
+      spStopBtn.addEventListener('click', stopCustomStringMode);
+
+      // ---- ページサイズ：横長Chromebook想定は 4x2=8まい、縦長(スマホ)は 2x2=4まい ----
+      // 1画面に出す枚数の目安：手書き練習に十分な大きさ（最低120px四方）を保ちつつ、
+      // なぞり書きの精度チェックが破綻しない範囲として、横長で8・縦長で4を上限にしている。
+      function isLandscapeWide() {
+        return window.matchMedia('(orientation: landscape) and (min-width: 700px)').matches;
+      }
+      function getSpPageSize() { return isLandscapeWide() ? 8 : 4; }
+
+      function renderSentencePage() {
+        const pageSize = getSpPageSize();
+        const totalPages = Math.max(1, Math.ceil(spChars.length / pageSize));
+        if (spPage >= totalPages) spPage = totalPages - 1;
+        if (spPage < 0) spPage = 0;
+        const start = spPage * pageSize;
+        const end = Math.min(start + pageSize, spChars.length);
+
+        spGrid.innerHTML = '';
+        spCards = [];
+        for (let i = start; i < end; i++) {
+          const state = createPracticeCard(spChars[i], i);
+          spGrid.appendChild(state.element);
+          spCards.push(state);
+        }
+        spPageLabel.textContent = `${spPage + 1} / ${totalPages}`;
+        spPrevBtn.disabled = spPage <= 0;
+        spNextBtn.disabled = spPage >= totalPages - 1;
+        updateSpProgress();
+      }
+      function updateSpProgress() {
+        spProgress.textContent = spCompletedCount >= spChars.length
+          ? `🎉 ぜんぶできたね！（${spChars.length}字）`
+          : `できた文字：${spCompletedCount} / ${spChars.length}字`;
+      }
+      spPrevBtn.addEventListener('click', () => { spPage--; renderSentencePage(); });
+      spNextBtn.addEventListener('click', () => { spPage++; renderSentencePage(); });
+
+      let spResizeTimer = null;
+      window.addEventListener('resize', () => {
+        if (!isSentenceMode) return;
+        clearTimeout(spResizeTimer);
+        spResizeTimer = setTimeout(() => {
+          // ページサイズが変わる可能性があるので、現在の先頭文字位置を保ったまま再計算する
+          const pageSize = getSpPageSize();
+          const firstIndexShown = spPage * (spCards.length || pageSize);
+          spPage = Math.floor(firstIndexShown / pageSize);
+          renderSentencePage();
+        }, 200);
+      });
+
+      // ---- 1文字ぶんの練習カード ----
+      function createPracticeCard(char, globalIndex) {
+        const code = getCodeForChar(char);
+        const el = document.createElement('div');
+        el.className = 'sp-card';
+
+        const idxLabel = document.createElement('span');
+        idxLabel.className = 'sp-card-index';
+        idxLabel.textContent = String(globalIndex + 1);
+        el.appendChild(idxLabel);
+
+        const display = document.createElement('div');
+        display.className = 'sp-card-display';
+        display.textContent = '…';
+        el.appendChild(display);
+
+        const progress = document.createElement('div');
+        progress.className = 'sp-card-progress';
+        el.appendChild(progress);
+
+        const btnRow = document.createElement('div');
+        btnRow.className = 'sp-card-btns';
+        const sampleBtn = document.createElement('button'); sampleBtn.type = 'button'; sampleBtn.textContent = '👀見本';
+        const soundBtn = document.createElement('button'); soundBtn.type = 'button'; soundBtn.textContent = '🔊';
+        const resetBtn = document.createElement('button'); resetBtn.type = 'button'; resetBtn.textContent = '🔄';
+        btnRow.appendChild(sampleBtn); btnRow.appendChild(soundBtn); btnRow.appendChild(resetBtn);
+        el.appendChild(btnRow);
+
+        const state = {
+          char, code, element: el, display, progress, sampleBtn,
+          strokePaths: [], strokeSamplePoints: [],
+          expectedStrokeIndex: 0, savedStrokes: [], ratings: [],
+          canvas: null, ctx: null, completed: false, hasSvg: false,
+          isDrawing: false, userDrawnPoints: [], isFlashing: false, isSampling: false
+        };
+
+        soundBtn.addEventListener('click', () => speakCharacterWithType(char));
+        resetBtn.addEventListener('click', () => resetCard(state));
+        sampleBtn.addEventListener('click', () => playCardSample(state));
+
+        initCard(state);
+        return state;
+      }
+
+      async function initCard(state) {
+        const svgDoc = await loadSvg(state.code);
+        const svgRoot = svgDoc ? svgDoc.querySelector('svg') : null;
+        if (!svgDoc || !svgRoot) {
+          state.element.classList.add('nosvg');
+          state.display.innerHTML = '<div class="sp-card-nosvg-msg">✕<br>データなし</div>';
+          state.sampleBtn.disabled = true;
+          return;
+        }
+        state.hasSvg = true;
+        svgRoot.removeAttribute('width'); svgRoot.removeAttribute('height');
+        svgRoot.style.display = 'block'; svgRoot.style.pointerEvents = 'none';
+        svgRoot.querySelectorAll('path').forEach(p => {
+          p.style.display = 'block'; p.style.fill = 'none';
+          p.style.strokeLinecap = 'round'; p.style.strokeLinejoin = 'round';
+          p.style.stroke = '#d9d0bd'; p.style.strokeWidth = '9'; p.style.transition = 'none';
+        });
+        svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
+
+        const paths = extractStrokes(svgDoc);
+        state.strokePaths = paths;
+        state.strokeSamplePoints = paths.map(p => samplePath(p, 5));
+
+        state.display.innerHTML = '';
+        state.display.appendChild(svgRoot);
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'sp-card-canvas';
+        state.display.appendChild(canvas);
+        state.canvas = canvas; state.ctx = canvas.getContext('2d');
+        const vb = parseViewBox(svgRoot);
+        canvas.width = vb.w; canvas.height = vb.h;
+        state.ctx.lineWidth = 6; state.ctx.strokeStyle = '#333';
+        state.ctx.lineCap = 'round'; state.ctx.lineJoin = 'round';
+
+        attachCardDrawEvents(state);
+        updateCardProgress(state);
+      }
+
+      function cardCanvasCoords(state, e) {
+        const rect = state.canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left) * (state.canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (state.canvas.height / rect.height)
+        };
+      }
+      function attachCardDrawEvents(state) {
+        state.canvas.addEventListener('pointerdown', (e) => {
+          if (state.completed || state.isFlashing || state.isSampling) return;
+          const { x, y } = cardCanvasCoords(state, e);
+          state.isDrawing = true; state.userDrawnPoints = [{ x, y }];
+          state.ctx.beginPath(); state.ctx.moveTo(x, y);
           e.preventDefault();
-          if (strokePaths.length && currentStrokeIndex < strokePaths.length - 1) {
-            currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex + 1);
-            updateSingleUI(strokePaths.length, currentStrokeIndex);
-          }
-        } else if (e.key === 'ArrowLeft') {
+        });
+        state.canvas.addEventListener('pointermove', (e) => {
+          if (!state.isDrawing || state.isFlashing) return;
+          const { x, y } = cardCanvasCoords(state, e);
+          state.userDrawnPoints.push({ x, y });
+          state.ctx.lineTo(x, y); state.ctx.stroke(); state.ctx.beginPath(); state.ctx.moveTo(x, y);
           e.preventDefault();
-          if (strokePaths.length && currentStrokeIndex > 0) {
-            currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex - 1);
-            updateSingleUI(strokePaths.length, currentStrokeIndex);
-          }
+        });
+        const up = () => {
+          if (!state.isDrawing || state.isFlashing) return;
+          state.isDrawing = false; state.ctx.beginPath();
+          handleCardStrokeEnd(state);
+        };
+        state.canvas.addEventListener('pointerup', up);
+        state.canvas.addEventListener('pointerleave', up);
+      }
+
+      function redrawCard(state) {
+        state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+        state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = 6;
+        for (const pts of state.savedStrokes) {
+          state.ctx.beginPath(); state.ctx.moveTo(pts[0].x, pts[0].y);
+          for (let i = 1; i < pts.length; i++) state.ctx.lineTo(pts[i].x, pts[i].y);
+          state.ctx.stroke();
         }
       }
-    });
-
-    // --- 初期化 ---
-    function init() {
-      populateCharSelect('all');
-      // 初期表示：最初の文字を自動ロード
-      if (charSelect.options.length > 0) {
-        charSelect.selectedIndex = 0;
-        loadAndDisplaySingle(charSelect.value);
+      function flashCardWrongStroke(state, points) {
+        state.isFlashing = true; state.canvas.style.pointerEvents = 'none';
+        state.ctx.strokeStyle = '#e74c3c'; state.ctx.lineWidth = 8;
+        state.ctx.beginPath(); state.ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) state.ctx.lineTo(points[i].x, points[i].y);
+        state.ctx.stroke();
+        setTimeout(() => {
+          redrawCard(state); state.ctx.strokeStyle = '#333'; state.ctx.lineWidth = 6;
+          state.isFlashing = false; state.canvas.style.pointerEvents = 'auto';
+        }, 450);
       }
-    }
-    init();
-  })();
-</script>
+      function updateCardProgress(state) {
+        if (!state.hasSvg) return;
+        state.progress.textContent = `${state.expectedStrokeIndex} / ${state.strokePaths.length} 画`;
+      }
+      function handleCardStrokeEnd(state) {
+        const pts = state.userDrawnPoints;
+        if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; return; }
+        const expected = state.expectedStrokeIndex;
+        const samplePts = state.strokeSamplePoints[expected];
+        const drawnLength = calcDrawnLength(pts);
+        const startAvg = checkStartPosition(pts, samplePts, START_DISTANCE_THRESHOLD);
+        if (startAvg > START_DISTANCE_THRESHOLD) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
+        const pathLength = state.strokePaths[expected].getTotalLength();
+        if (drawnLength < pathLength * LENGTH_RATIO_MIN) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
+        const avgDist = averageDistance(pts, samplePts);
+        const coverage = calcCoverage(pts, samplePts, 15);
+        let rating = 'poor';
+        if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) rating = 'good';
+        else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) rating = 'ok';
+        else { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
+        state.savedStrokes.push([...pts]); state.ratings.push(rating); state.expectedStrokeIndex++;
+        state.userDrawnPoints = [];
+        updateCardProgress(state);
+        if (state.expectedStrokeIndex >= state.strokePaths.length) completeCard(state);
+      }
+      function completeCard(state) {
+        state.completed = true;
+        state.element.classList.add('completed');
+        const goodCount = state.ratings.filter(r => r === 'good').length;
+        const total = state.strokePaths.length;
+        let stamp = '💪';
+        if (goodCount === total) stamp = '🌟'; else if (goodCount >= total * 0.7) stamp = '👍'; else if (goodCount >= 1) stamp = '😊';
+        const stampEl = document.createElement('div');
+        stampEl.className = 'sp-card-stamp';
+        stampEl.textContent = stamp;
+        state.element.appendChild(stampEl);
+        const thumbData = state.canvas.toDataURL('image/png');
+        saveHistory({ char: state.char, date: new Date().toLocaleString(), mode: 'sentence', rating: goodCount, total, stamp, thumb: thumbData });
+        spCompletedCount++;
+        updateSpProgress();
+      }
+      function resetCard(state) {
+        if (!state.hasSvg) return;
+        state.expectedStrokeIndex = 0; state.savedStrokes = []; state.ratings = [];
+        state.completed = false; state.element.classList.remove('completed');
+        const stampEl = state.element.querySelector('.sp-card-stamp');
+        if (stampEl) stampEl.remove();
+        state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+        updateCardProgress(state);
+      }
+      async function playCardSample(state) {
+        if (!state.hasSvg || state.isSampling) return;
+        state.isSampling = true;
+        state.sampleBtn.disabled = true;
+        const originalDash = state.strokePaths.map(p => p.style.strokeDasharray);
+        for (const p of state.strokePaths) { p.style.display = 'none'; p.style.transition = 'none'; p.style.strokeDasharray = 'none'; }
+        for (const p of state.strokePaths) {
+          const duration = Math.max(250, (p.getTotalLength() / BASE_LENGTH) * 500);
+          await animateSingleStroke(p, duration);
+        }
+        setTimeout(() => {
+          state.strokePaths.forEach(p => { p.style.display = 'block'; p.style.stroke = '#d9d0bd'; });
+          state.isSampling = false; state.sampleBtn.disabled = false;
+        }, 400);
+      }
+
+      function enterPracticeMode(mode) {
+        if (!strokePaths.length) return;
+        calculateAllSamplePoints();
+        practiceMode = mode;
+        expectedStrokeIndex = 0;
+        userDrawnPoints = [];
+        savedStrokes = [];
+        strokeRatings = [];
+        if (mode === 'check') lockStrokeNumbers(true);
+        else lockStrokeNumbers(false);
+        strokePaths.forEach(p => {
+          p.style.display = 'block';
+          p.style.stroke = '#d0d0d0';
+          p.style.strokeWidth = '9';
+          p.style.transition = 'none';
+          p.style.strokeDasharray = 'none';
+          p.style.strokeDashoffset = '0';
+        });
+        if (mode === 'hint') {
+          updateHighlight();
+          setFeedback('🔵 あおい線をなぞってね');
+        } else if (mode === 'check') {
+          setFeedback('🔍 じぶんで書き順を考えてね（番号はかくされています）');
+        }
+        canvas.style.display = 'block';
+        retryTracingBtn.style.display = 'inline-block';
+        setupCanvas();
+        isAnimating = false;
+        updateUI();
+        attachDrawEvents();
+      }
+      function exitPracticeMode() {
+        lockStrokeNumbers(false);
+        canvas.style.display = 'none';
+        retryTracingBtn.style.display = 'none';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        strokePaths.forEach(p => {
+          p.style.display = 'none';
+          p.style.strokeWidth = '9';
+          p.style.transition = 'none';
+          p.style.strokeDasharray = 'none';
+          p.style.strokeDashoffset = '0';
+        });
+        applyStrokeColors(strokePaths);
+        practiceMode = 'none';
+        currentStrokeIndex = -1;
+        isAnimating = false;
+        updateUI();
+        removeDrawEvents();
+        clearFeedback();
+      }
+      function updateHighlight() {
+        if (practiceMode !== 'hint') return;
+        strokePaths.forEach((p, idx) => {
+          if (idx === expectedStrokeIndex) {
+            p.style.stroke = '#4a90d9';
+            p.style.strokeWidth = '10';
+            p.parentNode.appendChild(p);
+          } else {
+            p.style.stroke = '#d0d0d0';
+            p.style.strokeWidth = '9';
+          }
+        });
+      }
+      function setFeedback(msg, isGood = true) {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = msg;
+        feedbackText.style.color = isGood ? '#2a7d2a' : '#c0392b';
+      }
+      function clearFeedback() {
+        if (feedbackTimer) clearTimeout(feedbackTimer);
+        feedbackText.textContent = '';
+      }
+
+      async function loadSvg(unicode) {
+        try {
+          const paddedCode = unicode.toLowerCase().padStart(5, '0');
+          const svgUrl = `${BASE_PATH}/svg/${paddedCode}.svg`;
+          let response = await fetch(svgUrl);
+          if (!response.ok) {
+            const altUrl = `./svg/${paddedCode}.svg`;
+            response = await fetch(altUrl);
+          }
+          if (!response.ok) throw new Error(`SVG load failed (status: ${response.status})`);
+          const svgText = await response.text();
+          const parser = new DOMParser();
+          return parser.parseFromString(svgText, 'image/svg+xml');
+        } catch (err) {
+          console.error('SVG load error:', err);
+          return null;
+        }
+      }
+      function extractStrokes(svgDoc) {
+        const paths = [];
+        const allG = svgDoc.querySelectorAll('g');
+        let strokePathsG = null;
+        allG.forEach(g => {
+          if ((g.getAttribute('id') || '').includes('StrokePaths')) strokePathsG = g;
+        });
+        if (strokePathsG) {
+          const innerG = strokePathsG.querySelector('g');
+          if (innerG) {
+            innerG.querySelectorAll('path').forEach(p => {
+              if (p.getAttribute('d')) paths.push(p);
+            });
+          }
+        }
+        if (paths.length === 0) {
+          const pathElements = svgDoc.querySelectorAll('path');
+          const temp = [];
+          pathElements.forEach(p => {
+            const m = (p.getAttribute('id') || '').match(/-s(\d+)$/);
+            if (m && p.getAttribute('d')) temp.push({ path: p, num: parseInt(m[1]) });
+          });
+          temp.sort((a, b) => a.num - b.num);
+          temp.forEach(item => paths.push(item.path));
+        }
+        return paths;
+      }
+      function samplePath(path, step = 5) {
+        const points = [];
+        const length = path.getTotalLength();
+        if (length === 0) return points;
+        let dist = 0;
+        while (dist <= length) {
+          const pt = path.getPointAtLength(dist);
+          points.push({ x: pt.x, y: pt.y });
+          dist += step;
+        }
+        const endPt = path.getPointAtLength(length);
+        if (points.length === 0 || points[points.length-1].x !== endPt.x || points[points.length-1].y !== endPt.y) {
+          points.push({ x: endPt.x, y: endPt.y });
+        }
+        return points;
+      }
+      function calculateAllSamplePoints() { strokeSamplePoints = strokePaths.map(path => samplePath(path, 5)); }
+      function minDistanceToPath(point, samplePoints) {
+        let min = Infinity;
+        for (const sp of samplePoints) {
+          const dx = point.x - sp.x, dy = point.y - sp.y;
+          const dist = Math.sqrt(dx*dx+dy*dy);
+          if (dist < min) min = dist;
+        }
+        return min;
+      }
+      function averageDistance(drawnPoints, samplePoints) {
+        if (drawnPoints.length === 0) return Infinity;
+        const total = drawnPoints.reduce((sum, p) => sum + minDistanceToPath(p, samplePoints), 0);
+        return total / drawnPoints.length;
+      }
+      function calcCoverage(drawnPoints, samplePoints, threshold = 15) {
+        if (drawnPoints.length === 0 || samplePoints.length === 0) return 0;
+        let covered = 0;
+        for (const sp of samplePoints) {
+          if (minDistanceToPath(sp, drawnPoints) <= threshold) covered++;
+        }
+        return covered / samplePoints.length;
+      }
+      function calcDrawnLength(points) {
+        let len = 0;
+        for (let i = 1; i < points.length; i++) {
+          const dx = points[i].x - points[i-1].x, dy = points[i].y - points[i-1].y;
+          len += Math.sqrt(dx*dx+dy*dy);
+        }
+        return len;
+      }
+      function checkStartPosition(drawnPoints, samplePoints, threshold) {
+        const checkCount = Math.min(5, drawnPoints.length);
+        if (checkCount === 0) return Infinity;
+        let total = 0;
+        for (let i = 0; i < checkCount; i++) total += minDistanceToPath(drawnPoints[i], samplePoints);
+        return total / checkCount;
+      }
+      function findClosestStroke(drawnPoints) {
+        let bestIdx = -1, bestScore = Infinity;
+        for (let i = 0; i < strokeSamplePoints.length; i++) {
+          const avg = averageDistance(drawnPoints, strokeSamplePoints[i]);
+          if (avg > MATCH_DISTANCE_THRESHOLD) continue;
+          const cov = calcCoverage(drawnPoints, strokeSamplePoints[i], 15);
+          const score = avg - cov * 15;
+          if (score < bestScore) { bestScore = score; bestIdx = i; }
+        }
+        return bestIdx;
+      }
+      function parseViewBox(svgRoot) {
+        const vb = svgRoot.getAttribute('viewBox');
+        if (vb) {
+          const parts = vb.trim().split(/\s+/).map(Number);
+          if (parts.length === 4 && parts.every(n => !isNaN(n))) return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+        }
+        return { x: 0, y: 0, w: 109, h: 109 };
+      }
+      function addCrosshairGuide(svgRoot) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const vb = parseViewBox(svgRoot);
+        const g = document.createElementNS(ns, 'g');
+        g.setAttribute('id', 'crosshairGuide');
+        const vLine = document.createElementNS(ns, 'line');
+        vLine.setAttribute('x1', vb.x + vb.w/2); vLine.setAttribute('y1', vb.y);
+        vLine.setAttribute('x2', vb.x + vb.w/2); vLine.setAttribute('y2', vb.y + vb.h);
+        const hLine = document.createElementNS(ns, 'line');
+        hLine.setAttribute('x1', vb.x); hLine.setAttribute('y1', vb.y + vb.h/2);
+        hLine.setAttribute('x2', vb.x + vb.w); hLine.setAttribute('y2', vb.y + vb.h/2);
+        [vLine, hLine].forEach(line => {
+          line.setAttribute('stroke', '#7ec8e3');
+          line.setAttribute('stroke-width', Math.max(0.5, vb.w * 0.006));
+          line.setAttribute('stroke-dasharray', `${vb.w * 0.02},${vb.w * 0.015}`);
+          g.appendChild(line);
+        });
+        svgRoot.insertBefore(g, svgRoot.firstChild);
+      }
+      function strokeStartLabelPos(path, offsetDist) {
+        const total = path.getTotalLength();
+        if (total === 0) return { x:0, y:0 };
+        const p0 = path.getPointAtLength(0), p1 = path.getPointAtLength(Math.min(total,6));
+        let dx = p1.x - p0.x, dy = p1.y - p0.y;
+        const len = Math.sqrt(dx*dx+dy*dy) || 1;
+        dx /= len; dy /= len;
+        return { x: p0.x - dy*offsetDist*0.7 - dx*offsetDist*0.6, y: p0.y + dx*offsetDist*0.7 - dy*offsetDist*0.6 };
+      }
+      function addStrokeNumbers(svgRoot, paths) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const vb = parseViewBox(svgRoot);
+        const g = document.createElementNS(ns, 'g');
+        g.setAttribute('id', 'strokeNumbersGroup');
+        const fontSize = vb.w * 0.11, offsetDist = vb.w * 0.075;
+        paths.forEach((path, idx) => {
+          const pos = strokeStartLabelPos(path, offsetDist);
+          const text = document.createElementNS(ns, 'text');
+          text.textContent = String(idx+1);
+          text.setAttribute('x', pos.x); text.setAttribute('y', pos.y);
+          text.setAttribute('font-size', fontSize); text.setAttribute('font-weight','bold');
+          text.setAttribute('fill', getStrokeNumberColor(idx));
+          text.setAttribute('text-anchor','middle'); text.setAttribute('dominant-baseline','central');
+          text.style.paintOrder = 'stroke'; text.style.stroke = '#fff'; text.style.strokeWidth = String(fontSize*0.18);
+          g.appendChild(text);
+        });
+        svgRoot.appendChild(g);
+        g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
+      }
+      function applyStrokeColors(paths) { paths.forEach((p,idx) => { p.style.stroke = getStrokeLineColor(idx); }); }
+      function displaySvg(svgDoc) {
+        svgContainer.innerHTML = '';
+        const p = document.createElement('p'); p.style.cssText='color:#ccc;'; p.id='placeholderText';
+        p.textContent = characterHidden ? '？' : '';
+        svgContainer.appendChild(p);
+        if (!svgDoc) { p.textContent = 'SVGが見つかりませんでした'; return null; }
+        const svgRoot = svgDoc.querySelector('svg');
+        if (!svgRoot) { p.textContent = '無効なSVGです'; return null; }
+        svgRoot.setAttribute('width','200'); svgRoot.setAttribute('height','200');
+        svgRoot.style.display='block'; svgRoot.style.margin='auto'; svgRoot.style.pointerEvents='none';
+        svgRoot.querySelectorAll('path').forEach(path => {
+          path.style.display='none'; path.style.strokeWidth='9';
+          path.style.strokeLinecap='round'; path.style.strokeLinejoin='round'; path.style.fill='none'; path.style.transition='none';
+        });
+        svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
+        addCrosshairGuide(svgRoot);
+        applyStrokeColors(strokePaths);
+        addStrokeNumbers(svgRoot, strokePaths);
+        svgContainer.appendChild(svgRoot);
+        const newCanvas = document.createElement('canvas'); newCanvas.id='drawCanvas'; newCanvas.style.display='none';
+        svgContainer.appendChild(newCanvas);
+        canvas = newCanvas; ctx = canvas.getContext('2d');
+        setupCanvas();
+        if (characterHidden) svgContainer.classList.add('hidden-char');
+        return svgRoot;
+      }
+      function setupCanvas() {
+        if (!canvas) return;
+        const svg = svgContainer.querySelector('svg'); if (!svg) return;
+        const viewBox = svg.getAttribute('viewBox');
+        if (viewBox) { const parts = viewBox.split(/\s+/); canvas.width = parseFloat(parts[2]); canvas.height = parseFloat(parts[3]); }
+        else { canvas.width = 200; canvas.height = 200; }
+        ctx.lineWidth = 6; ctx.strokeStyle = '#333'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      }
+
+      function getCanvasCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: (e.clientX-rect.left)*(canvas.width/rect.width), y: (e.clientY-rect.top)*(canvas.height/rect.height) };
+      }
+      function onPointerDown(e) {
+        if (practiceMode==='none'||isFlashing) return;
+        const {x,y}=getCanvasCoords(e); isDrawing=true; userDrawnPoints=[{x,y}]; ctx.beginPath(); ctx.moveTo(x,y); e.preventDefault();
+      }
+      function onPointerMove(e) {
+        if (!isDrawing||practiceMode==='none'||isFlashing) return;
+        const {x,y}=getCanvasCoords(e); userDrawnPoints.push({x,y}); ctx.lineTo(x,y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y); e.preventDefault();
+      }
+      function onPointerUp(e) {
+        if (!isDrawing||practiceMode==='none'||isFlashing) return;
+        isDrawing=false; ctx.beginPath();
+        if (userDrawnPoints.length<3) { setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return; }
+        const drawnLength=calcDrawnLength(userDrawnPoints); let rating='poor';
+        if (practiceMode==='hint'||practiceMode==='listen') {
+          const startAvg=checkStartPosition(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],START_DISTANCE_THRESHOLD);
+          if (startAvg>START_DISTANCE_THRESHOLD) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
+          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
+          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
+          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
+          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          if (expectedStrokeIndex>=strokePaths.length) finishCharacter(); else updateHighlight();
+        } else if (practiceMode==='check') {
+          const closestIdx=findClosestStroke(userDrawnPoints);
+          if (closestIdx!==expectedStrokeIndex) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
+          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
+          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
+          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
+          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
+          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          if (expectedStrokeIndex>=strokePaths.length) finishCharacter();
+        }
+        userDrawnPoints=[];
+      }
+      function redrawCanvas() {
+        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#333'; ctx.lineWidth=6;
+        for (const path of savedStrokes) { ctx.beginPath(); ctx.moveTo(path[0].x,path[0].y); for(let i=1;i<path.length;i++) ctx.lineTo(path[i].x,path[i].y); ctx.stroke(); }
+      }
+      function flashAndRemoveWrongStroke(points) {
+        isFlashing=true; canvas.style.pointerEvents='none'; ctx.strokeStyle='#e74c3c'; ctx.lineWidth=8;
+        ctx.beginPath(); ctx.moveTo(points[0].x,points[0].y); for(let i=1;i<points.length;i++) ctx.lineTo(points[i].x,points[i].y); ctx.stroke();
+        setTimeout(()=>{ redrawCanvas(); ctx.strokeStyle='#333'; ctx.lineWidth=6; isFlashing=false; canvas.style.pointerEvents='auto'; },500);
+      }
+      function attachDrawEvents() {
+        canvas.addEventListener('pointerdown',onPointerDown); canvas.addEventListener('pointermove',onPointerMove);
+        canvas.addEventListener('pointerup',onPointerUp); canvas.addEventListener('pointerleave',onPointerUp);
+      }
+      function removeDrawEvents() {
+        canvas.removeEventListener('pointerdown',onPointerDown); canvas.removeEventListener('pointermove',onPointerMove);
+        canvas.removeEventListener('pointerup',onPointerUp); canvas.removeEventListener('pointerleave',onPointerUp);
+      }
+
+      function animateSingleStroke(path,duration) {
+        return new Promise(resolve => {
+          const length=path.getTotalLength(); if(length===0){path.style.display='block';resolve();return;}
+          path.style.display='block'; path.style.strokeDasharray=length; path.style.strokeDashoffset=length;
+          path.style.transition=`stroke-dashoffset ${duration}ms ease-in-out`; path.getBoundingClientRect(); path.style.strokeDashoffset='0';
+          const onEnd=()=>{ path.removeEventListener('transitionend',onEnd); path.style.transition='none'; path.style.strokeDasharray='none'; path.style.strokeDashoffset='0'; resolve(); };
+          path.addEventListener('transitionend',onEnd);
+          setTimeout(()=>{ if(path.style.strokeDasharray!=='none'){ path.style.transition='none'; path.style.strokeDasharray='none'; path.style.strokeDashoffset='0'; resolve(); } },duration+100);
+        });
+      }
+      function resetAllStrokes() { strokePaths.forEach(p=>{ p.style.display='none'; p.style.transition='none'; p.style.strokeDasharray='none'; p.style.strokeDashoffset='0'; }); }
+      async function animateToStroke(targetIndex) {
+        if(!strokePaths.length||isAnimating||practiceMode!=='none')return;
+        targetIndex=Math.min(Math.max(targetIndex,0),strokePaths.length-1);
+        if(targetIndex<=currentStrokeIndex||currentStrokeIndex===-1){resetAllStrokes();currentStrokeIndex=-1;}
+        isAnimating=true;updateUI();
+        for(let i=Math.max(0,currentStrokeIndex+1);i<=targetIndex;i++){const pathLength=strokePaths[i].getTotalLength();let duration=(pathLength/BASE_LENGTH)*speedBaseDurations[animationSpeed];if(duration<MIN_DURATION)duration=MIN_DURATION;await animateSingleStroke(strokePaths[i],duration);currentStrokeIndex=i;updateUI();}
+        isAnimating=false;updateUI();
+      }
+      function updateUI() {
+        if(!strokePaths.length){infoText.textContent='ストロークが見つかりません';return;}
+        if(practiceMode!=='none'){const displayIndex=Math.min(expectedStrokeIndex+1,strokePaths.length);let label='なぞり中';if(practiceMode==='listen')label='おとをきいてかく';else if(practiceMode==='check')label='書き順チェック';infoText.textContent=`✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='none';speedControl.style.display='none';retryTracingBtn.style.display='inline-block';}
+        else{const cur=currentStrokeIndex+1;infoText.textContent=`✏️ ${cur} / ${strokePaths.length} 画`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='inline-block';nextBtn.disabled=isAnimating;speedControl.style.display='block';retryTracingBtn.style.display='none';}
+      }
+
+      async function loadSvgAndPrepare(unicode) {
+        const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc; if(!svgDoc)return;
+        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc); if(characterHidden)svgContainer.classList.add('hidden-char');
+      }
+      function startListeningMode() {
+        calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[];
+        lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth='9';p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
+        hideCharacter(); speakCharacterWithType(currentChar); canvas.style.display='block'; retryTracingBtn.style.display='inline-block';
+        if(quizMode!=='select') nextCharBtn.style.display='inline-block';
+        setupCanvas(); isAnimating=false; updateUI(); attachDrawEvents(); setFeedback('🔊 おとをきいて、かいてね');
+      }
+      function exitListeningMode() {
+        isListeningMode=false; characterHidden=false; svgContainer.classList.remove('hidden-char');
+        revealCharBtn.style.display='none'; replaySoundBtn.style.display='none'; nextCharBtn.style.display='none';
+        lockStrokeNumbers(false); canvas.style.display='none'; retryTracingBtn.style.display='none'; ctx.clearRect(0,0,canvas.width,canvas.height);
+        strokePaths.forEach(p=>{p.style.display='none';}); applyStrokeColors(strokePaths); practiceMode='none'; currentStrokeIndex=-1; isAnimating=false;
+        updateUI(); removeDrawEvents(); clearFeedback();
+      }
+
+      function finishCharacter() {
+        const goodCount=strokeRatings.filter(r=>r==='good').length; const total=strokePaths.length;
+        let stamp='',message='';
+        if(goodCount===total){stamp='🌟';message='パーフェクト！';}else if(goodCount>=total*0.7){stamp='👍';message='よくできました！';}else if(goodCount>=1){stamp='😊';message='がんばったね！';}else{stamp='💪';message='もうすこし！';}
+        stampEmoji.textContent=stamp; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
+        const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
+        saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,thumb:thumbData});
+        exitPracticeMode();
+      }
+
+      closeResultBtn.addEventListener('click',()=>{resultOverlay.style.display='none';});
+
+      const HISTORY_KEY='kakijun_history';
+      function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY))||[];}catch{return[];}}
+      function saveHistory(record){let history=getHistory();history.unshift(record);if(history.length>50)history=history.slice(0,50);localStorage.setItem(HISTORY_KEY,JSON.stringify(history));}
+      function clearHistory(){localStorage.removeItem(HISTORY_KEY);renderHistory();}
+      function renderHistory(){
+        const history=getHistory(); historyList.innerHTML=history.length===0?'<p>きろくはまだないよ</p>':'';
+        history.forEach(item=>{const div=document.createElement('div');div.className='history-item';div.innerHTML=`<span class="history-char">${item.char}</span><span class="history-stamp">${item.stamp}</span><span style="font-size:0.8rem;color:#888;">${item.date}</span>`;if(item.thumb){const img=document.createElement('img');img.className='history-thumb';img.src=item.thumb;div.prepend(img);}historyList.appendChild(div);});
+      }
+
+      historyBtn.addEventListener('click',()=>{renderHistory();historyModal.style.display='flex';});
+      historyCloseBtn.addEventListener('click',()=>historyModal.style.display='none');
+      window.addEventListener('click',(e)=>{if(e.target===historyModal)historyModal.style.display='none';});
+      clearHistoryBtn.addEventListener('click',clearHistory);
+
+      modeBtns.forEach(btn=>{btn.addEventListener('click',function(){const mode=this.dataset.mode;setQuizMode(mode);if(practiceMode==='listen')exitListeningMode();else if(practiceMode!=='none')exitPracticeMode();if(mode!=='select'){loadQuizChar();loadAndDisplay(currentUnicode);}});});
+      showBtn.addEventListener('click',()=>{if(currentUnicode)loadAndDisplay(currentUnicode);});
+      nextBtn.addEventListener('click',()=>{if(practiceMode!=='none'||isAnimating)return;if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);});
+      traceHintBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('hint');}else if(practiceMode==='hint')exitPracticeMode();else if(practiceMode==='check'){exitPracticeMode();enterPracticeMode('hint');}else enterPracticeMode('hint');});
+      traceCheckBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('check');}else if(practiceMode==='check')exitPracticeMode();else if(practiceMode==='hint'){exitPracticeMode();enterPracticeMode('check');}else enterPracticeMode('check');});
+      listenTraceBtn.addEventListener('click',()=>{if(practiceMode==='listen')exitListeningMode();else{if(practiceMode!=='none')exitPracticeMode();enterListeningMode();}});
+      revealCharBtn.addEventListener('click',revealCharacter);
+      nextCharBtn.addEventListener('click',async()=>{
+        if(practiceMode==='listen'){
+          ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+          updateHighlight();updateUI(); const code=loadQuizChar(); if(code){await loadSvgAndPrepare(code);startListeningMode();} else stopCustomStringMode();
+        }else{
+          const code=loadQuizChar(); if(code)loadAndDisplay(code); else stopCustomStringMode();
+        }
+      });
+      retryTracingBtn.addEventListener('click',()=>{
+        if(practiceMode==='none')return; ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+        updateHighlight();updateUI(); if(practiceMode==='listen'){setFeedback('🔊 もういちど、おとをきいてかいてね');speakCharacterWithType(currentChar);}
+      });
+      replaySoundBtn.addEventListener('click',replaySound);
+      showNumbersCheckbox.addEventListener('change',()=>{if(strokeNumbersLocked)return;showStrokeNumbers=showNumbersCheckbox.checked;updateStrokeNumbersVisibility();});
+      document.addEventListener('keydown',(e)=>{if(practiceMode!=='none'||isAnimating||isFlashing)return;if(e.key==='ArrowRight'){e.preventDefault();if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);}else if(e.key==='ArrowLeft'){e.preventDefault();if(currentStrokeIndex>0)animateToStroke(currentStrokeIndex-1);}});
+      speedBtns.forEach(btn=>{btn.addEventListener('click',function(){speedBtns.forEach(b=>b.classList.remove('active'));this.classList.add('active');animationSpeed=this.dataset.speed;});});
+
+      async function loadAndDisplay(unicode) {
+        if(practiceMode!=='none')exitPracticeMode(); isAnimating=false;
+        const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc;
+        if(!svgDoc){svgContainer.innerHTML='<p style="color:#ccc;">SVGが見つかりませんでした</p>';strokePaths=[];updateUI();return;}
+        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc);
+        if(strokePaths.length>0){currentStrokeIndex=-1;animateToStroke(0);}else updateUI();
+      }
+
+      function init() {
+        selectedCharDisplay.textContent=currentChar; setQuizMode('select'); listenTraceBtn.style.display='inline-block';
+        loadAndDisplay(currentUnicode);
+      }
+      init();
+    })();
+  </script>
 </body>
 </html>

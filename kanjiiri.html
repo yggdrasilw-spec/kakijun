@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>書き順アニメーション - 学年漢字・テキスト対応</title>
+  <style>
+    /* 基本設定（元のコードを継承しつつレスポンシブ強化） */
+    body {
+      font-family: 'Yu Gothic', '游ゴシック', 'Noto Sans JP', sans-serif;
+      background: #faf8f5;
+      margin: 0;
+      padding: 16px;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* メインコンテナ：横長時は最大幅を広げ、縦長時はスマホサイズ */
+    .app-container {
+      width: 100%;
+      max-width: 1300px;       /* Chromebook 16:9でも余白あり */
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin: 0 0 8px 0;
+      color: #4a4a4a;
+      text-align: left;
+    }
+
+    /* メインレイアウト：横並び（デフォルト）→ 狭い画面では縦並び */
+    .main-layout {
+      display: flex;
+      gap: 24px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .control-panel {
+      flex: 0 0 300px;
+      background: #fefcf7;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    .viewer-panel {
+      flex: 1;
+      background: #fffef9;
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      min-height: 400px;
+    }
+
+    /* 従来の単一文字表示用スタイル */
+    .kana-display {
+      width: 100%;
+      max-width: 300px;
+      aspect-ratio: 1/1;
+      margin: 0 auto 20px;
+      background: #ffffff;
+      border: 3px dashed #e0d6c2;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .kana-display svg {
+      width: 85%;
+      height: 85%;
+    }
+    .info {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .stroke-counter {
+      font-size: 1rem;
+      color: #888;
+    }
+
+    /* テキスト入力の複数表示用カード */
+    .text-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      width: 100%;
+    }
+    .char-card {
+      background: white;
+      border: 1px solid #f0e6d3;
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      width: 150px;
+    }
+    .char-svg-box {
+      width: 120px;
+      height: 120px;
+      background: #fffef9;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #f0e6d3;
+    }
+    .char-svg-box svg {
+      width: 90px;
+      height: 90px;
+    }
+    .char-label {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .card-controls button {
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      margin: 0 2px;
+    }
+
+    button {
+      background: #f0e6d3;
+      border: 1px solid #e0d6c2;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #5a4a3a;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    button:hover {
+      background: #e8d9be;
+    }
+    button:active {
+      background: #d4c3a5;
+      transform: scale(0.96);
+    }
+    button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+    select, textarea {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background: white;
+      width: 100%;
+      font-family: inherit;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* レスポンシブ：768px以下で縦並びに */
+    @media (max-width: 768px) {
+      .main-layout {
+        flex-direction: column;
+      }
+      .control-panel {
+        flex: 0 0 auto;
+        width: 100%;
+      }
+      .char-card {
+        width: 130px;
+      }
+      .char-svg-box {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <h1>✍️ 書き順アニメーション</h1>
+  <div class="main-layout">
+    <!-- 左コントロールパネル -->
+    <div class="control-panel">
+      <div>
+        <label>🎒 学年フィルター</label>
+        <select id="gradeFilter">
+          <option value="all">すべての文字（かな・漢字）</option>
+          <option value="1">小学1年生</option>
+          <option value="2">小学2年生</option>
+          <option value="3">小学3年生</option>
+          <option value="4">小学4年生</option>
+          <option value="5">小学5年生</option>
+          <option value="6">小学6年生</option>
+        </select>
+      </div>
+      <div>
+        <label>🔡 文字選択</label>
+        <select id="charSelect" size="8" style="height: auto;"></select>
+        <button id="showBtn" style="width:100%; margin-top:8px;">📺 表示する</button>
+      </div>
+      <div>
+        <label>📝 テキスト入力（1文字ずつ表示）</label>
+        <textarea id="textInput" placeholder="例：山月火水木金土">漢字練習</textarea>
+        <button id="renderTextBtn" style="width:100%; margin-top:8px;">✨ テキストを展開</button>
+      </div>
+      <div style="margin-top: auto; font-size: 0.8rem; color: #b8a386;">
+        KanjiVG SVGが必要です<br>「svg/」フォルダに配置
+      </div>
+    </div>
+
+    <!-- 右ビューア -->
+    <div class="viewer-panel" id="viewerPanel">
+      <!-- 単一文字ビュー（従来の表示） -->
+      <div id="singleView">
+        <div class="kana-display" id="svgContainer">
+          <p style="color:#ccc;">文字を選んでね</p>
+        </div>
+        <div class="info" id="infoText"></div>
+        <div class="stroke-counter" id="strokeInfo"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:10px;">
+          <button id="prevBtn">◀ 前の画</button>
+          <button id="nextBtn">次の画 ▶</button>
+          <button id="replayBtn">🔄 もう一度</button>
+          <button id="showAllBtn">👀 すべて表示</button>
+        </div>
+      </div>
+      <!-- 複数文字テキストビュー -->
+      <div id="textMultiView" class="text-grid hidden"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- 全文字マッピング：ひらがな・カタカナ + 学年別漢字 ---
+    const GRADE_KANJI = {
+      1: "一右雨円王音下火花貝学気九休玉金空月犬見五口校左三山子四糸字耳七車手十出女小上森人水正生青夕石赤千川先早草足村大男竹中虫町天田土二日入年白八八百文木本名目立力林六",
+      2: "引羽雲園遠何科夏家歌画回会海絵外角楽活間丸岩顔汽記帰弓牛魚京強教近兄形計元言原戸古午後語工公広交光考行高黄合谷国黒今才細作算止市矢姉思紙寺自時室社弱首秋週春書少場色食心新親図数西声星晴切雪船線前組走多太体台地池知茶昼長鳥朝直通弟店点電刀冬当東答頭同道読内南肉馬売買麦半番父風分聞米歩母方北毎妹万明鳴毛門夜野友用曜来里理話",
+      3: "悪安暗医委意育員院飲運泳駅央横屋温化荷界開階寒感漢館岸起期客究急級宮球去橋業曲局銀区苦具君係軽血決研県庫湖向幸港号根祭皿仕死使始指歯詩次事持式実写者主守取酒受州拾終習集住重宿所暑助昭消商章勝乗植申身神真深進世整昔全相送想息速族他打対待代第題炭短談着注柱丁帳調追定庭笛鉄転都度投豆島湯登等動童農波配倍箱畑発反坂板皮悲美鼻筆氷表秒病品負部服福物平返勉放味命面問役薬由油有遊予羊洋葉陽様落流旅両緑礼列練路和",
+      4: "愛案以衣位囲胃印英栄塩億加果貨課芽改械害街各覚完官管関観願希季紀喜旗器機議求泣救給挙漁共協鏡競極訓軍郡径型景芸欠結建健験固功好候航康告差菜最材昨札刷殺察参産散残士氏史司試児治辞失借種周祝順初松笑唱焼象照賞臣信成省清静席積折節説浅戦選然争倉巣束側続卒孫帯隊達単置仲貯兆腸低底停的典伝徒努灯堂働特得毒熱念敗梅博飯飛費必票標不夫付府副粉兵別辺変便包法望牧末満未脈民無約勇要養浴利陸良料量輪類令冷例歴連老労録",
+      5: "圧移因永営衛易益液演応往桜恩可仮価河過快解格確額刊幹慣眼基寄規技義逆久旧居許境均禁句群経潔件券険検限現減故個護効厚耕鉱構興講混査再災妻採際在財罪雑酸賛支志枝師資飼示似識質舎謝授修述術準序招承証条状常情織職制性政勢精製税責績接設舌絶銭祖素総造像増則測属率損退貸態団断築張提程適敵統銅導徳独任燃能破犯判版比肥非備俵評貧布婦富武復複仏編弁保墓報豊防貿暴務夢迷綿輸余預容略留領",
+      6: "異遺域宇映延沿我灰拡革閣割株干巻看簡危机揮貴疑吸供胸郷勤筋系敬警劇激穴絹権憲源厳己呼誤后孝皇紅降鋼刻穀骨困砂座済裁策冊蚕至私姿視詞誌磁射捨尺若樹収宗就衆従縦縮熟純処署諸除将傷障城蒸針仁垂推寸盛聖誠宣専泉洗染善奏窓創装層操蔵臓存尊宅担探誕段暖値宙忠著庁頂潮賃痛展討党糖届難乳認納脳派拝背肺俳班晩否批秘腹奮並陛閉片補暮宝訪亡忘棒枚幕密盟模訳郵優幼欲翌乱卵覧裏律臨朗論"
+    };
+
+    // 従来のひらがな・カタカナマッピング（文字,Unicode）
+    const KANA_MAP_BASE = [
+      "あ,3042","い,3044","う,3046","え,3048","お,304A",
+      "か,304B","き,304D","く,304F","け,3051","こ,3053",
+      "さ,3055","し,3057","す,3059","せ,305B","そ,305D",
+      "た,305F","ち,3061","つ,3064","て,3066","と,3068",
+      "な,306A","に,306B","ぬ,306C","ね,306D","の,306E",
+      "は,306F","ひ,3072","ふ,3075","へ,3078","ほ,307B",
+      "ま,307E","み,307F","む,3080","め,3081","も,3082",
+      "や,3084","ゆ,3086","よ,3088",
+      "ら,3089","り,308A","る,308B","れ,308C","ろ,308D",
+      "わ,308F","を,3092","ん,3093",
+      "が,304C","ぎ,304E","ぐ,3050","げ,3052","ご,3054",
+      "ざ,3056","じ,3058","ず,305A","ぜ,305C","ぞ,305E",
+      "だ,3060","ぢ,3062","づ,3065","で,3067","ど,3069",
+      "ば,3070","び,3073","ぶ,3076","べ,3079","ぼ,307C",
+      "ぱ,3071","ぴ,3074","ぷ,3077","ぺ,307A","ぽ,307D",
+      "ア,30A2","イ,30A4","ウ,30A6","エ,30A8","オ,30AA",
+      "カ,30AB","キ,30AD","ク,30AF","ケ,30B1","コ,30B3",
+      "サ,30B5","シ,30B7","ス,30B9","セ,30BB","ソ,30BD",
+      "タ,30BF","チ,30C1","ツ,30C4","テ,30C6","ト,30C8",
+      "ナ,30CA","ニ,30CB","ヌ,30CC","ネ,30CD","ノ,30CE",
+      "ハ,30CF","ヒ,30D2","フ,30D5","ヘ,30D8","ホ,30DB",
+      "マ,30DE","ミ,30DF","ム,30E0","メ,30E1","モ,30E2",
+      "ヤ,30E4","ユ,30E6","ヨ,30E8",
+      "ラ,30E9","リ,30EA","ル,30EB","レ,30EC","ロ,30ED",
+      "ワ,30EF","ヲ,30F2","ン,30F3",
+      "ガ,30AC","ギ,30AE","グ,30B0","ゲ,30B2","ゴ,30B4",
+      "ザ,30B6","ジ,30B8","ズ,30BA","ゼ,30BC","ゾ,30BE",
+      "ダ,30C0","ヂ,30C2","ヅ,30C5","デ,30C7","ド,30C9",
+      "バ,30D0","ビ,30D3","ブ,30D6","ベ,30D9","ボ,30DC",
+      "パ,30D1","ピ,30D4","プ,30D7","ペ,30DA","ポ,30DD"
+    ];
+
+    // 全文字マップ（かな＋漢字）を構築
+    function buildFullCharMap() {
+      const map = new Map(); // key: char, value: unicode
+      // かな・カタカナを追加
+      KANA_MAP_BASE.forEach(item => {
+        const [char, code] = item.split(',');
+        map.set(char, code);
+      });
+      // 学年漢字を追加
+      for (let grade = 1; grade <= 6; grade++) {
+        const chars = GRADE_KANJI[grade];
+        for (const char of chars) {
+          const code = char.charCodeAt(0).toString(16).padStart(5, '0').toUpperCase();
+          map.set(char, code);
+        }
+      }
+      return map;
+    }
+    const FULL_CHAR_MAP = buildFullCharMap();
+
+    // 学年フィルター用の漢字セット
+    function getKanjiSetForGrade(grade) {
+      if (!grade || grade === 'all') return null;
+      return new Set(GRADE_KANJI[grade] || '');
+    }
+
+    // --- 状態管理 ---
+    let currentSvgDoc = null;
+    let strokePaths = [];
+    let currentStrokeIndex = -1;
+
+    // --- DOM要素 ---
+    const gradeFilter = document.getElementById('gradeFilter');
+    const charSelect = document.getElementById('charSelect');
+    const showBtn = document.getElementById('showBtn');
+    const svgContainer = document.getElementById('svgContainer');
+    const infoText = document.getElementById('infoText');
+    const strokeInfo = document.getElementById('strokeInfo');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const replayBtn = document.getElementById('replayBtn');
+    const showAllBtn = document.getElementById('showAllBtn');
+    const textInput = document.getElementById('textInput');
+    const renderTextBtn = document.getElementById('renderTextBtn');
+    const textMultiView = document.getElementById('textMultiView');
+    const singleView = document.getElementById('singleView');
+
+    // --- セレクトボックス更新 ---
+    function populateCharSelect(filterGrade = 'all') {
+      charSelect.innerHTML = '';
+      const kanjiSet = getKanjiSetForGrade(filterGrade);
+      
+      // ソートされた文字リストを作成
+      const entries = Array.from(FULL_CHAR_MAP.entries());
+      entries.sort((a, b) => a[0].localeCompare(b[0], 'ja'));
+      
+      for (const [char, code] of entries) {
+        // フィルターがあれば適用
+        if (kanjiSet && !kanjiSet.has(char)) continue;
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = char;
+        charSelect.appendChild(option);
+      }
+      
+      if (charSelect.options.length > 0) {
+        charSelect.selectedIndex = 0;
+      }
+    }
+
+    // --- SVG読み込み（元のコードと同一） ---
+    async function loadSvg(unicode) {
+      try {
+        const paddedCode = unicode.padStart(5, '0').toUpperCase();
+        const response = await fetch(`svg/${paddedCode}.svg`);
+        if (!response.ok) throw new Error('SVG not found');
+        const svgText = await response.text();
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+        return svgDoc;
+      } catch (err) {
+        console.error('SVG読み込みエラー:', err);
+        return null;
+      }
+    }
+
+    // --- ストローク抽出（元のコードの強化版） ---
+    function extractStrokes(svgDoc) {
+      const paths = [];
+      const allG = svgDoc.querySelectorAll('g');
+      let strokePathsG = null;
+      allG.forEach(g => {
+        const id = g.getAttribute('id') || '';
+        if (id.indexOf('StrokePaths') !== -1) strokePathsG = g;
+      });
+      
+      if (strokePathsG) {
+        const innerG = strokePathsG.querySelector('g');
+        if (innerG) {
+          innerG.querySelectorAll('path').forEach(p => {
+            if (p.getAttribute('d')) paths.push(p);
+          });
+        }
+      }
+      
+      if (paths.length === 0) {
+        const allPaths = svgDoc.querySelectorAll('path');
+        const temp = [];
+        allPaths.forEach(p => {
+          const id = p.getAttribute('id') || '';
+          const match = id.match(/-s(\d+)$/);
+          if (match && p.getAttribute('d')) {
+            temp.push({ path: p, num: parseInt(match[1]) });
+          }
+        });
+        temp.sort((a, b) => a.num - b.num);
+        temp.forEach(item => paths.push(item.path));
+      }
+      
+      if (paths.length === 0) {
+        svgDoc.querySelectorAll('path').forEach(p => {
+          if (p.getAttribute('d')) paths.push(p);
+        });
+      }
+      
+      return paths;
+    }
+
+    // --- SVG表示用セットアップ ---
+    function setupSvgForDisplay(svgDoc, width, height) {
+      const svgRoot = svgDoc.querySelector('svg');
+      if (!svgRoot) return null;
+      svgRoot.setAttribute('width', width);
+      svgRoot.setAttribute('height', height);
+      svgRoot.style.display = 'block';
+      svgRoot.style.margin = 'auto';
+      svgRoot.querySelectorAll('path').forEach(p => {
+        p.style.display = 'none';
+        p.style.stroke = '#444';
+        p.style.strokeWidth = '9';
+        p.style.strokeLinecap = 'round';
+        p.style.strokeLinejoin = 'round';
+        p.style.fill = 'none';
+      });
+      svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
+      return svgRoot;
+    }
+
+    function animateToStroke(paths, targetIndex) {
+      if (!paths.length) return 0;
+      if (targetIndex < 0) targetIndex = 0;
+      if (targetIndex >= paths.length) targetIndex = paths.length - 1;
+      paths.forEach(p => p.style.display = 'none');
+      for (let i = 0; i <= targetIndex; i++) {
+        paths[i].style.display = 'block';
+      }
+      return targetIndex;
+    }
+
+    // --- 単一文字ビュー操作 ---
+    async function loadAndDisplaySingle(unicode) {
+      const svgDoc = await loadSvg(unicode);
+      currentSvgDoc = svgDoc;
+      svgContainer.innerHTML = '';
+      if (!svgDoc) {
+        svgContainer.innerHTML = '<p style="color:#ccc;">SVGが見つかりません</p>';
+        strokePaths = [];
+        updateSingleUI(0, -1);
+        return;
+      }
+      
+      strokePaths = extractStrokes(svgDoc);
+      const svgRoot = setupSvgForDisplay(svgDoc, '200', '200');
+      if (svgRoot) svgContainer.appendChild(svgRoot);
+      
+      if (strokePaths.length > 0) {
+        currentStrokeIndex = animateToStroke(strokePaths, 0);
+        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      } else {
+        updateSingleUI(0, -1);
+      }
+    }
+
+    function updateSingleUI(total, current) {
+      if (total === 0) {
+        infoText.textContent = 'ストロークが見つかりません';
+        strokeInfo.textContent = '';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+      infoText.textContent = `✏️ ${current + 1} / ${total} 画`;
+      strokeInfo.textContent = `全 ${total} 画`;
+      prevBtn.disabled = (current <= 0);
+      nextBtn.disabled = (current >= total - 1);
+    }
+
+    // --- テキスト複数表示ビュー ---
+    async function renderText(text) {
+      textMultiView.innerHTML = '';
+      const chars = [...text].filter(c => c.trim() !== '');
+      if (chars.length === 0) {
+        textMultiView.innerHTML = '<p>文字を入力してください。</p>';
+        return;
+      }
+      
+      // 単一ビューを隠し、テキストビューを表示
+      singleView.classList.add('hidden');
+      textMultiView.classList.remove('hidden');
+      
+      for (const char of chars) {
+        const card = document.createElement('div');
+        card.className = 'char-card';
+        
+        const label = document.createElement('div');
+        label.className = 'char-label';
+        label.textContent = char;
+        
+        const svgBox = document.createElement('div');
+        svgBox.className = 'char-svg-box';
+        svgBox.innerHTML = '<span style="color:#ccc;">読込中</span>';
+        
+        card.appendChild(label);
+        card.appendChild(svgBox);
+        
+        const controls = document.createElement('div');
+        controls.className = 'card-controls';
+        controls.innerHTML = `
+          <button class="card-prev">◀</button>
+          <button class="card-next">▶</button>
+          <button class="card-replay">↺</button>
+        `;
+        card.appendChild(controls);
+        textMultiView.appendChild(card);
+        
+        // SVG読み込みとセットアップ
+        const code = FULL_CHAR_MAP.get(char) || char.charCodeAt(0).toString(16).padStart(5, '0');
+        const svgDoc = await loadSvg(code);
+        svgBox.innerHTML = '';
+        if (svgDoc) {
+          const paths = extractStrokes(svgDoc);
+          const svgRoot = setupSvgForDisplay(svgDoc, '90', '90');
+          if (svgRoot) {
+            svgBox.appendChild(svgRoot);
+            let cardIndex = paths.length - 1; // 最初は全画表示
+            animateToStroke(paths, cardIndex);
+            
+            controls.querySelector('.card-prev').addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (cardIndex > 0) cardIndex = animateToStroke(paths, cardIndex - 1);
+            });
+            controls.querySelector('.card-next').addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (cardIndex < paths.length - 1) cardIndex = animateToStroke(paths, cardIndex + 1);
+            });
+            controls.querySelector('.card-replay').addEventListener('click', (e) => {
+              e.stopPropagation();
+              cardIndex = animateToStroke(paths, 0);
+            });
+            
+            // カードクリックで単一ビューに戻りその文字を表示
+            card.addEventListener('click', () => {
+              singleView.classList.remove('hidden');
+              textMultiView.classList.add('hidden');
+              loadAndDisplaySingle(code);
+            });
+            card.style.cursor = 'pointer';
+          } else {
+            svgBox.innerHTML = '<span style="color:#ccc;">表示不可</span>';
+          }
+        } else {
+          svgBox.innerHTML = '<span style="color:#ccc;">SVGなし</span>';
+        }
+      }
+    }
+
+    // --- イベントリスナー ---
+    gradeFilter.addEventListener('change', (e) => {
+      populateCharSelect(e.target.value);
+    });
+
+    showBtn.addEventListener('click', () => {
+      if (charSelect.value) {
+        singleView.classList.remove('hidden');
+        textMultiView.classList.add('hidden');
+        loadAndDisplaySingle(charSelect.value);
+      }
+    });
+
+    renderTextBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (text) renderText(text);
+    });
+
+    // 単一ビュー操作ボタン
+    nextBtn.addEventListener('click', () => {
+      if (strokePaths.length && currentStrokeIndex < strokePaths.length - 1) {
+        currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex + 1);
+        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (strokePaths.length && currentStrokeIndex > 0) {
+        currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex - 1);
+        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      }
+    });
+    replayBtn.addEventListener('click', () => {
+      if (strokePaths.length) {
+        currentStrokeIndex = animateToStroke(strokePaths, 0);
+        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      }
+    });
+    showAllBtn.addEventListener('click', () => {
+      if (strokePaths.length) {
+        currentStrokeIndex = animateToStroke(strokePaths, strokePaths.length - 1);
+        updateSingleUI(strokePaths.length, currentStrokeIndex);
+      }
+    });
+
+    // キーボードショートカット（単一ビュー時のみ）
+    document.addEventListener('keydown', (e) => {
+      if (!singleView.classList.contains('hidden')) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          if (strokePaths.length && currentStrokeIndex < strokePaths.length - 1) {
+            currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex + 1);
+            updateSingleUI(strokePaths.length, currentStrokeIndex);
+          }
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          if (strokePaths.length && currentStrokeIndex > 0) {
+            currentStrokeIndex = animateToStroke(strokePaths, currentStrokeIndex - 1);
+            updateSingleUI(strokePaths.length, currentStrokeIndex);
+          }
+        }
+      }
+    });
+
+    // --- 初期化 ---
+    function init() {
+      populateCharSelect('all');
+      // 初期表示：最初の文字を自動ロード
+      if (charSelect.options.length > 0) {
+        charSelect.selectedIndex = 0;
+        loadAndDisplaySingle(charSelect.value);
+      }
+    }
+    init();
+  })();
+</script>
+</body>
+</html>

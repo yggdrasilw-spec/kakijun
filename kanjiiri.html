@@ -153,6 +153,56 @@
     }
     .kana-btn:hover { background: #f5f0e8; }
     .kana-btn.selected { background: #ff9800; color: white; border-color: #f57c00; }
+    .kana-btn.test-good {
+      background: #d7f5df; border-color: #2e7d32; box-shadow: 0 0 0 2px #4caf50 inset;
+      animation: testGoodGlow 1.6s ease-in-out infinite;
+    }
+    .kana-btn.test-ok {
+      background: #ffd9d6; border-color: #c0392b; box-shadow: 0 0 0 2px #e74c3c inset;
+      animation: testOkGlow 1.6s ease-in-out infinite;
+    }
+    .kana-btn.selected.test-good, .kana-btn.selected.test-ok { animation: none; }
+    @keyframes testGoodGlow {
+      0%,100% { box-shadow: 0 0 0 2px #4caf50 inset; }
+      50% { box-shadow: 0 0 8px 2px #4caf50; }
+    }
+    @keyframes testOkGlow {
+      0%,100% { box-shadow: 0 0 0 2px #e74c3c inset; }
+      50% { box-shadow: 0 0 8px 2px #e74c3c; }
+    }
+
+    /* テストモード選択リスト */
+    .test-category-list {
+      display: flex; flex-direction: column; gap: 10px; max-height: 62vh; overflow-y: auto; padding-right: 4px;
+    }
+    .test-category-row {
+      border: 1px solid #e0d6c2; border-radius: 14px; padding: 10px 14px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      background: #fffef9;
+    }
+    .test-category-name { font-weight: bold; font-size: 1rem; color: #5a4a3a; min-width: 90px; }
+    .test-category-progress { font-size: 0.8rem; color: #888; }
+    .test-category-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+    .test-start-btn {
+      background: #ff9800; color: white; border-color: #f57c00; font-size: 0.85rem; padding: 8px 14px; margin: 0;
+    }
+    .test-retry-btn {
+      background: #e74c3c; color: white; border-color: #c0392b; font-size: 0.78rem; padding: 7px 12px; margin: 0;
+    }
+    .test-clear-all-btn {
+      background: #fff; color: #999; border-color: #ddd; font-size: 0.8rem; padding: 6px 14px; margin-top: 4px;
+    }
+
+    /* テスト実施中のバナー */
+    .test-progress-banner {
+      display: none; align-items: center; justify-content: space-between; gap: 10px;
+      background: #fff4e0; border: 2px solid #ffcc80; border-radius: 16px;
+      padding: 8px 14px; margin: 6px 0 10px; font-size: 0.9rem; color: #8a5a00; flex-wrap: wrap;
+    }
+    .test-progress-banner button {
+      background: #e74c3c; color: white; border-color: #c0392b; font-size: 0.78rem;
+      padding: 6px 12px; margin: 0; min-height: auto; min-width: auto;
+    }
     .modal-select-btn {
       background: #4caf50; color: white; border: none; padding: 12px 30px;
       font-size: 1.2rem; border-radius: 30px; margin-top: 15px; cursor: pointer;
@@ -368,6 +418,7 @@
     <div class="panel panel-left">
     <div class="char-select-area" id="charSelectArea">
       <button id="openKanaTableBtn">🔡 文字をえらぶ</button>
+      <button id="openTestModeBtn">📝 テストモード</button>
     </div>
 
     <div class="custom-string-area" id="customStringArea">
@@ -378,6 +429,10 @@
 
     </div>
     <div class="panel panel-center">
+    <div class="test-progress-banner" id="testProgressBanner">
+      <span id="testProgressText"></span>
+      <button id="cancelTestBtn">⏹ テストをやめる</button>
+    </div>
     <div class="mode-style-selector" id="modeStyleSelector">
       <button class="style-btn active" data-style="none">👀 見てたしかめ</button>
       <button class="style-btn" data-style="hint">🖊️ なぞりれんしゅう</button>
@@ -476,6 +531,30 @@
     </div>
   </div>
 
+  <!-- テストモード選択モーダル -->
+  <div class="modal" id="testModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📝 テストモード</h2>
+        <button class="modal-close" id="testModalCloseBtn">&times;</button>
+      </div>
+      <div class="test-category-list" id="testCategoryList"></div>
+      <button class="test-clear-all-btn" id="clearAllTestResultsBtn">きろくを全部けす</button>
+    </div>
+  </div>
+
+  <!-- テスト結果サマリー -->
+  <div class="result-overlay" id="testSummaryOverlay">
+    <div class="result-card">
+      <div class="stamp-emoji" id="testSummaryStamp"></div>
+      <div class="result-message" id="testSummaryMessage"></div>
+      <div class="result-detail" id="testSummaryDetail"></div>
+      <div id="testSummaryButtons" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;"></div>
+      <br>
+      <button id="closeTestSummaryBtn">とじる</button>
+    </div>
+  </div>
+
   <!-- 結果表示ポップアップ -->
   <div class="result-overlay" id="resultOverlay">
     <div class="result-card">
@@ -544,13 +623,13 @@
       // 学年別漢字配当表（小1〜小6：教育漢字、7：のこりの常用漢字）
       // 文字コード(unicode)は保持せず、文字から動的に計算する（charToHexCode参照）
       const gradeKanji = {
-  1: ["一","二","三","四","五","六","七","八","九","十","百","千","上","下","左","右","中","大","小","月","日","年","早","木","林","山","川","土","空","田","天","生","花","草","虫","犬","人","名","女","男","子","目","耳","口","手","足","見","音","力","気","円","入","出","立","休","先","夕","本","文","字","学","校","村","町","森","正","水","火","玉","王","石","竹","糸","貝","車","金","雨","赤","青","白"],
-  2: ["引","羽","雲","園","遠","何","科","夏","家","歌","画","回","会","海","絵","外","角","楽","活","間","丸","岩","顔","汽","記","帰","弓","牛","魚","京","強","教","近","兄","形","計","元","言","原","戸","古","午","後","語","工","公","広","交","光","考","行","高","黄","合","谷","国","黒","今","才","作","算","止","市","矢","姉","思","紙","寺","自","時","室","社","弱","首","秋","週","春","書","少","場","色","食","心","新","親","図","数","西","声","星","晴","切","雪","船","線","前","組","走","多","太","体","台","地","池","知","茶","昼","長","鳥","朝","直","通","弟","店","点","電","刀","冬","当","東","答","頭","同","道","読","内","南","肉","馬","売","買","麦","半","番","父","風","分","聞","米","歩","母","方","北","毎","妹","万","明","鳴","毛","門","夜","野","友","用","曜","来","里","理","話"],
-  3: ["悪","安","暗","医","委","意","育","員","院","飲","運","泳","駅","央","横","屋","温","化","荷","界","開","階","寒","感","漢","館","岸","起","期","客","究","急","級","宮","球","去","橋","業","曲","局","銀","区","苦","具","君","係","軽","血","決","研","県","庫","湖","向","幸","港","号","根","祭","皿","仕","死","使","始","指","歯","詩","次","事","持","式","実","写","者","主","守","取","酒","受","州","拾","終","習","集","住","重","宿","所","暑","助","昭","消","商","章","勝","乗","植","申","身","神","真","深","進","世","整","昔","全","相","送","想","息","速","族","他","打","対","待","代","第","題","炭","短","談","着","注","柱","丁","帳","調","追","定","庭","笛","鉄","転","都","度","投","豆","島","湯","登","等","動","童","農","波","配","倍","箱","畑","発","反","坂","板","皮","悲","美","鼻","筆","氷","表","秒","病","品","負","部","服","福","物","平","返","勉","放","万","味","命","面","問","役","薬","由","油","有","遊","予","羊","洋","葉","陽","様","落","流","旅","両","緑","礼","列","練","路","和"],
-  4: ["愛","案","以","衣","位","囲","胃","印","英","栄","塩","億","加","果","貨","課","芽","改","械","害","街","各","覚","完","官","管","関","観","願","希","季","紀","喜","旗","器","機","議","求","泣","救","給","挙","漁","共","協","鏡","競","極","訓","軍","郡","径","型","景","芸","欠","結","建","健","験","固","功","好","候","航","康","告","差","菜","最","材","昨","札","刷","殺","察","参","産","散","残","士","氏","史","司","試","児","治","辞","失","借","種","周","祝","順","初","松","笑","唱","焼","象","照","賞","臣","信","真","成","省","清","静","席","積","折","節","説","浅","戦","選","然","争","倉","巣","束","側","続","卒","孫","帯","隊","達","単","置","仲","貯","兆","腸","低","底","停","的","典","伝","徒","努","灯","堂","働","毒","熱","念","敗","梅","博","飯","飛","費","必","票","標","不","夫","付","府","副","粉","兵","別","辺","変","便","包","法","望","牧","末","満","未","脈","民","無","約","勇","要","養","浴","利","陸","良","料","量","輪","類","令","冷","例","歴","連","老","労","録"],
-  5: ["圧","移","因","永","営","衛","易","益","液","演","応","往","桜","恩","可","仮","価","河","過","快","解","格","確","額","刊","幹","慣","眼","基","寄","規","技","義","逆","久","旧","居","許","境","均","禁","句","群","経","潔","件","券","険","検","限","現","減","故","個","護","効","厚","耕","鉱","構","興","講","混","査","再","災","妻","採","際","在","財","罪","雑","酸","賛","支","志","枝","師","資","飼","示","似","識","質","舎","謝","授","修","述","術","準","序","招","承","証","条","状","常","情","織","職","制","性","政","勢","精","製","税","責","績","接","設","舌","絶","銭","祖","素","総","造","像","増","則","測","属","率","損","退","貸","態","団","断","築","張","提","程","適","敵","統","銅","導","徳","独","任","燃","能","破","犯","判","版","比","肥","非","備","俵","評","貧","布","婦","富","武","復","複","仏","編","弁","保","墓","報","豊","防","貿","暴","未","務","無","迷","綿","輸","余","預","容","略","留","領"],
-  6: ["異","遺","域","宇","映","延","沿","我","灰","拡","革","閣","割","株","干","巻","看","簡","危","机","揮","貴","疑","吸","供","胸","郷","勤","筋","系","敬","警","劇","激","穴","絹","権","憲","源","厳","己","呼","誤","后","孝","皇","紅","降","鋼","刻","穀","骨","困","砂","座","済","裁","策","冊","蚕","至","私","姿","視","詞","誌","磁","射","捨","尺","若","樹","収","宗","就","衆","従","縦","縮","熟","純","処","署","諸","除","将","傷","障","城","蒸","針","仁","垂","推","寸","盛","聖","誠","宣","専","泉","洗","染","善","奏","窓","創","装","層","操","蔵","臓","存","尊","宅","担","探","誕","段","暖","値","宙","忠","著","庁","頂","潮","賃","痛","展","討","党","糖","届","難","乳","認","納","脳","派","拝","背","肺","俵","班","晩","否","批","秘","腹","奮","並","陛","閉","片","補","暮","宝","訪","亡","忘","棒","枚","幕","密","盟","模","訳","郵","優","幼","欲","翌","乱","卵","覧","裏","律","臨","朗","論"],
-  7: ["亜","哀","挨","曖","握","扱","宛","嵐","依","威","為","畏","尉","萎","偉","椅","彙","違","維","慰","緯","壱","逸","茨","芋","咽","姻","淫","陰","隠","韻","唄","鬱","畝","浦","詠","影","鋭","疫","悦","越","謁","閲","炎","怨","宴","媛","援","煙","猿","鉛","縁","艶","汚","凹","押","旺","欧","殴","翁","奥","岡","憶","臆","虞","乙","俺","卸","穏","佳","苛","架","華","菓","渦","嫁","暇","禍","靴","寡","箇","稼","蚊","牙","瓦","賀","雅","餓","介","戒","怪","拐","悔","皆","塊","楷","潰","壊","懐","諧","劾","崖","涯","慨","蓋","該","概","骸","垣","柿","核","殻","郭","較","隔","獲","嚇","穫","岳","顎","掛","潟","括","喝","渇","葛","滑","褐","轄","且","釜","鎌","刈","甘","汗","缶","肝","冠","陥","乾","勘","患","貫","喚","堪","換","敢","棺","款","閑","勧","寛","歓","監","緩","憾","還","環","韓","艦","鑑","含","玩","頑","企","伎","岐","忌","奇","祈","軌","既","飢","鬼","亀","幾","棋","棄","毀","畿","輝","騎","宜","偽","欺","儀","戯","擬","犠","菊","吉","喫","詰","却","脚","虐","及","丘","朽","臼","糾","嗅","窮","巨","拒","拠","虚","距","御","凶","叫","狂","享","況","峡","挟","狭","恐","恭","脅","矯","響","驚","仰","暁","凝","巾","斤","菌","琴","僅","緊","錦","謹","襟","吟","駆","惧","愚","偶","遇","隅","串","屈","掘","窟","熊","繰","勲","薫","刑","茎","契","恵","啓","掲","渓","蛍","傾","携","継","詣","慶","憬","稽","憩","鶏","迎","鯨","隙","撃","桁","傑","肩","倹","兼","剣","拳","軒","圏","堅","嫌","献","遣","賢","謙","鍵","繭","顕","懸","幻","玄","弦","舷","股","虎","孤","弧","枯","雇","誇","鼓","錮","顧","互","呉","娯","悟","碁","勾","孔","巧","甲","江","坑","抗","攻","更","拘","肯","侯","恒","洪","荒","郊","香","貢","控","梗","喉","慌","硬","絞","項","溝","綱","酵","稿","衡","購","乞","拷","剛","傲","豪","克","酷","獄","駒","込","頃","昆","恨","婚","痕","紺","魂","墾","懇","佐","沙","唆","詐","鎖","挫","采","砕","宰","栽","彩","斎","細","債","催","塞","歳","載","埼","剤","崎","削","柵","索","酢","搾","錯","咲","刹","拶","撮","擦","桟","惨","傘","斬","暫","旨","伺","刺","祉","肢","施","恣","脂","紫","嗣","雌","摯","賜","諮","侍","滋","慈","餌","璽","鹿","軸","𠮟","疾","執","湿","嫉","漆","芝","赦","斜","煮","遮","邪","蛇","酌","釈","爵","寂","朱","狩","殊","珠","腫","趣","寿","呪","需","儒","囚","舟","秀","臭","袖","羞","愁","酬","醜","蹴","襲","汁","充","柔","渋","銃","獣","叔","淑","粛","塾","俊","瞬","旬","巡","盾","准","殉","循","潤","遵","庶","緒","如","叙","徐","升","召","匠","床","抄","肖","尚","昇","沼","宵","症","祥","称","渉","紹","訟","掌","晶","焦","硝","粧","詔","奨","詳","彰","憧","衝","償","礁","鐘","丈","冗","浄","剰","畳","縄","壌","嬢","錠","譲","醸","拭","殖","飾","触","嘱","辱","尻","伸","芯","辛","侵","津","唇","娠","振","浸","紳","診","寝","慎","審","震","薪","刃","尽","迅","甚","陣","尋","腎","須","吹","炊","帥","粋","衰","酔","遂","睡","穂","随","髄","枢","崇","据","杉","裾","瀬","是","井","姓","征","斉","牲","凄","逝","婿","誓","請","醒","斥","析","脊","隻","惜","戚","跡","籍","拙","窃","摂","仙","占","扇","栓","旋","煎","羨","腺","詮","践","箋","潜","遷","薦","繊","鮮","禅","漸","膳","繕","狙","阻","租","措","粗","疎","訴","塑","遡","礎","双","壮","荘","捜","挿","桑","掃","曹","曽","爽","喪","痩","葬","僧","遭","槽","踪","燥","霜","騒","藻","憎","贈","即","促","捉","俗","賊","遜","汰","妥","唾","堕","惰","駄","耐","怠","胎","泰","堆","袋","逮","替","滞","戴","滝","択","沢","卓","拓","託","濯","諾","濁","但","脱","奪","棚","誰","丹","旦","胆","淡","嘆","端","綻","鍛","弾","壇","恥","致","遅","痴","稚","緻","畜","逐","蓄","秩","窒","嫡","沖","抽","衷","酎","鋳","駐","弔","挑","彫","眺","釣","貼","超","跳","徴","嘲","澄","聴","懲","勅","捗","沈","珍","朕","陳","鎮","椎","墜","塚","漬","坪","爪","鶴","呈","廷","抵","邸","亭","貞","帝","訂","逓","偵","堤","艇","締","諦","泥","摘","滴","溺","迭","哲","徹","撤","添","塡","殿","斗","吐","妬","途","渡","塗","賭","奴","怒","到","逃","倒","凍","唐","桃","透","悼","盗","陶","塔","搭","棟","痘","筒","稲","踏","謄","藤","闘","騰","洞","胴","瞳","峠","匿","特","得","督","篤","栃","凸","突","屯","豚","頓","貪","鈍","曇","丼","那","奈","梨","謎","鍋","軟","尼","弐","匂","虹","尿","妊","忍","寧","捻","粘","悩","濃","把","覇","婆","罵","杯","俳","排","廃","輩","培","陪","媒","賠","伯","拍","泊","迫","剝","舶","薄","漠","縛","爆","箸","肌","鉢","髪","伐","抜","罰","閥","氾","帆","汎","伴","阪","畔","般","販","斑","搬","煩","頒","範","繁","藩","蛮","盤","妃","彼","披","卑","疲","被","扉","碑","罷","避","尾","眉","微","膝","肘","匹","泌","姫","漂","苗","描","猫","浜","賓","頻","敏","瓶","扶","怖","阜","附","訃","赴","浮","符","普","腐","敷","膚","賦","譜","侮","舞","封","伏","幅","覆","払","沸","紛","雰","噴","墳","憤","丙","併","柄","塀","幣","弊","蔽","餅","壁","璧","癖","蔑","偏","遍","哺","捕","舗","募","慕","簿","芳","邦","奉","抱","泡","胞","俸","倣","峰","砲","崩","蜂","飽","褒","縫","乏","忙","坊","妨","房","肪","某","冒","剖","紡","傍","帽","貌","膨","謀","頰","朴","睦","僕","墨","撲","没","勃","堀","奔","翻","凡","盆","麻","摩","磨","魔","昧","埋","膜","枕","又","抹","慢","漫","魅","岬","蜜","妙","眠","矛","夢","霧","娘","冥","銘","滅","免","麺","茂","妄","盲","耗","猛","網","黙","紋","冶","弥","厄","躍","闇","喩","愉","諭","癒","唯","幽","悠","湧","猶","裕","雄","誘","憂","融","与","誉","妖","庸","揚","揺","溶","腰","瘍","踊","窯","擁","謡","抑","沃","翼","拉","裸","羅","雷","頼","絡","酪","辣","濫","藍","欄","吏","痢","履","璃","離","慄","柳","竜","粒","隆","硫","侶","虜","慮","了","涼","猟","陵","僚","寮","療","瞭","糧","厘","倫","隣","瑠","涙","累","塁","励","戻","鈴","零","霊","隷","齢","麗","暦","劣","烈","裂","恋","廉","錬","呂","炉","賂","露","弄","郎","浪","廊","楼","漏","籠","麓","賄","脇","惑","枠","湾","腕"]
+  1: ["一","右","雨","円","王","音","下","火","花","貝","学","気","九","休","玉","金","空","月","犬","見","五","口","校","左","三","山","子","四","糸","字","耳","七","車","手","十","出","女","小","上","森","人","水","正","生","青","夕","石","赤","千","川","先","早","草","足","村","大","男","竹","中","虫","町","天","田","土","二","日","入","年","白","八","百","文","木","本","名","目","立","力","林","六"],
+  2: ["引","羽","雲","園","遠","何","科","夏","家","歌","画","回","会","海","絵","外","角","楽","活","間","丸","岩","顔","汽","記","帰","弓","牛","魚","京","強","教","近","兄","形","計","元","言","原","戸","古","午","後","語","工","公","広","交","光","考","行","高","黄","合","谷","国","黒","今","才","細","作","算","止","市","矢","姉","思","紙","寺","自","時","室","社","弱","首","秋","週","春","書","少","場","色","食","心","新","親","図","数","西","声","星","晴","切","雪","船","線","前","組","走","多","太","体","台","地","池","知","茶","昼","長","鳥","朝","直","通","弟","店","点","電","刀","冬","当","東","答","頭","同","道","読","内","南","肉","馬","売","買","麦","半","番","父","風","分","聞","米","歩","母","方","北","毎","妹","万","明","鳴","毛","門","夜","野","友","用","曜","来","里","理","話"],
+  3: ["悪","安","暗","医","委","意","育","員","院","飲","運","泳","駅","央","横","屋","温","化","荷","界","開","階","寒","感","漢","館","岸","起","期","客","究","急","級","宮","球","去","橋","業","曲","局","銀","区","苦","具","君","係","軽","血","決","研","県","庫","湖","向","幸","港","号","根","祭","皿","仕","死","使","始","指","歯","詩","次","事","持","式","実","写","者","主","守","取","酒","受","州","拾","終","習","集","住","重","宿","所","暑","助","昭","消","商","章","勝","乗","植","申","身","神","真","深","進","世","整","昔","全","相","送","想","息","速","族","他","打","対","待","代","第","題","炭","短","談","着","注","柱","丁","帳","調","追","定","庭","笛","鉄","転","都","度","投","豆","島","湯","登","等","動","童","農","波","配","倍","箱","畑","発","反","坂","板","皮","悲","美","鼻","筆","氷","表","秒","病","品","負","部","服","福","物","平","返","勉","放","味","命","面","問","役","薬","由","油","有","遊","予","羊","洋","葉","陽","様","落","流","旅","両","緑","礼","列","練","路","和"],
+  4: ["愛","案","以","衣","位","茨","印","英","栄","媛","塩","岡","億","加","果","貨","課","芽","賀","改","械","害","街","各","覚","潟","完","官","管","関","観","願","岐","希","季","旗","器","機","議","求","泣","給","挙","漁","共","協","鏡","競","極","熊","訓","軍","郡","群","径","景","芸","欠","結","建","健","験","固","功","好","香","候","康","佐","差","菜","最","埼","材","崎","昨","札","刷","察","参","産","散","残","氏","司","試","児","治","滋","辞","鹿","失","借","種","周","祝","順","初","松","笑","唱","焼","照","城","縄","臣","信","井","成","省","清","静","席","積","折","節","説","浅","戦","選","然","争","倉","巣","束","側","続","卒","孫","帯","隊","達","単","置","仲","沖","兆","低","底","的","典","伝","徒","努","灯","働","特","徳","栃","奈","梨","熱","念","敗","梅","博","阪","飯","飛","必","票","標","不","夫","付","府","阜","富","副","兵","別","辺","変","便","包","法","望","牧","末","満","未","民","無","約","勇","要","養","浴","利","陸","良","料","量","輪","類","令","冷","例","連","老","労","録"],
+  5: ["圧","囲","移","因","永","営","衛","易","益","液","演","応","往","桜","可","仮","価","河","過","快","解","格","確","額","刊","幹","慣","眼","紀","基","寄","規","喜","技","義","逆","久","旧","救","居","許","境","均","禁","句","型","経","潔","件","険","検","限","現","減","故","個","護","効","厚","耕","航","鉱","構","興","講","告","混","査","再","災","妻","採","際","在","財","罪","殺","雑","酸","賛","士","支","史","志","枝","師","資","飼","示","似","識","質","舎","謝","授","修","述","術","準","序","招","証","象","賞","条","状","常","情","織","職","制","性","政","勢","精","製","税","責","績","接","設","絶","祖","素","総","造","像","増","則","測","属","率","損","貸","態","団","断","築","貯","張","停","提","程","適","統","堂","銅","導","得","毒","独","任","燃","能","破","犯","判","版","比","肥","非","費","備","評","貧","布","婦","武","復","複","仏","粉","編","弁","保","墓","報","豊","防","貿","暴","脈","務","夢","迷","綿","輸","余","容","略","留","領","歴"],
+  6: ["胃","異","遺","域","宇","映","延","沿","恩","我","灰","拡","革","閣","割","株","干","巻","看","簡","危","机","揮","貴","疑","吸","供","胸","郷","勤","筋","系","敬","警","劇","激","穴","券","絹","権","憲","源","厳","己","呼","誤","后","孝","皇","紅","降","鋼","刻","穀","骨","困","砂","座","済","裁","策","冊","蚕","至","私","姿","視","詞","誌","磁","射","捨","尺","若","樹","収","宗","就","衆","従","縦","縮","熟","純","処","署","諸","除","承","将","傷","障","蒸","針","仁","垂","推","寸","盛","聖","誠","舌","宣","専","泉","洗","染","銭","善","奏","窓","創","装","層","操","蔵","臓","存","尊","退","宅","担","探","誕","段","暖","値","宙","忠","著","庁","頂","腸","潮","賃","痛","敵","展","討","党","糖","届","難","乳","認","納","脳","派","拝","背","肺","俳","班","晩","否","批","秘","俵","腹","奮","並","陛","閉","片","補","暮","宝","訪","亡","忘","棒","枚","幕","密","盟","模","訳","郵","優","預","幼","欲","翌","乱","卵","覧","裏","律","臨","朗","論"],
+  7: ["乙","又","了","及","丈","凡","与","刃","巾","乞","介","刈","凶","互","丹","匹","斤","幻","孔","冗","双","斗","乏","升","弔","屯","厄","牙","勾","爪","匂","甘","丘","巨","玄","込","召","占","奴","払","矛","甲","巧","斥","凹","且","囚","汁","仙","凸","尼","丙","瓦","叱","尻","旦","丼","氾","扱","芋","汚","汗","朽","叫","仰","旨","芝","朱","舟","巡","旬","尽","吐","弐","忙","劣","企","吉","刑","如","匠","伐","帆","伏","吏","缶","江","充","迅","壮","肌","妃","朴","妄","伎","臼","汎","壱","戒","含","却","狂","迎","更","抗","攻","伺","秀","床","吹","即","沢","沈","抜","尾","坊","妙","肝","忌","坑","克","寿","伸","辛","択","尿","伴","芳","邦","妨","没","抑","励","亜","吟","呉","肖","抄","杉","妥","但","呈","廷","忍","妊","把","伯","扶","戻","串","沙","芯","汰","那","肘","冶","妖","沃","呂","弄","依","押","奇","祈","拠","況","屈","肩","刺","沼","征","姓","拓","抵","到","突","杯","泊","拍","迫","彼","怖","抱","肪","茂","炎","欧","殴","佳","怪","岳","拘","祉","侍","邪","昇","炊","阻","卓","抽","泌","苗","奉","房","免","炉","拐","劾","宜","拒","享","茎","弦","肯","昆","肢","叔","尚","枢","斉","析","拙","坪","邸","泥","迭","披","附","侮","沸","併","泡","奔","抹","岬","盲","枠","宛","旺","苛","玩","股","虎","采","刹","呪","狙","妬","枕","弥","拉","威","為","皆","狭","枯","荒","恒","咲","狩","柔","盾","侵","是","俗","耐","珍","怒","逃","峠","柄","冒","盆","郎","哀","卸","架","悔","冠","軌","虐","峡","契","弧","孤","郊","恨","削","施","牲","促","胎","怠","胆","訂","帝","卑","赴","封","胞","某","幽","厘","姻","疫","垣","括","糾","挟","洪","侯","拷","砕","臭","俊","叙","浄","津","甚","帥","窃","荘","衷","挑","勅","亭","貞","洞","柳","畏","咽","怨","柿","柵","拶","拭","虹","眉","訃","勃","昧","侶","鬼","恐","恵","兼","軒","剣","剤","脂","称","浸","振","陣","扇","恥","致","途","透","唐","桃","倒","胴","悩","般","被","疲","浜","敏","浮","捕","峰","砲","眠","娘","紋","涙","烈","恋","悦","宴","華","既","脅","倹","悟","娯","疾","殊","徐","辱","粋","衰","隻","桑","託","畜","哲","凍","匿","畔","姫","紛","倣","埋","浪","翁","蚊","核","陥","飢","恭","貢","剛","唆","栽","宰","索","桟","酌","珠","准","殉","祥","症","宵","娠","唇","畝","逝","栓","租","捜","挿","泰","逐","秩","朕","逓","浦","俸","剖","紡","耗","竜","倫","挨","唄","俺","釜","桁","拳","挫","恣","袖","凄","脊","捉","酎","捗","剥","哺","冥","脇","陰","菓","乾","脚","掘","婚","彩","惨","執","斜","釈","寂","紹","脱","淡","添","盗","販","描","猛","粒","郭","掛","勘","貫","菊","虚","偶","啓","掲","控","紺","赦","酔","惜","措","粗","掃","逮","袋","窒","彫","陳","陶","豚","粘","婆","排","陪","符","崩","隆","猟","陵","尉","逸","涯","殻","喝","渇","患","偽","菌","蛍","渓","斎","蛇","渋","粛","淑","庶","渉","訟","剰","紳","崇","据","旋","曹","眺","釣","偵","悼","軟","培","舶","猫","瓶","偏","堀","麻","唯","悠","庸","涼","累","萎","淫","崖","亀","惧","舷","梗","頃","痕","斬","羞","戚","曽","爽","唾","堆","貪","捻","握","偉","越","援","奥","幾","距","御","堅","圏","項","紫","煮","畳","殖","尋","訴","替","弾","遅","堤","渡","塔","鈍","普","幅","傍","帽","雄","絡","惑","腕","詠","敢","換","喚","棋","欺","喫","遇","雇","硬","慌","絞","軸","湿","晶","掌","焦","遂","随","婿","葬","超","痘","蛮","募","揚","揺","裂","廊","湾","渦","棺","堪","款","閑","暁","琴","隅","詐","酢","傘","循","硝","粧","詔","診","疎","喪","堕","惰","棚","塚","搭","筒","棟","廃","媒","扉","雰","塀","遍","愉","裕","猶","痢","硫","塁","嵐","椅","葛","喉","須","痩","貼","椎","斑","喩","湧","違","煙","鉛","暇","雅","較","勧","詰","傾","遣","誇","鼓","継","歳","載","詳","飾","触","慎","寝","跡","僧","嘆","蓄","跳","殿","搬","微","誉","腰","溶","雷","嫁","塊","慨","該","隔","滑","棄","愚","携","催","債","搾","慈","摂","賊","滞","滝","稚","塗","飽","滅","裸","零","廉","楼","猿","虞","禍","靴","褐","寛","頑","傑","嫌","献","碁","溝","嗣","酬","愁","奨","睡","践","禅","塑","痴","艇","督","漠","鉢","煩","頒","酪","虜","鈴","賄","彙","楷","蓋","毀","嗅","僅","窟","詣","隙","傲","塞","嫉","腫","腎","裾","煎","羨","腺","詮","溺","填","頓","蜂","睦","慄","賂","維","隠","箇","駆","豪","雌","需","端","徴","摘","滴","稲","髪","罰","腐","漫","慢","網","踊","暦","概","綱","酵","獄","魂","遭","憎","奪","碑","漂","慕","墨","膜","誘","漏","寡","酷","漆","遮","銃","塾","緒","彰","誓","漸","駄","嫡","漬","寧","閥","僕","銘","僚","箋","遡","遜","綻","蔑","貌","蜜","瘍","辣","瑠","鋭","影","縁","監","歓","輝","儀","戯","撃","稿","趣","震","澄","踏","輩","範","盤","膚","敷","賦","舞","噴","舗","黙","慮","慰","閲","餓","緩","緊","撮","暫","潤","遵","衝","嘱","審","穂","請","潜","諾","駐","鋳","墜","締","墳","魅","憂","霊","謁","稼","窮","勲","慶","賜","遷","槽","徹","撤","賠","罷","賓","憤","幣","弊","褒","撲","摩","窯","履","寮","潰","畿","憬","稽","駒","摯","餌","憧","踪","誰","嘲","罵","箸","膝","蔽","餅","頬","璃","緯","憶","壊","獲","獣","薪","濁","曇","濃","薄","繁","避","壁","謡","頼","隣","隷","穏","凝","憩","賢","墾","錯","諮","錠","嬢","壇","篤","縛","縫","謀","膨","擁","錬","懐","還","憾","薫","衡","儒","壌","薦","磨","諭","融","諧","骸","錦","錮","醒","膳","緻","諦","賭","麺","環","鮮","燥","翼","療","齢","犠","擦","鍛","聴","嚇","轄","擬","矯","謹","謙","購","懇","爵","醜","償","礁","繊","霜","濯","謄","頻","曖","臆","鍵","戴","瞳","謎","鍋","闇","瞭","鎖","瞬","騒","贈","闘","離","穫","騎","繕","礎","鎮","藩","覆","癖","翻","濫","糧","襟","顕","繭","懲","癒","顎","鎌","韓","藤","璧","藍","繰","爆","霧","麗","鶏","鯨","髄","瀬","簿","韻","璽","藻","覇","譜","羅","艶","蹴","麓","響","欄","鐘","譲","籍","懸","醸","騰","躍","露","顧","魔","艦","鶴","驚","襲","籠","鑑","鬱"]
 };
       const gradeLabels = {1:'小1',2:'小2',3:'小3',4:'小4',5:'小5',6:'小6',7:'常用'};
 
@@ -678,6 +757,20 @@
       const resultDetail = document.getElementById('resultDetail');
       const resultThumb = document.getElementById('resultThumb');
       const closeResultBtn = document.getElementById('closeResultBtn');
+      const openTestModeBtn = document.getElementById('openTestModeBtn');
+      const testModal = document.getElementById('testModal');
+      const testModalCloseBtn = document.getElementById('testModalCloseBtn');
+      const testCategoryList = document.getElementById('testCategoryList');
+      const clearAllTestResultsBtn = document.getElementById('clearAllTestResultsBtn');
+      const testProgressBanner = document.getElementById('testProgressBanner');
+      const testProgressText = document.getElementById('testProgressText');
+      const cancelTestBtn = document.getElementById('cancelTestBtn');
+      const testSummaryOverlay = document.getElementById('testSummaryOverlay');
+      const testSummaryStamp = document.getElementById('testSummaryStamp');
+      const testSummaryMessage = document.getElementById('testSummaryMessage');
+      const testSummaryDetail = document.getElementById('testSummaryDetail');
+      const testSummaryButtons = document.getElementById('testSummaryButtons');
+      const closeTestSummaryBtn = document.getElementById('closeTestSummaryBtn');
       const customStringInput = document.getElementById('customStringInput');
       const startCustomStringBtn = document.getElementById('startCustomStringBtn');
       const stopCustomStringBtn = document.getElementById('stopCustomStringBtn');
@@ -935,6 +1028,7 @@
             const btn = document.createElement('button');
             btn.className = 'kana-btn';
             btn.textContent = char;
+            applyTestResultClass(btn, char);
             if (code) {
               btn.addEventListener('click', () => {
                 document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
@@ -1002,6 +1096,7 @@
           btn.className = 'kana-btn';
           btn.textContent = char;
           btn.title = '確認中…';
+          applyTestResultClass(btn, char);
           btn.addEventListener('click', () => {
             if (btn.classList.contains('no-svg')) return;
             document.querySelectorAll('.kana-btn').forEach(b => b.classList.remove('selected'));
@@ -1050,6 +1145,187 @@
 
       function loadQuizChar() {
         return currentUnicode;
+      }
+
+      // ============ テストモード（ひらがな／カタカナ／学年別かん字） ============
+      const TEST_RESULTS_KEY = 'kakijun_test_results';
+      // 記録の形： { [文字]: { rating:'good'|'ok', code, date } }
+      // good = 全画「じょうず」で合格 → 緑（書き順○）
+      // ok   = 合格はしたが「まあまあ」の画があった → 赤（書き順△）
+      function getTestResults() {
+        try { return JSON.parse(localStorage.getItem(TEST_RESULTS_KEY)) || {}; } catch { return {}; }
+      }
+      function saveTestResult(char, code, rating) {
+        const results = getTestResults();
+        results[char] = { rating, code, date: new Date().toLocaleString() };
+        localStorage.setItem(TEST_RESULTS_KEY, JSON.stringify(results));
+      }
+      function clearAllTestResults() {
+        localStorage.removeItem(TEST_RESULTS_KEY);
+        renderTestCategoryList();
+        if (modal.style.display === 'flex') renderGrid();
+      }
+
+      function flattenCharGrid(grid) {
+        return grid.flat().filter(c => c && String(c).trim() !== '');
+      }
+      const TEST_CATEGORIES = [
+        { key: 'hiragana', label: 'ひらがなテスト', getChars: () => flattenCharGrid([...hiraganaBasic, ...hiraganaDakuten, ...hiraganaHandakuten]) },
+        { key: 'katakana', label: 'カタカナテスト', getChars: () => flattenCharGrid([...katakanaBasic, ...katakanaDakuten, ...katakanaHandakuten]) },
+        { key: 'grade1', label: '小1でならうかん字', getChars: () => gradeKanji[1] || [] },
+        { key: 'grade2', label: '小2でならうかん字', getChars: () => gradeKanji[2] || [] },
+        { key: 'grade3', label: '小3でならうかん字', getChars: () => gradeKanji[3] || [] },
+        { key: 'grade4', label: '小4でならうかん字', getChars: () => gradeKanji[4] || [] },
+        { key: 'grade5', label: '小5でならうかん字', getChars: () => gradeKanji[5] || [] },
+        { key: 'grade6', label: '小6でならうかん字', getChars: () => gradeKanji[6] || [] },
+      ];
+      function getTestCategory(key) { return TEST_CATEGORIES.find(c => c.key === key); }
+      function buildTestQueue(categoryKey) {
+        const cat = getTestCategory(categoryKey);
+        if (!cat) return [];
+        return cat.getChars().map(char => ({ char, code: getCodeForChar(char) })).filter(item => item.code);
+      }
+      function buildRetryQueue(categoryKey) {
+        const results = getTestResults();
+        return buildTestQueue(categoryKey).filter(item => results[item.char] && results[item.char].rating !== 'good');
+      }
+
+      // 現在進行中のテスト（テスト中でなければ null）
+      let testMode = null; // { categoryKey, queue, idx, correct, wrong, retryOnly }
+
+      function renderTestCategoryList() {
+        const results = getTestResults();
+        testCategoryList.innerHTML = '';
+        TEST_CATEGORIES.forEach(cat => {
+          const chars = cat.getChars();
+          let goodCount = 0, okCount = 0;
+          chars.forEach(c => {
+            const r = results[c];
+            if (r && r.rating === 'good') goodCount++;
+            else if (r && r.rating === 'ok') okCount++;
+          });
+          const untestedCount = chars.length - goodCount - okCount;
+          const row = document.createElement('div');
+          row.className = 'test-category-row';
+          const nameDiv = document.createElement('div');
+          nameDiv.className = 'test-category-name';
+          nameDiv.textContent = cat.label;
+          const progressDiv = document.createElement('div');
+          progressDiv.className = 'test-category-progress';
+          progressDiv.textContent = `🟢${goodCount} 🔴${okCount} ⚪${untestedCount}`;
+          const btnDiv = document.createElement('div');
+          btnDiv.className = 'test-category-buttons';
+          const startBtn = document.createElement('button');
+          startBtn.className = 'test-start-btn';
+          startBtn.textContent = 'テストする';
+          startBtn.addEventListener('click', () => startTest(cat.key, false));
+          btnDiv.appendChild(startBtn);
+          if (okCount > 0) {
+            const retryBtn = document.createElement('button');
+            retryBtn.className = 'test-retry-btn';
+            retryBtn.textContent = `まちがえた字だけ (${okCount})`;
+            retryBtn.addEventListener('click', () => startTest(cat.key, true));
+            btnDiv.appendChild(retryBtn);
+          }
+          row.appendChild(nameDiv); row.appendChild(progressDiv); row.appendChild(btnDiv);
+          testCategoryList.appendChild(row);
+        });
+      }
+
+      function openTestModal() { renderTestCategoryList(); testModal.style.display = 'flex'; }
+      function closeTestModal() { testModal.style.display = 'none'; }
+      openTestModeBtn.addEventListener('click', openTestModal);
+      testModalCloseBtn.addEventListener('click', closeTestModal);
+      window.addEventListener('click', (e) => { if (e.target === testModal) closeTestModal(); });
+      clearAllTestResultsBtn.addEventListener('click', () => {
+        if (confirm('テストのきろくを全部けしてもいいですか？')) clearAllTestResults();
+      });
+
+      function startTest(categoryKey, retryOnly) {
+        const queue = retryOnly ? buildRetryQueue(categoryKey) : buildTestQueue(categoryKey);
+        if (!queue.length) {
+          alert(retryOnly ? 'まちがえた字はありません！すごい！' : 'この分類の文字が見つかりませんでした');
+          return;
+        }
+        // シャッフルはせず、決められた順番（五十音順・学年配当順）で最初から最後まで出題する
+        testMode = { categoryKey, queue, idx: 0, correct: 0, wrong: 0, retryOnly };
+        closeTestModal();
+        if (isSentenceMode) stopCustomStringMode();
+        currentModeChoice = 'check';
+        styleBtns.forEach(b => b.classList.toggle('active', b.dataset.style === 'check'));
+        setTestUIActive(true);
+        loadTestChar();
+      }
+      function setTestUIActive(active) {
+        modeStyleSelector.style.display = active ? 'none' : '';
+        charSelectArea.style.display = active ? 'none' : '';
+        customStringArea.style.display = active ? 'none' : '';
+        testProgressBanner.style.display = active ? 'flex' : 'none';
+      }
+      function updateTestBanner() {
+        if (!testMode) return;
+        const cat = getTestCategory(testMode.categoryKey);
+        const label = testMode.retryOnly ? `${cat.label}（まちがえた字だけ）` : cat.label;
+        testProgressText.textContent = `📝 ${label}　${testMode.idx + 1}/${testMode.queue.length}問目　🟢${testMode.correct} 🔴${testMode.wrong}`;
+      }
+      function loadTestChar() {
+        const item = testMode.queue[testMode.idx];
+        currentChar = item.char; currentUnicode = item.code;
+        updateTestBanner();
+        loadAndDisplay(currentUnicode);
+      }
+      function advanceTestMode() {
+        if (!testMode) return;
+        testMode.idx++;
+        if (testMode.idx >= testMode.queue.length) {
+          finishTestMode();
+          return;
+        }
+        updateTestBanner();
+        loadTestChar();
+      }
+      function finishTestMode() {
+        const finished = testMode;
+        testMode = null;
+        setTestUIActive(false);
+        const cat = getTestCategory(finished.categoryKey);
+        const total = finished.queue.length;
+        let stamp = '💪', message = 'おつかれさま！';
+        if (finished.correct === total) { stamp = '🌟'; message = 'パーフェクト！'; }
+        else if (finished.correct >= total * 0.7) { stamp = '👍'; message = 'よくできました！'; }
+        else if (finished.correct >= 1) { stamp = '😊'; message = 'がんばったね！'; }
+        testSummaryStamp.textContent = stamp;
+        testSummaryMessage.textContent = message;
+        testSummaryDetail.textContent = `${cat.label}：🟢${finished.correct} 🔴${finished.wrong}（全${total}問）`;
+        testSummaryButtons.innerHTML = '';
+        if (finished.wrong > 0) {
+          const retryBtn = document.createElement('button');
+          retryBtn.className = 'test-retry-btn';
+          retryBtn.style.width = '100%';
+          retryBtn.textContent = `🔁 まちがえた字だけもう一度 (${finished.wrong})`;
+          retryBtn.addEventListener('click', () => { testSummaryOverlay.style.display = 'none'; startTest(finished.categoryKey, true); });
+          testSummaryButtons.appendChild(retryBtn);
+        }
+        testSummaryOverlay.style.display = 'flex';
+      }
+      function cancelTestMode() {
+        if (!testMode) return;
+        testMode = null;
+        setTestUIActive(false);
+        currentModeChoice = 'none';
+        styleBtns.forEach(b => b.classList.toggle('active', b.dataset.style === 'none'));
+        if (strokePaths.length) switchToModeChoice();
+      }
+      cancelTestBtn.addEventListener('click', cancelTestMode);
+      closeTestSummaryBtn.addEventListener('click', () => { testSummaryOverlay.style.display = 'none'; });
+
+      // かな表・かん字表のボタンをテスト結果の色で光らせる
+      function applyTestResultClass(btn, char) {
+        const results = getTestResults();
+        const r = results[char];
+        btn.classList.remove('test-good', 'test-ok');
+        if (r && r.rating === 'good') btn.classList.add('test-good');
+        else if (r && r.rating === 'ok') btn.classList.add('test-ok');
       }
 
       // ============ 文章れんしゅう（複数キャンバスモード） ============
@@ -1763,10 +2039,33 @@
         if (!isDrawing||practiceMode==='none'||isFlashing) return;
         const {x,y}=getCanvasCoords(e); userDrawnPoints.push({x,y}); ctx.lineTo(x,y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y); e.preventDefault();
       }
+      function failTestCharacter() {
+        if (!testMode) return;
+        const drawnSnapshot = [...userDrawnPoints];
+        userDrawnPoints = [];
+        isFlashing = true; canvas.style.pointerEvents = 'none';
+        if (drawnSnapshot.length >= 2) {
+          ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 8;
+          ctx.beginPath(); ctx.moveTo(drawnSnapshot[0].x, drawnSnapshot[0].y);
+          for (let i = 1; i < drawnSnapshot.length; i++) ctx.lineTo(drawnSnapshot[i].x, drawnSnapshot[i].y);
+          ctx.stroke();
+        }
+        setFeedback('❌ ふごうかく…つぎの字へ', false);
+        saveTestResult(currentChar, currentUnicode, 'ok');
+        testMode.wrong++;
+        setTimeout(() => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
+          isFlashing = false; canvas.style.pointerEvents = 'auto';
+          advanceTestMode();
+        }, 700);
+      }
       function onPointerUp(e) {
         if (!isDrawing||practiceMode==='none'||isFlashing) return;
         isDrawing=false; ctx.beginPath();
-        if (userDrawnPoints.length<3) { setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return; }
+        if (userDrawnPoints.length<3) {
+          if (testMode) { failTestCharacter(); return; }
+          setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return;
+        }
         if (practiceMode==='hint'||practiceMode==='listen') {
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
           const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
@@ -1777,11 +2076,17 @@
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter(); else updateHighlight();
         } else if (practiceMode==='check') {
           const closestIdx=findClosestStroke(userDrawnPoints);
-          if (closestIdx!==expectedStrokeIndex) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          if (closestIdx!==expectedStrokeIndex) {
+            if (testMode) { failTestCharacter(); return; }
+            setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
+          }
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
           const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
           const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
-          if (!result.pass) { setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          if (!result.pass) {
+            if (testMode) { failTestCharacter(); return; }
+            setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
+          }
           setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
           savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating); expectedStrokeIndex++;
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter();
@@ -1827,7 +2132,7 @@
       }
       function updateUI() {
         if(!strokePaths.length){infoText.textContent='ストロークが見つかりません';return;}
-        if(practiceMode!=='none'){const displayIndex=Math.min(expectedStrokeIndex+1,strokePaths.length);let label='なぞり中';if(practiceMode==='listen')label='おとをきいてかく';else if(practiceMode==='check')label='書き順チェック';infoText.textContent=`✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='none';speedControl.style.display='none';retryTracingBtn.style.display='inline-block';}
+        if(practiceMode!=='none'){const displayIndex=Math.min(expectedStrokeIndex+1,strokePaths.length);let label='なぞり中';if(practiceMode==='listen')label='おとをきいてかく';else if(practiceMode==='check')label='書き順チェック';infoText.textContent=`✏️ ${label}：${displayIndex} / ${strokePaths.length} 画め`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='none';speedControl.style.display='none';retryTracingBtn.style.display=testMode?'none':'inline-block';}
         else{const cur=currentStrokeIndex+1;infoText.textContent=`✏️ ${cur} / ${strokePaths.length} 画`;strokeInfo.textContent=`全 ${strokePaths.length} 画`;nextBtn.style.display='inline-block';nextBtn.disabled=isAnimating;speedControl.style.display='block';retryTracingBtn.style.display='none';}
       }
 
@@ -1856,11 +2161,18 @@
         stampEmoji.textContent=stamp; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
         const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
         saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,thumb:thumbData});
+        if (testMode) {
+          // ここに到達した時点で、すべての画を一発で(やり直しなしで)クリアできている。
+          // = テストとしては合格(緑)。不合格(赤)はfailTestCharacter()側で記録済み。
+          saveTestResult(currentChar, currentUnicode, 'good');
+          testMode.correct++;
+        }
         if (practiceMode === 'listen') exitListeningMode(); else exitPracticeMode();
       }
 
       closeResultBtn.addEventListener('click',()=>{
         resultOverlay.style.display='none';
+        if (testMode) { advanceTestMode(); return; }
         // 同じ字のまま、いま選ばれている練習スタイルの最初にもどる（アニメーションモードには戻らない）
         if (currentModeChoice !== 'none' && strokePaths.length) switchToModeChoice();
       });

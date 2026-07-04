@@ -628,13 +628,18 @@
           p.style.strokeWidth = String(isHighlighted ? charStrokeWidth + 1 : charStrokeWidth);
         });
       }
-      const DISTANCE_THRESHOLD_GOOD = 12;
-      const DISTANCE_THRESHOLD_OK = 25;
-      const START_DISTANCE_THRESHOLD = 30;
-      const MATCH_DISTANCE_THRESHOLD = 35;
-      const COVERAGE_THRESHOLD_GOOD = 0.7;
-      const COVERAGE_THRESHOLD_OK = 0.5;
-      const LENGTH_RATIO_MIN = 0.3;
+      const DISTANCE_THRESHOLD_GOOD = 8;    // 旧: 12 → より正確な線でないと「じょうず」にならない
+      const DISTANCE_THRESHOLD_OK = 14;     // 旧: 25 → 「まあまあ」の許容誤差もかなり狭める
+      const START_DISTANCE_THRESHOLD = 14;  // 旧: 30 → 書き始めが実際の始点付近でないと×
+      const END_DISTANCE_THRESHOLD = 16;    // 新規：書き終わりが実際の終点付近でないと×
+      const MATCH_DISTANCE_THRESHOLD = 20;  // 旧: 35 → 「書き順テスト」でどの画とみなすかの粗い足切り
+      const COVERAGE_THRESHOLD_GOOD = 0.8;  // 旧: 0.7
+      const COVERAGE_THRESHOLD_OK = 0.6;    // 旧: 0.5
+      const LENGTH_RATIO_MIN = 0.65;        // 旧: 0.3 → 短すぎる線を弾く
+      const LENGTH_RATIO_MAX = 1.7;         // 新規：長すぎる（お手本を超えて書きすぎ・なぞり続けた）線も弾く
+      const EDGE_SAMPLE_COUNT = 6;          // 始点・終点とみなすお手本サンプル点の数
+      const DIRECTION_BACK_TOLERANCE = 2;   // 逆走とみなすまでの許容インデックス数（手ブレ吸収）
+      const DIRECTION_MIN_RATIO = 0.8;      // 全体の何割以上が「正しい向き」でないと×
 
       // DOM elements
       const svgContainer = document.getElementById('svgContainer');
@@ -1318,18 +1323,10 @@
         if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; return; }
         const expected = state.expectedStrokeIndex;
         const samplePts = state.strokeSamplePoints[expected];
-        const drawnLength = calcDrawnLength(pts);
-        const startAvg = checkStartPosition(pts, samplePts, START_DISTANCE_THRESHOLD);
-        if (startAvg > START_DISTANCE_THRESHOLD) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
         const pathLength = state.strokePaths[expected].getTotalLength();
-        if (drawnLength < pathLength * LENGTH_RATIO_MIN) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
-        const avgDist = averageDistance(pts, samplePts);
-        const coverage = calcCoverage(pts, samplePts, 15);
-        let rating = 'poor';
-        if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) rating = 'good';
-        else if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) rating = 'ok';
-        else { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
-        state.savedStrokes.push([...pts]); state.ratings.push(rating); state.expectedStrokeIndex++;
+        const result = evaluateStrokeAttempt(pts, samplePts, pathLength);
+        if (!result.pass) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
+        state.savedStrokes.push([...pts]); state.ratings.push(result.rating); state.expectedStrokeIndex++;
         state.userDrawnPoints = [];
         updateCardProgress(state);
         if (state.expectedStrokeIndex >= state.strokePaths.length) completeCard(state);
@@ -1572,18 +1569,91 @@
         return len;
       }
       function checkStartPosition(drawnPoints, samplePoints, threshold) {
+        // 旧ロジックは「画全体のどこかに近ければOK」だったため、始点チェックとして機能していなかった。
+        // お手本の始点付近のサンプル点だけを比較対象にする。
+        const startRegion = samplePoints.slice(0, Math.min(EDGE_SAMPLE_COUNT, samplePoints.length));
         const checkCount = Math.min(5, drawnPoints.length);
         if (checkCount === 0) return Infinity;
         let total = 0;
-        for (let i = 0; i < checkCount; i++) total += minDistanceToPath(drawnPoints[i], samplePoints);
+        for (let i = 0; i < checkCount; i++) total += minDistanceToPath(drawnPoints[i], startRegion);
         return total / checkCount;
+      }
+      function checkEndPosition(drawnPoints, samplePoints, threshold) {
+        // お手本の終点付近のサンプル点だけを比較対象にして、書き終わりの位置を判定する。
+        const endRegion = samplePoints.slice(-Math.min(EDGE_SAMPLE_COUNT, samplePoints.length));
+        const checkCount = Math.min(5, drawnPoints.length);
+        if (checkCount === 0) return Infinity;
+        let total = 0;
+        for (let i = 0; i < checkCount; i++) total += minDistanceToPath(drawnPoints[drawnPoints.length - 1 - i], endRegion);
+        return total / checkCount;
+      }
+      function nearestSampleIndex(point, samplePoints) {
+        let bestIdx = 0, bestDist = Infinity;
+        for (let i = 0; i < samplePoints.length; i++) {
+          const sp = samplePoints[i];
+          const dx = point.x - sp.x, dy = point.y - sp.y;
+          const dist = dx * dx + dy * dy;
+          if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+        }
+        return bestIdx;
+      }
+      function checkDirection(drawnPoints, samplePoints) {
+        // お手本のサンプル点は始点→終点の順に並んでいるので、
+        // 描いた点が対応するサンプル点のインデックスを、全体としてちゃんと「前に」進んでいるかを見る。
+        if (drawnPoints.length < 4 || samplePoints.length < 2) return true;
+        const idxs = drawnPoints.map(p => nearestSampleIndex(p, samplePoints));
+        const headCount = Math.max(1, Math.floor(idxs.length * 0.25));
+        const tailCount = Math.max(1, Math.floor(idxs.length * 0.25));
+        const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+        const headAvg = avg(idxs.slice(0, headCount));
+        const tailAvg = avg(idxs.slice(-tailCount));
+        if (tailAvg <= headAvg) return false; // 全体として始点→終点に進んでいない（逆向き・行ったり来たり）
+        let backSteps = 0, totalSteps = 0;
+        for (let i = 1; i < idxs.length; i++) {
+          totalSteps++;
+          if (idxs[i] < idxs[i - 1] - DIRECTION_BACK_TOLERANCE) backSteps++;
+        }
+        const forwardRatio = totalSteps > 0 ? 1 - (backSteps / totalSteps) : 1;
+        return forwardRatio >= DIRECTION_MIN_RATIO;
+      }
+      // 画1本ぶんの判定をまとめて行う共通関数。
+      // 「なぞり練習／音だけテスト」「書き順テスト」「文章れんしゅう」すべてがこれを使う。
+      function evaluateStrokeAttempt(drawnPoints, samplePoints, pathLength) {
+        if (drawnPoints.length < 3) return { pass: false, reason: 'tooShort' };
+        const startAvg = checkStartPosition(drawnPoints, samplePoints, START_DISTANCE_THRESHOLD);
+        if (startAvg > START_DISTANCE_THRESHOLD) return { pass: false, reason: 'wrongStart' };
+        const endAvg = checkEndPosition(drawnPoints, samplePoints, END_DISTANCE_THRESHOLD);
+        if (endAvg > END_DISTANCE_THRESHOLD) return { pass: false, reason: 'wrongEnd' };
+        if (!checkDirection(drawnPoints, samplePoints)) return { pass: false, reason: 'wrongDirection' };
+        const drawnLength = calcDrawnLength(drawnPoints);
+        if (drawnLength < pathLength * LENGTH_RATIO_MIN) return { pass: false, reason: 'tooShort' };
+        if (drawnLength > pathLength * LENGTH_RATIO_MAX) return { pass: false, reason: 'tooLong' };
+        const avgDist = averageDistance(drawnPoints, samplePoints);
+        const coverage = calcCoverage(drawnPoints, samplePoints, 15);
+        if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) return { pass: true, rating: 'good' };
+        if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) return { pass: true, rating: 'ok' };
+        return { pass: false, reason: 'inaccurate' };
+      }
+      function feedbackForReason(reason) {
+        switch (reason) {
+          case 'tooShort': return '✍️ もっと長くなぞってね';
+          case 'tooLong': return '✍️ 線が長すぎるよ。お手本の長さに合わせてね';
+          case 'wrongStart': return '❌ 書きはじめの場所がちがうよ';
+          case 'wrongEnd': return '❌ 書き終わりの場所がちがうよ';
+          case 'wrongDirection': return '❌ 書く向きがちがうよ';
+          default: return '💧 もうすこし！もういちど書いてね';
+        }
       }
       function findClosestStroke(drawnPoints) {
         let bestIdx = -1, bestScore = Infinity;
         for (let i = 0; i < strokeSamplePoints.length; i++) {
-          const avg = averageDistance(drawnPoints, strokeSamplePoints[i]);
+          const samplePoints = strokeSamplePoints[i];
+          const avg = averageDistance(drawnPoints, samplePoints);
           if (avg > MATCH_DISTANCE_THRESHOLD) continue;
-          const cov = calcCoverage(drawnPoints, strokeSamplePoints[i], 15);
+          // 形が近くても、始点がその画の始点付近でなければ「別の画」とはみなさない。
+          const startAvg = checkStartPosition(drawnPoints, samplePoints, START_DISTANCE_THRESHOLD);
+          if (startAvg > START_DISTANCE_THRESHOLD) continue;
+          const cov = calcCoverage(drawnPoints, samplePoints, 15);
           const score = avg - cov * 15;
           if (score < bestScore) { bestScore = score; bestIdx = i; }
         }
@@ -1697,30 +1767,23 @@
         if (!isDrawing||practiceMode==='none'||isFlashing) return;
         isDrawing=false; ctx.beginPath();
         if (userDrawnPoints.length<3) { setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return; }
-        const drawnLength=calcDrawnLength(userDrawnPoints); let rating='poor';
         if (practiceMode==='hint'||practiceMode==='listen') {
-          const startAvg=checkStartPosition(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],START_DISTANCE_THRESHOLD);
-          if (startAvg>START_DISTANCE_THRESHOLD) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
-          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
-          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
-          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
-          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          const samplePoints = strokeSamplePoints[expectedStrokeIndex];
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
+          if (!result.pass) { setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating); expectedStrokeIndex++;
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter(); else updateHighlight();
         } else if (practiceMode==='check') {
           const closestIdx=findClosestStroke(userDrawnPoints);
           if (closestIdx!==expectedStrokeIndex) { setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          const pathLength=strokePaths[expectedStrokeIndex].getTotalLength();
-          if (drawnLength<pathLength*LENGTH_RATIO_MIN) { setFeedback('✍️ もっと長くなぞってね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          const avgDist=averageDistance(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex]);
-          const coverage=calcCoverage(userDrawnPoints,strokeSamplePoints[expectedStrokeIndex],15);
-          if (avgDist<=DISTANCE_THRESHOLD_GOOD&&coverage>=COVERAGE_THRESHOLD_GOOD) { rating='good'; setFeedback('🌟 じょうず！'); }
-          else if (avgDist<=DISTANCE_THRESHOLD_OK&&coverage>=COVERAGE_THRESHOLD_OK) { rating='ok'; setFeedback('👍 まあまあ！'); }
-          else { setFeedback('💧 もうすこし！もういちど書いてね',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
-          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(rating); expectedStrokeIndex++;
+          const samplePoints = strokeSamplePoints[expectedStrokeIndex];
+          const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
+          const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
+          if (!result.pass) { setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating); expectedStrokeIndex++;
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter();
         }
         userDrawnPoints=[];

@@ -20,20 +20,20 @@
       position: relative;
     }
     .kana-display {
-      width: 250px; height: 250px; margin: 20px auto; background: #fffef9;
+      width: 280px; height: 280px; margin: 20px auto; background: #fffef9;
       border: 3px dashed #e0d6c2; border-radius: 20px;
       display: flex; align-items: center; justify-content: center; position: relative;
       transition: background 0.3s;
     }
     .kana-display.hidden-char { background: #f0ebe0; border-color: #ff9800; }
     .kana-display svg {
-      width: 200px; height: 200px; position: absolute; top: 50%; left: 50%;
+      width: 82%; height: 82%; position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%); pointer-events: none;
     }
     .kana-display.hidden-char svg { opacity: 0.08; filter: blur(4px); }
     #drawCanvas {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 200px; height: 200px; touch-action: none; display: none; z-index: 10;
+      width: 82%; height: 82%; touch-action: none; display: none; z-index: 10;
     }
     .info { font-size: 1.4rem; margin: 10px 0; min-height: 30px; transition: 0.2s; }
     .feedback { font-size: 1.1rem; min-height: 24px; margin: 5px 0; }
@@ -244,7 +244,7 @@
       position: absolute; top: 4px; left: 6px; font-size: 0.7rem; color: #aaa; font-weight: bold;
     }
     .sp-card-display {
-      width: 100%; max-width: 150px; aspect-ratio: 1/1; background: #fff;
+      width: 100%; aspect-ratio: 1/1; background: #fff;
       border: 2px dashed #e8e0d0; border-radius: 12px; position: relative;
       display: flex; align-items: center; justify-content: center; margin: 6px 0;
     }
@@ -294,7 +294,7 @@
       .panel-center {
         flex: 1 1 auto; align-items: center; justify-content: center; overflow-y: auto;
       }
-      .panel-center .kana-display { width: min(300px, 34vh); height: min(300px, 34vh); margin: 4px auto; }
+      .panel-center .kana-display { width: min(480px, 58vh, 40vw); height: min(480px, 58vh, 40vw); margin: 4px auto; }
       .panel-center .number-toggle { margin: 6px 0; }
       .panel-center .info, .panel-center .feedback, .panel-center .stroke-counter { text-align: center; }
 
@@ -313,7 +313,7 @@
       .sp-grid {
         grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; overflow-y: auto; align-content: start;
       }
-      .sp-card-display { max-width: 130px; }
+      .sp-card-btns button { padding: 5px 11px; font-size: 0.85rem; }
 
       .modal-content { max-width: min(760px, 90vw); }
       .kana-grid { grid-template-columns: repeat(10, 1fr); max-height: 56vh; }
@@ -738,10 +738,13 @@
       // 文字→SVGファイルコードを計算する（KanjiVGのファイル名は文字コードそのものなので、
       // 常用漢字かどうかに関わらず、SVGさえあればどんな文字でも扱える）
       function charToHexCode(char) {
+        if (!char) return null;
         const cp = char.codePointAt(0);
+        if (cp === undefined) return null;
         return cp.toString(16).toLowerCase().padStart(5, '0');
       }
       function getCodeForChar(char) {
+        if (!char) return null;
         const entry = kanaMap.find(item => item.startsWith(char + ','));
         if (entry) return entry.split(',')[1];
         return charToHexCode(char);
@@ -846,19 +849,13 @@
         kanaGrid.innerHTML = '';
         gridData.forEach(row => {
           row.forEach(item => {
-            let char, code;
-            if (Array.isArray(item)) {
-              char = item[0];
-              code = item[1];
-            } else {
-              char = item;
-              code = getCodeForChar(char);
-            }
-            if (char === '' || char === undefined) {
+            const char = Array.isArray(item) ? item[0] : item;
+            if (char === '' || char === undefined || char === null) {
               const emptyDiv = document.createElement('div');
               kanaGrid.appendChild(emptyDiv);
               return;
             }
+            const code = Array.isArray(item) ? item[1] : getCodeForChar(char);
             const btn = document.createElement('button');
             btn.className = 'kana-btn';
             btn.textContent = char;
@@ -1144,14 +1141,10 @@
         return state;
       }
 
-      // 画数に応じてキャンバスの大きさと線の太さを変える。
-      // 画数が多い字ほど線が重なって潰れて見えるため、キャンバスを大きく・線を細くする。
-      function getCardSizeConfig(strokeCount) {
-        if (strokeCount >= 14) return { display: 230, guideWidth: 4.5, drawWidth: 3, span: 2 };
-        if (strokeCount >= 9)  return { display: 180, guideWidth: 6,   drawWidth: 4, span: 2 };
-        if (strokeCount >= 5)  return { display: 150, guideWidth: 7.5, drawWidth: 5, span: 1 };
-        return { display: 130, guideWidth: 9, drawWidth: 6, span: 1 };
-      }
+      // カードの大きさはすべて統一し、グリッドのセルいっぱいまで大きく使う（CSS側でサイズ調整）。
+      // 線の太さは大きいキャンバスでも潰れにくいよう、少し細めの値に統一。
+      const SP_GUIDE_WIDTH = 7;
+      const SP_DRAW_WIDTH = 5;
 
       async function initCard(state) {
         const svgDoc = await loadSvg(state.code);
@@ -1170,17 +1163,12 @@
         const paths = extractStrokes(svgDoc);
         state.strokePaths = paths;
         state.strokeSamplePoints = paths.map(p => samplePath(p, 5));
-
-        const cfg = getCardSizeConfig(paths.length);
-        state.drawWidth = cfg.drawWidth;
-        state.element.style.maxWidth = (cfg.span > 1 ? (cfg.display * 2 + 12) + 'px' : '');
-        if (cfg.span > 1) state.element.style.gridColumn = `span ${cfg.span}`;
-        state.display.style.maxWidth = cfg.display + 'px';
+        state.drawWidth = SP_DRAW_WIDTH;
 
         paths.forEach(p => {
           p.style.display = 'block'; p.style.fill = 'none';
           p.style.strokeLinecap = 'round'; p.style.strokeLinejoin = 'round';
-          p.style.stroke = '#d9d0bd'; p.style.strokeWidth = String(cfg.guideWidth); p.style.transition = 'none';
+          p.style.stroke = '#d9d0bd'; p.style.strokeWidth = String(SP_GUIDE_WIDTH); p.style.transition = 'none';
         });
 
         state.display.innerHTML = '';
@@ -1192,7 +1180,7 @@
         state.canvas = canvas; state.ctx = canvas.getContext('2d');
         const vb = parseViewBox(svgRoot);
         canvas.width = vb.w; canvas.height = vb.h;
-        state.ctx.lineWidth = cfg.drawWidth; state.ctx.strokeStyle = '#333';
+        state.ctx.lineWidth = SP_DRAW_WIDTH; state.ctx.strokeStyle = '#333';
         state.ctx.lineCap = 'round'; state.ctx.lineJoin = 'round';
 
         attachCardDrawEvents(state);
@@ -1565,7 +1553,7 @@
         if (!svgDoc) { p.textContent = 'SVGが見つかりませんでした'; return null; }
         const svgRoot = svgDoc.querySelector('svg');
         if (!svgRoot) { p.textContent = '無効なSVGです'; return null; }
-        svgRoot.setAttribute('width','200'); svgRoot.setAttribute('height','200');
+        svgRoot.removeAttribute('width'); svgRoot.removeAttribute('height');
         svgRoot.style.display='block'; svgRoot.style.margin='auto'; svgRoot.style.pointerEvents='none';
         svgRoot.querySelectorAll('path').forEach(path => {
           path.style.display='none'; path.style.strokeWidth='9';

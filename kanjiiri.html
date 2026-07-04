@@ -222,7 +222,7 @@
     .sentence-practice-area { display: none; flex-direction: column; margin-top: 6px; }
     .sp-header {
       display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap;
-      gap: 10px; margin-bottom: 8px; overflow-x: auto;
+      gap: 10px; margin-bottom: 6px; overflow-x: auto;
     }
     .sp-progress { font-size: 0.85rem; color: #5a4a3a; font-weight: bold; white-space: nowrap; flex-shrink: 0; }
     .sp-pagination { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
@@ -245,11 +245,11 @@
       background: #4a90d9; color: #fff; border-color: #3a78bd; box-shadow: 0 2px 6px rgba(74,144,217,0.35);
     }
     .sp-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
     }
     .sp-card {
       position: relative; background: #fffef9; border: 2px solid #e0d6c2; border-radius: 16px;
-      padding: 8px; display: flex; flex-direction: column; align-items: center;
+      padding: 6px; display: flex; flex-direction: column; align-items: center;
     }
     .sp-card.completed { border-color: #4caf50; background: #f3fbf3; }
     .sp-card.nosvg { border-color: #ccc; background: #f5f5f5; }
@@ -259,7 +259,7 @@
     .sp-card-display {
       width: 100%; aspect-ratio: 1/1; background: #fff;
       border: 2px dashed #e8e0d0; border-radius: 12px; position: relative;
-      display: flex; align-items: center; justify-content: center; margin: 6px 0;
+      display: flex; align-items: center; justify-content: center; margin: 4px 0;
     }
     .sp-card-display svg { width: 88%; height: 88%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
     .sp-card-canvas { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; height: 88%; touch-action: none; }
@@ -350,21 +350,13 @@
 
     <div class="app-grid" id="appGrid">
     <div class="panel panel-left">
-    <div class="mode-selector">
-      <button class="mode-btn active" data-mode="select">📋 えらんでかく</button>
-      <button class="mode-btn" data-mode="sequential">🔢 じゅんばんに</button>
-      <button class="mode-btn" data-mode="random">🎲 おまかせ</button>
-    </div>
-
     <div class="char-select-area" id="charSelectArea">
       <button id="openKanaTableBtn">🔡 文字をえらぶ</button>
-      <span class="selected-char-display" id="selectedCharDisplay"></span>
-      <button id="showBtn">表示</button>
     </div>
 
     <div class="custom-string-area" id="customStringArea">
-      <input type="text" id="customStringInput" placeholder="れんしゅうしたい もじ">
-      <button id="startCustomStringBtn">▶ このもじでれんしゅう</button>
+      <input type="text" id="customStringInput" placeholder="練習したい文を打ち込んでね。" style="font-size:0.8rem;">
+      <button id="startCustomStringBtn">▶ この文をかく</button>
       <button id="stopCustomStringBtn" style="display:none;">⏹ おわる</button>
     </div>
 
@@ -543,8 +535,6 @@
       const katakanaDakuten = [["ガ","ギ","グ","ゲ","ゴ"],["ザ","ジ","ズ","ゼ","ゾ"],["ダ","ヂ","ヅ","デ","ド"],["バ","ビ","ブ","ベ","ボ"]];
       const katakanaHandakuten = [["パ","ピ","プ","ペ","ポ"]];
 
-      let quizMode = 'select';
-      let currentQuizIndex = 0;
       let isListeningMode = false;
       let characterHidden = false;
       let speechSynthesis = window.speechSynthesis;
@@ -593,7 +583,6 @@
       const LENGTH_RATIO_MIN = 0.3;
 
       // DOM elements
-      const showBtn = document.getElementById('showBtn');
       const svgContainer = document.getElementById('svgContainer');
       const infoText = document.getElementById('infoText');
       const feedbackText = document.getElementById('feedbackText');
@@ -609,10 +598,8 @@
       const showNumbersCheckbox = document.getElementById('showNumbersCheckbox');
       const numberToggleArea = document.getElementById('numberToggleArea');
       const charSelectArea = document.getElementById('charSelectArea');
-      const modeBtns = document.querySelectorAll('.mode-btn');
       const placeholderText = document.getElementById('placeholderText');
       const openKanaTableBtn = document.getElementById('openKanaTableBtn');
-      const selectedCharDisplay = document.getElementById('selectedCharDisplay');
       const modal = document.getElementById('kanaModal');
       const modalCloseBtn = document.getElementById('modalCloseBtn');
       const kanaGrid = document.getElementById('kanaGrid');
@@ -813,6 +800,18 @@
         }
       }
 
+      function bindBasicSubTabButtons() {
+        document.querySelectorAll('#subTabContainer .sub-tab-btn').forEach(b => {
+          b.addEventListener('click', function() {
+            document.querySelectorAll('.sub-tab-btn').forEach(x => x.classList.remove('active'));
+            this.classList.add('active');
+            currentSubType = this.dataset.subType;
+            renderGrid();
+          });
+        });
+      }
+      bindBasicSubTabButtons();
+
       tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           tabBtns.forEach(b => b.classList.remove('active'));
@@ -831,14 +830,7 @@
               <button class="sub-tab-btn" data-sub-type="handakuten">はんだくおん</button>
             `;
             currentSubType = 'basic';
-            document.querySelectorAll('.sub-tab-btn').forEach(b => {
-              b.addEventListener('click', function() {
-                document.querySelectorAll('.sub-tab-btn').forEach(x => x.classList.remove('active'));
-                this.classList.add('active');
-                currentSubType = this.dataset.subType;
-                renderGrid();
-              });
-            });
+            bindBasicSubTabButtons();
           }
           renderGrid();
         });
@@ -985,7 +977,6 @@
         if (selectedModalChar && selectedModalCode) {
           currentChar = selectedModalChar;
           currentUnicode = selectedModalCode;
-          selectedCharDisplay.textContent = currentChar;
           closeModal();
           if (isSentenceMode) stopCustomStringMode();
           loadAndDisplay(currentUnicode);
@@ -996,43 +987,8 @@
 
       openKanaTableBtn.addEventListener('click', openModal);
 
-      function setQuizMode(mode) {
-        quizMode = mode;
-        modeBtns.forEach(b => b.classList.remove('active'));
-        document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-        if (mode === 'select') {
-          charSelectArea.style.display = 'flex';
-          nextCharBtn.style.display = 'none';
-        } else {
-          charSelectArea.style.display = 'none';
-          if (isListeningMode) nextCharBtn.style.display = 'inline-block';
-        }
-      }
-
-      function getNextSequentialChar() {
-        const item = kanaMap[currentQuizIndex];
-        currentQuizIndex = (currentQuizIndex + 1) % kanaMap.length;
-        return item;
-      }
-      function getRandomChar() {
-        const randomIndex = Math.floor(Math.random() * kanaMap.length);
-        return kanaMap[randomIndex];
-      }
-
       function loadQuizChar() {
-        let item;
-        if (quizMode === 'sequential') {
-          item = getNextSequentialChar();
-        } else if (quizMode === 'random') {
-          item = getRandomChar();
-        } else {
-          return currentUnicode;
-        }
-        const [char, code] = item.split(',');
-        currentChar = char;
-        currentUnicode = code;
-        if (quizMode !== 'select') selectedCharDisplay.textContent = currentChar;
-        return code;
+        return currentUnicode;
       }
 
       // ============ 文章れんしゅう（複数キャンバスモード） ============
@@ -1100,6 +1056,35 @@
         spPrevBtn.disabled = spPage <= 0;
         spNextBtn.disabled = spPage >= totalPages - 1;
         updateSpProgress();
+        fitSentenceCards();
+      }
+      // ---- カードの正方形サイズを、実際に使える横幅・縦幅の両方から逆算する ----
+      // グリッド列数を固定して画面幅いっぱいに広げるだけだと、行数によっては縦にはみ出す
+      // ことがあるため、幅から決まるサイズと高さから決まるサイズの小さい方を採用して、
+      // どんな文字数・画面サイズでもスクロールなしで収まるようにする。
+      function fitSentenceCards() {
+        if (!isSentenceMode || !spCards.length) return;
+        const cols = isLandscapeWide() ? 4 : 2;
+        const rows = Math.ceil(spCards.length / cols);
+        const gap = 10;
+        const gridRect = spGrid.getBoundingClientRect();
+        if (!gridRect.width || !gridRect.height) return;
+        const availW = (gridRect.width - gap * (cols - 1)) / cols;
+        const availH = (gridRect.height - gap * (rows - 1)) / rows;
+
+        // 表示エリア以外の「地の分」（パディング・見出し番号・下段ボタン列など）を実測する
+        const sampleEl = spCards[0].element;
+        const sampleDisplay = spCards[0].display;
+        const cardH = sampleEl.getBoundingClientRect().height;
+        const dispH = sampleDisplay.getBoundingClientRect().height;
+        const chromeH = (cardH && dispH) ? (cardH - dispH) : 70;
+        const cardPaddingH = 12; // カード左右パディング(6px×2)ぶん
+
+        const size = Math.max(56, Math.min(availW - cardPaddingH, availH - chromeH));
+        spCards.forEach(state => {
+          state.display.style.width = size + 'px';
+          state.display.style.height = size + 'px';
+        });
       }
       function updateSpProgress() {
         spProgress.textContent = spCompletedCount >= spChars.length
@@ -1389,14 +1374,44 @@
         if (practiceMode !== 'hint') return;
         strokePaths.forEach((p, idx) => {
           if (idx === expectedStrokeIndex) {
-            p.style.stroke = '#4a90d9';
-            p.style.strokeWidth = '10';
-            p.parentNode.appendChild(p);
+            animateHighlightStroke(p);
           } else {
+            p.style.transition = 'none';
+            p.style.strokeDasharray = 'none';
+            p.style.strokeDashoffset = '0';
             p.style.stroke = '#d0d0d0';
             p.style.strokeWidth = '9';
           }
         });
+      }
+      function animateHighlightStroke(path) {
+        path.parentNode.appendChild(path);
+        const length = path.getTotalLength();
+        path.style.stroke = '#4a90d9';
+        path.style.strokeWidth = '10';
+        if (length === 0) return;
+        let duration = (length / BASE_LENGTH) * speedBaseDurations[animationSpeed];
+        if (duration < MIN_DURATION) duration = MIN_DURATION;
+        path.style.transition = 'none';
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+        path.getBoundingClientRect();
+        path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
+        path.style.strokeDashoffset = '0';
+        const onEnd = () => {
+          path.removeEventListener('transitionend', onEnd);
+          path.style.transition = 'none';
+          path.style.strokeDasharray = 'none';
+          path.style.strokeDashoffset = '0';
+        };
+        path.addEventListener('transitionend', onEnd);
+        setTimeout(() => {
+          if (path.style.strokeDasharray !== 'none') {
+            path.style.transition = 'none';
+            path.style.strokeDasharray = 'none';
+            path.style.strokeDashoffset = '0';
+          }
+        }, duration + 100);
       }
       function setFeedback(msg, isGood = true) {
         if (feedbackTimer) clearTimeout(feedbackTimer);
@@ -1705,7 +1720,6 @@
         calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[];
         lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth='9';p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
         hideCharacter(); speakCharacterWithType(currentChar); canvas.style.display='block'; retryTracingBtn.style.display='inline-block';
-        if(quizMode!=='select') nextCharBtn.style.display='inline-block';
         setupCanvas(); isAnimating=false; updateUI(); attachDrawEvents(); setFeedback('🔊 おとをきいて、かいてね');
       }
       function exitListeningMode() {
@@ -1746,8 +1760,6 @@
       window.addEventListener('click',(e)=>{if(e.target===historyModal)historyModal.style.display='none';});
       clearHistoryBtn.addEventListener('click',clearHistory);
 
-      modeBtns.forEach(btn=>{btn.addEventListener('click',function(){const mode=this.dataset.mode;setQuizMode(mode);if(mode!=='select'){loadQuizChar();loadAndDisplay(currentUnicode);}});});
-      showBtn.addEventListener('click',()=>{if(currentUnicode)loadAndDisplay(currentUnicode);});
       nextBtn.addEventListener('click',()=>{if(practiceMode!=='none'||isAnimating)return;if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);});
 
       // ============ 4つの練習スタイル（見てたしかめ／なぞりれんしゅう／書き順テスト／音だけテスト） ============
@@ -1795,7 +1807,6 @@
       }
 
       function init() {
-        selectedCharDisplay.textContent=currentChar; setQuizMode('select');
         sentencePracticeArea.style.display = 'none';
         loadAndDisplay(currentUnicode);
       }

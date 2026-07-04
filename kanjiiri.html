@@ -36,6 +36,17 @@
     .intro-modal-body p { margin: 0 0 12px; }
     .intro-modal-body ul { margin: 0 0 12px; padding-left: 1.3em; }
     .intro-modal-body li { margin-bottom: 4px; }
+    /* ==================== 音のオン/オフボタン（画面固定） ==================== */
+    .sound-toggle-btn {
+      position: fixed; top: 12px; right: 12px; z-index: 4000;
+      width: 46px; height: 46px; border-radius: 50%; border: none;
+      background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      font-size: 1.5rem; line-height: 1; padding: 0; margin: 0;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: filter 0.2s, opacity 0.2s, transform 0.15s;
+    }
+    .sound-toggle-btn:active { transform: scale(0.92); }
+    .sound-toggle-btn.muted { filter: grayscale(1); opacity: 0.4; }
     .container {
       max-width: 500px; margin: 0 auto; background: white;
       border-radius: 24px; padding: 30px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
@@ -467,6 +478,9 @@
     </div>
   </div>
 
+  <!-- 音のオン/オフ（画面固定・絵文字1つでカラー=ON／グレーアウト=OFF） -->
+  <button class="sound-toggle-btn" id="soundToggleBtn" title="音のオン/オフ">🔊</button>
+
   <div class="container">
     <h1 id="mainTitle">✍️ 書き順アニメーション</h1>
 
@@ -862,6 +876,7 @@
       const titleScreen = document.getElementById('titleScreen');
       const introModal = document.getElementById('introModal');
       const introConfirmBtn = document.getElementById('introConfirmBtn');
+      const soundToggleBtn = document.getElementById('soundToggleBtn');
       const historyBtn = document.getElementById('historyBtn');
       const historyModal = document.getElementById('historyModal');
       const historyCloseBtn = document.getElementById('historyCloseBtn');
@@ -953,7 +968,7 @@
       }
 
       function speakCharacterWithType(char) {
-        if (!speechSynthesis) return;
+        if (!speechSynthesis || !soundEnabled) return;
         speechSynthesis.cancel();
         if (!cachedJaVoice) refreshJaVoice();
         const type = getCharacterTypeDescription(char);
@@ -965,7 +980,7 @@
       }
 
       function speakCharacter(char) {
-        if (!speechSynthesis) return;
+        if (!speechSynthesis || !soundEnabled) return;
         speechSynthesis.cancel();
         if (!cachedJaVoice) refreshJaVoice();
         const u = new SpeechSynthesisUtterance(char);
@@ -973,6 +988,112 @@
         if (cachedJaVoice) u.voice = cachedJaVoice;
         speechSynthesis.speak(u);
       }
+
+      // ==================== 効果音（Web Audio APIでその場で音を生成。音声ファイル不要） ====================
+      // 「音声のオンオフボタン」1つで、読み上げ（speechSynthesis）とこの効果音の両方をまとめてオン/オフする。
+      let soundEnabled = (localStorage.getItem('kakijun_sound_enabled') ?? '1') === '1';
+      let sfxAudioCtx = null;
+      function getSfxAudioCtx() {
+        if (!sfxAudioCtx) sfxAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (sfxAudioCtx.state === 'suspended') sfxAudioCtx.resume();
+        return sfxAudioCtx;
+      }
+      // 1音ぶんの「ピコン」を鳴らす。freq=周波数(Hz)、startTime=再生開始までの遅延(秒)、duration=音の長さ(秒)
+      function playTone(freq, startTime, duration, type, peakGain) {
+        const ctx = getSfxAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.value = freq;
+        osc.connect(gain); gain.connect(ctx.destination);
+        const t0 = ctx.currentTime + startTime;
+        gain.gain.setValueAtTime(0, t0);
+        gain.gain.linearRampToValueAtTime(peakGain || 0.15, t0 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+        osc.start(t0);
+        osc.stop(t0 + duration + 0.03);
+      }
+      function playChord(freqs, startTime, duration, type, peakGain) {
+        freqs.forEach(f => playTone(f, startTime, duration, type, peakGain));
+      }
+      // 場面ごとの効果音。soundEnabledがfalseなら何もしない
+      function playSfx(name) {
+        if (!soundEnabled) return;
+        try {
+          switch (name) {
+            case 'tap': // タイトル画面タップ／ボタン操作の軽いクリック音
+              playTone(600, 0, 0.06, 'sine', 0.09);
+              break;
+            case 'good': // 画1本「🌟じょうず！」— 明るく弾む2音
+              playTone(880, 0, 0.12, 'sine', 0.16);
+              playTone(1320, 0.08, 0.16, 'sine', 0.18);
+              break;
+            case 'ok': // 画1本「👍まあまあ」— やわらかい単音
+              playTone(700, 0, 0.15, 'sine', 0.14);
+              break;
+            case 'wrong': // 画1本まちがい／なぞり直し — 短く控えめなブザー
+              playTone(190, 0, 0.16, 'triangle', 0.09);
+              break;
+            case 'complete-perfect': // 1文字🌟パーフェクト — 上昇アルペジオ
+              playTone(523.25, 0, 0.14, 'sine', 0.16);
+              playTone(659.25, 0.11, 0.14, 'sine', 0.16);
+              playTone(783.99, 0.22, 0.14, 'sine', 0.16);
+              playTone(1046.5, 0.33, 0.32, 'sine', 0.19);
+              break;
+            case 'complete-good': // 1文字👍よくできました
+              playTone(587.33, 0, 0.14, 'sine', 0.15);
+              playTone(880, 0.10, 0.24, 'sine', 0.17);
+              break;
+            case 'complete-soso': // 1文字😊がんばったね
+              playTone(523.25, 0, 0.14, 'sine', 0.14);
+              playTone(659.25, 0.10, 0.2, 'sine', 0.15);
+              break;
+            case 'complete-more': // 1文字💪もうすこし — おだやかな下降（がっかり感を出しすぎない）
+              playTone(494, 0, 0.16, 'sine', 0.13);
+              playTone(392, 0.11, 0.24, 'sine', 0.13);
+              break;
+            case 'test-fail': // テストで不合格の文字
+              playTone(220, 0, 0.1, 'triangle', 0.08);
+              playTone(180, 0.09, 0.2, 'triangle', 0.08);
+              break;
+            case 'test-finish-perfect': // テスト全体🌟パーフェクト
+              playChord([523.25, 659.25, 783.99], 0, 0.22, 'sine', 0.11);
+              playChord([587.33, 739.99, 880], 0.2, 0.22, 'sine', 0.11);
+              playChord([659.25, 830.61, 987.77], 0.4, 0.42, 'sine', 0.14);
+              break;
+            case 'test-finish-good': // テスト全体👍よくできました
+              playChord([523.25, 659.25], 0, 0.2, 'sine', 0.12);
+              playChord([587.33, 880], 0.2, 0.32, 'sine', 0.13);
+              break;
+            case 'test-finish-soso': // テスト全体😊がんばったね
+              playTone(523.25, 0, 0.15, 'sine', 0.13);
+              playTone(659.25, 0.11, 0.22, 'sine', 0.14);
+              break;
+            case 'test-finish-more': // テスト全体💪おつかれさま
+              playTone(440, 0, 0.16, 'sine', 0.12);
+              playTone(392, 0.12, 0.3, 'sine', 0.12);
+              break;
+          }
+        } catch (e) { /* Web Audio未対応のブラウザ等では無視 */ }
+      }
+      // 完成時の絵文字スタンプから、対応する効果音の名前を決める共通ヘルパー
+      function sfxNameForStamp(stamp, prefix) {
+        if (stamp === '🌟') return `${prefix}-perfect`;
+        if (stamp === '👍') return `${prefix}-good`;
+        if (stamp === '😊') return `${prefix}-soso`;
+        return `${prefix}-more`;
+      }
+      function updateSoundToggleUI() {
+        soundToggleBtn.classList.toggle('muted', !soundEnabled);
+      }
+      soundToggleBtn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('kakijun_sound_enabled', soundEnabled ? '1' : '0');
+        updateSoundToggleUI();
+        if (soundEnabled) playSfx('tap');
+        else speechSynthesis && speechSynthesis.cancel();
+      });
+      updateSoundToggleUI();
 
       function replaySound() {
         if (currentChar) {
@@ -1417,6 +1538,7 @@
         testSummaryScore.textContent = `平均 ${avgScore}点`;
         testSummaryMessage.textContent = message;
         testSummaryDetail.textContent = `${cat.label}：🟢${finished.correct} 🔴${finished.wrong}（全${total}問）`;
+        playSfx(sfxNameForStamp(stamp, 'test-finish'));
         testSummaryButtons.innerHTML = '';
         if (finished.wrong > 0) {
           const retryBtn = document.createElement('button');
@@ -1716,12 +1838,13 @@
       }
       function handleCardStrokeEnd(state) {
         const pts = state.userDrawnPoints;
-        if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; state.strokeFailStreak++; return; }
+        if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; state.strokeFailStreak++; playSfx('wrong'); return; }
         const expected = state.expectedStrokeIndex;
         const samplePts = state.strokeSamplePoints[expected];
         const pathLength = state.strokePaths[expected].getTotalLength();
         const result = evaluateStrokeAttempt(pts, samplePts, pathLength);
-        if (!result.pass) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; state.strokeFailStreak++; return; }
+        if (!result.pass) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; state.strokeFailStreak++; playSfx('wrong'); return; }
+        playSfx(result.rating === 'good' ? 'good' : 'ok');
         state.savedStrokes.push([...pts]); state.ratings.push(result.rating);
         state.scores.push(applyRetryPenalty(result.score, state.strokeFailStreak)); state.strokeFailStreak = 0;
         state.expectedStrokeIndex++;
@@ -1737,6 +1860,7 @@
         const charScore = averageScore(state.scores);
         let stamp = '💪';
         if (goodCount === total) stamp = '🌟'; else if (goodCount >= total * 0.7) stamp = '👍'; else if (goodCount >= 1) stamp = '😊';
+        playSfx(sfxNameForStamp(stamp, 'complete'));
         const stampRow = document.createElement('div');
         stampRow.className = 'sp-card-stamp-row';
         const stampEl = document.createElement('span');
@@ -2182,6 +2306,7 @@
           ctx.stroke();
         }
         setFeedback('❌ ふごうかく…つぎの字へ', false);
+        playSfx('test-fail');
         saveTestResult(currentChar, currentUnicode, 'ok');
         testMode.wrong++;
         testMode.scores.push(0);
@@ -2197,14 +2322,16 @@
         if (userDrawnPoints.length<3) {
           if (testMode) { failTestCharacter(); return; }
           currentStrokeFailStreak++;
+          playSfx('wrong');
           setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return;
         }
         if (practiceMode==='hint'||practiceMode==='listen') {
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
           const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
           const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
-          if (!result.pass) { currentStrokeFailStreak++; setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          if (!result.pass) { currentStrokeFailStreak++; playSfx('wrong'); setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
           setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
+          playSfx(result.rating==='good' ? 'good' : 'ok');
           savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating);
           strokeScores.push(applyRetryPenalty(result.score, currentStrokeFailStreak)); currentStrokeFailStreak = 0;
           expectedStrokeIndex++;
@@ -2214,6 +2341,7 @@
           if (closestIdx!==expectedStrokeIndex) {
             if (testMode) { failTestCharacter(); return; }
             currentStrokeFailStreak++;
+            playSfx('wrong');
             setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
           }
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
@@ -2222,9 +2350,11 @@
           if (!result.pass) {
             if (testMode) { failTestCharacter(); return; }
             currentStrokeFailStreak++;
+            playSfx('wrong');
             setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
           }
           setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
+          playSfx(result.rating==='good' ? 'good' : 'ok');
           savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating);
           strokeScores.push(applyRetryPenalty(result.score, currentStrokeFailStreak)); currentStrokeFailStreak = 0;
           expectedStrokeIndex++;
@@ -2299,6 +2429,7 @@
         let stamp='',message='';
         if(goodCount===total){stamp='🌟';message='パーフェクト！';}else if(goodCount>=total*0.7){stamp='👍';message='よくできました！';}else if(goodCount>=1){stamp='😊';message='がんばったね！';}else{stamp='💪';message='もうすこし！';}
         stampEmoji.textContent=stamp; stampScore.textContent=`${charScore}点`; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
+        playSfx(sfxNameForStamp(stamp, 'complete'));
         const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
         saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,score:charScore,thumb:thumbData});
         if (testMode) {
@@ -2384,6 +2515,7 @@
       const INTRO_SEEN_KEY = 'kakijun_intro_seen';
       function hideTitleScreen() {
         titleScreen.style.display = 'none';
+        playSfx('tap');
         maybeShowIntro();
       }
       function maybeShowIntro() {

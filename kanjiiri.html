@@ -219,19 +219,19 @@
     .variant-chip.active { background: #4a90d9; color: #fff; border-color: #3a78bd; }
 
     /* ==================== 文章れんしゅう（複数キャンバス） ==================== */
-    .sentence-practice-area { display: none; flex-direction: column; margin-top: 10px; }
+    .sentence-practice-area { display: none; flex-direction: column; margin-top: 6px; }
     .sp-header {
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
-      gap: 8px; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap;
+      gap: 10px; margin-bottom: 8px; overflow-x: auto;
     }
-    .sp-progress { font-size: 0.95rem; color: #5a4a3a; font-weight: bold; }
-    .sp-pagination { display: flex; align-items: center; gap: 8px; }
+    .sp-progress { font-size: 0.85rem; color: #5a4a3a; font-weight: bold; white-space: nowrap; flex-shrink: 0; }
+    .sp-pagination { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
     .sp-pagination button {
-      padding: 6px 14px; font-size: 0.9rem; min-width: auto; min-height: auto;
+      padding: 4px 10px; font-size: 0.8rem; min-width: auto; min-height: auto;
     }
     .sp-pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
-    .sp-page-label { font-size: 0.85rem; color: #888; min-width: 3.5em; text-align: center; }
-    .sp-stop-btn { background: #e74c3c; color: #fff; border-color: #c0392b; font-size: 0.9rem; padding: 6px 16px; }
+    .sp-page-label { font-size: 0.78rem; color: #888; min-width: 2.8em; text-align: center; white-space: nowrap; }
+    .sp-stop-btn { background: #e74c3c; color: #fff; border-color: #c0392b; font-size: 0.8rem; padding: 4px 12px; flex-shrink: 0; white-space: nowrap; }
 
     .mode-style-selector {
       display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px;
@@ -264,10 +264,14 @@
     .sp-card-display svg { width: 88%; height: 88%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
     .sp-card-canvas { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; height: 88%; touch-action: none; }
     .sp-card-nosvg-msg { font-size: 0.75rem; color: #bbb; text-align: center; padding: 6px; }
-    .sp-card-progress { font-size: 0.75rem; color: #888; min-height: 1.1em; }
-    .sp-card-btns { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; justify-content: center; }
+    .sp-card-footer {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 4px; width: 100%; flex-wrap: wrap;
+    }
+    .sp-card-progress { font-size: 0.75rem; color: #888; min-height: 1.1em; white-space: nowrap; flex-shrink: 0; }
+    .sp-card-btns { display: flex; gap: 4px; flex-wrap: nowrap; justify-content: center; }
     .sp-card-btns button {
-      padding: 4px 9px; font-size: 0.8rem; min-width: auto; min-height: auto; margin: 0;
+      padding: 4px 9px; font-size: 0.8rem; min-width: auto; min-height: auto; margin: 0; white-space: nowrap;
     }
     .sp-card-stamp {
       position: absolute; top: -6px; right: -6px; font-size: 1.6rem;
@@ -326,6 +330,7 @@
       .sp-grid {
         grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; overflow-y: auto; align-content: start;
       }
+      .sp-card-footer { flex-wrap: nowrap; }
       .sp-card-btns button { padding: 5px 11px; font-size: 0.85rem; }
 
       .modal-content { max-width: min(760px, 90vw); }
@@ -341,7 +346,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>✍️ 書き順アニメーション</h1>
+    <h1 id="mainTitle">✍️ 書き順アニメーション</h1>
 
     <div class="app-grid" id="appGrid">
     <div class="panel panel-left">
@@ -630,6 +635,7 @@
       const stopCustomStringBtn = document.getElementById('stopCustomStringBtn');
       const variantRow = document.getElementById('variantRow');
       const charSearchInput = document.getElementById('charSearchInput');
+      const mainTitle = document.getElementById('mainTitle');
       const appGrid = document.getElementById('appGrid');
       const sentencePracticeArea = document.getElementById('sentencePracticeArea');
       const spGrid = document.getElementById('spGrid');
@@ -1045,6 +1051,7 @@
         startCustomStringBtn.style.display = 'none';
         stopCustomStringBtn.style.display = 'inline-block';
         appGrid.style.display = 'none';
+        mainTitle.style.display = 'none';
         sentencePracticeArea.style.display = 'flex';
         renderSentencePage();
       }
@@ -1058,6 +1065,7 @@
         startCustomStringBtn.style.display = 'inline-block';
         stopCustomStringBtn.style.display = 'none';
         appGrid.style.display = '';
+        mainTitle.style.display = '';
         sentencePracticeArea.style.display = 'none';
       }
 
@@ -1130,9 +1138,12 @@
         display.textContent = '…';
         el.appendChild(display);
 
+        const footer = document.createElement('div');
+        footer.className = 'sp-card-footer';
+
         const progress = document.createElement('div');
         progress.className = 'sp-card-progress';
-        el.appendChild(progress);
+        footer.appendChild(progress);
 
         const btnRow = document.createElement('div');
         btnRow.className = 'sp-card-btns';
@@ -1140,7 +1151,9 @@
         const soundBtn = document.createElement('button'); soundBtn.type = 'button'; soundBtn.textContent = '🔊';
         const resetBtn = document.createElement('button'); resetBtn.type = 'button'; resetBtn.textContent = '🔄';
         btnRow.appendChild(sampleBtn); btnRow.appendChild(soundBtn); btnRow.appendChild(resetBtn);
-        el.appendChild(btnRow);
+        footer.appendChild(btnRow);
+
+        el.appendChild(footer);
 
         const state = {
           char, code, element: el, display, progress, sampleBtn,
@@ -1783,6 +1796,7 @@
 
       function init() {
         selectedCharDisplay.textContent=currentChar; setQuizMode('select');
+        sentencePracticeArea.style.display = 'none';
         loadAndDisplay(currentUnicode);
       }
       init();

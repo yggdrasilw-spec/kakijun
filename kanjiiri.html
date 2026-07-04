@@ -30,7 +30,7 @@
       width: 82%; height: 82%; position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%); pointer-events: none;
     }
-    .kana-display.hidden-char svg { opacity: 0.08; filter: blur(4px); }
+    .kana-display.hidden-char svg { opacity: 0; }
     #drawCanvas {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 82%; height: 82%; touch-action: none; display: none; z-index: 10;
@@ -229,8 +229,21 @@
     .sp-pagination button {
       padding: 6px 14px; font-size: 0.9rem; min-width: auto; min-height: auto;
     }
+    .sp-pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
     .sp-page-label { font-size: 0.85rem; color: #888; min-width: 3.5em; text-align: center; }
     .sp-stop-btn { background: #e74c3c; color: #fff; border-color: #c0392b; font-size: 0.9rem; padding: 6px 16px; }
+
+    .mode-style-selector {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px;
+    }
+    .style-btn {
+      background: #e4e0d8; color: #999; border: 1px solid #d8d2c4; padding: 8px 14px;
+      border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer;
+      min-width: auto; min-height: auto; margin: 0; transition: 0.2s;
+    }
+    .style-btn.active {
+      background: #4a90d9; color: #fff; border-color: #3a78bd; box-shadow: 0 2px 6px rgba(74,144,217,0.35);
+    }
     .sp-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
     }
@@ -352,6 +365,12 @@
 
     </div>
     <div class="panel panel-center">
+    <div class="mode-style-selector" id="modeStyleSelector">
+      <button class="style-btn active" data-style="none">👀 見てたしかめ</button>
+      <button class="style-btn" data-style="hint">🖊️ なぞりれんしゅう</button>
+      <button class="style-btn" data-style="check">🔍 書き順テスト</button>
+      <button class="style-btn" data-style="listen">🔊 音だけテスト</button>
+    </div>
     <div class="kana-display" id="svgContainer">
       <p style="color:#ccc;" id="placeholderText">文字を選んでね</p>
     </div>
@@ -379,9 +398,6 @@
     <div class="controls">
       <button id="nextBtn">次の画 ▶</button>
       <br>
-      <button id="traceHintBtn">🖊 なぞり練習</button>
-      <button id="traceCheckBtn">🔍 書き順チェック</button>
-      <button id="listenTraceBtn" style="display:none;">🔊 おとをきいてかく</button>
       <button id="revealCharBtn" style="display:none;" class="reveal-btn">👀 こたえをみる</button>
       <button id="nextCharBtn" style="display:none;" class="next-char-btn">▶ つぎのもんだい</button>
       <button id="retryTracingBtn" style="display:none;">🔄 もう一度</button>
@@ -538,6 +554,9 @@
       let isAnimating = false;
 
       let practiceMode = 'none';
+      // 見てたしかめ／なぞりれんしゅう／書き順テスト／音だけテストのうち、いま選ばれているものを覚えておく。
+      // 新しい字を選んでも、練習に1回成功しても、この選択は切り替えない限りそのまま。
+      let currentModeChoice = 'none';
       let expectedStrokeIndex = 0;
       let userDrawnPoints = [];
       let savedStrokes = [];
@@ -577,9 +596,7 @@
       const nextBtn = document.getElementById('nextBtn');
       const speedControl = document.getElementById('speedControl');
       const speedBtns = document.querySelectorAll('.speed-btn');
-      const traceHintBtn = document.getElementById('traceHintBtn');
-      const traceCheckBtn = document.getElementById('traceCheckBtn');
-      const listenTraceBtn = document.getElementById('listenTraceBtn');
+      const styleBtns = document.querySelectorAll('.style-btn');
       const revealCharBtn = document.getElementById('revealCharBtn');
       const nextCharBtn = document.getElementById('nextCharBtn');
       const retryTracingBtn = document.getElementById('retryTracingBtn');
@@ -1693,10 +1710,14 @@
         stampEmoji.textContent=stamp; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
         const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
         saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,thumb:thumbData});
-        exitPracticeMode();
+        if (practiceMode === 'listen') exitListeningMode(); else exitPracticeMode();
       }
 
-      closeResultBtn.addEventListener('click',()=>{resultOverlay.style.display='none';});
+      closeResultBtn.addEventListener('click',()=>{
+        resultOverlay.style.display='none';
+        // 同じ字のまま、いま選ばれている練習スタイルの最初にもどる（アニメーションモードには戻らない）
+        if (currentModeChoice !== 'none' && strokePaths.length) switchToModeChoice();
+      });
 
       const HISTORY_KEY='kakijun_history';
       function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY))||[];}catch{return[];}}
@@ -1712,12 +1733,27 @@
       window.addEventListener('click',(e)=>{if(e.target===historyModal)historyModal.style.display='none';});
       clearHistoryBtn.addEventListener('click',clearHistory);
 
-      modeBtns.forEach(btn=>{btn.addEventListener('click',function(){const mode=this.dataset.mode;setQuizMode(mode);if(practiceMode==='listen')exitListeningMode();else if(practiceMode!=='none')exitPracticeMode();if(mode!=='select'){loadQuizChar();loadAndDisplay(currentUnicode);}});});
+      modeBtns.forEach(btn=>{btn.addEventListener('click',function(){const mode=this.dataset.mode;setQuizMode(mode);if(mode!=='select'){loadQuizChar();loadAndDisplay(currentUnicode);}});});
       showBtn.addEventListener('click',()=>{if(currentUnicode)loadAndDisplay(currentUnicode);});
       nextBtn.addEventListener('click',()=>{if(practiceMode!=='none'||isAnimating)return;if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);});
-      traceHintBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('hint');}else if(practiceMode==='hint')exitPracticeMode();else if(practiceMode==='check'){exitPracticeMode();enterPracticeMode('hint');}else enterPracticeMode('hint');});
-      traceCheckBtn.addEventListener('click',()=>{if(practiceMode==='listen'){exitListeningMode();enterPracticeMode('check');}else if(practiceMode==='check')exitPracticeMode();else if(practiceMode==='hint'){exitPracticeMode();enterPracticeMode('check');}else enterPracticeMode('check');});
-      listenTraceBtn.addEventListener('click',()=>{if(practiceMode==='listen')exitListeningMode();else{if(practiceMode!=='none')exitPracticeMode();startListeningMode();}});
+
+      // ============ 4つの練習スタイル（見てたしかめ／なぞりれんしゅう／書き順テスト／音だけテスト） ============
+      // 選んだスタイルは切り替えない限りそのまま保存される（新しい字を選んでも、1回成功しても変わらない）
+      function setModeChoice(style) {
+        if (currentModeChoice === style) return;
+        currentModeChoice = style;
+        styleBtns.forEach(b => b.classList.toggle('active', b.dataset.style === style));
+        switchToModeChoice();
+      }
+      function switchToModeChoice() {
+        if (practiceMode === 'listen') exitListeningMode();
+        else if (practiceMode !== 'none') exitPracticeMode();
+        if (currentModeChoice === 'hint') enterPracticeMode('hint');
+        else if (currentModeChoice === 'check') enterPracticeMode('check');
+        else if (currentModeChoice === 'listen') startListeningMode();
+        else if (strokePaths.length) { currentStrokeIndex = -1; animateToStroke(0); }
+      }
+      styleBtns.forEach(btn => btn.addEventListener('click', () => setModeChoice(btn.dataset.style)));
       revealCharBtn.addEventListener('click',revealCharacter);
       nextCharBtn.addEventListener('click',async()=>{
         if(practiceMode==='listen'){
@@ -1737,15 +1773,16 @@
       speedBtns.forEach(btn=>{btn.addEventListener('click',function(){speedBtns.forEach(b=>b.classList.remove('active'));this.classList.add('active');animationSpeed=this.dataset.speed;});});
 
       async function loadAndDisplay(unicode) {
-        if(practiceMode!=='none')exitPracticeMode(); isAnimating=false;
+        if(practiceMode==='listen')exitListeningMode(); else if(practiceMode!=='none')exitPracticeMode();
+        isAnimating=false;
         const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc;
         if(!svgDoc){svgContainer.innerHTML='<p style="color:#ccc;">SVGが見つかりませんでした</p>';strokePaths=[];updateUI();return;}
         strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc);
-        if(strokePaths.length>0){currentStrokeIndex=-1;animateToStroke(0);}else updateUI();
+        if(strokePaths.length>0){currentStrokeIndex=-1;switchToModeChoice();}else updateUI();
       }
 
       function init() {
-        selectedCharDisplay.textContent=currentChar; setQuizMode('select'); listenTraceBtn.style.display='inline-block';
+        selectedCharDisplay.textContent=currentChar; setQuizMode('select');
         loadAndDisplay(currentUnicode);
       }
       init();

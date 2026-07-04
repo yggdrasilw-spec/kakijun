@@ -223,6 +223,8 @@
       to { transform: scale(1); opacity: 1; }
     }
     .stamp-emoji { font-size: 5rem; }
+    .stamp-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .score-badge { font-size: 1.5rem; font-weight: bold; color: #4a90d9; background: #eaf3ff; border-radius: 14px; padding: 4px 16px; }
     .result-message { font-size: 1.5rem; margin: 10px 0; }
     .result-detail { font-size: 1rem; color: #666; margin: 10px 0; }
     .history-list {
@@ -339,9 +341,13 @@
     .sp-card-btns button {
       padding: 4px 9px; font-size: 0.8rem; min-width: auto; min-height: auto; margin: 0; white-space: nowrap;
     }
-    .sp-card-stamp {
-      position: absolute; top: -6px; right: -6px; font-size: 1.6rem;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+    .sp-card-stamp-row {
+      position: absolute; top: -6px; right: -6px; display: flex; align-items: center; gap: 2px;
+    }
+    .sp-card-stamp { font-size: 1.6rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); }
+    .sp-card-score {
+      font-size: 0.62rem; font-weight: bold; color: #4a90d9; background: #eaf3ff;
+      border-radius: 8px; padding: 1px 5px; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
     /* ==================== 横長画面（Chromebook 16:9 想定） ==================== */
@@ -546,7 +552,10 @@
   <!-- テスト結果サマリー -->
   <div class="result-overlay" id="testSummaryOverlay">
     <div class="result-card">
-      <div class="stamp-emoji" id="testSummaryStamp"></div>
+      <div class="stamp-row">
+        <div class="stamp-emoji" id="testSummaryStamp"></div>
+        <div class="score-badge" id="testSummaryScore"></div>
+      </div>
       <div class="result-message" id="testSummaryMessage"></div>
       <div class="result-detail" id="testSummaryDetail"></div>
       <div id="testSummaryButtons" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;"></div>
@@ -558,7 +567,10 @@
   <!-- 結果表示ポップアップ -->
   <div class="result-overlay" id="resultOverlay">
     <div class="result-card">
-      <div class="stamp-emoji" id="stampEmoji"></div>
+      <div class="stamp-row">
+        <div class="stamp-emoji" id="stampEmoji"></div>
+        <div class="score-badge" id="stampScore"></div>
+      </div>
       <div class="result-message" id="resultMessage"></div>
       <div class="result-detail" id="resultDetail"></div>
       <img id="resultThumb" style="max-width:120px; margin:10px auto; display:none; border:1px solid #ddd; border-radius:10px;" />
@@ -666,6 +678,8 @@
       let savedStrokes = [];
       let feedbackTimer = null;
       let strokeRatings = [];
+      let strokeScores = [];          // 各画の得点（0〜100）。strokeRatingsと対になっている
+      let currentStrokeFailStreak = 0; // いまの画で何回失敗したか（得点のやり直しペナルティ用）
 
       // 文章れんしゅう（複数キャンバス）用の状態
       let isSentenceMode = false;
@@ -720,6 +734,55 @@
       const DIRECTION_BACK_TOLERANCE = 2;   // 逆走とみなすまでの許容インデックス数（手ブレ吸収）
       const DIRECTION_MIN_RATIO = 0.8;      // 全体の何割以上が「正しい向き」でないと×
 
+      // ---- 点数評価アルゴリズム ----
+      // 絵文字（合否のスタンプ）とは別に、1画ごとの「形の正確さ」を0〜100点で数値化する。
+      // 内訳：①お手本からの平均距離（近いほど高得点）②お手本をどれだけなぞれたか＝カバー率
+      // ③お手本と長さがどれだけ合っているか　の3つを重み付け平均し、
+      // さらに「その画を失敗してから書き直した回数」に応じて減点する（一発クリアほど高得点）。
+      // 文字全体の得点＝その文字に含まれる各画の得点の平均。テスト全体の得点＝出題された各文字の得点の平均
+      // （テストで不合格になった文字は0点として平均に含める）。
+      const SCORE_RETRY_PENALTY = 10;      // 同じ画を1回失敗するごとに引く点数
+      const SCORE_RETRY_MAX_PENALTY = 30;  // やり直しペナルティの上限
+      const SCORE_MIN_AFTER_PASS = 40;     // 合格している以上、最低保証する点数
+
+      function calcStrokeQualityScore(avgDist, coverage, drawnLength, pathLength) {
+        // 距離スコア：GOOD以下は満点、OK以下は75点まで直線的に下げ、それより粗いとさらに0点まで下げる
+        let distScore;
+        if (avgDist <= DISTANCE_THRESHOLD_GOOD) distScore = 100;
+        else if (avgDist <= DISTANCE_THRESHOLD_OK) {
+          distScore = 100 - (avgDist - DISTANCE_THRESHOLD_GOOD) / (DISTANCE_THRESHOLD_OK - DISTANCE_THRESHOLD_GOOD) * 25;
+        } else {
+          const over = avgDist - DISTANCE_THRESHOLD_OK;
+          distScore = Math.max(0, 75 - over / DISTANCE_THRESHOLD_OK * 75);
+        }
+        // カバー率スコア：GOOD以上は満点、OK以上は75点まで、それ未満はさらに0点まで
+        let covScore;
+        if (coverage >= COVERAGE_THRESHOLD_GOOD) covScore = 100;
+        else if (coverage >= COVERAGE_THRESHOLD_OK) {
+          covScore = 100 - (COVERAGE_THRESHOLD_GOOD - coverage) / (COVERAGE_THRESHOLD_GOOD - COVERAGE_THRESHOLD_OK) * 25;
+        } else {
+          covScore = Math.max(0, 75 * (coverage / COVERAGE_THRESHOLD_OK));
+        }
+        // 長さスコア：0.85〜1.15倍の範囲を満点とし、そこから外れるほど許容範囲の限界(MIN/MAX)に向かって減点
+        const ratio = pathLength > 0 ? drawnLength / pathLength : 1;
+        let lenScore;
+        if (ratio < 0.85) lenScore = 100 - Math.min(1, (0.85 - ratio) / (0.85 - LENGTH_RATIO_MIN)) * 40;
+        else if (ratio > 1.15) lenScore = 100 - Math.min(1, (ratio - 1.15) / (LENGTH_RATIO_MAX - 1.15)) * 40;
+        else lenScore = 100;
+
+        const total = distScore * 0.5 + covScore * 0.35 + lenScore * 0.15;
+        return Math.max(0, Math.min(100, total));
+      }
+      // 合格した画のベース点に、やり直し回数に応じたペナルティを適用する
+      function applyRetryPenalty(baseScore, failCount) {
+        const penalty = Math.min(SCORE_RETRY_MAX_PENALTY, failCount * SCORE_RETRY_PENALTY);
+        return Math.max(SCORE_MIN_AFTER_PASS, Math.round(baseScore - penalty));
+      }
+      function averageScore(scores) {
+        if (!scores.length) return 0;
+        return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+      }
+
       // DOM elements
       const svgContainer = document.getElementById('svgContainer');
       const infoText = document.getElementById('infoText');
@@ -753,6 +816,7 @@
       const clearHistoryBtn = document.getElementById('clearHistoryBtn');
       const resultOverlay = document.getElementById('resultOverlay');
       const stampEmoji = document.getElementById('stampEmoji');
+      const stampScore = document.getElementById('stampScore');
       const resultMessage = document.getElementById('resultMessage');
       const resultDetail = document.getElementById('resultDetail');
       const resultThumb = document.getElementById('resultThumb');
@@ -767,6 +831,7 @@
       const cancelTestBtn = document.getElementById('cancelTestBtn');
       const testSummaryOverlay = document.getElementById('testSummaryOverlay');
       const testSummaryStamp = document.getElementById('testSummaryStamp');
+      const testSummaryScore = document.getElementById('testSummaryScore');
       const testSummaryMessage = document.getElementById('testSummaryMessage');
       const testSummaryDetail = document.getElementById('testSummaryDetail');
       const testSummaryButtons = document.getElementById('testSummaryButtons');
@@ -1248,7 +1313,7 @@
           return;
         }
         // シャッフルはせず、決められた順番（五十音順・学年配当順）で最初から最後まで出題する
-        testMode = { categoryKey, queue, idx: 0, correct: 0, wrong: 0, retryOnly };
+        testMode = { categoryKey, queue, idx: 0, correct: 0, wrong: 0, retryOnly, scores: [] };
         closeTestModal();
         if (isSentenceMode) stopCustomStringMode();
         currentModeChoice = 'check';
@@ -1294,7 +1359,9 @@
         if (finished.correct === total) { stamp = '🌟'; message = 'パーフェクト！'; }
         else if (finished.correct >= total * 0.7) { stamp = '👍'; message = 'よくできました！'; }
         else if (finished.correct >= 1) { stamp = '😊'; message = 'がんばったね！'; }
+        const avgScore = averageScore(finished.scores);
         testSummaryStamp.textContent = stamp;
+        testSummaryScore.textContent = `平均 ${avgScore}点`;
         testSummaryMessage.textContent = message;
         testSummaryDetail.textContent = `${cat.label}：🟢${finished.correct} 🔴${finished.wrong}（全${total}問）`;
         testSummaryButtons.innerHTML = '';
@@ -1480,7 +1547,7 @@
         const state = {
           char, code, element: el, display, progress, sampleBtn,
           strokePaths: [], strokeSamplePoints: [],
-          expectedStrokeIndex: 0, savedStrokes: [], ratings: [],
+          expectedStrokeIndex: 0, savedStrokes: [], ratings: [], scores: [], strokeFailStreak: 0,
           canvas: null, ctx: null, completed: false, hasSvg: false,
           isDrawing: false, userDrawnPoints: [], isFlashing: false, isSampling: false
         };
@@ -1596,13 +1663,15 @@
       }
       function handleCardStrokeEnd(state) {
         const pts = state.userDrawnPoints;
-        if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; return; }
+        if (pts.length < 3) { redrawCard(state); state.userDrawnPoints = []; state.strokeFailStreak++; return; }
         const expected = state.expectedStrokeIndex;
         const samplePts = state.strokeSamplePoints[expected];
         const pathLength = state.strokePaths[expected].getTotalLength();
         const result = evaluateStrokeAttempt(pts, samplePts, pathLength);
-        if (!result.pass) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; return; }
-        state.savedStrokes.push([...pts]); state.ratings.push(result.rating); state.expectedStrokeIndex++;
+        if (!result.pass) { flashCardWrongStroke(state, pts); state.userDrawnPoints = []; state.strokeFailStreak++; return; }
+        state.savedStrokes.push([...pts]); state.ratings.push(result.rating);
+        state.scores.push(applyRetryPenalty(result.score, state.strokeFailStreak)); state.strokeFailStreak = 0;
+        state.expectedStrokeIndex++;
         state.userDrawnPoints = [];
         updateCardProgress(state);
         if (state.expectedStrokeIndex >= state.strokePaths.length) completeCard(state);
@@ -1612,23 +1681,30 @@
         state.element.classList.add('completed');
         const goodCount = state.ratings.filter(r => r === 'good').length;
         const total = state.strokePaths.length;
+        const charScore = averageScore(state.scores);
         let stamp = '💪';
         if (goodCount === total) stamp = '🌟'; else if (goodCount >= total * 0.7) stamp = '👍'; else if (goodCount >= 1) stamp = '😊';
-        const stampEl = document.createElement('div');
+        const stampRow = document.createElement('div');
+        stampRow.className = 'sp-card-stamp-row';
+        const stampEl = document.createElement('span');
         stampEl.className = 'sp-card-stamp';
         stampEl.textContent = stamp;
-        state.element.appendChild(stampEl);
+        const scoreEl = document.createElement('span');
+        scoreEl.className = 'sp-card-score';
+        scoreEl.textContent = `${charScore}点`;
+        stampRow.appendChild(stampEl); stampRow.appendChild(scoreEl);
+        state.element.appendChild(stampRow);
         const thumbData = state.canvas.toDataURL('image/png');
-        saveHistory({ char: state.char, date: new Date().toLocaleString(), mode: 'sentence', rating: goodCount, total, stamp, thumb: thumbData });
+        saveHistory({ char: state.char, date: new Date().toLocaleString(), mode: 'sentence', rating: goodCount, total, stamp, score: charScore, thumb: thumbData });
         spCompletedCount++;
         updateSpProgress();
       }
       function resetCard(state) {
         if (!state.hasSvg) return;
-        state.expectedStrokeIndex = 0; state.savedStrokes = []; state.ratings = [];
+        state.expectedStrokeIndex = 0; state.savedStrokes = []; state.ratings = []; state.scores = []; state.strokeFailStreak = 0;
         state.completed = false; state.element.classList.remove('completed');
-        const stampEl = state.element.querySelector('.sp-card-stamp');
-        if (stampEl) stampEl.remove();
+        const stampRow = state.element.querySelector('.sp-card-stamp-row');
+        if (stampRow) stampRow.remove();
         state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
         updateCardProgress(state);
       }
@@ -1656,6 +1732,8 @@
         userDrawnPoints = [];
         savedStrokes = [];
         strokeRatings = [];
+        strokeScores = [];
+        currentStrokeFailStreak = 0;
         if (mode === 'check') lockStrokeNumbers(true);
         else lockStrokeNumbers(false);
         strokePaths.forEach(p => {
@@ -1906,8 +1984,8 @@
         if (drawnLength > pathLength * LENGTH_RATIO_MAX) return { pass: false, reason: 'tooLong' };
         const avgDist = averageDistance(drawnPoints, samplePoints);
         const coverage = calcCoverage(drawnPoints, samplePoints, 15);
-        if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) return { pass: true, rating: 'good' };
-        if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) return { pass: true, rating: 'ok' };
+        if (avgDist <= DISTANCE_THRESHOLD_GOOD && coverage >= COVERAGE_THRESHOLD_GOOD) return { pass: true, rating: 'good', score: calcStrokeQualityScore(avgDist, coverage, drawnLength, pathLength) };
+        if (avgDist <= DISTANCE_THRESHOLD_OK && coverage >= COVERAGE_THRESHOLD_OK) return { pass: true, rating: 'ok', score: calcStrokeQualityScore(avgDist, coverage, drawnLength, pathLength) };
         return { pass: false, reason: 'inaccurate' };
       }
       function feedbackForReason(reason) {
@@ -2053,6 +2131,7 @@
         setFeedback('❌ ふごうかく…つぎの字へ', false);
         saveTestResult(currentChar, currentUnicode, 'ok');
         testMode.wrong++;
+        testMode.scores.push(0);
         setTimeout(() => {
           ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
           isFlashing = false; canvas.style.pointerEvents = 'auto';
@@ -2064,20 +2143,24 @@
         isDrawing=false; ctx.beginPath();
         if (userDrawnPoints.length<3) {
           if (testMode) { failTestCharacter(); return; }
+          currentStrokeFailStreak++;
           setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return;
         }
         if (practiceMode==='hint'||practiceMode==='listen') {
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
           const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
           const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
-          if (!result.pass) { setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
+          if (!result.pass) { currentStrokeFailStreak++; setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return; }
           setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
-          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating); expectedStrokeIndex++;
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating);
+          strokeScores.push(applyRetryPenalty(result.score, currentStrokeFailStreak)); currentStrokeFailStreak = 0;
+          expectedStrokeIndex++;
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter(); else updateHighlight();
         } else if (practiceMode==='check') {
           const closestIdx=findClosestStroke(userDrawnPoints);
           if (closestIdx!==expectedStrokeIndex) {
             if (testMode) { failTestCharacter(); return; }
+            currentStrokeFailStreak++;
             setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
           }
           const samplePoints = strokeSamplePoints[expectedStrokeIndex];
@@ -2085,10 +2168,13 @@
           const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
           if (!result.pass) {
             if (testMode) { failTestCharacter(); return; }
+            currentStrokeFailStreak++;
             setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
           }
           setFeedback(result.rating==='good' ? '🌟 じょうず！' : '👍 まあまあ！');
-          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating); expectedStrokeIndex++;
+          savedStrokes.push([...userDrawnPoints]); strokeRatings.push(result.rating);
+          strokeScores.push(applyRetryPenalty(result.score, currentStrokeFailStreak)); currentStrokeFailStreak = 0;
+          expectedStrokeIndex++;
           if (expectedStrokeIndex>=strokePaths.length) finishCharacter();
         }
         userDrawnPoints=[];
@@ -2141,7 +2227,7 @@
         strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc); if(characterHidden)svgContainer.classList.add('hidden-char');
       }
       function startListeningMode() {
-        calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[];
+        calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[]; strokeScores=[]; currentStrokeFailStreak=0;
         lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth=String(charStrokeWidth);p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
         hideCharacter(); speakCharacterWithType(currentChar); canvas.style.display='block'; retryTracingBtn.style.display='inline-block';
         setupCanvas(); isAnimating=false; updateUI(); attachDrawEvents(); setFeedback('🔊 おとをきいて、かいてね');
@@ -2156,16 +2242,18 @@
 
       function finishCharacter() {
         const goodCount=strokeRatings.filter(r=>r==='good').length; const total=strokePaths.length;
+        const charScore = averageScore(strokeScores);
         let stamp='',message='';
         if(goodCount===total){stamp='🌟';message='パーフェクト！';}else if(goodCount>=total*0.7){stamp='👍';message='よくできました！';}else if(goodCount>=1){stamp='😊';message='がんばったね！';}else{stamp='💪';message='もうすこし！';}
-        stampEmoji.textContent=stamp; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
+        stampEmoji.textContent=stamp; stampScore.textContent=`${charScore}点`; resultMessage.textContent=message; resultDetail.textContent=`${currentChar}（${total}画中 ${goodCount}画 じょうず）`;
         const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
-        saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,thumb:thumbData});
+        saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,score:charScore,thumb:thumbData});
         if (testMode) {
           // ここに到達した時点で、すべての画を一発で(やり直しなしで)クリアできている。
           // = テストとしては合格(緑)。不合格(赤)はfailTestCharacter()側で記録済み。
           saveTestResult(currentChar, currentUnicode, 'good');
           testMode.correct++;
+          testMode.scores.push(charScore);
         }
         if (practiceMode === 'listen') exitListeningMode(); else exitPracticeMode();
       }
@@ -2183,7 +2271,7 @@
       function clearHistory(){localStorage.removeItem(HISTORY_KEY);renderHistory();}
       function renderHistory(){
         const history=getHistory(); historyList.innerHTML=history.length===0?'<p>きろくはまだないよ</p>':'';
-        history.forEach(item=>{const div=document.createElement('div');div.className='history-item';div.innerHTML=`<span class="history-char">${item.char}</span><span class="history-stamp">${item.stamp}</span><span style="font-size:0.8rem;color:#888;">${item.date}</span>`;if(item.thumb){const img=document.createElement('img');img.className='history-thumb';img.src=item.thumb;div.prepend(img);}historyList.appendChild(div);});
+        history.forEach(item=>{const div=document.createElement('div');div.className='history-item';const scoreHtml=(item.score!==undefined)?`<span style="font-size:0.8rem;color:#4a90d9;font-weight:bold;">${item.score}点</span>`:'';div.innerHTML=`<span class="history-char">${item.char}</span><span class="history-stamp">${item.stamp}</span>${scoreHtml}<span style="font-size:0.8rem;color:#888;">${item.date}</span>`;if(item.thumb){const img=document.createElement('img');img.className='history-thumb';img.src=item.thumb;div.prepend(img);}historyList.appendChild(div);});
       }
 
       historyBtn.addEventListener('click',()=>{renderHistory();historyModal.style.display='flex';});
@@ -2213,14 +2301,14 @@
       revealCharBtn.addEventListener('click',revealCharacter);
       nextCharBtn.addEventListener('click',async()=>{
         if(practiceMode==='listen'){
-          ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+          ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[]; strokeScores=[]; currentStrokeFailStreak=0;
           updateHighlight();updateUI(); const code=loadQuizChar(); if(code){await loadSvgAndPrepare(code);startListeningMode();} else stopCustomStringMode();
         }else{
           const code=loadQuizChar(); if(code)loadAndDisplay(code); else stopCustomStringMode();
         }
       });
       retryTracingBtn.addEventListener('click',()=>{
-        if(practiceMode==='none')return; ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[];
+        if(practiceMode==='none')return; ctx.clearRect(0,0,canvas.width,canvas.height); savedStrokes=[]; expectedStrokeIndex=0; userDrawnPoints=[]; strokeRatings=[]; strokeScores=[]; currentStrokeFailStreak=0;
         updateHighlight();updateUI(); if(practiceMode==='listen'){setFeedback('🔊 もういちど、おとをきいてかいてね');speakCharacterWithType(currentChar);}
       });
       replaySoundBtn.addEventListener('click',replaySound);

@@ -14,6 +14,28 @@
       color: #333;
     }
     h1 { font-size: 1.8rem; margin-bottom: 1rem; color: #4a4a4a; }
+    /* ==================== 起動時のタイトル画面 ==================== */
+    .title-screen {
+      position: fixed; inset: 0; z-index: 5000; background: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; padding: 20px; box-sizing: border-box;
+    }
+    .title-screen img {
+      max-width: 100%; max-height: 78vh; width: auto; height: auto;
+      object-fit: contain;
+    }
+    .title-screen .tap-to-start {
+      margin-top: 22px; font-size: 1.3rem; font-weight: bold; color: #4a90d9;
+      animation: tapPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes tapPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    /* ==================== 初回だけ表示する説明モーダル ==================== */
+    .intro-modal-content { max-width: 460px; text-align: left; }
+    .intro-modal-note { font-size: 0.8rem; color: #888; margin: -8px 0 12px; }
+    .intro-modal-body { max-height: 60vh; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; }
+    .intro-modal-body p { margin: 0 0 12px; }
+    .intro-modal-body ul { margin: 0 0 12px; padding-left: 1.3em; }
+    .intro-modal-body li { margin-bottom: 4px; }
     .container {
       max-width: 500px; margin: 0 auto; background: white;
       border-radius: 24px; padding: 30px 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
@@ -417,6 +439,34 @@
   </style>
 </head>
 <body>
+  <!-- 起動時のタイトル画面 -->
+  <div class="title-screen" id="titleScreen">
+    <img src="kakijun_title.png" alt="書き順アニメーション">
+    <div class="tap-to-start">タップしてスタート</div>
+  </div>
+
+  <!-- 初回起動時だけ出る説明モーダル -->
+  <div class="modal" id="introModal">
+    <div class="modal-content intro-modal-content">
+      <div class="modal-header">
+        <h2>📌 本アプリをご利用いただく前に</h2>
+      </div>
+      <div class="intro-modal-note">※初回だけ出ます。</div>
+      <div class="intro-modal-body">
+        <p>漢字の「書き順（筆順）」は、文字を効率よく、きれいに書くための<strong>ひとつの目安（ガイドライン）</strong>です。</p>
+        <p>文部科学省の指針（※）でも、学校で習う書き順以外の方法を「間違い（誤り）」とするものではないと明記されています。書き順を100％完璧に暗記することに、過度な時間や労力を割く必要はありません。</p>
+        <p><strong>本アプリの目的</strong><br>当アプリは、以下のような「限定的なメリット」を効率よく得るためのサポートツールです。</p>
+        <ul>
+          <li>漢字検定や試験での加点対策</li>
+          <li>線のつながりを意識し、バランスの良い綺麗な字形で書くコツの習得</li>
+        </ul>
+        <p>「絶対にこの通りに書かなければならない」というルールではなく、あなたの文字を少し綺麗に、効率よく書くための「ヒント」として、気楽にご活用ください。</p>
+        <p style="font-size:0.8rem;color:#888;">※昭和33年 文部省編『筆順指導の手びき』より：「本書に掲げられた以外の筆順で、従来行われてきたものを誤りとするものではない」</p>
+      </div>
+      <button id="introConfirmBtn" style="width:100%; margin-top:14px;">かくにん</button>
+    </div>
+  </div>
+
   <div class="container">
     <h1 id="mainTitle">✍️ 書き順アニメーション</h1>
 
@@ -809,6 +859,9 @@
       const modalSelectBtn = document.getElementById('modalSelectBtn');
       const tabBtns = document.querySelectorAll('.tab-btn');
       const subTabContainer = document.getElementById('subTabContainer');
+      const titleScreen = document.getElementById('titleScreen');
+      const introModal = document.getElementById('introModal');
+      const introConfirmBtn = document.getElementById('introConfirmBtn');
       const historyBtn = document.getElementById('historyBtn');
       const historyModal = document.getElementById('historyModal');
       const historyCloseBtn = document.getElementById('historyCloseBtn');
@@ -2326,6 +2379,22 @@
         strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc);
         if(strokePaths.length>0){currentStrokeIndex=-1;switchToModeChoice();}else updateUI();
       }
+
+      // ==================== 起動時のタイトル画面／初回だけの説明モーダル ====================
+      const INTRO_SEEN_KEY = 'kakijun_intro_seen';
+      function hideTitleScreen() {
+        titleScreen.style.display = 'none';
+        maybeShowIntro();
+      }
+      function maybeShowIntro() {
+        if (localStorage.getItem(INTRO_SEEN_KEY) === '1') return;
+        introModal.style.display = 'flex';
+      }
+      titleScreen.addEventListener('click', hideTitleScreen);
+      introConfirmBtn.addEventListener('click', () => {
+        localStorage.setItem(INTRO_SEEN_KEY, '1');
+        introModal.style.display = 'none';
+      });
 
       function init() {
         sentencePracticeArea.style.display = 'none';

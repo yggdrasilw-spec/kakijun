@@ -52,6 +52,22 @@
       border: 1px solid #d4c3a5;
     }
     .speed-btn.active { background: #d4c3a5; color: white; border-color: #b8a080; }
+    .fine-slider-row {
+      display: flex; align-items: center; gap: 8px; margin: 6px auto 0; max-width: 260px;
+    }
+    .fine-slider-label { font-size: 0.85rem; color: #a08b6c; }
+    .fine-slider {
+      flex: 1 1 auto; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 4px;
+      background: #e8dfc9; outline: none; cursor: pointer;
+    }
+    .fine-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: #ff9800; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.3); cursor: pointer;
+    }
+    .fine-slider::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%; background: #ff9800; border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3); cursor: pointer;
+    }
     .controls { margin: 20px 0; }
     .mode-selector {
       margin: 10px 0; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
@@ -390,6 +406,20 @@
       <button class="speed-btn" data-speed="slow">🐢 ゆっくり</button>
       <button class="speed-btn active" data-speed="normal">🐇 ふつう</button>
       <button class="speed-btn" data-speed="fast">🐆 はやい</button>
+      <div class="fine-slider-row">
+        <span class="fine-slider-label">🐢</span>
+        <input type="range" id="speedSlider" class="fine-slider" min="1" max="100" step="1" value="73">
+        <span class="fine-slider-label">🐆</span>
+      </div>
+    </div>
+
+    <div id="widthControl" style="margin:10px 0;">
+      <span style="font-size:0.9rem; color:#888;">✏️ 線の太さ：</span>
+      <div class="fine-slider-row">
+        <span class="fine-slider-label">細</span>
+        <input type="range" id="widthSlider" class="fine-slider" min="3" max="18" step="1" value="9">
+        <span class="fine-slider-label">太</span>
+      </div>
     </div>
 
     <div class="controls">
@@ -574,6 +604,30 @@
       const speedBaseDurations = { slow: 2000, normal: 800, fast: 300 };
       const BASE_LENGTH = 200;
       const MIN_DURATION = 100;
+
+      // --- 無段階はやさスライダー ---
+      // スライダーの目盛り（1〜100）を「1画あたりの基準所要時間(ms)」に変換する。
+      // 1に近いほど遅く(SPEED_SLIDER_MAX_MS)、100に近いほど速く(SPEED_SLIDER_MIN_MS)なる。
+      const SPEED_SLIDER_MIN_MS = 150;   // 一番はやい設定（ボタンの「はやい」300msよりさらに速い）
+      const SPEED_SLIDER_MAX_MS = 2500;  // 一番遅い設定（ボタンの「ゆっくり」2000msよりさらに遅い）
+      let speedDurationMs = speedBaseDurations['normal'];
+      function levelToDuration(level) {
+        const t = (level - 1) / 99;
+        return SPEED_SLIDER_MAX_MS - t * (SPEED_SLIDER_MAX_MS - SPEED_SLIDER_MIN_MS);
+      }
+      function durationToLevel(ms) {
+        const t = (SPEED_SLIDER_MAX_MS - ms) / (SPEED_SLIDER_MAX_MS - SPEED_SLIDER_MIN_MS);
+        return Math.round(1 + t * 99);
+      }
+
+      // --- 無段階 文字の線の太さスライダー ---
+      let charStrokeWidth = 9; // 従来の固定値'9'に相当する初期値
+      function applyCharStrokeWidthNow() {
+        strokePaths.forEach(p => {
+          const isHighlighted = (p.style.stroke === '#4a90d9' || p.style.stroke === 'rgb(74, 144, 217)');
+          p.style.strokeWidth = String(isHighlighted ? charStrokeWidth + 1 : charStrokeWidth);
+        });
+      }
       const DISTANCE_THRESHOLD_GOOD = 12;
       const DISTANCE_THRESHOLD_OK = 25;
       const START_DISTANCE_THRESHOLD = 30;
@@ -590,6 +644,8 @@
       const nextBtn = document.getElementById('nextBtn');
       const speedControl = document.getElementById('speedControl');
       const speedBtns = document.querySelectorAll('.speed-btn');
+      const speedSlider = document.getElementById('speedSlider');
+      const widthSlider = document.getElementById('widthSlider');
       const styleBtns = document.querySelectorAll('.style-btn');
       const revealCharBtn = document.getElementById('revealCharBtn');
       const nextCharBtn = document.getElementById('nextCharBtn');
@@ -1332,7 +1388,7 @@
         strokePaths.forEach(p => {
           p.style.display = 'block';
           p.style.stroke = '#d0d0d0';
-          p.style.strokeWidth = '9';
+          p.style.strokeWidth = String(charStrokeWidth);
           p.style.transition = 'none';
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
@@ -1357,7 +1413,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         strokePaths.forEach(p => {
           p.style.display = 'none';
-          p.style.strokeWidth = '9';
+          p.style.strokeWidth = String(charStrokeWidth);
           p.style.transition = 'none';
           p.style.strokeDasharray = 'none';
           p.style.strokeDashoffset = '0';
@@ -1380,7 +1436,7 @@
             p.style.strokeDasharray = 'none';
             p.style.strokeDashoffset = '0';
             p.style.stroke = '#d0d0d0';
-            p.style.strokeWidth = '9';
+            p.style.strokeWidth = String(charStrokeWidth);
           }
         });
       }
@@ -1388,9 +1444,9 @@
         path.parentNode.appendChild(path);
         const length = path.getTotalLength();
         path.style.stroke = '#4a90d9';
-        path.style.strokeWidth = '10';
+        path.style.strokeWidth = String(charStrokeWidth + 1);
         if (length === 0) return;
-        let duration = (length / BASE_LENGTH) * speedBaseDurations[animationSpeed];
+        let duration = (length / BASE_LENGTH) * speedDurationMs;
         if (duration < MIN_DURATION) duration = MIN_DURATION;
         path.style.transition = 'none';
         path.style.strokeDasharray = length;
@@ -1601,7 +1657,7 @@
         svgRoot.removeAttribute('width'); svgRoot.removeAttribute('height');
         svgRoot.style.display='block'; svgRoot.style.margin='auto'; svgRoot.style.pointerEvents='none';
         svgRoot.querySelectorAll('path').forEach(path => {
-          path.style.display='none'; path.style.strokeWidth='9';
+          path.style.display='none'; path.style.strokeWidth=String(charStrokeWidth);
           path.style.strokeLinecap='round'; path.style.strokeLinejoin='round'; path.style.fill='none'; path.style.transition='none';
         });
         svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
@@ -1703,7 +1759,7 @@
         targetIndex=Math.min(Math.max(targetIndex,0),strokePaths.length-1);
         if(targetIndex<=currentStrokeIndex||currentStrokeIndex===-1){resetAllStrokes();currentStrokeIndex=-1;}
         isAnimating=true;updateUI();
-        for(let i=Math.max(0,currentStrokeIndex+1);i<=targetIndex;i++){const pathLength=strokePaths[i].getTotalLength();let duration=(pathLength/BASE_LENGTH)*speedBaseDurations[animationSpeed];if(duration<MIN_DURATION)duration=MIN_DURATION;await animateSingleStroke(strokePaths[i],duration);currentStrokeIndex=i;updateUI();}
+        for(let i=Math.max(0,currentStrokeIndex+1);i<=targetIndex;i++){const pathLength=strokePaths[i].getTotalLength();let duration=(pathLength/BASE_LENGTH)*speedDurationMs;if(duration<MIN_DURATION)duration=MIN_DURATION;await animateSingleStroke(strokePaths[i],duration);currentStrokeIndex=i;updateUI();}
         isAnimating=false;updateUI();
       }
       function updateUI() {
@@ -1718,7 +1774,7 @@
       }
       function startListeningMode() {
         calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[];
-        lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth='9';p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
+        lockStrokeNumbers(false); strokePaths.forEach(p=>{p.style.display='block';p.style.stroke='#d0d0d0';p.style.strokeWidth=String(charStrokeWidth);p.style.transition='none';p.style.strokeDasharray='none';p.style.strokeDashoffset='0';});
         hideCharacter(); speakCharacterWithType(currentChar); canvas.style.display='block'; retryTracingBtn.style.display='inline-block';
         setupCanvas(); isAnimating=false; updateUI(); attachDrawEvents(); setFeedback('🔊 おとをきいて、かいてね');
       }
@@ -1795,7 +1851,9 @@
       replaySoundBtn.addEventListener('click',replaySound);
       showNumbersCheckbox.addEventListener('change',()=>{if(strokeNumbersLocked)return;showStrokeNumbers=showNumbersCheckbox.checked;updateStrokeNumbersVisibility();});
       document.addEventListener('keydown',(e)=>{if(practiceMode!=='none'||isAnimating||isFlashing)return;if(e.key==='ArrowRight'){e.preventDefault();if(currentStrokeIndex>=strokePaths.length-1)animateToStroke(0);else animateToStroke(currentStrokeIndex+1);}else if(e.key==='ArrowLeft'){e.preventDefault();if(currentStrokeIndex>0)animateToStroke(currentStrokeIndex-1);}});
-      speedBtns.forEach(btn=>{btn.addEventListener('click',function(){speedBtns.forEach(b=>b.classList.remove('active'));this.classList.add('active');animationSpeed=this.dataset.speed;});});
+      speedBtns.forEach(btn=>{btn.addEventListener('click',function(){speedBtns.forEach(b=>b.classList.remove('active'));this.classList.add('active');animationSpeed=this.dataset.speed;speedDurationMs=speedBaseDurations[animationSpeed];speedSlider.value=durationToLevel(speedDurationMs);});});
+      speedSlider.addEventListener('input',function(){speedDurationMs=levelToDuration(Number(this.value));speedBtns.forEach(b=>b.classList.remove('active'));});
+      widthSlider.addEventListener('input',function(){charStrokeWidth=Number(this.value);applyCharStrokeWidthNow();});
 
       async function loadAndDisplay(unicode) {
         if(practiceMode==='listen')exitListeningMode(); else if(practiceMode!=='none')exitPracticeMode();
@@ -1808,6 +1866,8 @@
 
       function init() {
         sentencePracticeArea.style.display = 'none';
+        speedSlider.value = durationToLevel(speedDurationMs);
+        widthSlider.value = charStrokeWidth;
         loadAndDisplay(currentUnicode);
       }
       init();

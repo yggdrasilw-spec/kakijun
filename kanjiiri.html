@@ -205,6 +205,15 @@
     }
 
     /* テストモード選択リスト */
+    .test-strictness-selector {
+      display: flex; gap: 8px; margin-bottom: 4px;
+    }
+    .test-strictness-btn {
+      flex: 1; padding: 8px 6px; font-size: 0.82rem; background: #f0e6d3;
+      border: 1px solid #d4c3a5; border-radius: 14px; cursor: pointer; transition: 0.2s;
+    }
+    .test-strictness-btn.active { background: #4a90d9; color: white; border-color: #2d6fb0; }
+    .test-strictness-hint { font-size: 0.78rem; color: #888; margin: 2px 0 10px; text-align: center; }
     .test-category-list {
       display: flex; flex-direction: column; gap: 10px; max-height: 62vh; overflow-y: auto; padding-right: 4px;
     }
@@ -608,6 +617,11 @@
         <h2>📝 テストモード</h2>
         <button class="modal-close" id="testModalCloseBtn">&times;</button>
       </div>
+      <div class="test-strictness-selector" id="testStrictnessSelector">
+        <button class="test-strictness-btn active" data-strictness="strict">❌ 1回ミスで終わり</button>
+        <button class="test-strictness-btn" data-strictness="lenient">🔁 なんかいでもやり直せる</button>
+      </div>
+      <p class="test-strictness-hint" id="testStrictnessHint">まちがえたら、すぐ次の字にすすみます。</p>
       <div class="test-category-list" id="testCategoryList"></div>
       <button class="test-clear-all-btn" id="clearAllTestResultsBtn">きろくを全部けす</button>
     </div>
@@ -719,6 +733,7 @@
       const katakanaBasic = [["ア","イ","ウ","エ","オ"],["カ","キ","ク","ケ","コ"],["サ","シ","ス","セ","ソ"],["タ","チ","ツ","テ","ト"],["ナ","ニ","ヌ","ネ","ノ"],["ハ","ヒ","フ","ヘ","ホ"],["マ","ミ","ム","メ","モ"],["ヤ","","ユ","","ヨ"],["ラ","リ","ル","レ","ロ"],["ワ","","","ヲ","ン"]];
       const katakanaDakuten = [["ガ","ギ","グ","ゲ","ゴ"],["ザ","ジ","ズ","ゼ","ゾ"],["ダ","ヂ","ヅ","デ","ド"],["バ","ビ","ブ","ベ","ボ"]];
       const katakanaHandakuten = [["パ","ピ","プ","ペ","ポ"]];
+      const digitChars = ['1','2','3','4','5','6','7','8','9','0'];
 
       let isListeningMode = false;
       let characterHidden = false;
@@ -892,6 +907,8 @@
       const openTestModeBtn = document.getElementById('openTestModeBtn');
       const testModal = document.getElementById('testModal');
       const testModalCloseBtn = document.getElementById('testModalCloseBtn');
+      const testStrictnessSelector = document.getElementById('testStrictnessSelector');
+      const testStrictnessHint = document.getElementById('testStrictnessHint');
       const testCategoryList = document.getElementById('testCategoryList');
       const clearAllTestResultsBtn = document.getElementById('clearAllTestResultsBtn');
       const testProgressBanner = document.getElementById('testProgressBanner');
@@ -1411,6 +1428,7 @@
       const TEST_CATEGORIES = [
         { key: 'hiragana', label: 'ひらがなテスト', getChars: () => flattenCharGrid([...hiraganaBasic, ...hiraganaDakuten, ...hiraganaHandakuten]) },
         { key: 'katakana', label: 'カタカナテスト', getChars: () => flattenCharGrid([...katakanaBasic, ...katakanaDakuten, ...katakanaHandakuten]) },
+        { key: 'digits', label: 'すうじテスト', getChars: () => digitChars },
         { key: 'grade1', label: '小1でならうかん字', getChars: () => gradeKanji[1] || [] },
         { key: 'grade2', label: '小2でならうかん字', getChars: () => gradeKanji[2] || [] },
         { key: 'grade3', label: '小3でならうかん字', getChars: () => gradeKanji[3] || [] },
@@ -1430,7 +1448,27 @@
       }
 
       // 現在進行中のテスト（テスト中でなければ null）
-      let testMode = null; // { categoryKey, queue, idx, correct, wrong, retryOnly }
+      let testMode = null; // { categoryKey, queue, idx, correct, wrong, retryOnly, strictness, charHadMistake, scores }
+
+      // テストのやり直しルール。'strict'=1回ミスで即そのじは不合格→次の字へ／'lenient'=なんかいでもやり直せる（1回でもミスしたらミスとしてきろく）
+      const TEST_STRICTNESS_KEY = 'kakijun_test_strictness';
+      let testStrictness = localStorage.getItem(TEST_STRICTNESS_KEY) === 'lenient' ? 'lenient' : 'strict';
+      function updateTestStrictnessUI() {
+        testStrictnessSelector.querySelectorAll('.test-strictness-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.strictness === testStrictness);
+        });
+        testStrictnessHint.textContent = testStrictness === 'lenient'
+          ? 'なんかいでもやり直せます。1回でもまちがえたら「ミス」としてきろくされます。'
+          : 'まちがえたら、すぐ次の字にすすみます。';
+      }
+      testStrictnessSelector.querySelectorAll('.test-strictness-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          testStrictness = btn.dataset.strictness;
+          localStorage.setItem(TEST_STRICTNESS_KEY, testStrictness);
+          updateTestStrictnessUI();
+        });
+      });
+      updateTestStrictnessUI();
 
       function renderTestCategoryList() {
         const results = getTestResults();
@@ -1487,7 +1525,7 @@
           return;
         }
         // シャッフルはせず、決められた順番（五十音順・学年配当順）で最初から最後まで出題する
-        testMode = { categoryKey, queue, idx: 0, correct: 0, wrong: 0, retryOnly, scores: [] };
+        testMode = { categoryKey, queue, idx: 0, correct: 0, wrong: 0, retryOnly, scores: [], strictness: testStrictness, charHadMistake: false };
         closeTestModal();
         if (isSentenceMode) stopCustomStringMode();
         currentModeChoice = 'check';
@@ -1510,6 +1548,7 @@
       function loadTestChar() {
         const item = testMode.queue[testMode.idx];
         currentChar = item.char; currentUnicode = item.code;
+        testMode.charHadMistake = false;
         updateTestBanner();
         loadAndDisplay(currentUnicode);
       }
@@ -2316,11 +2355,19 @@
           advanceTestMode();
         }, 700);
       }
+      // テスト中に画のミスが起きたときの共通処理。
+      // strict（1回ミスで終わり）ならfailTestCharacter()でそのじを不合格にして次へ進め、trueを返す（呼び出し元はreturnする）。
+      // lenient（なんかいでもやり直せる）なら「ミスがあった」ことだけ記録し、falseを返す（呼び出し元は通常のやり直し処理を続ける）。
+      function handleTestFailure() {
+        if (testMode.strictness === 'lenient') { testMode.charHadMistake = true; return false; }
+        failTestCharacter();
+        return true;
+      }
       function onPointerUp(e) {
         if (!isDrawing||practiceMode==='none'||isFlashing) return;
         isDrawing=false; ctx.beginPath();
         if (userDrawnPoints.length<3) {
-          if (testMode) { failTestCharacter(); return; }
+          if (testMode && handleTestFailure()) return;
           currentStrokeFailStreak++;
           playSfx('wrong');
           setFeedback('✍️ もっと長くなぞってね',false); redrawCanvas(); userDrawnPoints=[]; return;
@@ -2339,7 +2386,7 @@
         } else if (practiceMode==='check') {
           const closestIdx=findClosestStroke(userDrawnPoints);
           if (closestIdx!==expectedStrokeIndex) {
-            if (testMode) { failTestCharacter(); return; }
+            if (testMode && handleTestFailure()) return;
             currentStrokeFailStreak++;
             playSfx('wrong');
             setFeedback('❌ 書き順がちがうよ！',false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
@@ -2348,7 +2395,7 @@
           const pathLength = strokePaths[expectedStrokeIndex].getTotalLength();
           const result = evaluateStrokeAttempt(userDrawnPoints, samplePoints, pathLength);
           if (!result.pass) {
-            if (testMode) { failTestCharacter(); return; }
+            if (testMode && handleTestFailure()) return;
             currentStrokeFailStreak++;
             playSfx('wrong');
             setFeedback(feedbackForReason(result.reason),false); flashAndRemoveWrongStroke(userDrawnPoints); userDrawnPoints=[]; return;
@@ -2433,10 +2480,12 @@
         const thumbData=canvas.toDataURL('image/png'); resultThumb.src=thumbData; resultThumb.style.display='inline-block'; resultOverlay.style.display='flex';
         saveHistory({char:currentChar,date:new Date().toLocaleString(),mode:practiceMode,rating:goodCount,total,stamp,score:charScore,thumb:thumbData});
         if (testMode) {
-          // ここに到達した時点で、すべての画を一発で(やり直しなしで)クリアできている。
-          // = テストとしては合格(緑)。不合格(赤)はfailTestCharacter()側で記録済み。
-          saveTestResult(currentChar, currentUnicode, 'good');
-          testMode.correct++;
+          // strict（1回ミスで終わり）でここに到達するのは、すべての画を一発でクリアできたときだけ。
+          // lenient（なんかいでもやり直せる）では、途中でミスがあってもここに到達しうるので、
+          // charHadMistakeを見て合格(緑/good)か、ミスあり(赤/ok)かを判定する。
+          const hadMistake = !!testMode.charHadMistake;
+          saveTestResult(currentChar, currentUnicode, hadMistake ? 'ok' : 'good');
+          if (hadMistake) testMode.wrong++; else testMode.correct++;
           testMode.scores.push(charScore);
         }
         if (practiceMode === 'listen') exitListeningMode(); else exitPracticeMode();

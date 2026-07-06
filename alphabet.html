@@ -47,6 +47,22 @@
     }
     .sound-toggle-btn:active { transform: scale(0.92); }
     .sound-toggle-btn.muted { filter: grayscale(1); opacity: 0.4; }
+    /* ==================== 書き順コラム（豆知識）ボタン ==================== */
+    .column-info-btn {
+      position: fixed; top: 64px; right: 12px; z-index: 4000;
+      width: 46px; height: 46px; border-radius: 50%; border: none;
+      background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      font-size: 1.4rem; line-height: 1; padding: 0; margin: 0;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.15s;
+    }
+    .column-info-btn:active { transform: scale(0.92); }
+    .column-modal-content h3 { margin: 18px 0 8px; font-size: 1.05rem; color: #5a4a3a; }
+    .column-modal-content h3:first-of-type { margin-top: 4px; }
+    .column-modal-content p { margin: 0 0 10px; }
+    .column-modal-content ul { margin: 0 0 10px; padding-left: 1.3em; }
+    .column-modal-content li { margin-bottom: 4px; }
+    .column-modal-content .column-note { font-size: 0.8rem; color: #888; }
     /* ==================== アルファベット4線の調整パネル（フロート） ==================== */
     .fourline-settings-btn {
       position: fixed; top: 12px; left: 12px; z-index: 4000;
@@ -109,6 +125,9 @@
       transform: translate(-50%, -50%); pointer-events: none;
     }
     .kana-display.hidden-char svg { opacity: 0; }
+    /* アルファベット表示中は、descender（j, g, y など）の分だけ縦に余裕を持たせる */
+    .kana-display.alphabet-mode svg,
+    .kana-display.alphabet-mode #drawCanvas { height: 90%; }
     #drawCanvas {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 82%; height: 82%; touch-action: none; display: none; z-index: 10;
@@ -532,8 +551,50 @@
     </div>
   </div>
 
+  <!-- 書き順についてのコラム（豆知識） -->
+  <div class="modal" id="columnModal">
+    <div class="modal-content intro-modal-content column-modal-content">
+      <div class="modal-header">
+        <h2>📚 書き順についてのコラム</h2>
+        <button class="modal-close" id="columnCloseBtn">&times;</button>
+      </div>
+      <div class="intro-modal-body">
+        <h3>漢字の書き順、実はいつから決まった？</h3>
+        <p>漢字の書き順（筆順）は、1958年（昭和33年）に当時の文部省が策定した『筆順指導の手びき』が、現在いちばんの基準になっています。それ以前は地域や流派によって書き方がちがいましたが、今では学校教育や漢字検定などで広く使われています。</p>
+        <p>この基準は、主に次の4つの基本ルールと、文字の成り立ち（字源）や行書のくずし方をもとに決められています。</p>
+        <ul>
+          <li>上から下へ書く（例：「三」「川」）</li>
+          <li>左から右へ書く（例：「一」「十」）</li>
+          <li>外側から内側へ書く（例：「国」「同」）</li>
+          <li>中心を先に書き、左右に分ける（例：「小」「水」）</li>
+        </ul>
+        <p>ほかにも「横画と縦画が交わるときは横画を先に（例：「十」）」「つき抜ける線は最後に書く（例：「中」「十」）」といった細かいルールがあります。</p>
+        <p>書き順どおりに書くと「とめ・はね・はらい」が自然にでき、バランスよくきれいな字を早く書けるようになります。書き順を守ることで、漢字の形を覚えやすくなるという学習上のメリットもあります。</p>
+
+        <h3>アルファベットの書き順は？</h3>
+        <p>アルファベットの書き順については、漢字以上に「厳格なルールは存在しない」というのが公式な見解です。文部科学省の学習指導要領でも「アルファベットの文字の書き順は参考として示したもので、決まりはありません。書きやすいように書きましょう」と明記されています。</p>
+        <p>英語の教科書に載っている書き順は、あくまで「はじめて習う子どもが形を整えやすく、速く書けるように」と考えられた、日本独自の目安にすぎません。</p>
+        <p>細かく指導しなくてよい理由には、こんな背景があります。</p>
+        <ul>
+          <li>英語圏には決まった書き順がなく、たとえば「M」を一筆で書く人もいれば、両端の縦棒から書く人もいます。</li>
+          <li>形さえ合っていれば書き順がちがっても文字の判別に影響しにくいため、テストで書き順を理由に減点すべきではないとされています。</li>
+          <li>日本の子どもはすでに「左から右」「上から下」という運筆のルールが身についているので、自由に書かせても自然と読みやすい形になります。</li>
+        </ul>
+
+        <h3>書き順より大事なこと</h3>
+        <p>英語の文字指導で本当に大切なのは、書き順よりも次の2点です。</p>
+        <ul>
+          <li><strong>4線の中での高さ</strong>：小文字の「d」の縦棒が短いと「a」に見えたり、「n」の縦棒が上に出すぎると「h」に見えたりします。4線紙のどこに文字を置くかが、書き順よりずっと重要です。</li>
+          <li><strong>大文字と小文字の区別</strong>：「C / c」「P / p」のように大きさ以外は同じ形に見える文字を、正確にサイズを分けて書けることが実用面で欠かせません。</li>
+        </ul>
+        <p class="column-note">※昭和33年 文部省編『筆順指導の手びき』ほかをもとに作成。</p>
+      </div>
+    </div>
+  </div>
+
   <!-- 音のオン/オフ（画面固定・絵文字1つでカラー=ON／グレーアウト=OFF） -->
   <button class="sound-toggle-btn" id="soundToggleBtn" title="音のオン/オフ">🔊</button>
+  <button class="column-info-btn" id="columnInfoBtn" title="書き順コラムを見る">📚</button>
 
   <!-- アルファベット4線ガイドの位置調整（画面固定・フロートパネル） -->
   <button class="fourline-settings-btn" id="fourLineSettingsBtn" title="4線の位置を調整">📏</button>
@@ -976,6 +1037,9 @@
       const introModal = document.getElementById('introModal');
       const introConfirmBtn = document.getElementById('introConfirmBtn');
       const soundToggleBtn = document.getElementById('soundToggleBtn');
+      const columnInfoBtn = document.getElementById('columnInfoBtn');
+      const columnModal = document.getElementById('columnModal');
+      const columnCloseBtn = document.getElementById('columnCloseBtn');
       const historyBtn = document.getElementById('historyBtn');
       const historyModal = document.getElementById('historyModal');
       const historyCloseBtn = document.getElementById('historyCloseBtn');
@@ -1941,6 +2005,7 @@
 
         state.display.innerHTML = '';
         state.display.appendChild(svgRoot);
+        expandViewBoxForContent(svgRoot, paths, state.char);
 
         const canvas = document.createElement('canvas');
         canvas.className = 'sp-card-canvas';
@@ -2372,6 +2437,35 @@
         }
         return { x: 0, y: 0, w: 109, h: 109 };
       }
+      // ==================== アルファベットのはみ出し（descender等）対策 ====================
+      // 「j」「g」「y」「p」「q」などは文字がベースラインより下に突き出るため、
+      // 元のviewBoxのままだとキャンバス下端で見切れてしまう。
+      // 実際のストローク（パス）の描画範囲(bbox)を測り、はみ出す分だけviewBoxを広げる。
+      function getPathsBBox(paths) {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        (paths || []).forEach(path => {
+          let b;
+          try { b = path.getBBox(); } catch (e) { return; }
+          if (!b || (b.width === 0 && b.height === 0)) return;
+          minX = Math.min(minX, b.x); minY = Math.min(minY, b.y);
+          maxX = Math.max(maxX, b.x + b.width); maxY = Math.max(maxY, b.y + b.height);
+        });
+        if (!isFinite(minX)) return null;
+        return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+      }
+      function expandViewBoxForContent(svgRoot, paths, char) {
+        if (!isLatinAlphabetChar(char)) return;
+        const vb = parseViewBox(svgRoot);
+        const bbox = getPathsBBox(paths);
+        if (!bbox) return;
+        const pad = vb.h * 0.06;
+        const newTop = Math.min(vb.y, bbox.y - pad);
+        const newBottom = Math.max(vb.y + vb.h, bbox.y + bbox.height + pad);
+        const newLeft = Math.min(vb.x, bbox.x - pad);
+        const newRight = Math.max(vb.x + vb.w, bbox.x + bbox.width + pad);
+        if (newTop === vb.y && newBottom === vb.y + vb.h && newLeft === vb.x && newRight === vb.x + vb.w) return;
+        svgRoot.setAttribute('viewBox', `${newLeft} ${newTop} ${newRight - newLeft} ${newBottom - newTop}`);
+      }
       // ==================== アルファベット用「4線」ガイド ====================
       // 上から①グレー実線／②グレー破線／③水色実線（ベースライン）／④グレー実線
       // 位置(%)はviewBoxの高さに対する割合。フロートの調整パネルからリアルタイムで変更できる。
@@ -2484,10 +2578,12 @@
           path.style.strokeLinecap='round'; path.style.strokeLinejoin='round'; path.style.fill='none'; path.style.transition='none';
         });
         svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
+        svgContainer.classList.toggle('alphabet-mode', isLatinAlphabetChar(currentChar));
+        svgContainer.appendChild(svgRoot);
+        expandViewBoxForContent(svgRoot, strokePaths, currentChar);
         if (isLatinAlphabetChar(currentChar)) addFourLineGuide(svgRoot); else addCrosshairGuide(svgRoot);
         applyStrokeColors(strokePaths);
         addStrokeNumbers(svgRoot, strokePaths);
-        svgContainer.appendChild(svgRoot);
         const newCanvas = document.createElement('canvas'); newCanvas.id='drawCanvas'; newCanvas.style.display='none';
         svgContainer.appendChild(newCanvas);
         canvas = newCanvas; ctx = canvas.getContext('2d');
@@ -2755,6 +2851,9 @@
         introModal.style.display = 'flex';
       }
       titleScreen.addEventListener('click', hideTitleScreen);
+      columnInfoBtn.addEventListener('click', () => { columnModal.style.display = 'flex'; });
+      columnCloseBtn.addEventListener('click', () => { columnModal.style.display = 'none'; });
+      window.addEventListener('click', (e) => { if (e.target === columnModal) columnModal.style.display = 'none'; });
       introConfirmBtn.addEventListener('click', () => {
         localStorage.setItem(INTRO_SEEN_KEY, '1');
         introModal.style.display = 'none';

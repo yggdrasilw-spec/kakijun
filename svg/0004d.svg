@@ -1,52 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-Copyright (C) 2009/2010/2011 Ulrich Apel.
-This work is distributed under the conditions of the Creative Commons
-Attribution-Share Alike 3.0 Licence. This means you are free:
-* to Share - to copy, distribute and transmit the work
-* to Remix - to adapt the work
-
-Under the following conditions:
-* Attribution. You must attribute the work by stating your use of KanjiVG in
-  your own copyright header and linking to KanjiVG's website
-  (http://kanjivg.tagaini.net)
-* Share Alike. If you alter, transform, or build upon this work, you may
-  distribute the resulting work only under the same or similar license to this
-  one.
-
-See http://creativecommons.org/licenses/by-sa/3.0/ for more details.
--->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd" [
-<!ATTLIST g
-xmlns:kvg CDATA #FIXED "http://kanjivg.tagaini.net"
-kvg:element CDATA #IMPLIED
-kvg:variant CDATA #IMPLIED
-kvg:partial CDATA #IMPLIED
-kvg:original CDATA #IMPLIED
-kvg:part CDATA #IMPLIED
-kvg:number CDATA #IMPLIED
-kvg:tradForm CDATA #IMPLIED
-kvg:radicalForm CDATA #IMPLIED
-kvg:position CDATA #IMPLIED
-kvg:radical CDATA #IMPLIED
-kvg:phon CDATA #IMPLIED >
-<!ATTLIST path
-xmlns:kvg CDATA #FIXED "http://kanjivg.tagaini.net"
-kvg:type CDATA #IMPLIED >
-]>
-<svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109">
-<g id="kvg:StrokePaths_0004d" style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;">
-<g id="kvg:0004d" kvg:element="M">
-	<path id="kvg:0004d-s1" d="M18,15.43c0,5.92,0,71.36,0,77.28"/>
-	<path id="kvg:0004d-s2" d="M18.43,14.92c10.44,22.4,31.17,67.63,35.71,77.31"/>
-	<path id="kvg:0004d-s3" d="M88.81,16.08c-6.74,15.17-28.84,64.24-34.4,76.23"/>
-	<path id="kvg:0004d-s4" d="M89.32,15.5c0,15.03,0,66.33,0,77.02"/>
-</g>
-</g>
-<g id="kvg:StrokeNumbers_0004d" style="font-size:8;fill:#808080">
-	<text transform="matrix(1 0 0 1 10.04 16.09)">1</text>
-	<text transform="matrix(1 0 0 1 24.59 19.41)">2</text>
-	<text transform="matrix(1 0 0 1 76.76 19.56)">3</text>
-	<text transform="matrix(1 0 0 1 82.02 47.61)">4</text>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 109 109"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <!-- フォントから自動生成した下絵（塗りシルエット）です。 -->
+  <!-- 実際の書き順アニメーションにするには、この輪郭をなぞって -->
+  <!-- 1画ずつの<path>（stroke、fill=none）に手作業で分割してください。 -->
+  <!-- fill-ruleはnonzero（TrueType/OpenTypeの輪郭の巻き方向規則に準拠）。 -->
+  <!-- 手作業でstrokeを1本のpathに結合するときも、evenoddではなく -->
+  <!-- Inkscapeの「パス→パスの統合(Union)」を使うと、交差点が -->
+  <!-- 白く抜ける自己交差バグを避けられます。 -->
+  <path
+     d="M83.5489430894309 6.229837398373988C83.1590243902439 5.742439024390251 82.67162601626018 5.352520325203258 82.08674796747968 5.157560975609755C80.42959349593497 4.475203252032529 78.57747967479675 5.352520325203258 77.89512195121952 7.009674796747973L54.30504065040651 69.68910569105691L30.7149593495935 7.009674796747973C30.032601626016266 5.352520325203258 28.180487804878055 4.475203252032529 26.52333333333334 5.157560975609755C25.256097560975615 5.644959349593506 24.476260162601633 6.8147154471544695 24.37878048780488 8.17943089430895C24.37878048780488 8.37439024390244 24.281300813008137 8.471869918699198 24.281300813008137 8.666829268292688V78.55975609756098C24.281300813008137 80.31439024390244 25.743495934959356 81.77658536585366 27.595609756097566 81.77658536585366C29.35024390243903 81.77658536585366 30.81243902439025 80.31439024390244 30.81243902439025 78.55975609756098V25.725772357723578L51.18569105691057 79.72951219512196C51.673089430894315 80.99674796747968 52.94032520325204 81.87406504065041 54.20756097560976 81.87406504065041C54.20756097560976 81.87406504065041 54.30504065040651 81.87406504065041 54.30504065040651 81.77658536585366C54.402520325203255 81.87406504065041 54.402520325203255 81.87406504065041 54.402520325203255 81.87406504065041C55.76723577235773 81.87406504065041 56.9369918699187 80.99674796747968 57.424390243902444 79.72951219512196L78.18756097560976 24.84845528455285V78.55975609756098C78.18756097560976 80.31439024390244 79.64975609756098 81.77658536585366 81.40439024390244 81.77658536585366C83.25650406504064 81.77658536585366 84.71869918699187 80.31439024390244 84.71869918699187 78.55975609756098V8.666829268292688C84.71869918699187 7.692032520325213 84.23130081300812 6.8147154471544695 83.5489430894309 6.229837398373988Z"
+     fill="#d9d0bd"
+     fill-rule="nonzero"
+     id="path1" />
+  <path
+     style="fill:none;stroke:#000000"
+     d="m 27.355757,4.9353169 0.141009,76.4269081 v 0 0"
+     id="M-s1" />
+  <path
+     style="fill:none;stroke:#000000"
+     d="M 27.496766,10.716688 53.865459,76.708926 80.939198,9.0245796 81.503234,80.939198"
+     id="M-s2" />
 </svg>

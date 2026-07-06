@@ -1991,6 +1991,11 @@
         svgRoot.removeAttribute('width'); svgRoot.removeAttribute('height');
         svgRoot.style.display = 'block'; svgRoot.style.pointerEvents = 'none';
         svgRoot.querySelectorAll('text').forEach(t => t.style.display = 'none');
+        // 通常モードと同じく、まず全pathを一旦非表示にしてから、
+        // 認識できたストロークpath（s1〜）だけを表示する。
+        // こうしておかないと、手作りSVGに余分なpathが混ざっていた場合に
+        // 通常モードとテスト/文章モードで見た目が変わってしまう。
+        svgRoot.querySelectorAll('path').forEach(p => { p.style.display = 'none'; });
 
         const paths = extractStrokes(svgDoc);
         state.strokePaths = paths;
@@ -2005,7 +2010,7 @@
 
         state.display.innerHTML = '';
         state.display.appendChild(svgRoot);
-        expandViewBoxForContent(svgRoot, paths, state.char);
+        applyAlphabetCanvasPadding(svgRoot, state.char);
 
         const canvas = document.createElement('canvas');
         canvas.className = 'sp-card-canvas';
@@ -2440,31 +2445,28 @@
       // ==================== アルファベットのはみ出し（descender等）対策 ====================
       // 「j」「g」「y」「p」「q」などは文字がベースラインより下に突き出るため、
       // 元のviewBoxのままだとキャンバス下端で見切れてしまう。
-      // 実際のストローク（パス）の描画範囲(bbox)を測り、はみ出す分だけviewBoxを広げる。
-      function getPathsBBox(paths) {
-        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-        (paths || []).forEach(path => {
-          let b;
-          try { b = path.getBBox(); } catch (e) { return; }
-          if (!b || (b.width === 0 && b.height === 0)) return;
-          minX = Math.min(minX, b.x); minY = Math.min(minY, b.y);
-          maxX = Math.max(maxX, b.x + b.width); maxY = Math.max(maxY, b.y + b.height);
-        });
-        if (!isFinite(minX)) return null;
-        return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-      }
-      function expandViewBoxForContent(svgRoot, paths, char) {
+      // 文字ごとに測って可変にすると「4線」の位置が文字によってズレてしまうため、
+      // 常に固定の割合でキャンバスを下方向にだけ広げる（4線の位置計算は元のviewBox基準のまま）。
+      const ALPHABET_EXTRA_BOTTOM_RATIO = 0.35;
+      function applyAlphabetCanvasPadding(svgRoot, char) {
         if (!isLatinAlphabetChar(char)) return;
+        if (svgRoot.dataset.contentH) return; // 二重適用防止
         const vb = parseViewBox(svgRoot);
-        const bbox = getPathsBBox(paths);
-        if (!bbox) return;
-        const pad = vb.h * 0.06;
-        const newTop = Math.min(vb.y, bbox.y - pad);
-        const newBottom = Math.max(vb.y + vb.h, bbox.y + bbox.height + pad);
-        const newLeft = Math.min(vb.x, bbox.x - pad);
-        const newRight = Math.max(vb.x + vb.w, bbox.x + bbox.width + pad);
-        if (newTop === vb.y && newBottom === vb.y + vb.h && newLeft === vb.x && newRight === vb.x + vb.w) return;
-        svgRoot.setAttribute('viewBox', `${newLeft} ${newTop} ${newRight - newLeft} ${newBottom - newTop}`);
+        svgRoot.dataset.contentX = vb.x;
+        svgRoot.dataset.contentY = vb.y;
+        svgRoot.dataset.contentW = vb.w;
+        svgRoot.dataset.contentH = vb.h;
+        const extra = vb.h * ALPHABET_EXTRA_BOTTOM_RATIO;
+        svgRoot.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h + extra}`);
+      }
+      // 4線ガイドや十字ガイドの位置計算に使う「基準となる箱」。
+      // アルファベットで下方向にパディングを足していても、ガイドの位置は
+      // 元の（パディング前の）箱を基準に計算することで、文字が違っても4線がズレない。
+      function getGuideBox(svgRoot) {
+        if (svgRoot.dataset.contentH) {
+          return { x: parseFloat(svgRoot.dataset.contentX), y: parseFloat(svgRoot.dataset.contentY), w: parseFloat(svgRoot.dataset.contentW), h: parseFloat(svgRoot.dataset.contentH) };
+        }
+        return parseViewBox(svgRoot);
       }
       // ==================== アルファベット用「4線」ガイド ====================
       // 上から①グレー実線／②グレー破線／③水色実線（ベースライン）／④グレー実線
@@ -2484,7 +2486,7 @@
       }
       function addFourLineGuide(svgRoot) {
         const ns = 'http://www.w3.org/2000/svg';
-        const vb = parseViewBox(svgRoot);
+        const vb = getGuideBox(svgRoot);
         const g = document.createElementNS(ns, 'g');
         g.setAttribute('id', 'fourLineGuide');
         const baseWidth = Math.max(0.5, vb.w * 0.006);
@@ -2580,7 +2582,7 @@
         svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
         svgContainer.classList.toggle('alphabet-mode', isLatinAlphabetChar(currentChar));
         svgContainer.appendChild(svgRoot);
-        expandViewBoxForContent(svgRoot, strokePaths, currentChar);
+        applyAlphabetCanvasPadding(svgRoot, currentChar);
         if (isLatinAlphabetChar(currentChar)) addFourLineGuide(svgRoot); else addCrosshairGuide(svgRoot);
         applyStrokeColors(strokePaths);
         addStrokeNumbers(svgRoot, strokePaths);

@@ -2010,7 +2010,7 @@
 
         state.display.innerHTML = '';
         state.display.appendChild(svgRoot);
-        applyAlphabetCanvasPadding(svgRoot, state.char);
+        await applyAlphabetCanvasPadding(svgRoot, state.char);
 
         const canvas = document.createElement('canvas');
         canvas.className = 'sp-card-canvas';
@@ -2446,17 +2446,87 @@
       // 「j」「g」「y」「p」「q」などは文字がベースラインより下に突き出るため、
       // 元のviewBoxのままだとキャンバス下端で見切れてしまう。
       // 文字ごとに測って可変にすると「4線」の位置が文字によってズレてしまうため、
-      // 常に固定の割合でキャンバスを下方向にだけ広げる（4線の位置計算は元のviewBox基準のまま）。
-      const ALPHABET_EXTRA_BOTTOM_RATIO = 0.35;
-      function applyAlphabetCanvasPadding(svgRoot, char) {
+      // descenderを持つ代表文字（g, j, p, q, y）を実際に読み込んで必要な余白を測定し、
+      // その最大値を「固定の割合」として全アルファベットに一律で適用する
+      // （4線の位置計算は元のviewBox基準のまま変えない）。
+      const ALPHABET_PADDING_CACHE_KEY = 'kakijun_alphabet_padding_ratio_v1';
+      const ALPHABET_PADDING_FALLBACK_RATIO = 0.35; // 実測が終わるまで／失敗した場合の暫定値
+      const ALPHABET_PADDING_SAFETY_MARGIN = 0.02; // ぎりぎりで切れないための最小限の余裕
+      let alphabetExtraBottomRatio = ALPHABET_PADDING_FALLBACK_RATIO;
+      let alphabetPaddingCalibrationPromise = null;
+
+      function getPathsBBox(paths) {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        (paths || []).forEach(path => {
+          let b;
+          try { b = path.getBBox(); } catch (e) { return; }
+          if (!b || (b.width === 0 && b.height === 0)) return;
+          minX = Math.min(minX, b.x); minY = Math.min(minY, b.y);
+          maxX = Math.max(maxX, b.x + b.width); maxY = Math.max(maxY, b.y + b.height);
+        });
+        if (!isFinite(minX)) return null;
+        return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+      }
+
+      // g/j/p/q/y のSVGを実際に読み込み、ベースラインより下に何%はみ出すかを測る。
+      // getBBox()は要素がドキュメントに接続されていないと正しく測れないブラウザがあるため、
+      // 画面外の非表示コンテナに一時的に挿入してから測定する。
+      async function calibrateAlphabetPadding() {
+        try {
+          const cached = parseFloat(localStorage.getItem(ALPHABET_PADDING_CACHE_KEY));
+          if (!isNaN(cached) && cached >= 0) { alphabetExtraBottomRatio = cached; return cached; }
+        } catch (e) {}
+
+        const calibChars = ['g', 'j', 'p', 'q', 'y'];
+        const measureHost = document.createElement('div');
+        measureHost.style.cssText = 'position:absolute; left:-9999px; top:-9999px; width:0; height:0; overflow:hidden;';
+        document.body.appendChild(measureHost);
+
+        let maxRatio = 0;
+        for (const ch of calibChars) {
+          try {
+            const hex = charToHexCode(ch);
+            const svgDoc = await loadSvg(hex);
+            if (!svgDoc) continue;
+            const svgRoot = svgDoc.querySelector('svg');
+            if (!svgRoot) continue;
+            const paths = extractStrokes(svgDoc);
+            const vb = parseViewBox(svgRoot);
+            measureHost.appendChild(svgRoot);
+            const bbox = getPathsBBox(paths);
+            measureHost.removeChild(svgRoot);
+            if (!bbox) continue;
+            const overshoot = (bbox.y + bbox.height) - (vb.y + vb.h);
+            if (overshoot > 0) {
+              const ratio = overshoot / vb.h;
+              if (ratio > maxRatio) maxRatio = ratio;
+            }
+          } catch (e) { /* 1文字の失敗は無視して続行 */ }
+        }
+        document.body.removeChild(measureHost);
+
+        const finalRatio = maxRatio > 0 ? maxRatio + ALPHABET_PADDING_SAFETY_MARGIN : ALPHABET_PADDING_FALLBACK_RATIO;
+        alphabetExtraBottomRatio = finalRatio;
+        try { localStorage.setItem(ALPHABET_PADDING_CACHE_KEY, String(finalRatio)); } catch (e) {}
+        return finalRatio;
+      }
+      function ensureAlphabetPaddingCalibrated() {
+        if (!alphabetPaddingCalibrationPromise) alphabetPaddingCalibrationPromise = calibrateAlphabetPadding();
+        return alphabetPaddingCalibrationPromise;
+      }
+      // ページ読み込み時にバックグラウンドで一度だけ計測しておく（表示時は基本的に待ち時間なし）
+      ensureAlphabetPaddingCalibrated();
+
+      async function applyAlphabetCanvasPadding(svgRoot, char) {
         if (!isLatinAlphabetChar(char)) return;
         if (svgRoot.dataset.contentH) return; // 二重適用防止
+        await ensureAlphabetPaddingCalibrated();
         const vb = parseViewBox(svgRoot);
         svgRoot.dataset.contentX = vb.x;
         svgRoot.dataset.contentY = vb.y;
         svgRoot.dataset.contentW = vb.w;
         svgRoot.dataset.contentH = vb.h;
-        const extra = vb.h * ALPHABET_EXTRA_BOTTOM_RATIO;
+        const extra = vb.h * alphabetExtraBottomRatio;
         svgRoot.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h + extra}`);
       }
       // 4線ガイドや十字ガイドの位置計算に使う「基準となる箱」。
@@ -2565,7 +2635,7 @@
         g.style.display = (strokeNumbersLocked || !showStrokeNumbers) ? 'none' : '';
       }
       function applyStrokeColors(paths) { paths.forEach((p,idx) => { p.style.stroke = getStrokeLineColor(idx); }); }
-      function displaySvg(svgDoc) {
+      async function displaySvg(svgDoc) {
         svgContainer.innerHTML = '';
         const p = document.createElement('p'); p.style.cssText='color:#ccc;'; p.id='placeholderText';
         p.textContent = characterHidden ? '？' : '';
@@ -2582,7 +2652,7 @@
         svgRoot.querySelectorAll('text').forEach(t => t.style.display='none');
         svgContainer.classList.toggle('alphabet-mode', isLatinAlphabetChar(currentChar));
         svgContainer.appendChild(svgRoot);
-        applyAlphabetCanvasPadding(svgRoot, currentChar);
+        await applyAlphabetCanvasPadding(svgRoot, currentChar);
         if (isLatinAlphabetChar(currentChar)) addFourLineGuide(svgRoot); else addCrosshairGuide(svgRoot);
         applyStrokeColors(strokePaths);
         addStrokeNumbers(svgRoot, strokePaths);
@@ -2735,7 +2805,7 @@
 
       async function loadSvgAndPrepare(unicode) {
         const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc; if(!svgDoc)return;
-        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc); if(characterHidden)svgContainer.classList.add('hidden-char');
+        strokePaths=extractStrokes(svgDoc); await displaySvg(svgDoc); if(characterHidden)svgContainer.classList.add('hidden-char');
       }
       function startListeningMode() {
         calculateAllSamplePoints(); practiceMode='listen'; isListeningMode=true; expectedStrokeIndex=0; userDrawnPoints=[]; savedStrokes=[]; strokeRatings=[]; strokeScores=[]; currentStrokeFailStreak=0;
@@ -2837,7 +2907,7 @@
         isAnimating=false;
         const svgDoc=await loadSvg(unicode); currentSvgDoc=svgDoc;
         if(!svgDoc){svgContainer.innerHTML='<p style="color:#ccc;">SVGが見つかりませんでした</p>';strokePaths=[];updateUI();return;}
-        strokePaths=extractStrokes(svgDoc); displaySvg(svgDoc);
+        strokePaths=extractStrokes(svgDoc); await displaySvg(svgDoc);
         if(strokePaths.length>0){currentStrokeIndex=-1;switchToModeChoice();}else updateUI();
       }
 

@@ -105,6 +105,24 @@
     flex-direction:column;
     gap:14px;
   }
+  .selected-kanji-panel{
+    background:var(--paper);
+    border:2px solid #ead8c4;
+    border-radius:16px;
+    padding:14px 14px 10px;
+    margin-bottom:18px;
+    text-align:center;
+  }
+  .selected-kanji{
+    width:150px;
+    height:150px;
+    margin:0 auto;
+  }
+  .selected-kanji-label{
+    font-size:18px;
+    font-weight:700;
+    color:var(--navy-dark);
+  }
   .mode-card{
     background:#fff;
     border-radius:14px;
@@ -681,7 +699,14 @@ function renderHome(){
   if(KANJI_DB.length===0){
     return `<p class="sub">かんじデータを読み込み中…</p>`;
   }
+  if(!state.target) newTarget();
   return `
+  <div class="selected-kanji-panel">
+    <p class="sub">この漢字を、どの方法で調べる？</p>
+    <div class="selected-kanji">${renderStrokeSVG(state.target.code)}</div>
+    <div class="selected-kanji-label">${state.target.char}</div>
+  </div>
+  <p class="sub">調べ方をえらぼう</p>
   <div class="mode-grid">
     <div class="mode-card" onclick="startMode('bushu')">
       <div class="mtitle">① 部首さく引</div>
@@ -982,7 +1007,7 @@ function renderDictResult(){
         <div class="content">${k.meaning}</div>
       </div>
     </div>
-    <button class="primary-btn" onclick="nextRound()">つぎの漢字にちょうせん</button>
+<button class="primary-btn" onclick="nextRound()">別の字にする</button>
     <button class="secondary-btn" onclick="goHome()">ホームにもどる</button>
     <div class="quiz-count">これまでに見つけた漢字：${state.streak}こ</div>`;
 }
@@ -992,9 +1017,9 @@ function flashWrong(el){
   el.classList.add(el.classList.contains('choice-btn')?'wrong-flash':'wrong-flash');
   setTimeout(()=>el.classList.remove('wrong-flash'), 400);
 }
-function nextRound(){ newTarget(); state.step=0; render(); }
-function startMode(mode){ state.mode=mode; state.step=0; newTarget(); render(); }
-function goHome(){ state.screen='home'; state.mode=null; render(); }
+function nextRound(){ newTarget(); state.mode=null; state.step=0; render(); }
+function startMode(mode){ state.mode=mode; state.step=0; state.data={}; render(); }
+function goHome(){ state.screen='home'; state.mode=null; state.step=0; state.data={}; render(); }
 
 /* ---------- ルート ---------- */
 function modeTitle(){
@@ -1043,6 +1068,7 @@ async function boot(){
       const pres = await fetch('data/kanji_parts.json');
       if(pres.ok) KANJI_PARTS = await pres.json();
     }catch(e){ /* パーツデータが無くても4択にフォールバックするので致命的ではない */ }
+    newTarget();
     render();
   }catch(err){
     document.getElementById('app').innerHTML =

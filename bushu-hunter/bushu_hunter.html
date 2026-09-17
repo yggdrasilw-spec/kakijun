@@ -336,8 +336,8 @@ function partsFromSVG(data){
   return (parts.length ? parts : [root]).map(group=>{
     const groupPaths = Array.from(group.querySelectorAll('path'));
     const indexes = groupPaths.map(p=>data.paths.indexOf(p)).filter(i=>i>=0);
-    const radical = Array.from(group.querySelectorAll('*')).some(el=>Array.from(el.attributes||[]).some(a=>a.name.endsWith('radical')))
-      || Array.from(group.attributes||[]).some(a=>a.name.endsWith('radical'));
+    const radical = Array.from(group.querySelectorAll('*')).some(el=>Array.from(el.attributes||[]).some(a=>a.name.endsWith('radical') && ['general','tradit'].includes(a.value)))
+      || Array.from(group.attributes||[]).some(a=>a.name.endsWith('radical') && ['general','tradit'].includes(a.value));
     return {element:group.getAttribute('kvg:element') || '全体', start:Math.min(...indexes), end:Math.max(...indexes), radical};
   }).filter(p=>Number.isFinite(p.start));
 }

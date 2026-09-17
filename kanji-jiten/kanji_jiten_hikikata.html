@@ -499,7 +499,9 @@ function parseKanjiSVG(text){
   const radicalPathIds = new Set();
   doc.querySelectorAll('g').forEach(g=>{
     let isRadical = false;
-    for(const attr of g.attributes){ if(attr.name.endsWith('radical')) isRadical = true; }
+    for(const attr of g.attributes){
+      if(attr.name.endsWith('radical') && ['general','tradit'].includes(attr.value)) isRadical = true;
+    }
     if(isRadical){ g.querySelectorAll('path').forEach(p=>radicalPathIds.add(p.getAttribute('id'))); }
   });
   const strokes = Array.from(doc.querySelectorAll('path')).map(p=>({

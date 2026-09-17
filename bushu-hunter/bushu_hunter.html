@@ -376,19 +376,15 @@ function renderGamePartsSVG(code, parts, answeredIdx, answeredCorrect){
   const locked = answeredIdx!==null && answeredIdx!==undefined;
   const groups = parts.map((p,i)=>{
     const strokes = data.strokes.slice(p.start, p.end+1);
-    let rectColor = 'transparent';
     let strokeColor = 'var(--navy-dark)';
     if(locked && i===answeredIdx){
-      rectColor = answeredCorrect ? 'rgba(63,143,99,0.22)' : 'rgba(192,67,63,0.20)';
       strokeColor = answeredCorrect ? 'var(--success)' : 'var(--stroke-red)';
-    } else if(locked && p.radical){
-      // 不正解だった場合、正しい部首をうっすら示す
-      rectColor = 'rgba(63,143,99,0.12)';
     }
     const bbox = estimateBBox(strokes.map(s=>s.d));
     const paths = strokes.map(s=>`<path d="${s.d}" fill="none" stroke="${strokeColor}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
     const clickAttr = locked ? '' : `onclick="handlePartTap(${i})" style="cursor:pointer"`;
-    return `<g ${clickAttr}><rect x="${bbox.x}" y="${bbox.y}" width="${bbox.w}" height="${bbox.h}" rx="6" fill="${rectColor}"/>${paths}</g>`;
+    // 外接矩形は見た目には塗らず、透明なクリック領域としてだけ使う。
+    return `<g ${clickAttr}><rect x="${bbox.x}" y="${bbox.y}" width="${bbox.w}" height="${bbox.h}" rx="6" fill="transparent" pointer-events="all"/>${paths}</g>`;
   }).join('');
   return `<svg viewBox="${data.viewBox}" width="100%" height="100%">${groups}</svg>`;
 }

@@ -840,7 +840,9 @@ function renderOnkun(){
       <h2 class="step-heading">ステップ1：熟語から読み方を考えよう</h2>
       <p class="sub">「${t.char}」を使った熟語だよ。読み方を考えてみよう。</p>
       <div class="jukugo-display">
-        <span class="jukugo-char target">${t.char}<span class="furigana">？</span></span><span class="jukugo-char">${jukugo.otherChar}<span class="furigana">${jukugo.otherReading}</span></span>
+        ${[...jukugo.word].map(ch=>ch===t.char
+          ? `<span class="jukugo-char target">${ch}<span class="furigana">？</span></span>`
+          : `<span class="jukugo-char">${ch}<span class="furigana">${ch===jukugo.otherChar?jukugo.otherReading:''}</span></span>`).join('')}
       </div>
       ${!feedback ? `
       <p class="sub">「${t.char}」はこの中でどう読むかな？</p>

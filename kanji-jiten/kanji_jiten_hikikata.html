@@ -486,7 +486,13 @@ const svgCache = {};
 
 function parseKanjiSVG(text){
   const cleaned = text.replace(/<!DOCTYPE[^>]*\[[\s\S]*?\]>/, '');
-  const doc = new DOMParser().parseFromString(cleaned, 'image/svg+xml');
+  // KanjiVGのDOCTYPEにはkvg名前空間の属性定義が含まれているため、
+  // XMLとして安全に解析できるよう、DOCTYPE除去後に名前空間をSVGへ明示する。
+  const normalized = cleaned.replace(
+    /<svg\b(?![^>]*\bxmlns:kvg=)/,
+    '<svg xmlns:kvg="http://kanjivg.tagaini.net"'
+  );
+  const doc = new DOMParser().parseFromString(normalized, 'image/svg+xml');
   const svgEl = doc.querySelector('svg');
   if(!svgEl) throw new Error('invalid svg');
   const viewBox = svgEl.getAttribute('viewBox') || '0 0 109 109';

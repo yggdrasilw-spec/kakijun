@@ -705,6 +705,7 @@ function renderHome(){
     <p class="sub">この漢字を、どの方法で調べる？</p>
     <div class="selected-kanji">${renderStrokeSVG(state.target.code)}</div>
     <div class="selected-kanji-label">${state.target.char}</div>
+    <button class="secondary-btn" onclick="nextRound()">別の字にする</button>
   </div>
   <p class="sub">調べ方をえらぼう</p>
   <div class="mode-grid">

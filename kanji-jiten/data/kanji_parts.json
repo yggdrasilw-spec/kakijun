@@ -1,0 +1,51 @@
+{
+  "09023": [
+    {"element":"車","start":0,"end":6,"radical":false},
+    {"element":"⻌","start":7,"end":9,"radical":true}
+  ],
+  "052aa": [
+    {"element":"女","start":0,"end":2,"radical":false},
+    {"element":"又","start":3,"end":4,"radical":false},
+    {"element":"力","start":5,"end":6,"radical":true}
+  ],
+  "05f85": [
+    {"element":"彳","start":0,"end":2,"radical":true},
+    {"element":"土","start":3,"end":5,"radical":false},
+    {"element":"寸","start":6,"end":8,"radical":false}
+  ],
+  "09060": [
+    {"element":"袁","start":0,"end":9,"radical":false},
+    {"element":"⻌","start":10,"end":12,"radical":true}
+  ],
+  "06b69": [
+    {"element":"止","start":0,"end":3,"radical":true},
+    {"element":"少","start":4,"end":7,"radical":false}
+  ],
+  "07a76": [
+    {"element":"穴","start":0,"end":4,"radical":true},
+    {"element":"九","start":5,"end":6,"radical":false}
+  ],
+  "052c7": [
+    {"element":"マ","start":0,"end":1,"radical":false},
+    {"element":"田","start":2,"end":6,"radical":false},
+    {"element":"力","start":7,"end":8,"radical":true}
+  ],
+  "06301": [
+    {"element":"扌","start":0,"end":2,"radical":true},
+    {"element":"土","start":3,"end":5,"radical":false},
+    {"element":"寸","start":6,"end":8,"radical":false}
+  ],
+  "06d77": [
+    {"element":"氵","start":0,"end":2,"radical":true},
+    {"element":"毎","start":3,"end":8,"radical":false}
+  ],
+  "09662": [
+    {"element":"⻖","start":0,"end":2,"radical":true},
+    {"element":"完","start":3,"end":9,"radical":false}
+  ],
+  "082b1": [
+    {"element":"艹","start":0,"end":2,"radical":true},
+    {"element":"亻","start":3,"end":4,"radical":false},
+    {"element":"匕","start":5,"end":6,"radical":false}
+  ]
+}

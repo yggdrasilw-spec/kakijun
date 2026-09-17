@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>字引きたんけん隊 〜 かんじ辞典の使い方</title>
+<style>
+  :root{
+    --navy:#25406c;
+    --navy-dark:#16273f;
+    --paper:#f7efd8;
+    --paper-line:#d9c69a;
+    --accent:#e2793c;
+    --accent-dark:#bd5f27;
+    --ink:#2c2620;
+    --success:#3f8f63;
+    --success-dark:#2d6a49;
+    --stroke-red:#c0433f;
+    --bg:#eef1f2;
+    --card-shadow: 0 6px 16px rgba(22,39,63,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    font-family:"UD Digital KyokashoN-R","UDデジタル教科書体 N-R","BIZ UDPゴシック","BIZ UDPGothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    position:sticky;
+    top:0;
+    z-index:5;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  }
+  header .home-btn{
+    background:rgba(255,255,255,0.15);
+    border:none;
+    color:#fff;
+    width:34px;height:34px;
+    border-radius:50%;
+    font-size:16px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  header .title{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    flex:1;
+  }
+  header .streak{
+    font-size:13px;
+    background:rgba(255,255,255,0.14);
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  main{
+    flex:1;
+    padding:18px 16px 40px;
+  }
+  h2.step-heading{
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 6px;
+    color:var(--navy-dark);
+  }
+  p.sub{
+    font-size:13.5px;
+    color:#555;
+    margin:0 0 16px;
+    line-height:1.6;
+  }
+  .kanji-card{
+    background:#fff;
+    border:2px solid var(--success);
+    border-radius:10px;
+    width:96px;
+    height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:56px;
+    margin:0 auto 18px;
+    box-shadow:var(--card-shadow);
+    padding:8px;
+  }
+  .mode-grid{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .mode-card{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:var(--card-shadow);
+    border-left:6px solid var(--accent);
+    cursor:pointer;
+    transition:transform .12s ease;
+  }
+  .mode-card:active{transform:scale(0.97);}
+  .mode-card .mtitle{
+    font-size:16px;
+    font-weight:700;
+    color:var(--navy-dark);
+    margin-bottom:4px;
+  }
+  .mode-card .mdesc{
+    font-size:13px;
+    color:#555;
+    line-height:1.6;
+  }
+  .mode-card .mwhen{
+    display:inline-block;
+    margin-top:8px;
+    font-size:11.5px;
+    background:#fdece0;
+    color:var(--accent-dark);
+    padding:3px 9px;
+    border-radius:999px;
+  }
+  .choice-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:6px;
+  }
+  .choice-grid.single{grid-template-columns:1fr;}
+  .choice-btn{
+    background:#fff;
+    border:2px solid #d7dde3;
+    border-radius:10px;
+    padding:14px 8px;
+    font-size:17px;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    text-align:center;
+  }
+  .choice-btn:active{background:#f0f4f7;}
+  .choice-btn.wrong-flash{
+    border-color:var(--stroke-red);
+    background:#fdeceb;
+  }
+  .radical-choice-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:12px 8px 10px;
+  }
+  .radical-icon{
+    width:44px;height:44px;
+    color:var(--navy-dark);
+  }
+  .radical-label{
+    font-size:12px;
+    font-weight:700;
+    color:#555;
+  }
+  .radical-icon-sm{
+    width:30px;height:30px;
+    display:inline-flex;
+    color:var(--navy-dark);
+  }
+  .inline-radical-icon{
+    display:inline-block;
+    width:22px;height:22px;
+    vertical-align:middle;
+    color:var(--navy-dark);
+    margin-right:2px;
+  }
+  .index-page{
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    border-radius:8px;
+    padding:14px 12px;
+    box-shadow:var(--card-shadow);
+  }
+  .index-page .page-label{
+    font-size:11px;
+    color:var(--accent-dark);
+    background:#fff3e8;
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:5px;
+    margin-bottom:8px;
+    font-weight:700;
+  }
+  .index-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 6px;
+    border-bottom:1px dotted var(--paper-line);
+    cursor:pointer;
+  }
+  .index-row:last-child{border-bottom:none;}
+  .index-row:active{background:rgba(255,255,255,0.5);}
+  .index-row .left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .index-row .char{
+    font-size:22px;
+    font-weight:700;
+    width:32px;
+    text-align:center;
+  }
+  .index-row .name{
+    font-size:13.5px;
+    color:#4a4132;
+  }
+  .index-row .name .kana{
+    display:block;
+    font-size:11px;
+    color:#8a7d5f;
+  }
+  .index-row .pg{
+    font-size:13px;
+    color:#8a7d5f;
+    font-variant-numeric:tabular-nums;
+  }
+  .index-row.correct-flash{
+    background:#e4f3ea;
+  }
+  .dict-card{
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:16px;
+    box-shadow:var(--card-shadow);
+  }
+  .dict-card .head-row{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    margin-bottom:12px;
+  }
+  .dict-card .headword{
+    background:#fff;
+    border:2px solid var(--navy);
+    border-radius:8px;
+    width:74px;height:74px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    padding:6px;
+  }
+  .dict-card .meta-lines{font-size:12.5px;line-height:1.9;color:#4a4132;}
+  .radical-note{
+    font-size:12px;
+    color:var(--stroke-red);
+    margin:-4px 0 10px;
+    font-weight:700;
+  }
+  .dict-card .meta-lines b{color:var(--navy-dark);}
+  .dict-card .section{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--paper-line);
+  }
+  .dict-card .section .label{
+    font-size:11px;
+    font-weight:700;
+    color:#fff;
+    background:var(--accent);
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:5px;
+    margin-bottom:6px;
+  }
+  .dict-card .section .content{font-size:13.5px;line-height:1.75;}
+  .primary-btn{
+    display:block;
+    width:100%;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:14px;
+    font-size:15.5px;
+    font-weight:700;
+    margin-top:18px;
+    cursor:pointer;
+  }
+  .primary-btn:active{background:var(--navy-dark);}
+  .secondary-btn{
+    display:block;
+    width:100%;
+    background:transparent;
+    color:var(--navy);
+    border:2px solid var(--navy);
+    border-radius:10px;
+    padding:12px;
+    font-size:14.5px;
+    font-weight:700;
+    margin-top:10px;
+    cursor:pointer;
+  }
+  .success-banner{
+    background:var(--success);
+    color:#fff;
+    border-radius:10px;
+    padding:14px;
+    text-align:center;
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .breadcrumb{
+    display:flex;
+    gap:6px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .breadcrumb span{
+    font-size:11px;
+    background:#dfe6ea;
+    color:#5a6672;
+    padding:4px 9px;
+    border-radius:999px;
+  }
+  .breadcrumb span.active{
+    background:var(--navy);
+    color:#fff;
+  }
+  .part-tap-card{
+    width:160px;
+    height:160px;
+  }
+  .stroke-anim-card{
+    width:160px;
+    height:160px;
+  }
+  @keyframes strokeDrawAnim{
+    from{ stroke-dashoffset:300; }
+    to{ stroke-dashoffset:0; }
+  }
+  .stroke-draw-anim{
+    stroke-dasharray:300;
+    stroke-dashoffset:300;
+    animation-name:strokeDrawAnim;
+    animation-duration:0.45s;
+    animation-timing-function:linear;
+    animation-fill-mode:forwards;
+  }
+  .part-feedback{
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:10px;
+  }
+  .part-feedback.correct{
+    background:#e4f3ea;
+    color:var(--success-dark);
+  }
+  .part-feedback.wrong{
+    background:#fdeceb;
+    color:var(--stroke-red);
+  }
+  .jukugo-display{
+    display:flex;
+    justify-content:center;
+    gap:2px;
+    margin:8px 0 18px;
+  }
+  .jukugo-char{
+    position:relative;
+    font-size:52px;
+    font-weight:700;
+    background:#fff;
+    border:2px solid var(--success);
+    border-radius:8px;
+    width:72px;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:var(--card-shadow);
+  }
+  .jukugo-char.target{
+    border-color:var(--accent);
+  }
+  .jukugo-char .furigana{
+    position:absolute;
+    top:-20px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    color:#8a94a3;
+  }
+  .jukugo-char.target .furigana{
+    color:var(--accent-dark);
+  }
+  .phonetic-hint-note{
+    background:#fff7ec;
+    border:1px solid #f0dcb8;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    color:#7a5c20;
+    margin-bottom:6px;
+    line-height:1.6;
+  }
+  .stroke-count-display{
+    font-size:40px;
+    font-weight:800;
+    color:var(--navy-dark);
+    text-align:center;
+    margin:-4px 0 14px;
+  }
+  .stroke-count-display .unit{
+    font-size:16px;
+    font-weight:700;
+    color:#8a94a3;
+    margin-left:2px;
+  }
+  .stroke-draw{
+    animation:strokePop .3s ease;
+  }
+  @keyframes strokePop{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+  .stroke-hint{
+    font-size:12.5px;
+    color:#7a7060;
+    text-align:center;
+    margin-top:8px;
+  }
+  .quiz-count{
+    font-size:12.5px;
+    color:#5a6672;
+    text-align:center;
+    margin-top:6px;
+  }
+  footer.credit{
+    font-size:10.5px;
+    color:#9aa4ad;
+    text-align:center;
+    padding:14px 16px 22px;
+  }
+  footer.credit a{color:#9aa4ad;}
+  .svg-loading{
+    font-size:11px;
+    color:#9aa4ad;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ---------- データ：漢字辞典の見出し語（data/kanji_data.json から取得） ---------- */
+let KANJI_DB = [];
+let KANJI_PARTS = {};
+let RADICAL_INDEX = [];
+let ONKUN_INDEX = [];
+let STROKE_INDEX = [];
+
+/* ---------- 筆順データ：../svg/{code}.svg（KanjiVG, CC BY-SA 3.0）を都度fetchして解析 ---------- */
+const svgCache = {};
+
+function parseKanjiSVG(text){
+  const cleaned = text.replace(/<!DOCTYPE[^>]*\[[\s\S]*?\]>/, '');
+  const doc = new DOMParser().parseFromString(cleaned, 'image/svg+xml');
+  const svgEl = doc.querySelector('svg');
+  if(!svgEl) throw new Error('invalid svg');
+  const viewBox = svgEl.getAttribute('viewBox') || '0 0 109 109';
+  const radicalPathIds = new Set();
+  doc.querySelectorAll('g').forEach(g=>{
+    let isRadical = false;
+    for(const attr of g.attributes){ if(attr.name.endsWith('radical')) isRadical = true; }
+    if(isRadical){ g.querySelectorAll('path').forEach(p=>radicalPathIds.add(p.getAttribute('id'))); }
+  });
+  const strokes = Array.from(doc.querySelectorAll('path')).map(p=>({
+    d: p.getAttribute('d'),
+    radical: radicalPathIds.has(p.getAttribute('id'))
+  }));
+  return {viewBox, strokes};
+}
+
+function ensureSVGLoaded(code){
+  if(svgCache[code]) return svgCache[code] === 'loading' ? null : svgCache[code];
+  svgCache[code] = 'loading';
+  fetch(`../svg/${code}.svg`)
+    .then(r=>{ if(!r.ok) throw new Error('not found'); return r.text(); })
+    .then(text=>{ svgCache[code] = parseKanjiSVG(text); render(); })
+    .catch(()=>{ svgCache[code] = {error:true, strokes:[], viewBox:'0 0 109 109'}; render(); });
+  return null;
+}
+
+function renderStrokeSVG(code, opts){
+  opts = opts || {};
+  const data = ensureSVGLoaded(code);
+  if(!data) return `<div class="svg-loading">読み込み中…</div>`;
+  if(data.error) return `<div class="svg-loading">画像を読み込めませんでした</div>`;
+  const reveal = (opts.revealCount===undefined) ? data.strokes.length : opts.revealCount;
+  const highlight = !!opts.highlightRadical;
+  const paths = data.strokes.slice(0, reveal).map((s,i)=>{
+    const color = (highlight && s.radical) ? 'var(--stroke-red)' : 'var(--navy-dark)';
+    const isLast = (i===reveal-1) && opts.animateLast;
+    const cls = isLast ? 'stroke-draw' : '';
+    return `<path d="${s.d}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="${cls}"/>`;
+  }).join('');
+  return `<svg viewBox="${data.viewBox}" width="100%" height="100%">${paths}</svg>`;
+}
+
+/* 総画数モード用：薄いグレーの下敷き（全画）＋書き順通りに1画ずつ実際に「書く」アニメーション。
+   CSSのstroke-dasharray/dashoffsetで描画アニメを作り、各ストロークにanimation-delayを
+   ずらして与えることで、JS側でタイマーを回さずCSSだけで自動的に順番に描画される。 */
+const STROKE_DRAW_DURATION = 0.45; // 1画あたりの描画時間(秒)
+function renderStrokeAnimSVG(code){
+  const data = ensureSVGLoaded(code);
+  if(!data) return {html:`<div class="svg-loading">読み込み中…</div>`, totalMs:0};
+  if(data.error) return {html:`<div class="svg-loading">画像を読み込めませんでした</div>`, totalMs:0};
+  const guide = data.strokes.map(s=>
+    `<path d="${s.d}" fill="none" stroke="var(--paper-line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`
+  ).join('');
+  const drawn = data.strokes.map((s,i)=>
+    `<path d="${s.d}" fill="none" stroke="var(--navy-dark)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-draw-anim" style="animation-delay:${(i*STROKE_DRAW_DURATION).toFixed(2)}s"/>`
+  ).join('');
+  const totalMs = Math.round(data.strokes.length * STROKE_DRAW_DURATION * 1000) + 200;
+  return {
+    html: `<svg viewBox="${data.viewBox}" width="100%" height="100%">${guide}${drawn}</svg>`,
+    totalMs
+  };
+}
+
+
+function renderRadicalIcon(radicalGroup){
+  const repCode = radicalGroup.list[0].code;
+  const data = ensureSVGLoaded(repCode);
+  if(!data) return `<div class="svg-loading">…</div>`;
+  if(data.error) return `<span>${radicalGroup.radical}</span>`;
+  const radicalStrokes = data.strokes.filter(s=>s.radical);
+  if(radicalStrokes.length===0) return `<span>${radicalGroup.radical}</span>`;
+  const paths = radicalStrokes.map(s=>
+    `<path d="${s.d}" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`
+  ).join('');
+  return `<svg viewBox="${data.viewBox}" width="100%" height="100%">${paths}</svg>`;
+}
+
+/* ---------- 部品タップで部首を見つけるミニゲーム用 ---------- */
+function estimateBBox(dList){
+  let xs=[], ys=[];
+  dList.forEach(d=>{
+    const nums = (d.match(/-?\d+(\.\d+)?/g) || []).map(Number);
+    for(let i=0;i+1<nums.length;i+=2){ xs.push(nums[i]); ys.push(nums[i+1]); }
+  });
+  if(xs.length===0) return {x:0,y:0,w:109,h:109};
+  const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+  const pad = 6;
+  return {x:minX-pad, y:minY-pad, w:(maxX-minX)+pad*2, h:(maxY-minY)+pad*2};
+}
+
+function renderPartTapSVG(code){
+  const parts = KANJI_PARTS[code];
+  const data = ensureSVGLoaded(code);
+  if(!data) return `<div class="svg-loading">読み込み中…</div>`;
+  if(data.error || !parts) return `<div class="svg-loading">読み込めませんでした</div>`;
+  const selected = state.data.selectedPartIdx;
+  const feedback = state.data.partFeedback;
+
+  const groups = parts.map((p, i)=>{
+    const strokes = data.strokes.slice(p.start, p.end+1);
+    const isSelected = (i===selected);
+    let rectColor = 'transparent';
+    let strokeColor = 'var(--navy-dark)';
+    if(isSelected){
+      if(feedback==='correct'){ rectColor='rgba(63,143,99,0.18)'; strokeColor='var(--success)'; }
+      else if(feedback==='wrong'){ rectColor='rgba(192,67,63,0.16)'; strokeColor='var(--stroke-red)'; }
+      else { rectColor='rgba(226,121,60,0.20)'; strokeColor='var(--accent-dark)'; }
+    }
+    const bbox = estimateBBox(strokes.map(s=>s.d));
+    const paths = strokes.map(s=>`<path d="${s.d}" fill="none" stroke="${strokeColor}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+    const clickable = !feedback; // 正誤判定が出た後はタップ不可にする
+    return `<g ${clickable?`onclick="selectPart(${i})" style="cursor:pointer"`:''}>
+      <rect x="${bbox.x}" y="${bbox.y}" width="${bbox.w}" height="${bbox.h}" rx="6" fill="${rectColor}"/>
+      ${paths}
+    </g>`;
+  }).join('');
+  return `<svg viewBox="${data.viewBox}" width="100%" height="100%">${groups}</svg>`;
+}
+
+/* ---------- 読み方モード：熟語から読みを推測する練習用データ ---------- */
+const JUKUGO_DATA = {
+  '09023': {word:'連休', otherChar:'休', otherReading:'きゅう', distractors:['リン','ネン']},
+  '052aa': {word:'努力', otherChar:'力', otherReading:'りょく', distractors:['ト','ノ']},
+  '06c42': {word:'要求', otherChar:'要', otherReading:'よう', distractors:['ギュウ','キュ']},
+  '05f85': {word:'期待', otherChar:'期', otherReading:'き', distractors:['ダイ','テイ']},
+  '09060': {word:'遠足', otherChar:'足', otherReading:'そく', distractors:['オン','テン']},
+  '06b69': {word:'歩道', otherChar:'道', otherReading:'どう', distractors:['ボ','フ']},
+  '07a76': {word:'研究', otherChar:'研', otherReading:'けん', distractors:['ギュウ','シュウ']},
+  '052c7': {word:'勇気', otherChar:'気', otherReading:'き', distractors:['ヨウ','ジュウ']},
+  '06301': {word:'持続', otherChar:'続', otherReading:'ぞく', distractors:['シ','チ']},
+  '06d77': {word:'海岸', otherChar:'岸', otherReading:'がん', distractors:['ガイ','ケイ']},
+  '09662': {word:'病院', otherChar:'病', otherReading:'びょう', distractors:['エン','ヒン']},
+  '082b1': {word:'開花', otherChar:'開', otherReading:'かい', distractors:['ガ','ハ']},
+};
+/* 読みが部品（音符）とはっきり一致する字だけ、追加のヒントを出す。
+   関係が曖昧な字（待とタイなど）は誤解のもとになるので入れない。 */
+const PHONETIC_HINTS = {
+  '06301': {sibling:'寺', siblingReading:'ジ', note:'「寺（てら）」と同じ音符を持つ字だよ。寺は「ジ」と読むね。'},
+  '07a76': {sibling:'九', siblingReading:'キュウ', note:'「九」と同じ音符を持つ字だよ。九は「キュウ」と読むね。'},
+  '082b1': {sibling:'化', siblingReading:'カ', note:'「化（ばける）」と同じ音符を持つ字だよ。化は「カ」と読むね。'},
+};
+
+const GOJUON = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん";
+function kanaSortKey(s){
+  let key='';
+  for(const c of s){ let i=GOJUON.indexOf(c); key += (i<0?'~':String.fromCharCode(97+i)); }
+  return key;
+}
+
+function buildRadicalIndex(){
+  const map = {};
+  KANJI_DB.forEach(k=>{
+    if(!map[k.radical]) map[k.radical] = {radical:k.radical, name:k.radicalName, strokes:k.radicalStrokes, list:[]};
+    map[k.radical].list.push(k);
+  });
+  Object.values(map).forEach(g=>g.list.sort((a,b)=>a.totalStrokes-b.totalStrokes));
+  return Object.values(map).sort((a,b)=>a.strokes-b.strokes);
+}
+function buildOnKunIndex(){
+  const rows=[];
+  KANJI_DB.forEach(k=>{
+    k.on.forEach(r=>rows.push({reading:r,type:'音',char:k.char,page:k.page,kanjiRef:k}));
+    k.kun.forEach(r=>rows.push({reading:r,type:'訓',char:k.char,page:k.page,kanjiRef:k}));
+  });
+  rows.sort((a,b)=>kanaSortKey(a.reading).localeCompare(kanaSortKey(b.reading)));
+  return rows;
+}
+function buildStrokeIndex(){
+  const map={};
+  KANJI_DB.forEach(k=>{
+    if(!map[k.totalStrokes]) map[k.totalStrokes]=[];
+    map[k.totalStrokes].push(k);
+  });
+  return Object.keys(map).map(n=>Number(n)).sort((a,b)=>a-b).map(n=>({strokes:n,list:map[n]}));
+}
+/* RADICAL_INDEX / ONKUN_INDEX / STROKE_INDEX は KANJI_DB のロード後に build() で構築する */
+
+function shuffle(arr){ return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]); }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+/* ---------- 状態 ---------- */
+let state = { screen:'home', mode:null, target:null, step:0, streak:0, data:{} };
+
+function newTarget(){ state.target = pick(KANJI_DB); state.data = {}; }
+
+/* ---------- 画面：ホーム ---------- */
+function renderHome(){
+  if(KANJI_DB.length===0){
+    return `<p class="sub">かんじデータを読み込み中…</p>`;
+  }
+  return `
+  <div class="mode-grid">
+    <div class="mode-card" onclick="startMode('bushu')">
+      <div class="mtitle">① 部首さく引</div>
+      <div class="mdesc">漢字の「部首」がわかるときの引き方。部首の画数から探すよ。</div>
+      <span class="mwhen">部首が分かるとき</span>
+    </div>
+    <div class="mode-card" onclick="startMode('onkun')">
+      <div class="mtitle">② 音訓さく引</div>
+      <div class="mdesc">漢字の「読み方」がわかるときの引き方。五十音順で探すよ。</div>
+      <span class="mwhen">読み方が分かるとき</span>
+    </div>
+    <div class="mode-card" onclick="startMode('soukaku')">
+      <div class="mtitle">③ 総画さく引</div>
+      <div class="mdesc">部首も読み方も分からないときの引き方。全部の画数を数えて探すよ。</div>
+      <span class="mwhen">どちらも分からないとき</span>
+    </div>
+  </div>`;
+}
+
+/* ---------- 部首さく引 ---------- */
+function renderBushu(){
+  const t = state.target;
+  if(state.step===0){
+    if(KANJI_PARTS[t.code]){
+      return renderBushuPartTapStep(t);
+    }
+    return renderBushuChoiceStep(t);
+  }
+  if(state.step===1){
+    return `
+      <h2 class="step-heading">ステップ2：部首さく引で部首をさがそう</h2>
+      <p class="sub">部首さく引には、部首が「画数の少ない順」に並んでいるよ。「${t.radicalName}」を見つけてタップしよう。</p>
+      <div class="index-page">
+        <div class="page-label">部首さく引</div>
+        ${RADICAL_INDEX.map(r=>`
+          <div class="index-row" onclick="answerBushu2('${r.radical}')">
+            <div class="left"><span class="char radical-icon-sm">${renderRadicalIcon(r)}</span><span class="name">${r.name}<span class="kana">${r.strokes}画</span></span></div>
+            <span class="pg">${r.list[0].page}ページ〜</span>
+          </div>`).join('')}
+      </div>`;
+  }
+  if(state.step===2){
+    const group = RADICAL_INDEX.find(r=>r.radical===t.radical);
+    return `
+      <h2 class="step-heading">ステップ3：漢字を見つけよう</h2>
+      <p class="sub"><span class="inline-radical-icon">${renderRadicalIcon(group)}</span>「${t.radicalName}」のページでは、部首をのぞいた画数の少ない順に漢字が並んでいるよ。「${t.char}」をさがそう。</p>
+      <div class="index-page">
+        <div class="page-label">${t.radicalName}のページ</div>
+        ${group.list.map(k=>`
+          <div class="index-row" onclick="answerBushu3('${k.char}')">
+            <div class="left"><span class="char">${k.char}</span><span class="name">総画${k.totalStrokes}画</span></div>
+            <span class="pg">${k.page}ページ</span>
+          </div>`).join('')}
+      </div>`;
+  }
+  if(state.step===3){ return renderDictResult(); }
+}
+function renderBushuChoiceStep(t){
+  const distractors = shuffle(RADICAL_INDEX.filter(r=>r.radical!==t.radical)).slice(0,3);
+  const targetGroup = RADICAL_INDEX.find(r=>r.radical===t.radical);
+  const options = shuffle([targetGroup, ...distractors]);
+  return `
+    <div class="kanji-card">${renderStrokeSVG(t.code,{highlightRadical:false})}</div>
+    <h2 class="step-heading">ステップ1：部首をさがそう</h2>
+    <p class="sub">この漢字の「部首」はどれかな？部首は、漢字の意味に関わる部分だよ。</p>
+    <div class="choice-grid">
+      ${options.map(g=>`<button class="choice-btn radical-choice-btn" onclick="answerBushu1('${g.radical}')"><span class="radical-icon">${renderRadicalIcon(g)}</span><span class="radical-label">${g.name}</span></button>`).join('')}
+    </div>`;
+}
+
+function renderBushuPartTapStep(t){
+  const parts = KANJI_PARTS[t.code];
+  const selected = state.data.selectedPartIdx;
+  const feedback = state.data.partFeedback;
+  let feedbackBlock = '';
+  if(feedback==='correct'){
+    feedbackBlock = `<div class="part-feedback correct">正解！ここが部首だよ</div>
+      <button class="primary-btn" onclick="proceedAfterPartTap()">つぎへ</button>`;
+  } else if(feedback==='wrong'){
+    feedbackBlock = `<div class="part-feedback wrong">おしい！ちがう部分かも。もう一度さがしてみよう</div>
+      <button class="secondary-btn" onclick="retryPartTap()">もう一度えらぶ</button>`;
+  } else if(selected!==undefined && selected!==null){
+    feedbackBlock = `<button class="primary-btn" onclick="confirmPartTap()">これが部首だと思う！</button>`;
+  }
+  return `
+    <h2 class="step-heading">ステップ1：どこが部首かな？</h2>
+    <p class="sub">漢字のパーツをタップして、部首だと思う部分を選んでみよう。</p>
+    <div class="kanji-card part-tap-card">${renderPartTapSVG(t.code)}</div>
+    ${feedbackBlock}`;
+}
+function selectPart(i){
+  state.data.selectedPartIdx = i;
+  state.data.partFeedback = null;
+  render();
+}
+function confirmPartTap(){
+  const parts = KANJI_PARTS[state.target.code];
+  const chosen = parts[state.data.selectedPartIdx];
+  state.data.partFeedback = chosen.radical ? 'correct' : 'wrong';
+  render();
+}
+function retryPartTap(){
+  state.data.selectedPartIdx = null;
+  state.data.partFeedback = null;
+  render();
+}
+function proceedAfterPartTap(){
+  state.step = 1;
+  render();
+}
+
+function answerBushu1(r){
+  if(r===state.target.radical){ state.step=1; render(); }
+  else flashWrong(event.target.closest('.choice-btn'));
+}
+function answerBushu2(r){
+  if(r===state.target.radical){ state.step=2; render(); }
+  else flashWrong(event.target.closest('.index-row'));
+}
+function answerBushu3(c){
+  if(c===state.target.char){ state.streak++; state.step=3; render(); }
+  else flashWrong(event.target.closest('.index-row'));
+}
+
+/* ---------- 音訓さく引 ---------- */
+function renderOnkun(){
+  const t = state.target;
+  if(state.step===0){
+    const jukugo = JUKUGO_DATA[t.code];
+    if(!jukugo){
+      // 万一データが無い字はこれまで通り即答へ
+      return `
+        <div class="kanji-card">${renderStrokeSVG(t.code,{highlightRadical:false})}</div>
+        <h2 class="step-heading">ステップ1：知っている読み方を選ぼう</h2>
+        <p class="sub">今回は、この漢字の音読み「${t.on[0]}」を知っているとするよ。</p>
+        <div class="choice-grid single">
+          <button class="choice-btn" onclick="proceedOnkun1()">音訓さく引を開く</button>
+        </div>`;
+    }
+    const correctReading = t.on[0];
+    const feedback = state.data.jukugoFeedback;
+    if(state.data.jukugoChoices===undefined){
+      state.data.jukugoChoices = shuffle([correctReading, ...jukugo.distractors]);
+    }
+    const hint = PHONETIC_HINTS[t.code];
+    let feedbackBlock = '';
+    if(feedback==='correct'){
+      feedbackBlock = `<div class="part-feedback correct">正解！「${jukugo.word}」は「${correctReading}${jukugo.otherReading}」と読むよ</div>
+        ${hint ? `<div class="phonetic-hint-note">💡 ${hint.note}</div>` : ''}
+        <button class="primary-btn" onclick="proceedOnkun1()">音訓さく引を開く</button>`;
+    } else if(feedback==='wrong'){
+      feedbackBlock = `<div class="part-feedback wrong">おしい！もう一度考えてみよう</div>
+        <button class="secondary-btn" onclick="retryJukugo()">もう一度えらぶ</button>`;
+    }
+    return `
+      <h2 class="step-heading">ステップ1：熟語から読み方を考えよう</h2>
+      <p class="sub">「${t.char}」を使った熟語だよ。読み方を考えてみよう。</p>
+      <div class="jukugo-display">
+        <span class="jukugo-char target">${t.char}<span class="furigana">？</span></span><span class="jukugo-char">${jukugo.otherChar}<span class="furigana">${jukugo.otherReading}</span></span>
+      </div>
+      ${!feedback ? `
+      <p class="sub">「${t.char}」はこの中でどう読むかな？</p>
+      <div class="choice-grid">
+        ${state.data.jukugoChoices.map(c=>`<button class="choice-btn" onclick="answerJukugo('${c}')">${c}</button>`).join('')}
+      </div>` : ''}
+      ${feedbackBlock}`;
+  }
+  if(state.step===1){
+    const correctReading = t.on[0];
+    const others = shuffle(ONKUN_INDEX.filter(r=>r.char!==t.char)).slice(0,5);
+    const rows = shuffle([{reading:correctReading,type:'音',char:t.char,page:t.page}, ...others])
+      .sort((a,b)=>kanaSortKey(a.reading).localeCompare(kanaSortKey(b.reading)));
+    state.data.rows = rows;
+    return `
+      <h2 class="step-heading">ステップ2：読み方をさがそう</h2>
+      <p class="sub">五十音順の中から「${correctReading}」と読む「${t.char}」をさがしてタップしよう。</p>
+      <div class="index-page">
+        <div class="page-label">音訓さく引（音は カタカナ、訓は ひらがな）</div>
+        ${rows.map(r=>`
+          <div class="index-row" onclick="answerOnkun('${r.char}','${r.reading}')">
+            <div class="left"><span class="char">${r.type==='音'?r.reading:'　'}</span><span class="name">${r.type==='訓'?r.reading:''}<span class="kana">${r.char}</span></span></div>
+            <span class="pg">${r.page}ページ</span>
+          </div>`).join('')}
+      </div>`;
+  }
+  if(state.step===2){ return renderDictResult(); }
+}
+function proceedOnkun1(){ state.step=1; render(); }
+function answerJukugo(reading){
+  state.data.jukugoFeedback = (reading===state.target.on[0]) ? 'correct' : 'wrong';
+  render();
+}
+function retryJukugo(){
+  state.data.jukugoFeedback = null;
+  render();
+}
+function answerOnkun(c, reading){
+  if(c===state.target.char && reading===state.target.on[0]){ state.streak++; state.step=2; render(); }
+  else flashWrong(event.target.closest('.index-row'));
+}
+
+/* ---------- 総画さく引 ---------- */
+function renderSoukaku(){
+  const t = state.target;
+  if(state.step===0){
+    const total = t.totalStrokes;
+    const anim = renderStrokeAnimSVG(t.code);
+    if(anim.totalMs > 0 && state.data.animStarted===undefined){
+      state.data.animStarted = true;
+      state.data.animDone = false;
+      const targetCode = t.code, targetMode = state.mode, startedTarget = t;
+      setTimeout(()=>{
+        if(state.mode===targetMode && state.target===startedTarget && state.step===0){
+          state.data.animDone = true;
+          render();
+        }
+      }, anim.totalMs);
+    }
+    return `
+      <h2 class="step-heading">ステップ1：総画数を数えよう</h2>
+      <p class="sub">部首も読み方も分からないときは、漢字の画数を全部数えるよ。うすい字の上を、書き順どおりになぞって数えてみよう。</p>
+      <div class="kanji-card stroke-anim-card">${anim.html}</div>
+      ${state.data.animDone
+        ? `<div class="stroke-count-display">${total}<span class="unit">画</span></div>
+           <button class="primary-btn" onclick="confirmSoukakuCount()">「${total}画」で さくいんへ すすむ</button>
+           <button class="secondary-btn" onclick="replayStrokeAnim()">もう一度見る</button>`
+        : `<p class="stroke-hint">かぞえながら見てね…</p>`}`;
+  }
+  if(state.step===1){
+    return `
+      <h2 class="step-heading">ステップ2：総画さく引でさがそう</h2>
+      <p class="sub">総画さく引は、画数が少ない順に並んでいるよ。「${t.totalStrokes}画」の場所を見つけてタップしよう。</p>
+      <div class="index-page">
+        <div class="page-label">総画さく引</div>
+        ${STROKE_INDEX.map(g=>`
+          <div class="index-row" onclick="answerSoukaku2(${g.strokes})">
+            <div class="left"><span class="char">${g.strokes}</span><span class="name">画</span></div>
+            <span class="pg">${g.list[0].page}ページ〜</span>
+          </div>`).join('')}
+      </div>`;
+  }
+  if(state.step===2){
+    const group = STROKE_INDEX.find(g=>g.strokes===t.totalStrokes);
+    return `
+      <h2 class="step-heading">ステップ3：漢字を見つけよう</h2>
+      <p class="sub">「${t.totalStrokes}画」のページの中から「${t.char}」をさがそう。</p>
+      <div class="index-page">
+        <div class="page-label">${t.totalStrokes}画のページ</div>
+        ${group.list.map(k=>`
+          <div class="index-row" onclick="answerSoukaku3('${k.char}')">
+            <div class="left"><span class="char">${k.char}</span><span class="name">部首：<span class="inline-radical-icon">${renderRadicalIcon(RADICAL_INDEX.find(r=>r.radical===k.radical))}</span></span></div>
+            <span class="pg">${k.page}ページ</span>
+          </div>`).join('')}
+      </div>`;
+  }
+  if(state.step===3){ return renderDictResult(); }
+}
+function replayStrokeAnim(){
+  state.data.animStarted = undefined;
+  state.data.animDone = false;
+  render();
+}
+function confirmSoukakuCount(){
+  state.step=1; render();
+}
+function answerSoukaku2(n){
+  if(n===state.target.totalStrokes){ state.step=2; render(); }
+  else flashWrong(event.target.closest('.index-row'));
+}
+function answerSoukaku3(c){
+  if(c===state.target.char){ state.streak++; state.step=3; render(); }
+  else flashWrong(event.target.closest('.index-row'));
+}
+
+/* ---------- 共通：辞典結果カード ---------- */
+function renderDictResult(){
+  const k = state.target;
+  return `
+    <div class="success-banner">見つけた！「${k.char}」</div>
+    <div class="dict-card">
+      <div class="head-row">
+        <div class="headword">${renderStrokeSVG(k.code,{highlightRadical:true})}</div>
+        <div class="meta-lines">
+          <div><b>部首</b>：<span class="inline-radical-icon">${renderRadicalIcon(RADICAL_INDEX.find(r=>r.radical===k.radical))}</span>（${k.radicalName}）</div>
+          <div><b>総画</b>：${k.totalStrokes}画</div>
+          <div><b>ページ</b>：${k.page}</div>
+        </div>
+      </div>
+      <div class="radical-note">赤い線が部首「${k.radicalName}」の部分だよ</div>
+      <div class="section">
+        <div class="label">読み方</div>
+        <div class="content">音：${k.on.join('、')}　　訓：${k.kun.join('、')}</div>
+      </div>
+      <div class="section">
+        <div class="label">意味</div>
+        <div class="content">${k.meaning}</div>
+      </div>
+    </div>
+    <button class="primary-btn" onclick="nextRound()">つぎの漢字にちょうせん</button>
+    <button class="secondary-btn" onclick="goHome()">ホームにもどる</button>
+    <div class="quiz-count">これまでに見つけた漢字：${state.streak}こ</div>`;
+}
+
+function flashWrong(el){
+  if(!el) return;
+  el.classList.add(el.classList.contains('choice-btn')?'wrong-flash':'wrong-flash');
+  setTimeout(()=>el.classList.remove('wrong-flash'), 400);
+}
+function nextRound(){ newTarget(); state.step=0; render(); }
+function startMode(mode){ state.mode=mode; state.step=0; newTarget(); render(); }
+function goHome(){ state.screen='home'; state.mode=null; render(); }
+
+/* ---------- ルート ---------- */
+function modeTitle(){
+  return state.mode==='bushu' ? '部首さく引' : state.mode==='onkun' ? '音訓さく引' : state.mode==='soukaku' ? '総画さく引' : '字引きたんけん隊';
+}
+function render(){
+  const app = document.getElementById('app');
+  let body;
+  if(!state.mode){ body = renderHome(); }
+  else if(state.mode==='bushu'){ body = renderBushu(); }
+  else if(state.mode==='onkun'){ body = renderOnkun(); }
+  else if(state.mode==='soukaku'){ body = renderSoukaku(); }
+
+  const totalSteps = state.mode ? (state.mode==='bushu'?4:state.mode==='onkun'?3:4) : 0;
+  let crumbs = '';
+  if(state.mode){
+    const labels = state.mode==='bushu' ? ['部首を見つける','部首さく引','漢字を探す','完了']
+      : state.mode==='onkun' ? ['読み方確認','音訓さく引','完了']
+      : ['画数を数える','総画さく引','漢字を探す','完了'];
+    crumbs = `<div class="breadcrumb">${labels.map((l,i)=>`<span class="${i===state.step?'active':''}">${i+1}. ${l}</span>`).join('')}</div>`;
+  }
+
+  app.innerHTML = `
+    <header>
+      ${state.mode ? `<button class="home-btn" onclick="goHome()">←</button>` : ''}
+      <div class="title">${modeTitle()}</div>
+      ${state.mode ? `<div class="streak">★ ${state.streak}</div>` : ''}
+    </header>
+    <main>${crumbs}${body}</main>
+    <footer class="credit">筆順データ：KanjiVG（CC BY-SA 3.0） / <a href="https://kanjivg.tagaini.net/" target="_blank" rel="noopener">kanjivg.tagaini.net</a></footer>
+  `;
+}
+
+render();
+
+/* ---------- 起動処理：漢字データを読み込んでから開始する ---------- */
+async function boot(){
+  try{
+    const res = await fetch('data/kanji_data.json');
+    if(!res.ok) throw new Error('fetch failed');
+    KANJI_DB = await res.json();
+    RADICAL_INDEX = buildRadicalIndex();
+    ONKUN_INDEX = buildOnKunIndex();
+    STROKE_INDEX = buildStrokeIndex();
+    try{
+      const pres = await fetch('data/kanji_parts.json');
+      if(pres.ok) KANJI_PARTS = await pres.json();
+    }catch(e){ /* パーツデータが無くても4択にフォールバックするので致命的ではない */ }
+    render();
+  }catch(err){
+    document.getElementById('app').innerHTML =
+      '<main><p class="sub">かんじデータを読み込めませんでした。data/kanji_data.json が同じ場所にあるか確認してください。（file:// で直接開くと読み込めません。ローカルサーバーやGitHub Pages経由で開いてください）</p></main>';
+  }
+}
+boot();
+</script>
+</body>
+</html>

@@ -295,20 +295,26 @@
 let KANJI_PARTS = {};
 let KANJI_POOL = []; // [{code, char, parts, grade}]
 let GRADE_KANJI = {};
+let KANJI_RADICALS = {};
+let KANJI_META = {};
 
 async function boot(){
   try{
     const res = await fetch('data/kanji_parts.json');
     if(!res.ok) throw new Error('fetch failed');
     KANJI_PARTS = await res.json();
-    // 学年別の配当表はkakijun本体と共有し、部首ハンター側で更新漏れが起きないようにする。
-    const gradeSource = await fetch('../kakijun.html').then(r=>{ if(!r.ok) throw new Error('grade fetch failed'); return r.text(); });
-    const gradeMatch = gradeSource.match(/const gradeKanji = (\{[\s\S]*?\n\s*\};)/);
-    if(!gradeMatch) throw new Error('grade data not found');
-    GRADE_KANJI = Function(`return ${gradeMatch[1].slice(0,-1)}`)();
-    KANJI_POOL = Object.keys(GRADE_KANJI).filter(g=>g>=1 && g<=6).flatMap(g=>
-      GRADE_KANJI[g].map(([char, code])=>({char, code:String(code).padStart(5,'0'), grade:Number(g), parts:KANJI_PARTS[String(code).padStart(5,'0')] || null}))
-    );
+    KANJI_RADICALS = await fetch('data/kanji2radical.json').then(r=>{if(!r.ok) throw new Error('radical data fetch failed'); return r.json();});
+    KANJI_META = await fetch('data/kanjidic2_school.json').then(r=>{if(!r.ok) throw new Error('kanjidic data fetch failed'); return r.json();});
+    KANJI_POOL = Object.entries(KANJI_META).map(([char, meta])=>{
+      const code = char.codePointAt(0).toString(16).padStart(5,'0');
+      const parts = KANJI_PARTS[code] || null;
+      // 部品名はkanjivg-radical、画の範囲はKanjiVG SVG由来のpartsを使う。
+      const radicalNames = KANJI_RADICALS[char] || [];
+      if(parts && radicalNames.length){
+        parts.forEach((part, i)=>{ if(radicalNames[i]) part.element = radicalNames[i]; });
+      }
+      return {char, code, grade:meta.grade, parts};
+    });
     render();
   }catch(err){
     document.getElementById('app').innerHTML =

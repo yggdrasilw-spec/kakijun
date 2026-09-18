@@ -13,8 +13,12 @@
 - ❤ サバイバル：ライフ3つ、ミスするまで何問続くか
 - 🌱 れんしゅう：タイマーなし、じっくり型
 
-## 対象漢字を増やすには
-手動でパーツ分解データを追加しなくても、SVGのグループ構造から自動生成する。特殊な分解にしたい漢字だけ、`data/kanji_parts.json` に上書きデータを追加できる。
+## データの出典
+- `data/kanji2radical.json`：yagays/kanjivg-radical のKanjiVG由来の直下部品データ（CC BY-SA 4.0）
+- `data/kanjidic2_school.json`：EDRDG KANJIDIC2から抽出した小学校漢字の学年・総画数・康熙部首番号（CC BY-SA 4.0）
+- `../svg/`：KanjiVGの筆順SVG
+
+部品の分割表示はKanjiVG SVGの画範囲を使い、部品名と小学校漢字の対象範囲は上記のデータを使う。漢字を追加するときは、KANJIDIC2の対象データと対応するKanjiVG SVGを追加する。
 
 ## ライセンス表記
 筆順データはKanjiVGプロジェクトのもの（CC BY-SA 3.0）。出典はアプリのフッターに記載済み。

@@ -1,0 +1,5132 @@
+{
+  "愛": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 61
+  },
+  "悪": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 61
+  },
+  "圧": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 32
+  },
+  "安": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 40
+  },
+  "暗": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 72
+  },
+  "案": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "以": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "位": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "囲": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 31
+  },
+  "委": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 38
+  },
+  "意": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 61
+  },
+  "易": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 72
+  },
+  "異": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 102
+  },
+  "移": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 115
+  },
+  "胃": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 130
+  },
+  "衣": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 145
+  },
+  "遺": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 162
+  },
+  "医": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 23
+  },
+  "井": {
+    "grade": 4,
+    "strokes": 4,
+    "radicalNumber": 7
+  },
+  "域": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 32
+  },
+  "育": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 130
+  },
+  "一": {
+    "grade": 1,
+    "strokes": 1,
+    "radicalNumber": 1
+  },
+  "茨": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 140
+  },
+  "印": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 26
+  },
+  "員": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 30
+  },
+  "因": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 31
+  },
+  "引": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 57
+  },
+  "飲": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 184
+  },
+  "院": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 170
+  },
+  "右": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "宇": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 40
+  },
+  "羽": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 124
+  },
+  "雨": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 173
+  },
+  "運": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 162
+  },
+  "雲": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 173
+  },
+  "営": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 30
+  },
+  "映": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "栄": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 75
+  },
+  "永": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 85
+  },
+  "泳": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "英": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 140
+  },
+  "衛": {
+    "grade": 5,
+    "strokes": 16,
+    "radicalNumber": 144
+  },
+  "液": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 85
+  },
+  "益": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 108
+  },
+  "駅": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 187
+  },
+  "円": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 13
+  },
+  "園": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 31
+  },
+  "延": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 54
+  },
+  "沿": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "演": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 85
+  },
+  "遠": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 162
+  },
+  "塩": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 32
+  },
+  "央": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 37
+  },
+  "往": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 60
+  },
+  "応": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 61
+  },
+  "横": {
+    "grade": 3,
+    "strokes": 15,
+    "radicalNumber": 75
+  },
+  "王": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 96
+  },
+  "黄": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 201
+  },
+  "岡": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 46
+  },
+  "沖": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 85
+  },
+  "億": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 9
+  },
+  "屋": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 44
+  },
+  "恩": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 61
+  },
+  "温": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "音": {
+    "grade": 1,
+    "strokes": 9,
+    "radicalNumber": 180
+  },
+  "下": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 1
+  },
+  "化": {
+    "grade": 3,
+    "strokes": 4,
+    "radicalNumber": 21
+  },
+  "仮": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "何": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "価": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 9
+  },
+  "加": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 19
+  },
+  "可": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "夏": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 35
+  },
+  "家": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 40
+  },
+  "科": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 115
+  },
+  "果": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "歌": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 76
+  },
+  "河": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "火": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 86
+  },
+  "花": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 140
+  },
+  "荷": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 140
+  },
+  "課": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "貨": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 154
+  },
+  "過": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 162
+  },
+  "我": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 62
+  },
+  "画": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 102
+  },
+  "芽": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 140
+  },
+  "賀": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "会": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "解": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 148
+  },
+  "回": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 31
+  },
+  "快": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 61
+  },
+  "改": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 66
+  },
+  "械": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 75
+  },
+  "海": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "灰": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 86
+  },
+  "界": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 102
+  },
+  "絵": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 120
+  },
+  "開": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 169
+  },
+  "階": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 170
+  },
+  "貝": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 154
+  },
+  "外": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 36
+  },
+  "害": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 40
+  },
+  "街": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 144
+  },
+  "各": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "拡": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 64
+  },
+  "格": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "確": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 112
+  },
+  "覚": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 147
+  },
+  "角": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 148
+  },
+  "閣": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 169
+  },
+  "革": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 177
+  },
+  "学": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 39
+  },
+  "楽": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 75
+  },
+  "額": {
+    "grade": 5,
+    "strokes": 18,
+    "radicalNumber": 181
+  },
+  "潟": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 85
+  },
+  "割": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 18
+  },
+  "活": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "株": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "寒": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 40
+  },
+  "刊": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 18
+  },
+  "巻": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 49
+  },
+  "完": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 40
+  },
+  "官": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "干": {
+    "grade": 6,
+    "strokes": 3,
+    "radicalNumber": 51
+  },
+  "幹": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 51
+  },
+  "感": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 61
+  },
+  "慣": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 61
+  },
+  "漢": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 85
+  },
+  "看": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 109
+  },
+  "管": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 118
+  },
+  "簡": {
+    "grade": 6,
+    "strokes": 18,
+    "radicalNumber": 118
+  },
+  "観": {
+    "grade": 4,
+    "strokes": 18,
+    "radicalNumber": 147
+  },
+  "間": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 169
+  },
+  "関": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 169
+  },
+  "館": {
+    "grade": 3,
+    "strokes": 16,
+    "radicalNumber": 184
+  },
+  "丸": {
+    "grade": 2,
+    "strokes": 3,
+    "radicalNumber": 3
+  },
+  "岸": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 46
+  },
+  "眼": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 109
+  },
+  "岩": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 46
+  },
+  "顔": {
+    "grade": 2,
+    "strokes": 18,
+    "radicalNumber": 181
+  },
+  "願": {
+    "grade": 4,
+    "strokes": 19,
+    "radicalNumber": 181
+  },
+  "危": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 26
+  },
+  "喜": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 30
+  },
+  "器": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 30
+  },
+  "基": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 32
+  },
+  "寄": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 40
+  },
+  "岐": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 46
+  },
+  "希": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 50
+  },
+  "揮": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 64
+  },
+  "机": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 75
+  },
+  "旗": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 70
+  },
+  "期": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 74
+  },
+  "機": {
+    "grade": 4,
+    "strokes": 16,
+    "radicalNumber": 75
+  },
+  "帰": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 50
+  },
+  "気": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 84
+  },
+  "汽": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 85
+  },
+  "季": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 39
+  },
+  "紀": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 120
+  },
+  "規": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 147
+  },
+  "記": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 149
+  },
+  "貴": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "起": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 156
+  },
+  "技": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 64
+  },
+  "疑": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 103
+  },
+  "義": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 123
+  },
+  "議": {
+    "grade": 4,
+    "strokes": 20,
+    "radicalNumber": 149
+  },
+  "客": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 40
+  },
+  "逆": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 162
+  },
+  "久": {
+    "grade": 5,
+    "strokes": 3,
+    "radicalNumber": 4
+  },
+  "休": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "吸": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "宮": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 40
+  },
+  "弓": {
+    "grade": 2,
+    "strokes": 3,
+    "radicalNumber": 57
+  },
+  "急": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 61
+  },
+  "救": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 66
+  },
+  "求": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 85
+  },
+  "泣": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "球": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 96
+  },
+  "究": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 116
+  },
+  "級": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 120
+  },
+  "給": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 120
+  },
+  "旧": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 72
+  },
+  "牛": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 93
+  },
+  "去": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 28
+  },
+  "居": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 44
+  },
+  "挙": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 64
+  },
+  "許": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 149
+  },
+  "漁": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 85
+  },
+  "魚": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 195
+  },
+  "京": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 8
+  },
+  "供": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 9
+  },
+  "競": {
+    "grade": 4,
+    "strokes": 20,
+    "radicalNumber": 117
+  },
+  "共": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 12
+  },
+  "協": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 24
+  },
+  "境": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 32
+  },
+  "強": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 57
+  },
+  "教": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 66
+  },
+  "橋": {
+    "grade": 3,
+    "strokes": 16,
+    "radicalNumber": 75
+  },
+  "胸": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 130
+  },
+  "興": {
+    "grade": 5,
+    "strokes": 16,
+    "radicalNumber": 134
+  },
+  "郷": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 163
+  },
+  "鏡": {
+    "grade": 4,
+    "strokes": 19,
+    "radicalNumber": 167
+  },
+  "業": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 75
+  },
+  "局": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 44
+  },
+  "曲": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 73
+  },
+  "極": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 75
+  },
+  "玉": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 96
+  },
+  "勤": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 19
+  },
+  "均": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 32
+  },
+  "禁": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 113
+  },
+  "筋": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 118
+  },
+  "近": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 162
+  },
+  "金": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 167
+  },
+  "銀": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 167
+  },
+  "九": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 5
+  },
+  "句": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "区": {
+    "grade": 3,
+    "strokes": 4,
+    "radicalNumber": 23
+  },
+  "苦": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 140
+  },
+  "具": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 12
+  },
+  "空": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 116
+  },
+  "熊": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 86
+  },
+  "君": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 30
+  },
+  "訓": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 149
+  },
+  "群": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 123
+  },
+  "軍": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 159
+  },
+  "郡": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 163
+  },
+  "係": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 9
+  },
+  "兄": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 10
+  },
+  "型": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 32
+  },
+  "形": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 59
+  },
+  "径": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 60
+  },
+  "敬": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 66
+  },
+  "景": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 72
+  },
+  "系": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 120
+  },
+  "経": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 120
+  },
+  "計": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 149
+  },
+  "警": {
+    "grade": 6,
+    "strokes": 19,
+    "radicalNumber": 149
+  },
+  "軽": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 159
+  },
+  "芸": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 140
+  },
+  "劇": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 18
+  },
+  "激": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 85
+  },
+  "欠": {
+    "grade": 4,
+    "strokes": 4,
+    "radicalNumber": 76
+  },
+  "決": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 85
+  },
+  "潔": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 85
+  },
+  "穴": {
+    "grade": 6,
+    "strokes": 5,
+    "radicalNumber": 116
+  },
+  "結": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 120
+  },
+  "血": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 143
+  },
+  "月": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 74
+  },
+  "件": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "健": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 9
+  },
+  "券": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 18
+  },
+  "建": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 54
+  },
+  "憲": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 61
+  },
+  "検": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 75
+  },
+  "権": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 75
+  },
+  "犬": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 94
+  },
+  "研": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 112
+  },
+  "絹": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 120
+  },
+  "県": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 109
+  },
+  "見": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 147
+  },
+  "険": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 170
+  },
+  "験": {
+    "grade": 4,
+    "strokes": 18,
+    "radicalNumber": 187
+  },
+  "元": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 10
+  },
+  "原": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 27
+  },
+  "厳": {
+    "grade": 6,
+    "strokes": 17,
+    "radicalNumber": 27
+  },
+  "減": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "源": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 85
+  },
+  "現": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 96
+  },
+  "言": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 149
+  },
+  "限": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 170
+  },
+  "個": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "古": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "呼": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 30
+  },
+  "固": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 31
+  },
+  "己": {
+    "grade": 6,
+    "strokes": 3,
+    "radicalNumber": 49
+  },
+  "庫": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 53
+  },
+  "戸": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 63
+  },
+  "故": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 66
+  },
+  "湖": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "五": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 7
+  },
+  "午": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 24
+  },
+  "後": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 60
+  },
+  "語": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "誤": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "護": {
+    "grade": 5,
+    "strokes": 20,
+    "radicalNumber": 149
+  },
+  "交": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 8
+  },
+  "候": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "光": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 10
+  },
+  "公": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 12
+  },
+  "功": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 19
+  },
+  "効": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 19
+  },
+  "厚": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 27
+  },
+  "口": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 30
+  },
+  "向": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "后": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "好": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 38
+  },
+  "孝": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 39
+  },
+  "工": {
+    "grade": 2,
+    "strokes": 3,
+    "radicalNumber": 48
+  },
+  "幸": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 51
+  },
+  "広": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 53
+  },
+  "康": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 53
+  },
+  "校": {
+    "grade": 1,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "構": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 75
+  },
+  "港": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "皇": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 106
+  },
+  "紅": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 120
+  },
+  "耕": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 127
+  },
+  "考": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 125
+  },
+  "航": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 137
+  },
+  "行": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 144
+  },
+  "講": {
+    "grade": 5,
+    "strokes": 17,
+    "radicalNumber": 149
+  },
+  "鉱": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 167
+  },
+  "鋼": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 167
+  },
+  "降": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 170
+  },
+  "香": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 186
+  },
+  "高": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 189
+  },
+  "号": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "合": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "刻": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 18
+  },
+  "告": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 30
+  },
+  "国": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 31
+  },
+  "穀": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 115
+  },
+  "黒": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 203
+  },
+  "骨": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 188
+  },
+  "今": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 9
+  },
+  "困": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 31
+  },
+  "根": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "混": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 85
+  },
+  "佐": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "左": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 48
+  },
+  "差": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 48
+  },
+  "査": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 75
+  },
+  "砂": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 112
+  },
+  "座": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 53
+  },
+  "再": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 13
+  },
+  "最": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 73
+  },
+  "妻": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 38
+  },
+  "才": {
+    "grade": 2,
+    "strokes": 3,
+    "radicalNumber": 64
+  },
+  "採": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "済": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 85
+  },
+  "災": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 86
+  },
+  "祭": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 113
+  },
+  "細": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 120
+  },
+  "菜": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 140
+  },
+  "裁": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 145
+  },
+  "際": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 170
+  },
+  "在": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 32
+  },
+  "材": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 75
+  },
+  "罪": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 122
+  },
+  "財": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 154
+  },
+  "坂": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 32
+  },
+  "阪": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 170
+  },
+  "崎": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 46
+  },
+  "埼": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 32
+  },
+  "作": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "昨": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "策": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 118
+  },
+  "桜": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "冊": {
+    "grade": 6,
+    "strokes": 5,
+    "radicalNumber": 13
+  },
+  "刷": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 18
+  },
+  "察": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 40
+  },
+  "札": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 75
+  },
+  "殺": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 79
+  },
+  "雑": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 172
+  },
+  "皿": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 108
+  },
+  "三": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 1
+  },
+  "参": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 28
+  },
+  "山": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 46
+  },
+  "散": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 66
+  },
+  "産": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 100
+  },
+  "算": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 118
+  },
+  "蚕": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 142
+  },
+  "賛": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 154
+  },
+  "酸": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 164
+  },
+  "残": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 78
+  },
+  "仕": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "使": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 9
+  },
+  "司": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "史": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "四": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 31
+  },
+  "士": {
+    "grade": 5,
+    "strokes": 3,
+    "radicalNumber": 33
+  },
+  "始": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 38
+  },
+  "姉": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 38
+  },
+  "姿": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 38
+  },
+  "子": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 39
+  },
+  "市": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 50
+  },
+  "師": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 50
+  },
+  "志": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 61
+  },
+  "思": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 61
+  },
+  "指": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 64
+  },
+  "支": {
+    "grade": 5,
+    "strokes": 4,
+    "radicalNumber": 65
+  },
+  "枝": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "止": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 77
+  },
+  "死": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 78
+  },
+  "氏": {
+    "grade": 4,
+    "strokes": 4,
+    "radicalNumber": 83
+  },
+  "私": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 115
+  },
+  "糸": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 120
+  },
+  "紙": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 120
+  },
+  "至": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 133
+  },
+  "視": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 147
+  },
+  "詞": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 149
+  },
+  "詩": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 149
+  },
+  "試": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 149
+  },
+  "誌": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "資": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 154
+  },
+  "飼": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 184
+  },
+  "歯": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 77
+  },
+  "事": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 6
+  },
+  "似": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "児": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 10
+  },
+  "字": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 39
+  },
+  "寺": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 41
+  },
+  "持": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 64
+  },
+  "時": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 72
+  },
+  "次": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 76
+  },
+  "滋": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "治": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "磁": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 112
+  },
+  "示": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 113
+  },
+  "耳": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 128
+  },
+  "自": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 132
+  },
+  "辞": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 160
+  },
+  "鹿": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 198
+  },
+  "式": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 56
+  },
+  "識": {
+    "grade": 5,
+    "strokes": 19,
+    "radicalNumber": 149
+  },
+  "七": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 1
+  },
+  "失": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 37
+  },
+  "室": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 40
+  },
+  "質": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 154
+  },
+  "実": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "舎": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 9
+  },
+  "写": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 14
+  },
+  "射": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 41
+  },
+  "捨": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "社": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 113
+  },
+  "者": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 125
+  },
+  "謝": {
+    "grade": 5,
+    "strokes": 17,
+    "radicalNumber": 149
+  },
+  "車": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 159
+  },
+  "借": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "尺": {
+    "grade": 6,
+    "strokes": 4,
+    "radicalNumber": 44
+  },
+  "若": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 140
+  },
+  "弱": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 57
+  },
+  "主": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 3
+  },
+  "取": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 29
+  },
+  "守": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 40
+  },
+  "手": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 64
+  },
+  "種": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 115
+  },
+  "酒": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 164
+  },
+  "首": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 185
+  },
+  "受": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 29
+  },
+  "授": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "樹": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 75
+  },
+  "収": {
+    "grade": 6,
+    "strokes": 4,
+    "radicalNumber": 29
+  },
+  "周": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 30
+  },
+  "宗": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "就": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 43
+  },
+  "州": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 47
+  },
+  "修": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "拾": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 64
+  },
+  "秋": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 115
+  },
+  "終": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 120
+  },
+  "習": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 124
+  },
+  "衆": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 143
+  },
+  "週": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 162
+  },
+  "集": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 172
+  },
+  "住": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "十": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 24
+  },
+  "従": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 60
+  },
+  "縦": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 120
+  },
+  "重": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 166
+  },
+  "宿": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 40
+  },
+  "祝": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 113
+  },
+  "縮": {
+    "grade": 6,
+    "strokes": 17,
+    "radicalNumber": 120
+  },
+  "熟": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 86
+  },
+  "出": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 17
+  },
+  "術": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 144
+  },
+  "述": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 162
+  },
+  "春": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "準": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 85
+  },
+  "純": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 120
+  },
+  "順": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 181
+  },
+  "処": {
+    "grade": 6,
+    "strokes": 5,
+    "radicalNumber": 16
+  },
+  "初": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 18
+  },
+  "所": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 63
+  },
+  "暑": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 72
+  },
+  "署": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 122
+  },
+  "書": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 73
+  },
+  "諸": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "助": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 19
+  },
+  "女": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 38
+  },
+  "序": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 53
+  },
+  "除": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 170
+  },
+  "傷": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 9
+  },
+  "勝": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 19
+  },
+  "商": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 30
+  },
+  "唱": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 30
+  },
+  "将": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 41
+  },
+  "小": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 42
+  },
+  "少": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 42
+  },
+  "承": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 64
+  },
+  "招": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 64
+  },
+  "昭": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "松": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "消": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 85
+  },
+  "焼": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 86
+  },
+  "照": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 86
+  },
+  "省": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 109
+  },
+  "章": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 117
+  },
+  "笑": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 118
+  },
+  "証": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 149
+  },
+  "象": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 152
+  },
+  "賞": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 154
+  },
+  "障": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 170
+  },
+  "上": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 1
+  },
+  "乗": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 4
+  },
+  "城": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 32
+  },
+  "場": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 32
+  },
+  "常": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 50
+  },
+  "情": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 61
+  },
+  "条": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 75
+  },
+  "状": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 94
+  },
+  "蒸": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 140
+  },
+  "植": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 75
+  },
+  "織": {
+    "grade": 5,
+    "strokes": 18,
+    "radicalNumber": 120
+  },
+  "職": {
+    "grade": 5,
+    "strokes": 18,
+    "radicalNumber": 128
+  },
+  "色": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 139
+  },
+  "食": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 184
+  },
+  "信": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 9
+  },
+  "心": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 61
+  },
+  "新": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 69
+  },
+  "森": {
+    "grade": 1,
+    "strokes": 12,
+    "radicalNumber": 75
+  },
+  "深": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 85
+  },
+  "申": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 102
+  },
+  "真": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 109
+  },
+  "神": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 113
+  },
+  "臣": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 131
+  },
+  "親": {
+    "grade": 2,
+    "strokes": 16,
+    "radicalNumber": 147
+  },
+  "身": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 158
+  },
+  "進": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 162
+  },
+  "針": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 167
+  },
+  "人": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 9
+  },
+  "仁": {
+    "grade": 6,
+    "strokes": 4,
+    "radicalNumber": 9
+  },
+  "図": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 31
+  },
+  "垂": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 32
+  },
+  "推": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "水": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 85
+  },
+  "数": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 66
+  },
+  "寸": {
+    "grade": 6,
+    "strokes": 3,
+    "radicalNumber": 41
+  },
+  "世": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 1
+  },
+  "制": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 18
+  },
+  "勢": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 19
+  },
+  "性": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 61
+  },
+  "成": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 62
+  },
+  "政": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 66
+  },
+  "整": {
+    "grade": 3,
+    "strokes": 16,
+    "radicalNumber": 66
+  },
+  "星": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "晴": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 72
+  },
+  "正": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 77
+  },
+  "清": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 85
+  },
+  "生": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 100
+  },
+  "盛": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 108
+  },
+  "精": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 119
+  },
+  "聖": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 128
+  },
+  "声": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 33
+  },
+  "製": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 145
+  },
+  "西": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 146
+  },
+  "誠": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 149
+  },
+  "青": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 174
+  },
+  "静": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 174
+  },
+  "税": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 115
+  },
+  "席": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 50
+  },
+  "昔": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 72
+  },
+  "石": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 112
+  },
+  "積": {
+    "grade": 4,
+    "strokes": 16,
+    "radicalNumber": 115
+  },
+  "績": {
+    "grade": 5,
+    "strokes": 17,
+    "radicalNumber": 120
+  },
+  "責": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 154
+  },
+  "赤": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 155
+  },
+  "切": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 18
+  },
+  "接": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "折": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 64
+  },
+  "設": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 149
+  },
+  "節": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 118
+  },
+  "説": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "雪": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 173
+  },
+  "絶": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 120
+  },
+  "舌": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 135
+  },
+  "先": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 10
+  },
+  "千": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 24
+  },
+  "宣": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 40
+  },
+  "専": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 41
+  },
+  "川": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 47
+  },
+  "戦": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 62
+  },
+  "泉": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "浅": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "洗": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "染": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 75
+  },
+  "線": {
+    "grade": 2,
+    "strokes": 15,
+    "radicalNumber": 120
+  },
+  "船": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 137
+  },
+  "選": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 162
+  },
+  "銭": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 167
+  },
+  "前": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 18
+  },
+  "善": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 30
+  },
+  "然": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 86
+  },
+  "全": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 11
+  },
+  "祖": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 113
+  },
+  "素": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 120
+  },
+  "組": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 120
+  },
+  "創": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 18
+  },
+  "倉": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "奏": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 37
+  },
+  "層": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 44
+  },
+  "想": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 61
+  },
+  "操": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 64
+  },
+  "早": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 72
+  },
+  "巣": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 47
+  },
+  "争": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 6
+  },
+  "相": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 109
+  },
+  "窓": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 116
+  },
+  "総": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 120
+  },
+  "草": {
+    "grade": 1,
+    "strokes": 9,
+    "radicalNumber": 140
+  },
+  "装": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 145
+  },
+  "走": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 156
+  },
+  "送": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 162
+  },
+  "像": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 9
+  },
+  "増": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 32
+  },
+  "臓": {
+    "grade": 6,
+    "strokes": 19,
+    "radicalNumber": 130
+  },
+  "蔵": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 140
+  },
+  "造": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 162
+  },
+  "側": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 9
+  },
+  "則": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 18
+  },
+  "息": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 61
+  },
+  "束": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 75
+  },
+  "測": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "足": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 157
+  },
+  "速": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 162
+  },
+  "属": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 44
+  },
+  "族": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 70
+  },
+  "続": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 120
+  },
+  "卒": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 24
+  },
+  "存": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 39
+  },
+  "孫": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 39
+  },
+  "尊": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 41
+  },
+  "損": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 64
+  },
+  "村": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 75
+  },
+  "他": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "多": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 36
+  },
+  "太": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 37
+  },
+  "打": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 64
+  },
+  "体": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "対": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 41
+  },
+  "帯": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 50
+  },
+  "待": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 60
+  },
+  "態": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 61
+  },
+  "貸": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "退": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 162
+  },
+  "隊": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 170
+  },
+  "代": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "台": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 30
+  },
+  "大": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 37
+  },
+  "第": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 118
+  },
+  "題": {
+    "grade": 3,
+    "strokes": 18,
+    "radicalNumber": 181
+  },
+  "宅": {
+    "grade": 6,
+    "strokes": 6,
+    "radicalNumber": 40
+  },
+  "達": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 162
+  },
+  "谷": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 150
+  },
+  "単": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 24
+  },
+  "担": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 64
+  },
+  "探": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 64
+  },
+  "炭": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 86
+  },
+  "短": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 111
+  },
+  "誕": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "団": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 31
+  },
+  "断": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 69
+  },
+  "暖": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 72
+  },
+  "段": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 79
+  },
+  "男": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 102
+  },
+  "談": {
+    "grade": 3,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "値": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "知": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 111
+  },
+  "地": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 32
+  },
+  "池": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 85
+  },
+  "置": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 122
+  },
+  "築": {
+    "grade": 5,
+    "strokes": 16,
+    "radicalNumber": 118
+  },
+  "竹": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 118
+  },
+  "茶": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 140
+  },
+  "着": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 109
+  },
+  "中": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 2
+  },
+  "仲": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "宙": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "忠": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 61
+  },
+  "昼": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 72
+  },
+  "柱": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 75
+  },
+  "注": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "虫": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 142
+  },
+  "著": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 140
+  },
+  "貯": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "丁": {
+    "grade": 3,
+    "strokes": 2,
+    "radicalNumber": 1
+  },
+  "兆": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 10
+  },
+  "帳": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 50
+  },
+  "庁": {
+    "grade": 6,
+    "strokes": 5,
+    "radicalNumber": 53
+  },
+  "張": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 57
+  },
+  "朝": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 74
+  },
+  "潮": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 85
+  },
+  "町": {
+    "grade": 1,
+    "strokes": 7,
+    "radicalNumber": 102
+  },
+  "腸": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 130
+  },
+  "調": {
+    "grade": 3,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "長": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 168
+  },
+  "頂": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 181
+  },
+  "鳥": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 196
+  },
+  "直": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 109
+  },
+  "賃": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 154
+  },
+  "追": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 162
+  },
+  "痛": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 104
+  },
+  "通": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 162
+  },
+  "低": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "停": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 9
+  },
+  "定": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "底": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 53
+  },
+  "庭": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 53
+  },
+  "弟": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 57
+  },
+  "提": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 64
+  },
+  "程": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 115
+  },
+  "敵": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 66
+  },
+  "的": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 106
+  },
+  "笛": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 118
+  },
+  "適": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 162
+  },
+  "鉄": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 167
+  },
+  "典": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 12
+  },
+  "天": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 37
+  },
+  "展": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 44
+  },
+  "店": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 53
+  },
+  "転": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 159
+  },
+  "点": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 86
+  },
+  "伝": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "田": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 102
+  },
+  "電": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 173
+  },
+  "徒": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 60
+  },
+  "登": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 105
+  },
+  "都": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 163
+  },
+  "努": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 19
+  },
+  "度": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 53
+  },
+  "土": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 32
+  },
+  "党": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 10
+  },
+  "冬": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 15
+  },
+  "刀": {
+    "grade": 2,
+    "strokes": 2,
+    "radicalNumber": 18
+  },
+  "島": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 46
+  },
+  "投": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 64
+  },
+  "東": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "湯": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "灯": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 86
+  },
+  "当": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 58
+  },
+  "等": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 118
+  },
+  "答": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 118
+  },
+  "糖": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 119
+  },
+  "統": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 120
+  },
+  "討": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 149
+  },
+  "豆": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 151
+  },
+  "頭": {
+    "grade": 2,
+    "strokes": 16,
+    "radicalNumber": 181
+  },
+  "働": {
+    "grade": 4,
+    "strokes": 13,
+    "radicalNumber": 9
+  },
+  "動": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 19
+  },
+  "同": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "堂": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 32
+  },
+  "導": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 41
+  },
+  "童": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 117
+  },
+  "道": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 162
+  },
+  "銅": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 167
+  },
+  "得": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 60
+  },
+  "徳": {
+    "grade": 4,
+    "strokes": 14,
+    "radicalNumber": 60
+  },
+  "特": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 93
+  },
+  "毒": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 80
+  },
+  "独": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 94
+  },
+  "読": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "栃": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 75
+  },
+  "届": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 44
+  },
+  "奈": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 37
+  },
+  "内": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 13
+  },
+  "縄": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 120
+  },
+  "南": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 24
+  },
+  "難": {
+    "grade": 6,
+    "strokes": 18,
+    "radicalNumber": 172
+  },
+  "二": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 7
+  },
+  "肉": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 130
+  },
+  "日": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 72
+  },
+  "乳": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 5
+  },
+  "入": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 11
+  },
+  "任": {
+    "grade": 5,
+    "strokes": 6,
+    "radicalNumber": 9
+  },
+  "認": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 149
+  },
+  "熱": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 86
+  },
+  "年": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 51
+  },
+  "念": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 61
+  },
+  "燃": {
+    "grade": 5,
+    "strokes": 16,
+    "radicalNumber": 86
+  },
+  "納": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 120
+  },
+  "能": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 130
+  },
+  "脳": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 130
+  },
+  "農": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 161
+  },
+  "波": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "派": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "破": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 112
+  },
+  "馬": {
+    "grade": 2,
+    "strokes": 10,
+    "radicalNumber": 187
+  },
+  "俳": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "拝": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 64
+  },
+  "敗": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 66
+  },
+  "背": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 130
+  },
+  "肺": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 130
+  },
+  "配": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 164
+  },
+  "倍": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "梅": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 75
+  },
+  "買": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "売": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 33
+  },
+  "博": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 24
+  },
+  "白": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 106
+  },
+  "麦": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 199
+  },
+  "箱": {
+    "grade": 3,
+    "strokes": 15,
+    "radicalNumber": 118
+  },
+  "畑": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 102
+  },
+  "八": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 12
+  },
+  "発": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 105
+  },
+  "判": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 18
+  },
+  "半": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 24
+  },
+  "反": {
+    "grade": 3,
+    "strokes": 4,
+    "radicalNumber": 29
+  },
+  "板": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "版": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 91
+  },
+  "犯": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 94
+  },
+  "班": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 96
+  },
+  "飯": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 184
+  },
+  "晩": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 72
+  },
+  "番": {
+    "grade": 2,
+    "strokes": 12,
+    "radicalNumber": 102
+  },
+  "否": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 30
+  },
+  "悲": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 61
+  },
+  "批": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 64
+  },
+  "比": {
+    "grade": 5,
+    "strokes": 4,
+    "radicalNumber": 81
+  },
+  "皮": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 107
+  },
+  "秘": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 115
+  },
+  "肥": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 130
+  },
+  "費": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "非": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 175
+  },
+  "飛": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 183
+  },
+  "備": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 9
+  },
+  "美": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 123
+  },
+  "鼻": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 209
+  },
+  "必": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 61
+  },
+  "筆": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 118
+  },
+  "媛": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 38
+  },
+  "百": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 106
+  },
+  "俵": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 9
+  },
+  "標": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 75
+  },
+  "氷": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 85
+  },
+  "票": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 113
+  },
+  "表": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 145
+  },
+  "評": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 149
+  },
+  "病": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 104
+  },
+  "秒": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 115
+  },
+  "品": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 30
+  },
+  "貧": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 154
+  },
+  "不": {
+    "grade": 4,
+    "strokes": 4,
+    "radicalNumber": 1
+  },
+  "付": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "夫": {
+    "grade": 4,
+    "strokes": 4,
+    "radicalNumber": 37
+  },
+  "婦": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 38
+  },
+  "富": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 40
+  },
+  "布": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 50
+  },
+  "府": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 53
+  },
+  "父": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 88
+  },
+  "負": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 154
+  },
+  "阜": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 170
+  },
+  "武": {
+    "grade": 5,
+    "strokes": 8,
+    "radicalNumber": 77
+  },
+  "部": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 163
+  },
+  "風": {
+    "grade": 2,
+    "strokes": 9,
+    "radicalNumber": 182
+  },
+  "副": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 18
+  },
+  "復": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 60
+  },
+  "服": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 74
+  },
+  "福": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 113
+  },
+  "腹": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 130
+  },
+  "複": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 145
+  },
+  "仏": {
+    "grade": 5,
+    "strokes": 4,
+    "radicalNumber": 9
+  },
+  "物": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 93
+  },
+  "分": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 18
+  },
+  "奮": {
+    "grade": 6,
+    "strokes": 16,
+    "radicalNumber": 37
+  },
+  "粉": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 119
+  },
+  "文": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 67
+  },
+  "聞": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 128
+  },
+  "兵": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 12
+  },
+  "平": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 51
+  },
+  "並": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 1
+  },
+  "閉": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 169
+  },
+  "陛": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 170
+  },
+  "米": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 119
+  },
+  "別": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 18
+  },
+  "変": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 34
+  },
+  "片": {
+    "grade": 6,
+    "strokes": 4,
+    "radicalNumber": 91
+  },
+  "編": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 120
+  },
+  "辺": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 162
+  },
+  "返": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 162
+  },
+  "便": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 9
+  },
+  "勉": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 19
+  },
+  "弁": {
+    "grade": 5,
+    "strokes": 5,
+    "radicalNumber": 55
+  },
+  "保": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 9
+  },
+  "歩": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 77
+  },
+  "補": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 145
+  },
+  "墓": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 32
+  },
+  "暮": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 72
+  },
+  "母": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 80
+  },
+  "包": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 20
+  },
+  "報": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 32
+  },
+  "宝": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 40
+  },
+  "放": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 66
+  },
+  "方": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 70
+  },
+  "法": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "訪": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 149
+  },
+  "豊": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 151
+  },
+  "亡": {
+    "grade": 6,
+    "strokes": 3,
+    "radicalNumber": 8
+  },
+  "忘": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 61
+  },
+  "暴": {
+    "grade": 5,
+    "strokes": 15,
+    "radicalNumber": 72
+  },
+  "望": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 74
+  },
+  "棒": {
+    "grade": 6,
+    "strokes": 12,
+    "radicalNumber": 75
+  },
+  "貿": {
+    "grade": 5,
+    "strokes": 12,
+    "radicalNumber": 154
+  },
+  "防": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 170
+  },
+  "北": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 21
+  },
+  "牧": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 93
+  },
+  "本": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 75
+  },
+  "妹": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 38
+  },
+  "枚": {
+    "grade": 6,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "毎": {
+    "grade": 2,
+    "strokes": 6,
+    "radicalNumber": 80
+  },
+  "幕": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 50
+  },
+  "末": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 75
+  },
+  "万": {
+    "grade": 2,
+    "strokes": 3,
+    "radicalNumber": 1
+  },
+  "満": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 85
+  },
+  "味": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 30
+  },
+  "未": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 75
+  },
+  "密": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 40
+  },
+  "脈": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 130
+  },
+  "民": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 83
+  },
+  "務": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 19
+  },
+  "夢": {
+    "grade": 5,
+    "strokes": 13,
+    "radicalNumber": 36
+  },
+  "無": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 86
+  },
+  "名": {
+    "grade": 1,
+    "strokes": 6,
+    "radicalNumber": 30
+  },
+  "命": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 30
+  },
+  "明": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 72
+  },
+  "盟": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 108
+  },
+  "迷": {
+    "grade": 5,
+    "strokes": 9,
+    "radicalNumber": 162
+  },
+  "鳴": {
+    "grade": 2,
+    "strokes": 14,
+    "radicalNumber": 196
+  },
+  "綿": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 120
+  },
+  "面": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 176
+  },
+  "模": {
+    "grade": 6,
+    "strokes": 14,
+    "radicalNumber": 75
+  },
+  "毛": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 82
+  },
+  "木": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 75
+  },
+  "目": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 109
+  },
+  "問": {
+    "grade": 3,
+    "strokes": 11,
+    "radicalNumber": 30
+  },
+  "門": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 169
+  },
+  "夜": {
+    "grade": 2,
+    "strokes": 8,
+    "radicalNumber": 36
+  },
+  "野": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 166
+  },
+  "矢": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 111
+  },
+  "役": {
+    "grade": 3,
+    "strokes": 7,
+    "radicalNumber": 60
+  },
+  "約": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 120
+  },
+  "薬": {
+    "grade": 3,
+    "strokes": 16,
+    "radicalNumber": 140
+  },
+  "訳": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 149
+  },
+  "油": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 85
+  },
+  "輸": {
+    "grade": 5,
+    "strokes": 16,
+    "radicalNumber": 159
+  },
+  "優": {
+    "grade": 6,
+    "strokes": 17,
+    "radicalNumber": 9
+  },
+  "勇": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 19
+  },
+  "友": {
+    "grade": 2,
+    "strokes": 4,
+    "radicalNumber": 29
+  },
+  "有": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 74
+  },
+  "由": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 102
+  },
+  "遊": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 162
+  },
+  "郵": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 163
+  },
+  "夕": {
+    "grade": 1,
+    "strokes": 3,
+    "radicalNumber": 36
+  },
+  "予": {
+    "grade": 3,
+    "strokes": 4,
+    "radicalNumber": 6
+  },
+  "余": {
+    "grade": 5,
+    "strokes": 7,
+    "radicalNumber": 9
+  },
+  "預": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 181
+  },
+  "幼": {
+    "grade": 6,
+    "strokes": 5,
+    "radicalNumber": 52
+  },
+  "容": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 40
+  },
+  "曜": {
+    "grade": 2,
+    "strokes": 18,
+    "radicalNumber": 72
+  },
+  "様": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 75
+  },
+  "洋": {
+    "grade": 3,
+    "strokes": 9,
+    "radicalNumber": 85
+  },
+  "用": {
+    "grade": 2,
+    "strokes": 5,
+    "radicalNumber": 101
+  },
+  "羊": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 123
+  },
+  "葉": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 140
+  },
+  "要": {
+    "grade": 4,
+    "strokes": 9,
+    "radicalNumber": 146
+  },
+  "陽": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 170
+  },
+  "養": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 184
+  },
+  "欲": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 76
+  },
+  "浴": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 85
+  },
+  "翌": {
+    "grade": 6,
+    "strokes": 11,
+    "radicalNumber": 124
+  },
+  "来": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 75
+  },
+  "落": {
+    "grade": 3,
+    "strokes": 12,
+    "radicalNumber": 140
+  },
+  "乱": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 5
+  },
+  "卵": {
+    "grade": 6,
+    "strokes": 7,
+    "radicalNumber": 26
+  },
+  "覧": {
+    "grade": 6,
+    "strokes": 17,
+    "radicalNumber": 147
+  },
+  "利": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 18
+  },
+  "梨": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 75
+  },
+  "理": {
+    "grade": 2,
+    "strokes": 11,
+    "radicalNumber": 96
+  },
+  "裏": {
+    "grade": 6,
+    "strokes": 13,
+    "radicalNumber": 145
+  },
+  "里": {
+    "grade": 2,
+    "strokes": 7,
+    "radicalNumber": 166
+  },
+  "陸": {
+    "grade": 4,
+    "strokes": 11,
+    "radicalNumber": 170
+  },
+  "律": {
+    "grade": 6,
+    "strokes": 9,
+    "radicalNumber": 60
+  },
+  "率": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 95
+  },
+  "立": {
+    "grade": 1,
+    "strokes": 5,
+    "radicalNumber": 117
+  },
+  "略": {
+    "grade": 5,
+    "strokes": 11,
+    "radicalNumber": 102
+  },
+  "流": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 85
+  },
+  "留": {
+    "grade": 5,
+    "strokes": 10,
+    "radicalNumber": 102
+  },
+  "旅": {
+    "grade": 3,
+    "strokes": 10,
+    "radicalNumber": 70
+  },
+  "両": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 1
+  },
+  "料": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 68
+  },
+  "良": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 138
+  },
+  "量": {
+    "grade": 4,
+    "strokes": 12,
+    "radicalNumber": 166
+  },
+  "領": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 181
+  },
+  "力": {
+    "grade": 1,
+    "strokes": 2,
+    "radicalNumber": 19
+  },
+  "緑": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 120
+  },
+  "林": {
+    "grade": 1,
+    "strokes": 8,
+    "radicalNumber": 75
+  },
+  "臨": {
+    "grade": 6,
+    "strokes": 18,
+    "radicalNumber": 131
+  },
+  "輪": {
+    "grade": 4,
+    "strokes": 15,
+    "radicalNumber": 159
+  },
+  "類": {
+    "grade": 4,
+    "strokes": 18,
+    "radicalNumber": 181
+  },
+  "令": {
+    "grade": 4,
+    "strokes": 5,
+    "radicalNumber": 9
+  },
+  "例": {
+    "grade": 4,
+    "strokes": 8,
+    "radicalNumber": 9
+  },
+  "冷": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 15
+  },
+  "礼": {
+    "grade": 3,
+    "strokes": 5,
+    "radicalNumber": 113
+  },
+  "歴": {
+    "grade": 5,
+    "strokes": 14,
+    "radicalNumber": 77
+  },
+  "列": {
+    "grade": 3,
+    "strokes": 6,
+    "radicalNumber": 18
+  },
+  "練": {
+    "grade": 3,
+    "strokes": 14,
+    "radicalNumber": 120
+  },
+  "連": {
+    "grade": 4,
+    "strokes": 10,
+    "radicalNumber": 162
+  },
+  "路": {
+    "grade": 3,
+    "strokes": 13,
+    "radicalNumber": 157
+  },
+  "労": {
+    "grade": 4,
+    "strokes": 7,
+    "radicalNumber": 19
+  },
+  "朗": {
+    "grade": 6,
+    "strokes": 10,
+    "radicalNumber": 74
+  },
+  "老": {
+    "grade": 4,
+    "strokes": 6,
+    "radicalNumber": 125
+  },
+  "六": {
+    "grade": 1,
+    "strokes": 4,
+    "radicalNumber": 12
+  },
+  "録": {
+    "grade": 4,
+    "strokes": 16,
+    "radicalNumber": 167
+  },
+  "論": {
+    "grade": 6,
+    "strokes": 15,
+    "radicalNumber": 149
+  },
+  "和": {
+    "grade": 3,
+    "strokes": 8,
+    "radicalNumber": 30
+  },
+  "話": {
+    "grade": 2,
+    "strokes": 13,
+    "radicalNumber": 149
+  }
+}

@@ -315,6 +315,11 @@ async function boot(){
       }
       return {char, code, grade:meta.grade, parts};
     });
+    GRADE_KANJI = {};
+    KANJI_POOL.forEach(kanji=>{
+      if(!GRADE_KANJI[kanji.grade]) GRADE_KANJI[kanji.grade] = [];
+      GRADE_KANJI[kanji.grade].push([kanji.char, kanji.code]);
+    });
     render();
   }catch(err){
     document.getElementById('app').innerHTML =

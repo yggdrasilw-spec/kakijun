@@ -324,13 +324,12 @@ async function boot(){
     } catch(e) { /* 部首名がない環境では部品文字を表示 */ }
     KANJI_POOL = Object.entries(KANJI_META).map(([char, meta])=>{
       const code = char.codePointAt(0).toString(16).padStart(5,'0');
-      const parts = KANJI_PARTS[code] || null;
-      // 部品名はkanjivg-radical、画の範囲はKanjiVG SVG由来のpartsを使う。
-      const radicalNames = KANJI_RADICALS[char] || [];
-      if(parts && radicalNames.length){
-        parts.forEach((part, i)=>{ if(radicalNames[i]) part.element = radicalNames[i]; });
-      }
-      return {char, code, grade:meta.grade, parts};
+      // 部品の境界と部首フラグは、最終的に読み込むKanjiVG SVGから生成する。
+      // 事前生成JSONは古い直下/ネスト対応のため、ここではフォールバック用に保持する。
+      const parts = null;
+      // 部品の順序はKanjiVGのSVG構造を正とする。
+      // kanji2radicalはネストした部品一覧なので、直下部品へ配列番号で上書きしない。
+      return {char, code, grade:meta.grade, strokes:meta.strokes, radicalNumber:meta.radicalNumber, parts};
     });
     GRADE_KANJI = {};
     KANJI_POOL.forEach(kanji=>{
@@ -360,7 +359,15 @@ function parseKanjiSVG(text){
 function partsFromSVG(data){
   const root = data.doc.querySelector('g[id^="kvg:"][kvg\\:element]');
   if(!root) return [{element:'全体', start:0, end:data.paths.length-1, radical:true}];
-  const parts = Array.from(root.children).filter(el=>el.tagName.toLowerCase()==='g' && el.getAttribute('kvg:element'));
+  // element属性のない中間グループ（例: 愛の下半分）をそのまま一部品にせず、
+  // 配下の実部品まで展開する。これでネストした「心」なども選択対象になる。
+  const parts = [];
+  function collect(group){
+    const children = Array.from(group.children).filter(el=>el.tagName.toLowerCase()==='g');
+    if(group !== root && group.getAttribute('kvg:element')) { parts.push(group); return; }
+    children.forEach(collect);
+  }
+  collect(root);
   return (parts.length ? parts : [root]).map(group=>{
     const groupPaths = Array.from(group.querySelectorAll('path'));
     const indexes = groupPaths.map(p=>data.paths.indexOf(p)).filter(i=>i>=0);
@@ -371,9 +378,13 @@ function partsFromSVG(data){
 }
 async function ensurePartsLoaded(kanji){
   if(kanji.parts) return;
-  const data = await fetch(`../svg/${kanji.code}.svg`).then(r=>{if(!r.ok) throw new Error('not found'); return r.text();}).then(parseKanjiSVG);
-  kanji.parts = partsFromSVG(data);
-  KANJI_PARTS[kanji.code] = kanji.parts;
+  try {
+    const data = await fetch(`../svg/${kanji.code}.svg`).then(r=>{if(!r.ok) throw new Error('not found'); return r.text();}).then(parseKanjiSVG);
+    kanji.parts = partsFromSVG(data);
+    KANJI_PARTS[kanji.code] = kanji.parts;
+  } catch(e) {
+    kanji.parts = KANJI_PARTS[kanji.code] || [{element:'全体', start:0, end:0, radical:true}];
+  }
 }
 function ensureSVGLoaded(code){
   if(svgCache[code]) return svgCache[code]==='loading' ? null : svgCache[code];

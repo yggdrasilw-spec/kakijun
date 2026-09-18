@@ -409,11 +409,12 @@ function renderGamePartsSVG(code, parts, answeredIdx, answeredCorrect){
     if(locked && i===answeredIdx){
       strokeColor = answeredCorrect ? 'var(--success)' : 'var(--stroke-red)';
     }
-    const bbox = estimateBBox(strokes.map(s=>s.d));
     const clickAttr = locked ? '' : `onpointerdown="handlePartTap(${i}); event.preventDefault(); event.stopPropagation()" onclick="handlePartTap(${i}); event.stopPropagation()" role="button" tabindex="0"`;
-    // 部品ごとに色を変え、薄い面と発光で「どこまでが一部品か」を示す。
+    // 外接矩形ではなく、実際の画線を太くした透明パスをクリック領域にする。
+    // 曲線・相対座標を含むSVGでも位置がずれず、部品の形に沿って選択できる。
+    const hitPaths = strokes.map(s=>`<path d="${s.d}" fill="none" stroke="transparent" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" pointer-events="stroke"/>`).join('');
     const paths = strokes.map(s=>`<path d="${s.d}" fill="none" stroke="${strokeColor}" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
-    return `<g ${clickAttr} style="cursor:${locked?'default':'pointer'};filter:url(#part-glow-${i})"><rect x="${bbox.x}" y="${bbox.y}" width="${bbox.w}" height="${bbox.h}" rx="6" fill="none" stroke="${strokeColor}" stroke-opacity=".18" stroke-width="1.5" pointer-events="all"/>${paths}</g>`;
+    return `<g ${clickAttr} style="cursor:${locked?'default':'pointer'};filter:url(#part-glow-${i})">${hitPaths}${paths}</g>`;
   }).join('');
   const filters = parts.map((p,i)=>`<filter id="part-glow-${i}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${answeredIdx===null?'1.2':'0.5'}" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`).join('');
   return `<svg viewBox="${data.viewBox}" width="100%" height="100%"><defs>${filters}</defs>${groups}</svg>`;

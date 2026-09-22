@@ -324,11 +324,9 @@ async function boot(){
     } catch(e) { /* 部首名がない環境では部品文字を表示 */ }
     KANJI_POOL = Object.entries(KANJI_META).map(([char, meta])=>{
       const code = char.codePointAt(0).toString(16).padStart(5,'0');
-      // 部品の境界と部首フラグは、最終的に読み込むKanjiVG SVGから生成する。
-      // 事前生成JSONは古い直下/ネスト対応のため、ここではフォールバック用に保持する。
-      const parts = null;
-      // 部品の順序はKanjiVGのSVG構造を正とする。
-      // kanji2radicalはネストした部品一覧なので、直下部品へ配列番号で上書きしない。
+      // 事前生成したKanjiVG由来の部品分割をまず使う。
+      // SVGは表示用の筆画データとして使い、部品データがない場合だけ補完する。
+      const parts = KANJI_PARTS[code] || null;
       return {char, code, grade:meta.grade, strokes:meta.strokes, radicalNumber:meta.radicalNumber, parts};
     });
     GRADE_KANJI = {};

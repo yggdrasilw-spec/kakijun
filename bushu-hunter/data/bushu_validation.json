@@ -1,9 +1,9 @@
 {
   "generatedBy": "validate_bushu_data.js",
   "statuses": {
-    "exact": 953,
-    "candidate": 0,
-    "fallback": 73,
+    "exact": 912,
+    "candidate": 3,
+    "fallback": 111,
     "missing": 0
   },
   "report": {
@@ -12,7 +12,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "⺤",
         "心"
       ]
     },
@@ -21,7 +20,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "亜",
         "心"
       ]
     },
@@ -30,7 +28,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "厂",
         "土"
       ]
     },
@@ -39,8 +36,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "女"
+        "宀"
       ]
     },
     "暗": {
@@ -48,8 +44,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "音"
+        "日"
       ]
     },
     "案": {
@@ -57,7 +52,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "安",
         "木"
       ]
     },
@@ -74,8 +68,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "立"
+        "亻"
       ]
     },
     "囲": {
@@ -83,8 +76,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "井",
         "囗"
       ]
     },
@@ -93,7 +84,6 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "禾",
         "女"
       ]
     },
@@ -102,7 +92,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "音",
         "心"
       ]
     },
@@ -111,8 +100,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "勿"
+        "日"
       ]
     },
     "異": {
@@ -120,8 +108,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "田",
-        "共"
+        "田"
       ]
     },
     "移": {
@@ -129,8 +116,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "多"
+        "禾"
       ]
     },
     "胃": {
@@ -138,7 +124,6 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "田",
         "月"
       ]
     },
@@ -155,16 +140,15 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "貴",
         "⻌"
       ]
     },
     "医": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 23,
       "radicalChar": "⼖",
-      "matched": [
-        "矢"
+      "flagged": [
+        "匸"
       ]
     },
     "井": {
@@ -181,8 +165,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "或"
+        "土"
       ]
     },
     "育": {
@@ -206,8 +189,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "次"
+        "艹"
       ]
     },
     "印": {
@@ -223,8 +205,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "貝"
+        "口"
       ]
     },
     "因": {
@@ -232,8 +213,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "大",
         "囗"
       ]
     },
@@ -242,8 +221,7 @@
       "radicalNumber": 57,
       "radicalChar": "⼸",
       "matched": [
-        "弓",
-        "丨"
+        "弓"
       ]
     },
     "飲": {
@@ -251,8 +229,7 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "matched": [
-        "飠",
-        "欠"
+        "飠"
       ]
     },
     "院": {
@@ -260,8 +237,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "完"
+        "⻖"
       ]
     },
     "右": {
@@ -277,8 +253,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "于"
+        "宀"
       ]
     },
     "羽": {
@@ -302,7 +277,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "軍",
         "⻌"
       ]
     },
@@ -311,8 +285,7 @@
       "radicalNumber": 173,
       "radicalChar": "⾬",
       "matched": [
-        "雨",
-        "云"
+        "雨"
       ]
     },
     "営": {
@@ -328,8 +301,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "央"
+        "日"
       ]
     },
     "栄": {
@@ -345,7 +317,6 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "丶",
         "水"
       ]
     },
@@ -354,8 +325,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "永"
+        "氵"
       ]
     },
     "英": {
@@ -363,8 +333,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "央"
+        "艹"
       ]
     },
     "衛": {
@@ -372,8 +341,6 @@
       "radicalNumber": 144,
       "radicalChar": "⾏",
       "matched": [
-        "行",
-        "韋",
         "行"
       ]
     },
@@ -382,8 +349,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "夜"
+        "氵"
       ]
     },
     "益": {
@@ -399,8 +365,7 @@
       "radicalNumber": 187,
       "radicalChar": "⾺",
       "matched": [
-        "馬",
-        "尺"
+        "馬"
       ]
     },
     "円": {
@@ -416,8 +381,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "袁",
         "囗"
       ]
     },
@@ -426,7 +389,6 @@
       "radicalNumber": 54,
       "radicalChar": "⼵",
       "matched": [
-        "正",
         "廴"
       ]
     },
@@ -435,8 +397,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "㕣"
+        "氵"
       ]
     },
     "演": {
@@ -444,8 +405,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "寅"
+        "氵"
       ]
     },
     "遠": {
@@ -453,7 +413,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "袁",
         "⻌"
       ]
     },
@@ -470,7 +429,6 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "matched": [
-        "丨",
         "大"
       ]
     },
@@ -479,8 +437,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "主"
+        "彳"
       ]
     },
     "応": {
@@ -488,7 +445,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "广",
         "心"
       ]
     },
@@ -497,8 +453,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "黄"
+        "木"
       ]
     },
     "王": {
@@ -522,7 +477,6 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "matched": [
-        "冂",
         "山"
       ]
     },
@@ -531,8 +485,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "中"
+        "氵"
       ]
     },
     "億": {
@@ -540,8 +493,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "意"
+        "亻"
       ]
     },
     "屋": {
@@ -549,8 +501,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "至"
+        "尸"
       ]
     },
     "恩": {
@@ -558,7 +509,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "因",
         "心"
       ]
     },
@@ -575,8 +525,7 @@
       "radicalNumber": 180,
       "radicalChar": "⾳",
       "matched": [
-        "立",
-        "日"
+        "立"
       ]
     },
     "下": {
@@ -584,8 +533,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "一",
-        "卜"
+        "一"
       ]
     },
     "化": {
@@ -593,7 +541,6 @@
       "radicalNumber": 21,
       "radicalChar": "⼔",
       "matched": [
-        "亻",
         "匕"
       ]
     },
@@ -602,8 +549,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "反"
+        "亻"
       ]
     },
     "何": {
@@ -611,8 +557,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "可"
+        "亻"
       ]
     },
     "価": {
@@ -628,8 +573,7 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "力",
-        "口"
+        "力"
       ]
     },
     "可": {
@@ -637,9 +581,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "丁",
-        "口",
-        "丁"
+        "口"
       ]
     },
     "夏": {
@@ -655,8 +597,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "豕"
+        "宀"
       ]
     },
     "科": {
@@ -664,8 +605,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "斗"
+        "禾"
       ]
     },
     "果": {
@@ -673,7 +613,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "田",
         "木"
       ]
     },
@@ -690,8 +629,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "可"
+        "氵"
       ]
     },
     "火": {
@@ -707,8 +645,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "化"
+        "艹"
       ]
     },
     "荷": {
@@ -716,8 +653,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "何"
+        "艹"
       ]
     },
     "課": {
@@ -725,8 +661,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "果"
+        "言"
       ]
     },
     "貨": {
@@ -734,7 +669,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "化",
         "貝"
       ]
     },
@@ -743,7 +677,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "咼",
         "⻌"
       ]
     },
@@ -752,9 +685,6 @@
       "radicalNumber": 62,
       "radicalChar": "⼽",
       "matched": [
-        "丿",
-        "戈",
-        "亅",
         "戈"
       ]
     },
@@ -763,9 +693,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "一",
-        "由",
-        "凵"
+        "由"
       ]
     },
     "芽": {
@@ -773,8 +701,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "牙"
+        "艹"
       ]
     },
     "賀": {
@@ -782,7 +709,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "加",
         "貝"
       ]
     },
@@ -791,8 +717,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "人",
-        "云"
+        "人"
       ]
     },
     "解": {
@@ -808,8 +733,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "口",
         "囗"
       ]
     },
@@ -818,16 +741,15 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "忄",
-        "夬"
+        "忄"
       ]
     },
     "改": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "己"
+      "flagged": [
+        "攵"
       ]
     },
     "械": {
@@ -835,8 +757,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "戒"
+        "木"
       ]
     },
     "海": {
@@ -844,8 +765,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "毎"
+        "氵"
       ]
     },
     "灰": {
@@ -853,7 +773,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "厂",
         "火"
       ]
     },
@@ -862,8 +781,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "田",
-        "介"
+        "田"
       ]
     },
     "絵": {
@@ -871,8 +789,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "会"
+        "糸"
       ]
     },
     "開": {
@@ -888,8 +805,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "皆"
+        "⻖"
       ]
     },
     "貝": {
@@ -905,8 +821,7 @@
       "radicalNumber": 36,
       "radicalChar": "⼣",
       "matched": [
-        "夕",
-        "卜"
+        "夕"
       ]
     },
     "害": {
@@ -922,8 +837,6 @@
       "radicalNumber": 144,
       "radicalChar": "⾏",
       "matched": [
-        "行",
-        "圭",
         "行"
       ]
     },
@@ -932,7 +845,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "夂",
         "口"
       ]
     },
@@ -941,8 +853,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "広"
+        "扌"
       ]
     },
     "格": {
@@ -950,8 +861,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "各"
+        "木"
       ]
     },
     "確": {
@@ -959,8 +869,7 @@
       "radicalNumber": 112,
       "radicalChar": "⽯",
       "matched": [
-        "石",
-        "寉"
+        "石"
       ]
     },
     "覚": {
@@ -984,8 +893,7 @@
       "radicalNumber": 169,
       "radicalChar": "⾨",
       "matched": [
-        "門",
-        "各"
+        "門"
       ]
     },
     "革": {
@@ -1017,7 +925,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "客",
         "頁"
       ]
     },
@@ -1026,8 +933,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "舄"
+        "氵"
       ]
     },
     "割": {
@@ -1035,7 +941,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "害",
         "刂"
       ]
     },
@@ -1044,8 +949,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "舌"
+        "氵"
       ]
     },
     "株": {
@@ -1053,8 +957,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "朱"
+        "木"
       ]
     },
     "寒": {
@@ -1070,7 +973,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "干",
         "刂"
       ]
     },
@@ -1079,7 +981,6 @@
       "radicalNumber": 49,
       "radicalChar": "⼰",
       "matched": [
-        "𠔉",
         "己"
       ]
     },
@@ -1088,8 +989,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "元"
+        "宀"
       ]
     },
     "官": {
@@ -1101,11 +1001,11 @@
       ]
     },
     "干": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 51,
       "radicalChar": "⼲",
-      "matched": [
-        "十"
+      "flagged": [
+        "干"
       ]
     },
     "幹": {
@@ -1121,7 +1021,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "咸",
         "心"
       ]
     },
@@ -1130,8 +1029,7 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "忄",
-        "貫"
+        "忄"
       ]
     },
     "漢": {
@@ -1147,7 +1045,6 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "手",
         "目"
       ]
     },
@@ -1156,8 +1053,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "官"
+        "竹"
       ]
     },
     "簡": {
@@ -1165,8 +1061,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "間"
+        "竹"
       ]
     },
     "観": {
@@ -1182,8 +1077,7 @@
       "radicalNumber": 169,
       "radicalChar": "⾨",
       "matched": [
-        "門",
-        "日"
+        "門"
       ]
     },
     "関": {
@@ -1191,8 +1085,7 @@
       "radicalNumber": 169,
       "radicalChar": "⾨",
       "matched": [
-        "門",
-        "关"
+        "門"
       ]
     },
     "館": {
@@ -1200,8 +1093,7 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "matched": [
-        "飠",
-        "官"
+        "飠"
       ]
     },
     "丸": {
@@ -1209,7 +1101,6 @@
       "radicalNumber": 3,
       "radicalChar": "⼂",
       "matched": [
-        "九",
         "丶"
       ]
     },
@@ -1226,8 +1117,7 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "目",
-        "艮"
+        "目"
       ]
     },
     "岩": {
@@ -1235,8 +1125,7 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "matched": [
-        "山",
-        "石"
+        "山"
       ]
     },
     "顔": {
@@ -1244,7 +1133,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "彦",
         "頁"
       ]
     },
@@ -1253,7 +1141,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "原",
         "頁"
       ]
     },
@@ -1262,7 +1149,6 @@
       "radicalNumber": 26,
       "radicalChar": "⼙",
       "matched": [
-        "𠂊",
         "厄"
       ]
     },
@@ -1271,7 +1157,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "吉",
         "口"
       ]
     },
@@ -1288,7 +1173,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "其",
         "土"
       ]
     },
@@ -1297,8 +1181,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "奇"
+        "宀"
       ]
     },
     "岐": {
@@ -1306,8 +1189,7 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "matched": [
-        "山",
-        "支"
+        "山"
       ]
     },
     "希": {
@@ -1315,7 +1197,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "乂",
         "布"
       ]
     },
@@ -1324,8 +1205,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "軍"
+        "扌"
       ]
     },
     "机": {
@@ -1333,8 +1213,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "几"
+        "木"
       ]
     },
     "旗": {
@@ -1350,7 +1229,6 @@
       "radicalNumber": 74,
       "radicalChar": "⽉",
       "matched": [
-        "其",
         "月"
       ]
     },
@@ -1359,8 +1237,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "幾"
+        "木"
       ]
     },
     "帰": {
@@ -1368,7 +1245,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "刂",
         "帚"
       ]
     },
@@ -1377,8 +1253,7 @@
       "radicalNumber": 84,
       "radicalChar": "⽓",
       "matched": [
-        "气",
-        "乂"
+        "气"
       ]
     },
     "汽": {
@@ -1386,8 +1261,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "气"
+        "氵"
       ]
     },
     "季": {
@@ -1395,7 +1269,6 @@
       "radicalNumber": 39,
       "radicalChar": "⼦",
       "matched": [
-        "禾",
         "子"
       ]
     },
@@ -1404,8 +1277,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "己"
+        "糸"
       ]
     },
     "規": {
@@ -1413,7 +1285,6 @@
       "radicalNumber": 147,
       "radicalChar": "⾒",
       "matched": [
-        "夫",
         "見"
       ]
     },
@@ -1422,8 +1293,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "己"
+        "言"
       ]
     },
     "貴": {
@@ -1439,8 +1309,7 @@
       "radicalNumber": 156,
       "radicalChar": "⾛",
       "matched": [
-        "走",
-        "己"
+        "走"
       ]
     },
     "技": {
@@ -1448,8 +1317,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "支"
+        "扌"
       ]
     },
     "疑": {
@@ -1465,8 +1333,7 @@
       "radicalNumber": 123,
       "radicalChar": "⽺",
       "matched": [
-        "羊",
-        "我"
+        "羊"
       ]
     },
     "議": {
@@ -1474,8 +1341,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "義"
+        "言"
       ]
     },
     "客": {
@@ -1483,8 +1349,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "各"
+        "宀"
       ]
     },
     "逆": {
@@ -1508,8 +1373,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "木"
+        "亻"
       ]
     },
     "吸": {
@@ -1517,8 +1381,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "及"
+        "口"
       ]
     },
     "宮": {
@@ -1526,8 +1389,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "呂"
+        "宀"
       ]
     },
     "弓": {
@@ -1547,11 +1409,11 @@
       ]
     },
     "救": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "求"
+      "flagged": [
+        "攵"
       ]
     },
     "求": {
@@ -1559,8 +1421,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氺",
-        "丶"
+        "氺"
       ]
     },
     "泣": {
@@ -1568,8 +1429,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "立"
+        "氵"
       ]
     },
     "球": {
@@ -1577,8 +1437,7 @@
       "radicalNumber": 96,
       "radicalChar": "⽟",
       "matched": [
-        "王",
-        "求"
+        "王"
       ]
     },
     "究": {
@@ -1586,8 +1445,7 @@
       "radicalNumber": 116,
       "radicalChar": "⽳",
       "matched": [
-        "穴",
-        "九"
+        "穴"
       ]
     },
     "級": {
@@ -1595,8 +1453,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "及"
+        "糸"
       ]
     },
     "給": {
@@ -1604,8 +1461,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "合"
+        "糸"
       ]
     },
     "旧": {
@@ -1613,7 +1469,6 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "丨",
         "日"
       ]
     },
@@ -1630,7 +1485,6 @@
       "radicalNumber": 28,
       "radicalChar": "⼛",
       "matched": [
-        "土",
         "厶"
       ]
     },
@@ -1639,8 +1493,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "古"
+        "尸"
       ]
     },
     "挙": {
@@ -1656,8 +1509,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "午"
+        "言"
       ]
     },
     "漁": {
@@ -1665,8 +1517,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "魚"
+        "氵"
       ]
     },
     "魚": {
@@ -1690,8 +1541,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "共"
+        "亻"
       ]
     },
     "競": {
@@ -1723,8 +1573,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "竟"
+        "土"
       ]
     },
     "強": {
@@ -1736,11 +1585,11 @@
       ]
     },
     "教": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "孝"
+      "flagged": [
+        "攵"
       ]
     },
     "橋": {
@@ -1748,8 +1597,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "喬"
+        "木"
       ]
     },
     "胸": {
@@ -1757,16 +1605,15 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "匈"
+        "月"
       ]
     },
     "興": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 134,
       "radicalChar": "⾅",
-      "matched": [
-        "八"
+      "flagged": [
+        "臼"
       ]
     },
     "郷": {
@@ -1782,8 +1629,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "竟"
+        "金"
       ]
     },
     "業": {
@@ -1799,8 +1645,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "句"
+        "尸"
       ]
     },
     "曲": {
@@ -1808,8 +1653,6 @@
       "radicalNumber": 73,
       "radicalChar": "⽈",
       "matched": [
-        "日",
-        "廾",
         "日"
       ]
     },
@@ -1818,8 +1661,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "亟"
+        "木"
       ]
     },
     "玉": {
@@ -1827,8 +1669,7 @@
       "radicalNumber": 96,
       "radicalChar": "⽟",
       "matched": [
-        "王",
-        "丶"
+        "王"
       ]
     },
     "勤": {
@@ -1836,7 +1677,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "菫",
         "力"
       ]
     },
@@ -1845,8 +1685,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "匀"
+        "土"
       ]
     },
     "禁": {
@@ -1854,7 +1693,6 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "林",
         "示"
       ]
     },
@@ -1863,8 +1701,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "肋"
+        "竹"
       ]
     },
     "近": {
@@ -1872,7 +1709,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "斤",
         "⻌"
       ]
     },
@@ -1889,8 +1725,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "艮"
+        "金"
       ]
     },
     "九": {
@@ -1898,7 +1733,6 @@
       "radicalNumber": 5,
       "radicalChar": "⼄",
       "matched": [
-        "丿",
         "乙"
       ]
     },
@@ -1907,16 +1741,15 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "勹",
         "口"
       ]
     },
     "区": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 23,
       "radicalChar": "⼖",
-      "matched": [
-        "乂"
+      "flagged": [
+        "匸"
       ]
     },
     "苦": {
@@ -1924,8 +1757,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "古"
+        "艹"
       ]
     },
     "具": {
@@ -1933,7 +1765,6 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "目",
         "八"
       ]
     },
@@ -1942,8 +1773,7 @@
       "radicalNumber": 116,
       "radicalChar": "⽳",
       "matched": [
-        "穴",
-        "工"
+        "穴"
       ]
     },
     "熊": {
@@ -1951,7 +1781,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "能",
         "灬"
       ]
     },
@@ -1960,7 +1789,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "尹",
         "口"
       ]
     },
@@ -1969,8 +1797,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "川"
+        "言"
       ]
     },
     "群": {
@@ -1978,7 +1805,6 @@
       "radicalNumber": 123,
       "radicalChar": "⽺",
       "matched": [
-        "君",
         "羊"
       ]
     },
@@ -1987,7 +1813,6 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "matched": [
-        "冖",
         "車"
       ]
     },
@@ -1996,7 +1821,6 @@
       "radicalNumber": 163,
       "radicalChar": "⾢",
       "matched": [
-        "君",
         "⻏"
       ]
     },
@@ -2005,8 +1829,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "系"
+        "亻"
       ]
     },
     "兄": {
@@ -2014,7 +1837,6 @@
       "radicalNumber": 10,
       "radicalChar": "⼉",
       "matched": [
-        "口",
         "儿"
       ]
     },
@@ -2023,7 +1845,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "刑",
         "土"
       ]
     },
@@ -2040,16 +1861,15 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "圣"
+        "彳"
       ]
     },
     "敬": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "苟"
+      "flagged": [
+        "攵"
       ]
     },
     "景": {
@@ -2057,8 +1877,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "京"
+        "日"
       ]
     },
     "系": {
@@ -2066,7 +1885,6 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "丿",
         "糸"
       ]
     },
@@ -2075,8 +1893,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "圣"
+        "糸"
       ]
     },
     "計": {
@@ -2084,8 +1901,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "十"
+        "言"
       ]
     },
     "警": {
@@ -2093,7 +1909,6 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "敬",
         "言"
       ]
     },
@@ -2102,8 +1917,7 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "matched": [
-        "車",
-        "圣"
+        "車"
       ]
     },
     "芸": {
@@ -2111,8 +1925,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "云"
+        "艹"
       ]
     },
     "劇": {
@@ -2128,8 +1941,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "敫"
+        "氵"
       ]
     },
     "欠": {
@@ -2145,8 +1957,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "夬"
+        "氵"
       ]
     },
     "潔": {
@@ -2154,8 +1965,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "絜"
+        "氵"
       ]
     },
     "穴": {
@@ -2163,8 +1973,7 @@
       "radicalNumber": 116,
       "radicalChar": "⽳",
       "matched": [
-        "宀",
-        "八"
+        "宀"
       ]
     },
     "結": {
@@ -2172,16 +1981,15 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "吉"
+        "糸"
       ]
     },
     "血": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 143,
       "radicalChar": "⾎",
-      "matched": [
-        "皿"
+      "flagged": [
+        "血"
       ]
     },
     "月": {
@@ -2197,8 +2005,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "牛"
+        "亻"
       ]
     },
     "健": {
@@ -2206,8 +2013,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "建"
+        "亻"
       ]
     },
     "券": {
@@ -2215,7 +2021,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "𠔉",
         "刀"
       ]
     },
@@ -2224,7 +2029,6 @@
       "radicalNumber": 54,
       "radicalChar": "⼵",
       "matched": [
-        "聿",
         "廴"
       ]
     },
@@ -2257,8 +2061,7 @@
       "radicalNumber": 94,
       "radicalChar": "⽝",
       "matched": [
-        "大",
-        "丶"
+        "大"
       ]
     },
     "研": {
@@ -2274,8 +2077,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "肙"
+        "糸"
       ]
     },
     "県": {
@@ -2283,8 +2085,7 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "目",
-        "小"
+        "目"
       ]
     },
     "見": {
@@ -2316,7 +2117,6 @@
       "radicalNumber": 10,
       "radicalChar": "⼉",
       "matched": [
-        "二",
         "儿"
       ]
     },
@@ -2333,7 +2133,6 @@
       "radicalNumber": 27,
       "radicalChar": "⼚",
       "matched": [
-        "⺍",
         "厂"
       ]
     },
@@ -2342,8 +2141,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "咸"
+        "氵"
       ]
     },
     "源": {
@@ -2351,8 +2149,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "原"
+        "氵"
       ]
     },
     "現": {
@@ -2360,16 +2157,15 @@
       "radicalNumber": 96,
       "radicalChar": "⽟",
       "matched": [
-        "王",
-        "見"
+        "王"
       ]
     },
     "言": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 149,
       "radicalChar": "⾔",
-      "matched": [
-        "口"
+      "flagged": [
+        "言"
       ]
     },
     "限": {
@@ -2377,8 +2173,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "艮"
+        "⻖"
       ]
     },
     "個": {
@@ -2386,8 +2181,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "固"
+        "亻"
       ]
     },
     "古": {
@@ -2395,7 +2189,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "十",
         "口"
       ]
     },
@@ -2404,8 +2197,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "乎"
+        "口"
       ]
     },
     "固": {
@@ -2413,8 +2205,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "古",
         "囗"
       ]
     },
@@ -2431,8 +2221,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "車"
+        "广"
       ]
     },
     "戸": {
@@ -2444,11 +2233,11 @@
       ]
     },
     "故": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "古"
+      "flagged": [
+        "攵"
       ]
     },
     "湖": {
@@ -2456,8 +2245,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "胡"
+        "氵"
       ]
     },
     "五": {
@@ -2465,7 +2253,6 @@
       "radicalNumber": 7,
       "radicalChar": "⼆",
       "matched": [
-        "二",
         "二"
       ]
     },
@@ -2490,8 +2277,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "吾"
+        "言"
       ]
     },
     "誤": {
@@ -2499,8 +2285,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "呉"
+        "言"
       ]
     },
     "護": {
@@ -2516,8 +2301,7 @@
       "radicalNumber": 8,
       "radicalChar": "⼇",
       "matched": [
-        "亠",
-        "父"
+        "亠"
       ]
     },
     "候": {
@@ -2533,7 +2317,6 @@
       "radicalNumber": 10,
       "radicalChar": "⼉",
       "matched": [
-        "⺌",
         "兀"
       ]
     },
@@ -2542,8 +2325,7 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "八",
-        "厶"
+        "八"
       ]
     },
     "功": {
@@ -2551,7 +2333,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "工",
         "力"
       ]
     },
@@ -2560,7 +2341,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "交",
         "力"
       ]
     },
@@ -2601,8 +2381,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "子"
+        "女"
       ]
     },
     "孝": {
@@ -2610,7 +2389,6 @@
       "radicalNumber": 39,
       "radicalChar": "⼦",
       "matched": [
-        "耂",
         "子"
       ]
     },
@@ -2623,11 +2401,11 @@
       ]
     },
     "幸": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 51,
       "radicalChar": "⼲",
-      "matched": [
-        "土"
+      "flagged": [
+        "𢆉"
       ]
     },
     "広": {
@@ -2635,8 +2413,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "厶"
+        "广"
       ]
     },
     "康": {
@@ -2644,8 +2421,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "隶"
+        "广"
       ]
     },
     "校": {
@@ -2653,8 +2429,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "交"
+        "木"
       ]
     },
     "構": {
@@ -2662,8 +2437,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "冓"
+        "木"
       ]
     },
     "港": {
@@ -2671,8 +2445,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "巷"
+        "氵"
       ]
     },
     "皇": {
@@ -2680,8 +2453,7 @@
       "radicalNumber": 106,
       "radicalChar": "⽩",
       "matched": [
-        "白",
-        "王"
+        "白"
       ]
     },
     "紅": {
@@ -2689,8 +2461,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "工"
+        "糸"
       ]
     },
     "耕": {
@@ -2698,8 +2469,7 @@
       "radicalNumber": 127,
       "radicalChar": "⽾",
       "matched": [
-        "耒",
-        "井"
+        "耒"
       ]
     },
     "考": {
@@ -2707,8 +2477,7 @@
       "radicalNumber": 125,
       "radicalChar": "⽼",
       "matched": [
-        "耂",
-        "丂"
+        "耂"
       ]
     },
     "航": {
@@ -2716,8 +2485,7 @@
       "radicalNumber": 137,
       "radicalChar": "⾈",
       "matched": [
-        "舟",
-        "亢"
+        "舟"
       ]
     },
     "行": {
@@ -2733,8 +2501,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "冓"
+        "言"
       ]
     },
     "鉱": {
@@ -2742,8 +2509,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "広"
+        "金"
       ]
     },
     "鋼": {
@@ -2751,8 +2517,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "岡"
+        "金"
       ]
     },
     "降": {
@@ -2760,15 +2525,14 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "夅"
+        "⻖"
       ]
     },
     "香": {
-      "status": "exact",
+      "status": "review",
       "radicalNumber": 186,
       "radicalChar": "⾹",
-      "matched": [
+      "elements": [
         "禾",
         "日"
       ]
@@ -2802,7 +2566,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "亥",
         "刂"
       ]
     },
@@ -2811,7 +2574,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "牛",
         "口"
       ]
     },
@@ -2820,8 +2582,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "玉",
         "囗"
       ]
     },
@@ -2830,8 +2590,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "殳"
+        "禾"
       ]
     },
     "黒": {
@@ -2839,16 +2598,15 @@
       "radicalNumber": 203,
       "radicalChar": "⿊",
       "matched": [
-        "里",
-        "灬"
+        "里"
       ]
     },
     "骨": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 188,
       "radicalChar": "⾻",
-      "matched": [
-        "月"
+      "flagged": [
+        "骨"
       ]
     },
     "今": {
@@ -2864,8 +2622,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "木",
         "囗"
       ]
     },
@@ -2874,8 +2630,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "艮"
+        "木"
       ]
     },
     "混": {
@@ -2883,8 +2638,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "昆"
+        "氵"
       ]
     },
     "佐": {
@@ -2892,8 +2646,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "左"
+        "亻"
       ]
     },
     "左": {
@@ -2909,7 +2662,6 @@
       "radicalNumber": 48,
       "radicalChar": "⼯",
       "matched": [
-        "羊",
         "工"
       ]
     },
@@ -2918,8 +2670,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "且"
+        "木"
       ]
     },
     "砂": {
@@ -2927,8 +2678,7 @@
       "radicalNumber": 112,
       "radicalChar": "⽯",
       "matched": [
-        "石",
-        "少"
+        "石"
       ]
     },
     "座": {
@@ -2936,8 +2686,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "坐"
+        "广"
       ]
     },
     "再": {
@@ -2945,7 +2694,6 @@
       "radicalNumber": 13,
       "radicalChar": "⼌",
       "matched": [
-        "一",
         "冉"
       ]
     },
@@ -2954,8 +2702,7 @@
       "radicalNumber": 73,
       "radicalChar": "⽈",
       "matched": [
-        "日",
-        "取"
+        "日"
       ]
     },
     "妻": {
@@ -2979,8 +2726,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "采"
+        "扌"
       ]
     },
     "済": {
@@ -2988,8 +2734,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "斉"
+        "氵"
       ]
     },
     "災": {
@@ -2997,7 +2742,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "巛",
         "火"
       ]
     },
@@ -3014,8 +2758,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "田"
+        "糸"
       ]
     },
     "菜": {
@@ -3023,8 +2766,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "采"
+        "艹"
       ]
     },
     "裁": {
@@ -3040,8 +2782,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "祭"
+        "⻖"
       ]
     },
     "在": {
@@ -3057,8 +2798,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "才"
+        "木"
       ]
     },
     "罪": {
@@ -3066,8 +2806,7 @@
       "radicalNumber": 122,
       "radicalChar": "⽹",
       "matched": [
-        "罒",
-        "非"
+        "罒"
       ]
     },
     "財": {
@@ -3075,8 +2814,7 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "貝",
-        "才"
+        "貝"
       ]
     },
     "坂": {
@@ -3084,8 +2822,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "反"
+        "土"
       ]
     },
     "阪": {
@@ -3093,8 +2830,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "反"
+        "⻖"
       ]
     },
     "崎": {
@@ -3102,8 +2838,7 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "matched": [
-        "山",
-        "奇"
+        "山"
       ]
     },
     "埼": {
@@ -3111,8 +2846,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "奇"
+        "土"
       ]
     },
     "作": {
@@ -3120,8 +2854,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "乍"
+        "亻"
       ]
     },
     "昨": {
@@ -3129,8 +2862,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "乍"
+        "日"
       ]
     },
     "策": {
@@ -3138,8 +2870,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "朿"
+        "竹"
       ]
     },
     "桜": {
@@ -3155,8 +2886,7 @@
       "radicalNumber": 13,
       "radicalChar": "⼌",
       "matched": [
-        "冂",
-        "廾"
+        "冂"
       ]
     },
     "刷": {
@@ -3172,8 +2902,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "祭"
+        "宀"
       ]
     },
     "札": {
@@ -3181,8 +2910,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "乙"
+        "木"
       ]
     },
     "殺": {
@@ -3262,7 +2990,6 @@
       "radicalNumber": 142,
       "radicalChar": "⾍",
       "matched": [
-        "天",
         "虫"
       ]
     },
@@ -3279,8 +3006,7 @@
       "radicalNumber": 164,
       "radicalChar": "⾣",
       "matched": [
-        "酉",
-        "夋"
+        "酉"
       ]
     },
     "残": {
@@ -3288,8 +3014,7 @@
       "radicalNumber": 78,
       "radicalChar": "⽍",
       "matched": [
-        "歹",
-        "戋"
+        "歹"
       ]
     },
     "仕": {
@@ -3297,8 +3022,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "士"
+        "亻"
       ]
     },
     "使": {
@@ -3306,8 +3030,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "吏"
+        "亻"
       ]
     },
     "司": {
@@ -3315,7 +3038,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "一",
         "口"
       ]
     },
@@ -3324,8 +3046,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "乂"
+        "口"
       ]
     },
     "四": {
@@ -3333,8 +3054,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "儿",
         "囗"
       ]
     },
@@ -3351,8 +3070,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "台"
+        "女"
       ]
     },
     "姉": {
@@ -3360,8 +3078,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "市"
+        "女"
       ]
     },
     "姿": {
@@ -3369,7 +3086,6 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "次",
         "女"
       ]
     },
@@ -3386,7 +3102,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "亠",
         "巾"
       ]
     },
@@ -3403,7 +3118,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "士",
         "心"
       ]
     },
@@ -3412,7 +3126,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "田",
         "心"
       ]
     },
@@ -3421,8 +3134,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "旨"
+        "扌"
       ]
     },
     "支": {
@@ -3430,8 +3142,7 @@
       "radicalNumber": 65,
       "radicalChar": "⽀",
       "matched": [
-        "十",
-        "又"
+        "十"
       ]
     },
     "枝": {
@@ -3439,8 +3150,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "支"
+        "木"
       ]
     },
     "止": {
@@ -3456,8 +3166,7 @@
       "radicalNumber": 78,
       "radicalChar": "⽍",
       "matched": [
-        "歹",
-        "匕"
+        "歹"
       ]
     },
     "氏": {
@@ -3473,8 +3182,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "厶"
+        "禾"
       ]
     },
     "糸": {
@@ -3490,17 +3198,15 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "氏"
+        "糸"
       ]
     },
     "至": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 133,
       "radicalChar": "⾄",
-      "matched": [
-        "厶",
-        "土"
+      "flagged": [
+        "至"
       ]
     },
     "視": {
@@ -3508,7 +3214,6 @@
       "radicalNumber": 147,
       "radicalChar": "⾒",
       "matched": [
-        "礻",
         "見"
       ]
     },
@@ -3517,8 +3222,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "司"
+        "言"
       ]
     },
     "詩": {
@@ -3526,8 +3230,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "寺"
+        "言"
       ]
     },
     "試": {
@@ -3535,8 +3238,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "式"
+        "言"
       ]
     },
     "誌": {
@@ -3544,8 +3246,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "志"
+        "言"
       ]
     },
     "資": {
@@ -3553,7 +3254,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "次",
         "貝"
       ]
     },
@@ -3562,8 +3262,7 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "matched": [
-        "飠",
-        "司"
+        "飠"
       ]
     },
     "歯": {
@@ -3579,8 +3278,6 @@
       "radicalNumber": 6,
       "radicalChar": "⼅",
       "matched": [
-        "口",
-        "⺕",
         "亅"
       ]
     },
@@ -3589,8 +3286,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "以"
+        "亻"
       ]
     },
     "児": {
@@ -3598,7 +3294,6 @@
       "radicalNumber": 10,
       "radicalChar": "⼉",
       "matched": [
-        "旧",
         "儿"
       ]
     },
@@ -3607,7 +3302,6 @@
       "radicalNumber": 39,
       "radicalChar": "⼦",
       "matched": [
-        "宀",
         "子"
       ]
     },
@@ -3616,7 +3310,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "土",
         "寸"
       ]
     },
@@ -3625,8 +3318,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "寺"
+        "扌"
       ]
     },
     "時": {
@@ -3634,8 +3326,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "寺"
+        "日"
       ]
     },
     "次": {
@@ -3643,7 +3334,6 @@
       "radicalNumber": 76,
       "radicalChar": "⽋",
       "matched": [
-        "冫",
         "欠"
       ]
     },
@@ -3652,8 +3342,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "兹"
+        "氵"
       ]
     },
     "治": {
@@ -3661,8 +3350,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "台"
+        "氵"
       ]
     },
     "磁": {
@@ -3670,8 +3358,7 @@
       "radicalNumber": 112,
       "radicalChar": "⽯",
       "matched": [
-        "石",
-        "兹"
+        "石"
       ]
     },
     "示": {
@@ -3691,11 +3378,11 @@
       ]
     },
     "自": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 132,
       "radicalChar": "⾃",
-      "matched": [
-        "目"
+      "flagged": [
+        "自"
       ]
     },
     "辞": {
@@ -3703,15 +3390,14 @@
       "radicalNumber": 160,
       "radicalChar": "⾟",
       "matched": [
-        "舌",
         "辛"
       ]
     },
     "鹿": {
-      "status": "exact",
+      "status": "review",
       "radicalNumber": 198,
       "radicalChar": "⿅",
-      "matched": [
+      "elements": [
         "广"
       ]
     },
@@ -3720,8 +3406,6 @@
       "radicalNumber": 56,
       "radicalChar": "⼷",
       "matched": [
-        "弋",
-        "工",
         "弋"
       ]
     },
@@ -3730,8 +3414,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "戠"
+        "言"
       ]
     },
     "七": {
@@ -3739,8 +3422,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "一",
-        "乙"
+        "一"
       ]
     },
     "失": {
@@ -3748,7 +3430,6 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "matched": [
-        "丿",
         "夫"
       ]
     },
@@ -3757,8 +3438,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "至"
+        "宀"
       ]
     },
     "質": {
@@ -3782,8 +3462,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "人",
-        "吉"
+        "人"
       ]
     },
     "写": {
@@ -3791,8 +3470,7 @@
       "radicalNumber": 14,
       "radicalChar": "⼍",
       "matched": [
-        "冖",
-        "与"
+        "冖"
       ]
     },
     "射": {
@@ -3800,7 +3478,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "身",
         "寸"
       ]
     },
@@ -3809,8 +3486,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "舎"
+        "扌"
       ]
     },
     "社": {
@@ -3818,8 +3494,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "土"
+        "礻"
       ]
     },
     "者": {
@@ -3827,8 +3502,7 @@
       "radicalNumber": 125,
       "radicalChar": "⽼",
       "matched": [
-        "耂",
-        "日"
+        "耂"
       ]
     },
     "謝": {
@@ -3836,8 +3510,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "射"
+        "言"
       ]
     },
     "車": {
@@ -3853,8 +3526,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "昔"
+        "亻"
       ]
     },
     "尺": {
@@ -3862,8 +3534,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "八"
+        "尸"
       ]
     },
     "若": {
@@ -3871,8 +3542,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "右"
+        "艹"
       ]
     },
     "弱": {
@@ -3888,8 +3558,7 @@
       "radicalNumber": 3,
       "radicalChar": "⼂",
       "matched": [
-        "亠",
-        "王"
+        "亠"
       ]
     },
     "取": {
@@ -3897,7 +3566,6 @@
       "radicalNumber": 29,
       "radicalChar": "⼜",
       "matched": [
-        "耳",
         "又"
       ]
     },
@@ -3906,8 +3574,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "寸"
+        "宀"
       ]
     },
     "手": {
@@ -3923,8 +3590,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "重"
+        "禾"
       ]
     },
     "酒": {
@@ -3932,16 +3598,15 @@
       "radicalNumber": 164,
       "radicalChar": "⾣",
       "matched": [
-        "氵",
         "酉"
       ]
     },
     "首": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 185,
       "radicalChar": "⾸",
-      "matched": [
-        "自"
+      "flagged": [
+        "首"
       ]
     },
     "受": {
@@ -3957,8 +3622,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "受"
+        "扌"
       ]
     },
     "樹": {
@@ -3982,7 +3646,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "冂",
         "吉"
       ]
     },
@@ -3991,8 +3654,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "示"
+        "宀"
       ]
     },
     "就": {
@@ -4000,7 +3662,6 @@
       "radicalNumber": 43,
       "radicalChar": "⼪",
       "matched": [
-        "京",
         "尤"
       ]
     },
@@ -4009,11 +3670,6 @@
       "radicalNumber": 47,
       "radicalChar": "⼮",
       "matched": [
-        "丶",
-        "川",
-        "丶",
-        "川",
-        "丶",
         "川"
       ]
     },
@@ -4030,8 +3686,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "合"
+        "扌"
       ]
     },
     "秋": {
@@ -4039,8 +3694,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "火"
+        "禾"
       ]
     },
     "終": {
@@ -4048,8 +3702,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "冬"
+        "糸"
       ]
     },
     "習": {
@@ -4057,8 +3710,7 @@
       "radicalNumber": 124,
       "radicalChar": "⽻",
       "matched": [
-        "羽",
-        "白"
+        "羽"
       ]
     },
     "衆": {
@@ -4074,7 +3726,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "周",
         "⻌"
       ]
     },
@@ -4083,8 +3734,7 @@
       "radicalNumber": 172,
       "radicalChar": "⾫",
       "matched": [
-        "隹",
-        "木"
+        "隹"
       ]
     },
     "住": {
@@ -4092,8 +3742,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "主"
+        "亻"
       ]
     },
     "十": {
@@ -4117,8 +3766,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "従"
+        "糸"
       ]
     },
     "重": {
@@ -4126,7 +3774,6 @@
       "radicalNumber": 166,
       "radicalChar": "⾥",
       "matched": [
-        "千",
         "里"
       ]
     },
@@ -4135,8 +3782,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "佰"
+        "宀"
       ]
     },
     "祝": {
@@ -4144,8 +3790,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "兄"
+        "礻"
       ]
     },
     "縮": {
@@ -4153,8 +3798,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "宿"
+        "糸"
       ]
     },
     "熟": {
@@ -4162,7 +3806,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "孰",
         "灬"
       ]
     },
@@ -4171,7 +3814,6 @@
       "radicalNumber": 17,
       "radicalChar": "⼐",
       "matched": [
-        "山",
         "凵"
       ]
     },
@@ -4180,8 +3822,7 @@
       "radicalNumber": 144,
       "radicalChar": "⾏",
       "matched": [
-        "行",
-        "朮"
+        "行"
       ]
     },
     "述": {
@@ -4189,7 +3830,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "朮",
         "⻌"
       ]
     },
@@ -4202,11 +3842,11 @@
       ]
     },
     "準": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 85,
       "radicalChar": "⽔",
-      "matched": [
-        "隼"
+      "flagged": [
+        "水"
       ]
     },
     "純": {
@@ -4214,8 +3854,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "屯"
+        "糸"
       ]
     },
     "順": {
@@ -4223,7 +3862,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "川",
         "頁"
       ]
     },
@@ -4232,7 +3870,6 @@
       "radicalNumber": 16,
       "radicalChar": "⼏",
       "matched": [
-        "夂",
         "几"
       ]
     },
@@ -4241,7 +3878,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "衤",
         "刀"
       ]
     },
@@ -4250,8 +3886,7 @@
       "radicalNumber": 63,
       "radicalChar": "⼾",
       "matched": [
-        "戸",
-        "斤"
+        "戸"
       ]
     },
     "暑": {
@@ -4259,8 +3894,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "者"
+        "日"
       ]
     },
     "署": {
@@ -4268,8 +3902,7 @@
       "radicalNumber": 122,
       "radicalChar": "⽹",
       "matched": [
-        "罒",
-        "者"
+        "罒"
       ]
     },
     "書": {
@@ -4277,7 +3910,6 @@
       "radicalNumber": 73,
       "radicalChar": "⽈",
       "matched": [
-        "聿",
         "日"
       ]
     },
@@ -4286,8 +3918,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "者"
+        "言"
       ]
     },
     "助": {
@@ -4295,7 +3926,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "且",
         "力"
       ]
     },
@@ -4312,8 +3942,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "予"
+        "广"
       ]
     },
     "除": {
@@ -4321,8 +3950,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "余"
+        "⻖"
       ]
     },
     "傷": {
@@ -4338,7 +3966,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "月",
         "劵"
       ]
     },
@@ -4347,7 +3974,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "立",
         "冏"
       ]
     },
@@ -4356,8 +3982,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "昌"
+        "口"
       ]
     },
     "将": {
@@ -4365,7 +3990,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "⺦",
         "寸"
       ]
     },
@@ -4382,8 +4006,7 @@
       "radicalNumber": 42,
       "radicalChar": "⼩",
       "matched": [
-        "小",
-        "丿"
+        "小"
       ]
     },
     "承": {
@@ -4391,9 +4014,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "了",
-        "三",
-        "水"
+        "了"
       ]
     },
     "招": {
@@ -4401,8 +4022,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "召"
+        "扌"
       ]
     },
     "昭": {
@@ -4410,8 +4030,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "召"
+        "日"
       ]
     },
     "松": {
@@ -4419,8 +4038,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "公"
+        "木"
       ]
     },
     "消": {
@@ -4428,8 +4046,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "肖"
+        "氵"
       ]
     },
     "焼": {
@@ -4437,8 +4054,7 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "火",
-        "尭"
+        "火"
       ]
     },
     "照": {
@@ -4446,7 +4062,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "昭",
         "灬"
       ]
     },
@@ -4455,7 +4070,6 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "少",
         "目"
       ]
     },
@@ -4464,8 +4078,7 @@
       "radicalNumber": 117,
       "radicalChar": "⽴",
       "matched": [
-        "音",
-        "早"
+        "音"
       ]
     },
     "笑": {
@@ -4473,8 +4086,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "夭"
+        "竹"
       ]
     },
     "証": {
@@ -4482,8 +4094,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "正"
+        "言"
       ]
     },
     "象": {
@@ -4491,7 +4102,6 @@
       "radicalNumber": 152,
       "radicalChar": "⾗",
       "matched": [
-        "𠂊",
         "豕"
       ]
     },
@@ -4500,7 +4110,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "尚",
         "貝"
       ]
     },
@@ -4509,8 +4118,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "章"
+        "⻖"
       ]
     },
     "上": {
@@ -4518,7 +4126,6 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "卜",
         "一"
       ]
     },
@@ -4527,8 +4134,7 @@
       "radicalNumber": 4,
       "radicalChar": "⼃",
       "matched": [
-        "千",
-        "木"
+        "千"
       ]
     },
     "城": {
@@ -4536,8 +4142,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "成"
+        "土"
       ]
     },
     "場": {
@@ -4545,8 +4150,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "昜"
+        "土"
       ]
     },
     "常": {
@@ -4554,7 +4158,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "尚",
         "吊"
       ]
     },
@@ -4563,8 +4166,7 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "忄",
-        "青"
+        "忄"
       ]
     },
     "条": {
@@ -4572,7 +4174,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "夂",
         "木"
       ]
     },
@@ -4581,7 +4182,6 @@
       "radicalNumber": 94,
       "radicalChar": "⽝",
       "matched": [
-        "⺦",
         "犬"
       ]
     },
@@ -4590,8 +4190,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "烝"
+        "艹"
       ]
     },
     "植": {
@@ -4599,8 +4198,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "直"
+        "木"
       ]
     },
     "織": {
@@ -4608,8 +4206,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "戠"
+        "糸"
       ]
     },
     "職": {
@@ -4617,8 +4214,7 @@
       "radicalNumber": 128,
       "radicalChar": "⽿",
       "matched": [
-        "耳",
-        "戠"
+        "耳"
       ]
     },
     "色": {
@@ -4626,8 +4222,7 @@
       "radicalNumber": 139,
       "radicalChar": "⾊",
       "matched": [
-        "𠂊",
-        "巴"
+        "𠂊"
       ]
     },
     "食": {
@@ -4643,8 +4238,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "言"
+        "亻"
       ]
     },
     "心": {
@@ -4668,8 +4262,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "林"
+        "木"
       ]
     },
     "深": {
@@ -4681,11 +4274,11 @@
       ]
     },
     "申": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 102,
       "radicalChar": "⽥",
-      "matched": [
-        "丨"
+      "flagged": [
+        "日"
       ]
     },
     "真": {
@@ -4693,7 +4286,6 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "十",
         "具"
       ]
     },
@@ -4702,8 +4294,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "申"
+        "礻"
       ]
     },
     "臣": {
@@ -4735,7 +4326,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "隹",
         "⻌"
       ]
     },
@@ -4744,8 +4334,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "十"
+        "金"
       ]
     },
     "人": {
@@ -4761,8 +4350,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "二"
+        "亻"
       ]
     },
     "図": {
@@ -4770,9 +4358,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "⺍",
-        "乂",
         "囗"
       ]
     },
@@ -4781,7 +4366,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "千",
         "土"
       ]
     },
@@ -4790,8 +4374,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "隹"
+        "扌"
       ]
     },
     "水": {
@@ -4847,8 +4430,7 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "忄",
-        "生"
+        "忄"
       ]
     },
     "成": {
@@ -4856,18 +4438,15 @@
       "radicalNumber": 62,
       "radicalChar": "⼽",
       "matched": [
-        "𠂊",
-        "戈",
-        "𠂊",
         "戈"
       ]
     },
     "政": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "正"
+      "flagged": [
+        "攵"
       ]
     },
     "整": {
@@ -4875,8 +4454,7 @@
       "radicalNumber": 66,
       "radicalChar": "⽁",
       "matched": [
-        "敕",
-        "正"
+        "敕"
       ]
     },
     "星": {
@@ -4884,8 +4462,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "生"
+        "日"
       ]
     },
     "晴": {
@@ -4893,8 +4470,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "青"
+        "日"
       ]
     },
     "正": {
@@ -4902,7 +4478,6 @@
       "radicalNumber": 77,
       "radicalChar": "⽌",
       "matched": [
-        "一",
         "止"
       ]
     },
@@ -4911,8 +4486,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "青"
+        "氵"
       ]
     },
     "生": {
@@ -4928,7 +4502,6 @@
       "radicalNumber": 108,
       "radicalChar": "⽫",
       "matched": [
-        "成",
         "皿"
       ]
     },
@@ -4937,8 +4510,7 @@
       "radicalNumber": 119,
       "radicalChar": "⽶",
       "matched": [
-        "米",
-        "青"
+        "米"
       ]
     },
     "聖": {
@@ -4946,8 +4518,7 @@
       "radicalNumber": 128,
       "radicalChar": "⽿",
       "matched": [
-        "耳",
-        "王"
+        "耳"
       ]
     },
     "声": {
@@ -4963,7 +4534,6 @@
       "radicalNumber": 145,
       "radicalChar": "⾐",
       "matched": [
-        "制",
         "衣"
       ]
     },
@@ -4980,16 +4550,15 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "成"
+        "言"
       ]
     },
     "青": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 174,
       "radicalChar": "⾭",
-      "matched": [
-        "月"
+      "flagged": [
+        "龶"
       ]
     },
     "静": {
@@ -4997,8 +4566,7 @@
       "radicalNumber": 174,
       "radicalChar": "⾭",
       "matched": [
-        "青",
-        "争"
+        "青"
       ]
     },
     "税": {
@@ -5006,8 +4574,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "兌"
+        "禾"
       ]
     },
     "席": {
@@ -5015,7 +4582,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "广",
         "巾"
       ]
     },
@@ -5028,11 +4594,11 @@
       ]
     },
     "石": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 112,
       "radicalChar": "⽯",
-      "matched": [
-        "口"
+      "flagged": [
+        "石"
       ]
     },
     "積": {
@@ -5040,8 +4606,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "責"
+        "禾"
       ]
     },
     "績": {
@@ -5049,8 +4614,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "責"
+        "糸"
       ]
     },
     "責": {
@@ -5074,7 +4638,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "七",
         "刀"
       ]
     },
@@ -5083,8 +4646,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "妾"
+        "扌"
       ]
     },
     "折": {
@@ -5092,8 +4654,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "斤"
+        "扌"
       ]
     },
     "設": {
@@ -5101,8 +4662,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "殳"
+        "言"
       ]
     },
     "節": {
@@ -5110,8 +4670,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "即"
+        "竹"
       ]
     },
     "説": {
@@ -5119,8 +4678,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "兌"
+        "言"
       ]
     },
     "雪": {
@@ -5128,8 +4686,7 @@
       "radicalNumber": 173,
       "radicalChar": "⾬",
       "matched": [
-        "雨",
-        "⺕"
+        "雨"
       ]
     },
     "絶": {
@@ -5137,16 +4694,15 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "色"
+        "糸"
       ]
     },
     "舌": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 135,
       "radicalChar": "⾆",
-      "matched": [
-        "口"
+      "flagged": [
+        "千"
       ]
     },
     "先": {
@@ -5162,7 +4718,6 @@
       "radicalNumber": 24,
       "radicalChar": "⼗",
       "matched": [
-        "丿",
         "十"
       ]
     },
@@ -5171,8 +4726,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "亘"
+        "宀"
       ]
     },
     "専": {
@@ -5196,7 +4750,6 @@
       "radicalNumber": 62,
       "radicalChar": "⼽",
       "matched": [
-        "単",
         "戈"
       ]
     },
@@ -5213,8 +4766,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "戋"
+        "氵"
       ]
     },
     "洗": {
@@ -5222,8 +4774,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "先"
+        "氵"
       ]
     },
     "染": {
@@ -5239,8 +4790,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "泉"
+        "糸"
       ]
     },
     "船": {
@@ -5248,8 +4798,7 @@
       "radicalNumber": 137,
       "radicalChar": "⾈",
       "matched": [
-        "舟",
-        "㕣"
+        "舟"
       ]
     },
     "選": {
@@ -5257,7 +4806,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "巽",
         "⻌"
       ]
     },
@@ -5266,8 +4814,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "戋"
+        "金"
       ]
     },
     "前": {
@@ -5299,8 +4846,7 @@
       "radicalNumber": 11,
       "radicalChar": "⼊",
       "matched": [
-        "人",
-        "王"
+        "人"
       ]
     },
     "祖": {
@@ -5308,8 +4854,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "且"
+        "礻"
       ]
     },
     "素": {
@@ -5325,8 +4870,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "且"
+        "糸"
       ]
     },
     "創": {
@@ -5334,7 +4878,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "倉",
         "刂"
       ]
     },
@@ -5359,8 +4902,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "曽"
+        "尸"
       ]
     },
     "想": {
@@ -5368,7 +4910,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "相",
         "心"
       ]
     },
@@ -5385,8 +4926,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "十"
+        "日"
       ]
     },
     "巣": {
@@ -5394,8 +4934,7 @@
       "radicalNumber": 47,
       "radicalChar": "⼮",
       "matched": [
-        "⺍",
-        "果"
+        "⺍"
       ]
     },
     "争": {
@@ -5403,7 +4942,6 @@
       "radicalNumber": 6,
       "radicalChar": "⼅",
       "matched": [
-        "𠂊",
         "亅"
       ]
     },
@@ -5412,7 +4950,6 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "木",
         "目"
       ]
     },
@@ -5429,8 +4966,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "忩"
+        "糸"
       ]
     },
     "草": {
@@ -5438,8 +4974,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "早"
+        "艹"
       ]
     },
     "装": {
@@ -5447,7 +4982,6 @@
       "radicalNumber": 145,
       "radicalChar": "⾐",
       "matched": [
-        "壮",
         "衣"
       ]
     },
@@ -5472,8 +5006,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "象"
+        "亻"
       ]
     },
     "増": {
@@ -5481,8 +5014,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "曽"
+        "土"
       ]
     },
     "臓": {
@@ -5490,8 +5022,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "蔵"
+        "月"
       ]
     },
     "蔵": {
@@ -5507,7 +5038,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "告",
         "⻌"
       ]
     },
@@ -5516,8 +5046,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "則"
+        "亻"
       ]
     },
     "則": {
@@ -5525,7 +5054,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "貝",
         "刂"
       ]
     },
@@ -5534,7 +5062,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "自",
         "心"
       ]
     },
@@ -5543,8 +5070,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "口",
         "木"
       ]
     },
@@ -5553,8 +5078,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "則"
+        "氵"
       ]
     },
     "足": {
@@ -5570,7 +5094,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "束",
         "⻌"
       ]
     },
@@ -5579,8 +5102,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "禹"
+        "尸"
       ]
     },
     "族": {
@@ -5596,8 +5118,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "売"
+        "糸"
       ]
     },
     "卒": {
@@ -5621,8 +5142,7 @@
       "radicalNumber": 39,
       "radicalChar": "⼦",
       "matched": [
-        "子",
-        "系"
+        "子"
       ]
     },
     "尊": {
@@ -5630,7 +5150,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "酋",
         "寸"
       ]
     },
@@ -5639,8 +5158,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "員"
+        "扌"
       ]
     },
     "村": {
@@ -5648,8 +5166,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "寸"
+        "木"
       ]
     },
     "他": {
@@ -5657,8 +5174,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "也"
+        "亻"
       ]
     },
     "多": {
@@ -5666,7 +5182,6 @@
       "radicalNumber": 36,
       "radicalChar": "⼣",
       "matched": [
-        "夕",
         "夕"
       ]
     },
@@ -5675,8 +5190,7 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "matched": [
-        "大",
-        "丶"
+        "大"
       ]
     },
     "打": {
@@ -5684,8 +5198,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "丁"
+        "扌"
       ]
     },
     "体": {
@@ -5693,8 +5206,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "本"
+        "亻"
       ]
     },
     "対": {
@@ -5702,7 +5214,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "文",
         "寸"
       ]
     },
@@ -5711,7 +5222,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "丗",
         "巾"
       ]
     },
@@ -5720,8 +5230,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "寺"
+        "彳"
       ]
     },
     "態": {
@@ -5729,7 +5238,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "能",
         "心"
       ]
     },
@@ -5738,7 +5246,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "代",
         "貝"
       ]
     },
@@ -5747,7 +5254,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "艮",
         "⻌"
       ]
     },
@@ -5764,8 +5270,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "弋"
+        "亻"
       ]
     },
     "台": {
@@ -5773,7 +5278,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "厶",
         "口"
       ]
     },
@@ -5798,7 +5302,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "是",
         "頁"
       ]
     },
@@ -5807,8 +5310,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "乇"
+        "宀"
       ]
     },
     "達": {
@@ -5832,7 +5334,6 @@
       "radicalNumber": 24,
       "radicalChar": "⼗",
       "matched": [
-        "⺍",
         "甲"
       ]
     },
@@ -5841,8 +5342,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "旦"
+        "扌"
       ]
     },
     "探": {
@@ -5858,7 +5358,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "山",
         "灰"
       ]
     },
@@ -5867,8 +5366,7 @@
       "radicalNumber": 111,
       "radicalChar": "⽮",
       "matched": [
-        "矢",
-        "豆"
+        "矢"
       ]
     },
     "誕": {
@@ -5876,8 +5374,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "延"
+        "言"
       ]
     },
     "団": {
@@ -5885,8 +5382,6 @@
       "radicalNumber": 31,
       "radicalChar": "⼞",
       "matched": [
-        "囗",
-        "寸",
         "囗"
       ]
     },
@@ -5903,8 +5398,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "爰"
+        "日"
       ]
     },
     "段": {
@@ -5920,8 +5414,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "田",
-        "力"
+        "田"
       ]
     },
     "談": {
@@ -5929,8 +5422,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "炎"
+        "言"
       ]
     },
     "値": {
@@ -5938,8 +5430,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "直"
+        "亻"
       ]
     },
     "知": {
@@ -5947,8 +5438,7 @@
       "radicalNumber": 111,
       "radicalChar": "⽮",
       "matched": [
-        "矢",
-        "口"
+        "矢"
       ]
     },
     "地": {
@@ -5956,8 +5446,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "土",
-        "也"
+        "土"
       ]
     },
     "池": {
@@ -5965,8 +5454,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "也"
+        "氵"
       ]
     },
     "置": {
@@ -5974,8 +5462,7 @@
       "radicalNumber": 122,
       "radicalChar": "⽹",
       "matched": [
-        "罒",
-        "直"
+        "罒"
       ]
     },
     "築": {
@@ -5983,8 +5470,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "筑",
-        "木"
+        "筑"
       ]
     },
     "竹": {
@@ -6016,7 +5502,6 @@
       "radicalNumber": 2,
       "radicalChar": "⼁",
       "matched": [
-        "口",
         "丨"
       ]
     },
@@ -6025,8 +5510,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "中"
+        "亻"
       ]
     },
     "宙": {
@@ -6034,8 +5518,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "由"
+        "宀"
       ]
     },
     "忠": {
@@ -6043,7 +5526,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "中",
         "心"
       ]
     },
@@ -6052,7 +5534,6 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "尺",
         "旦"
       ]
     },
@@ -6061,8 +5542,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "主"
+        "木"
       ]
     },
     "注": {
@@ -6070,8 +5550,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "主"
+        "氵"
       ]
     },
     "虫": {
@@ -6087,8 +5566,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "者"
+        "艹"
       ]
     },
     "貯": {
@@ -6104,8 +5582,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "一",
-        "亅"
+        "一"
       ]
     },
     "兆": {
@@ -6121,8 +5598,7 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "巾",
-        "長"
+        "巾"
       ]
     },
     "庁": {
@@ -6130,8 +5606,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "丁"
+        "广"
       ]
     },
     "張": {
@@ -6139,8 +5614,7 @@
       "radicalNumber": 57,
       "radicalChar": "⼸",
       "matched": [
-        "弓",
-        "長"
+        "弓"
       ]
     },
     "朝": {
@@ -6156,8 +5630,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "朝"
+        "氵"
       ]
     },
     "町": {
@@ -6165,8 +5638,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "田",
-        "丁"
+        "田"
       ]
     },
     "腸": {
@@ -6174,8 +5646,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "昜"
+        "月"
       ]
     },
     "調": {
@@ -6183,8 +5654,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "周"
+        "言"
       ]
     },
     "長": {
@@ -6200,16 +5670,15 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "丁",
         "頁"
       ]
     },
     "鳥": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 196,
       "radicalChar": "⿃",
-      "matched": [
-        "灬"
+      "flagged": [
+        "鳥"
       ]
     },
     "直": {
@@ -6217,7 +5686,6 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
-        "十",
         "目"
       ]
     },
@@ -6226,7 +5694,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "任",
         "貝"
       ]
     },
@@ -6235,7 +5702,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "𠂤",
         "⻌"
       ]
     },
@@ -6244,8 +5710,7 @@
       "radicalNumber": 104,
       "radicalChar": "⽧",
       "matched": [
-        "疒",
-        "甬"
+        "疒"
       ]
     },
     "通": {
@@ -6253,7 +5718,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "甬",
         "⻌"
       ]
     },
@@ -6270,8 +5734,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "亭"
+        "亻"
       ]
     },
     "定": {
@@ -6279,8 +5742,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "疋"
+        "宀"
       ]
     },
     "底": {
@@ -6288,8 +5750,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "氐"
+        "广"
       ]
     },
     "庭": {
@@ -6297,16 +5758,15 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "廷"
+        "广"
       ]
     },
     "弟": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 57,
       "radicalChar": "⼸",
-      "matched": [
-        "八"
+      "flagged": [
+        "弓"
       ]
     },
     "提": {
@@ -6314,8 +5774,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "是"
+        "扌"
       ]
     },
     "程": {
@@ -6323,8 +5782,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "呈"
+        "禾"
       ]
     },
     "敵": {
@@ -6336,11 +5794,11 @@
       ]
     },
     "的": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 106,
       "radicalChar": "⽩",
-      "matched": [
-        "勺"
+      "flagged": [
+        "白"
       ]
     },
     "笛": {
@@ -6364,8 +5822,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "失"
+        "金"
       ]
     },
     "典": {
@@ -6373,7 +5830,6 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "曲",
         "八"
       ]
     },
@@ -6382,7 +5838,6 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "matched": [
-        "一",
         "大"
       ]
     },
@@ -6399,8 +5854,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "占"
+        "广"
       ]
     },
     "転": {
@@ -6408,8 +5862,7 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "matched": [
-        "車",
-        "云"
+        "車"
       ]
     },
     "点": {
@@ -6417,7 +5870,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "占",
         "灬"
       ]
     },
@@ -6426,8 +5878,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "云"
+        "亻"
       ]
     },
     "田": {
@@ -6451,8 +5902,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "走"
+        "彳"
       ]
     },
     "登": {
@@ -6460,8 +5910,7 @@
       "radicalNumber": 105,
       "radicalChar": "⽨",
       "matched": [
-        "癶",
-        "豆"
+        "癶"
       ]
     },
     "都": {
@@ -6469,7 +5918,6 @@
       "radicalNumber": 163,
       "radicalChar": "⾢",
       "matched": [
-        "者",
         "⻏"
       ]
     },
@@ -6478,7 +5926,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "奴",
         "力"
       ]
     },
@@ -6503,7 +5950,6 @@
       "radicalNumber": 10,
       "radicalChar": "⼉",
       "matched": [
-        "尚",
         "兄"
       ]
     },
@@ -6512,7 +5958,6 @@
       "radicalNumber": 15,
       "radicalChar": "⼎",
       "matched": [
-        "夂",
         "冫"
       ]
     },
@@ -6529,7 +5974,6 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "matched": [
-        "鳥",
         "山"
       ]
     },
@@ -6538,8 +5982,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "殳"
+        "扌"
       ]
     },
     "東": {
@@ -6547,8 +5990,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "日",
         "木"
       ]
     },
@@ -6557,8 +5998,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "昜"
+        "氵"
       ]
     },
     "灯": {
@@ -6566,8 +6006,7 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "火",
-        "丁"
+        "火"
       ]
     },
     "当": {
@@ -6575,8 +6014,7 @@
       "radicalNumber": 58,
       "radicalChar": "⼹",
       "matched": [
-        "⺌",
-        "⺕"
+        "⺌"
       ]
     },
     "等": {
@@ -6584,8 +6022,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "寺"
+        "竹"
       ]
     },
     "答": {
@@ -6593,8 +6030,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "合"
+        "竹"
       ]
     },
     "糖": {
@@ -6602,8 +6038,7 @@
       "radicalNumber": 119,
       "radicalChar": "⽶",
       "matched": [
-        "米",
-        "唐"
+        "米"
       ]
     },
     "統": {
@@ -6611,8 +6046,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "充"
+        "糸"
       ]
     },
     "討": {
@@ -6620,8 +6054,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "寸"
+        "言"
       ]
     },
     "豆": {
@@ -6637,7 +6070,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "豆",
         "頁"
       ]
     },
@@ -6646,8 +6078,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "動"
+        "亻"
       ]
     },
     "動": {
@@ -6655,7 +6086,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "重",
         "力"
       ]
     },
@@ -6664,8 +6094,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "冂",
-        "一",
         "口"
       ]
     },
@@ -6674,7 +6102,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "尚",
         "土"
       ]
     },
@@ -6683,7 +6110,6 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "道",
         "寸"
       ]
     },
@@ -6692,8 +6118,7 @@
       "radicalNumber": 117,
       "radicalChar": "⽴",
       "matched": [
-        "立",
-        "里"
+        "立"
       ]
     },
     "道": {
@@ -6701,7 +6126,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "首",
         "⻌"
       ]
     },
@@ -6710,8 +6134,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "同"
+        "金"
       ]
     },
     "得": {
@@ -6735,8 +6158,7 @@
       "radicalNumber": 93,
       "radicalChar": "⽜",
       "matched": [
-        "牛",
-        "寺"
+        "牛"
       ]
     },
     "毒": {
@@ -6752,8 +6174,7 @@
       "radicalNumber": 94,
       "radicalChar": "⽝",
       "matched": [
-        "⺨",
-        "虫"
+        "⺨"
       ]
     },
     "読": {
@@ -6761,8 +6182,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "売"
+        "言"
       ]
     },
     "栃": {
@@ -6778,8 +6198,7 @@
       "radicalNumber": 44,
       "radicalChar": "⼫",
       "matched": [
-        "尸",
-        "由"
+        "尸"
       ]
     },
     "奈": {
@@ -6787,8 +6206,7 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "matched": [
-        "大",
-        "示"
+        "大"
       ]
     },
     "内": {
@@ -6796,8 +6214,7 @@
       "radicalNumber": 13,
       "radicalChar": "⼌",
       "matched": [
-        "冂",
-        "人"
+        "冂"
       ]
     },
     "縄": {
@@ -6853,7 +6270,6 @@
       "radicalNumber": 5,
       "radicalChar": "⼄",
       "matched": [
-        "孚",
         "乙"
       ]
     },
@@ -6870,8 +6286,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "壬"
+        "亻"
       ]
     },
     "認": {
@@ -6879,8 +6294,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "忍"
+        "言"
       ]
     },
     "熱": {
@@ -6888,7 +6302,6 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "埶",
         "灬"
       ]
     },
@@ -6897,8 +6310,6 @@
       "radicalNumber": 51,
       "radicalChar": "⼲",
       "matched": [
-        "丿",
-        "干",
         "干"
       ]
     },
@@ -6907,7 +6318,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "今",
         "心"
       ]
     },
@@ -6916,8 +6326,7 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "matched": [
-        "火",
-        "然"
+        "火"
       ]
     },
     "納": {
@@ -6925,8 +6334,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "内"
+        "糸"
       ]
     },
     "能": {
@@ -6950,7 +6358,6 @@
       "radicalNumber": 161,
       "radicalChar": "⾠",
       "matched": [
-        "曲",
         "辰"
       ]
     },
@@ -6959,8 +6366,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "皮"
+        "氵"
       ]
     },
     "派": {
@@ -6968,8 +6374,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "𠂢"
+        "氵"
       ]
     },
     "破": {
@@ -6977,16 +6382,15 @@
       "radicalNumber": 112,
       "radicalChar": "⽯",
       "matched": [
-        "石",
-        "皮"
+        "石"
       ]
     },
     "馬": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 187,
       "radicalChar": "⾺",
-      "matched": [
-        "灬"
+      "flagged": [
+        "馬"
       ]
     },
     "俳": {
@@ -6994,8 +6398,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "非"
+        "亻"
       ]
     },
     "拝": {
@@ -7007,11 +6410,11 @@
       ]
     },
     "敗": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "貝"
+      "flagged": [
+        "攵"
       ]
     },
     "背": {
@@ -7019,7 +6422,6 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "北",
         "月"
       ]
     },
@@ -7028,8 +6430,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "市"
+        "月"
       ]
     },
     "配": {
@@ -7037,8 +6438,7 @@
       "radicalNumber": 164,
       "radicalChar": "⾣",
       "matched": [
-        "酉",
-        "己"
+        "酉"
       ]
     },
     "倍": {
@@ -7054,8 +6454,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "毎"
+        "木"
       ]
     },
     "買": {
@@ -7063,7 +6462,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "罒",
         "貝"
       ]
     },
@@ -7080,24 +6478,23 @@
       "radicalNumber": 24,
       "radicalChar": "⼗",
       "matched": [
-        "十",
-        "尃"
+        "十"
       ]
     },
     "白": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 106,
       "radicalChar": "⽩",
-      "matched": [
-        "日"
+      "flagged": [
+        "白"
       ]
     },
     "麦": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 199,
       "radicalChar": "⿆",
-      "matched": [
-        "夂"
+      "flagged": [
+        "龶"
       ]
     },
     "箱": {
@@ -7105,8 +6502,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "相"
+        "竹"
       ]
     },
     "畑": {
@@ -7114,7 +6510,6 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "火",
         "田"
       ]
     },
@@ -7139,7 +6534,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "半",
         "刂"
       ]
     },
@@ -7148,8 +6542,6 @@
       "radicalNumber": 24,
       "radicalChar": "⼗",
       "matched": [
-        "丶",
-        "二",
         "十"
       ]
     },
@@ -7158,7 +6550,6 @@
       "radicalNumber": 29,
       "radicalChar": "⼜",
       "matched": [
-        "厂",
         "又"
       ]
     },
@@ -7167,8 +6558,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "反"
+        "木"
       ]
     },
     "版": {
@@ -7176,8 +6566,7 @@
       "radicalNumber": 91,
       "radicalChar": "⽚",
       "matched": [
-        "片",
-        "反"
+        "片"
       ]
     },
     "犯": {
@@ -7185,8 +6574,7 @@
       "radicalNumber": 94,
       "radicalChar": "⽝",
       "matched": [
-        "⺨",
-        "㔾"
+        "⺨"
       ]
     },
     "班": {
@@ -7202,8 +6590,7 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "matched": [
-        "飠",
-        "反"
+        "飠"
       ]
     },
     "晩": {
@@ -7211,8 +6598,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "免"
+        "日"
       ]
     },
     "番": {
@@ -7220,7 +6606,6 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "釆",
         "田"
       ]
     },
@@ -7229,7 +6614,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "不",
         "口"
       ]
     },
@@ -7238,7 +6622,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "非",
         "心"
       ]
     },
@@ -7247,16 +6630,15 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "matched": [
-        "扌",
-        "比"
+        "扌"
       ]
     },
     "比": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 81,
       "radicalChar": "⽐",
-      "matched": [
-        "匕"
+      "flagged": [
+        "比"
       ]
     },
     "皮": {
@@ -7272,8 +6654,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "必"
+        "禾"
       ]
     },
     "肥": {
@@ -7281,8 +6662,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "巴"
+        "月"
       ]
     },
     "費": {
@@ -7290,7 +6670,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "弗",
         "貝"
       ]
     },
@@ -7303,11 +6682,11 @@
       ]
     },
     "飛": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 183,
       "radicalChar": "⾶",
-      "matched": [
-        "升"
+      "flagged": [
+        "飛"
       ]
     },
     "備": {
@@ -7319,11 +6698,11 @@
       ]
     },
     "美": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 123,
       "radicalChar": "⽺",
-      "matched": [
-        "大"
+      "flagged": [
+        "⺷"
       ]
     },
     "鼻": {
@@ -7331,8 +6710,7 @@
       "radicalNumber": 209,
       "radicalChar": "⿐",
       "matched": [
-        "自",
-        "畀"
+        "自"
       ]
     },
     "必": {
@@ -7340,8 +6718,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "心",
-        "丿",
         "心"
       ]
     },
@@ -7350,8 +6726,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "matched": [
-        "竹",
-        "聿"
+        "竹"
       ]
     },
     "媛": {
@@ -7359,8 +6734,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "爰"
+        "女"
       ]
     },
     "百": {
@@ -7368,7 +6742,6 @@
       "radicalNumber": 106,
       "radicalChar": "⽩",
       "matched": [
-        "一",
         "白"
       ]
     },
@@ -7377,8 +6750,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "表"
+        "亻"
       ]
     },
     "標": {
@@ -7386,8 +6758,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "票"
+        "木"
       ]
     },
     "氷": {
@@ -7395,8 +6766,6 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "水",
-        "丶",
         "水"
       ]
     },
@@ -7421,8 +6790,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "平"
+        "言"
       ]
     },
     "病": {
@@ -7430,8 +6798,7 @@
       "radicalNumber": 104,
       "radicalChar": "⽧",
       "matched": [
-        "疒",
-        "丙"
+        "疒"
       ]
     },
     "秒": {
@@ -7439,8 +6806,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
-        "禾",
-        "少"
+        "禾"
       ]
     },
     "品": {
@@ -7456,7 +6822,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "分",
         "貝"
       ]
     },
@@ -7465,9 +6830,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "一",
-        "丿",
-        "丨"
+        "一"
       ]
     },
     "付": {
@@ -7475,8 +6838,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "寸"
+        "亻"
       ]
     },
     "夫": {
@@ -7492,8 +6854,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "帚"
+        "女"
       ]
     },
     "富": {
@@ -7501,8 +6862,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "畐"
+        "宀"
       ]
     },
     "布": {
@@ -7518,8 +6878,7 @@
       "radicalNumber": 53,
       "radicalChar": "⼴",
       "matched": [
-        "广",
-        "付"
+        "广"
       ]
     },
     "父": {
@@ -7535,15 +6894,14 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "𠂊",
         "貝"
       ]
     },
     "阜": {
-      "status": "exact",
+      "status": "review",
       "radicalNumber": 170,
       "radicalChar": "⾩",
-      "matched": [
+      "elements": [
         "𠂤",
         "十"
       ]
@@ -7577,7 +6935,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "畐",
         "刂"
       ]
     },
@@ -7586,8 +6943,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "复"
+        "彳"
       ]
     },
     "服": {
@@ -7603,8 +6959,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "畐"
+        "礻"
       ]
     },
     "腹": {
@@ -7612,8 +6967,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "复"
+        "月"
       ]
     },
     "複": {
@@ -7621,8 +6975,7 @@
       "radicalNumber": 145,
       "radicalChar": "⾐",
       "matched": [
-        "衤",
-        "复"
+        "衤"
       ]
     },
     "仏": {
@@ -7630,8 +6983,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "厶"
+        "亻"
       ]
     },
     "物": {
@@ -7639,8 +6991,7 @@
       "radicalNumber": 93,
       "radicalChar": "⽜",
       "matched": [
-        "牛",
-        "勿"
+        "牛"
       ]
     },
     "分": {
@@ -7648,16 +6999,15 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "八",
         "刀"
       ]
     },
     "奮": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 37,
       "radicalChar": "⼤",
-      "matched": [
-        "田"
+      "flagged": [
+        "奞"
       ]
     },
     "粉": {
@@ -7665,8 +7015,7 @@
       "radicalNumber": 119,
       "radicalChar": "⽶",
       "matched": [
-        "米",
-        "分"
+        "米"
       ]
     },
     "文": {
@@ -7674,8 +7023,7 @@
       "radicalNumber": 67,
       "radicalChar": "⽂",
       "matched": [
-        "亠",
-        "乂"
+        "亠"
       ]
     },
     "聞": {
@@ -7683,7 +7031,6 @@
       "radicalNumber": 128,
       "radicalChar": "⽿",
       "matched": [
-        "門",
         "耳"
       ]
     },
@@ -7692,7 +7039,6 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "丘",
         "八"
       ]
     },
@@ -7701,7 +7047,6 @@
       "radicalNumber": 51,
       "radicalChar": "⼲",
       "matched": [
-        "干",
         "干"
       ]
     },
@@ -7718,8 +7063,7 @@
       "radicalNumber": 169,
       "radicalChar": "⾨",
       "matched": [
-        "門",
-        "才"
+        "門"
       ]
     },
     "陛": {
@@ -7751,7 +7095,6 @@
       "radicalNumber": 34,
       "radicalChar": "⼡",
       "matched": [
-        "亦",
         "夂"
       ]
     },
@@ -7768,8 +7111,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "扁"
+        "糸"
       ]
     },
     "辺": {
@@ -7777,7 +7119,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "刀",
         "⻌"
       ]
     },
@@ -7786,7 +7127,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "反",
         "⻌"
       ]
     },
@@ -7795,8 +7135,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "更"
+        "亻"
       ]
     },
     "勉": {
@@ -7804,7 +7143,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "免",
         "力"
       ]
     },
@@ -7813,7 +7151,6 @@
       "radicalNumber": 55,
       "radicalChar": "⼶",
       "matched": [
-        "厶",
         "廾"
       ]
     },
@@ -7822,8 +7159,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "呆"
+        "亻"
       ]
     },
     "歩": {
@@ -7831,8 +7167,7 @@
       "radicalNumber": 77,
       "radicalChar": "⽌",
       "matched": [
-        "止",
-        "少"
+        "止"
       ]
     },
     "補": {
@@ -7840,8 +7175,7 @@
       "radicalNumber": 145,
       "radicalChar": "⾐",
       "matched": [
-        "衤",
-        "甫"
+        "衤"
       ]
     },
     "墓": {
@@ -7849,7 +7183,6 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "matched": [
-        "莫",
         "土"
       ]
     },
@@ -7858,7 +7191,6 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "莫",
         "日"
       ]
     },
@@ -7867,7 +7199,6 @@
       "radicalNumber": 80,
       "radicalChar": "⽏",
       "matched": [
-        "毋",
         "毋"
       ]
     },
@@ -7876,8 +7207,7 @@
       "radicalNumber": 20,
       "radicalChar": "⼓",
       "matched": [
-        "勹",
-        "己"
+        "勹"
       ]
     },
     "報": {
@@ -7893,16 +7223,15 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "玉"
+        "宀"
       ]
     },
     "放": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "matched": [
-        "方"
+      "flagged": [
+        "攵"
       ]
     },
     "方": {
@@ -7918,8 +7247,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "去"
+        "氵"
       ]
     },
     "訪": {
@@ -7927,8 +7255,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "方"
+        "言"
       ]
     },
     "豊": {
@@ -7936,7 +7263,6 @@
       "radicalNumber": 151,
       "radicalChar": "⾖",
       "matched": [
-        "曲",
         "豆"
       ]
     },
@@ -7945,8 +7271,7 @@
       "radicalNumber": 8,
       "radicalChar": "⼇",
       "matched": [
-        "亠",
-        "匸"
+        "亠"
       ]
     },
     "忘": {
@@ -7954,7 +7279,6 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "亡",
         "心"
       ]
     },
@@ -7971,8 +7295,7 @@
       "radicalNumber": 74,
       "radicalChar": "⽉",
       "matched": [
-        "月",
-        "王"
+        "月"
       ]
     },
     "棒": {
@@ -7980,8 +7303,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "奉"
+        "木"
       ]
     },
     "貿": {
@@ -7989,7 +7311,6 @@
       "radicalNumber": 154,
       "radicalChar": "⾙",
       "matched": [
-        "卯",
         "貝"
       ]
     },
@@ -7998,8 +7319,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "方"
+        "⻖"
       ]
     },
     "北": {
@@ -8031,8 +7351,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "matched": [
-        "女",
-        "未"
+        "女"
       ]
     },
     "枚": {
@@ -8056,7 +7375,6 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "莫",
         "巾"
       ]
     },
@@ -8089,8 +7407,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "口",
-        "未"
+        "口"
       ]
     },
     "未": {
@@ -8102,11 +7419,11 @@
       ]
     },
     "密": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 40,
       "radicalChar": "⼧",
-      "matched": [
-        "山"
+      "flagged": [
+        "宓"
       ]
     },
     "脈": {
@@ -8114,8 +7431,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "matched": [
-        "月",
-        "𠂢"
+        "月"
       ]
     },
     "民": {
@@ -8131,7 +7447,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "矛",
         "力"
       ]
     },
@@ -8156,7 +7471,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "夕",
         "口"
       ]
     },
@@ -8173,8 +7487,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "matched": [
-        "日",
-        "月"
+        "日"
       ]
     },
     "盟": {
@@ -8182,7 +7495,6 @@
       "radicalNumber": 108,
       "radicalChar": "⽫",
       "matched": [
-        "明",
         "皿"
       ]
     },
@@ -8191,7 +7503,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "米",
         "⻌"
       ]
     },
@@ -8200,7 +7511,6 @@
       "radicalNumber": 196,
       "radicalChar": "⿃",
       "matched": [
-        "口",
         "鳥"
       ]
     },
@@ -8209,8 +7519,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "帛"
+        "糸"
       ]
     },
     "面": {
@@ -8226,8 +7535,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
-        "莫"
+        "木"
       ]
     },
     "毛": {
@@ -8259,7 +7567,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "門",
         "口"
       ]
     },
@@ -8276,7 +7583,6 @@
       "radicalNumber": 36,
       "radicalChar": "⼣",
       "matched": [
-        "亠",
         "夕"
       ]
     },
@@ -8285,16 +7591,15 @@
       "radicalNumber": 166,
       "radicalChar": "⾥",
       "matched": [
-        "里",
-        "予"
+        "里"
       ]
     },
     "矢": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 111,
       "radicalChar": "⽮",
-      "matched": [
-        "天"
+      "flagged": [
+        "矢"
       ]
     },
     "役": {
@@ -8302,8 +7607,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "殳"
+        "彳"
       ]
     },
     "約": {
@@ -8311,8 +7615,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "勺"
+        "糸"
       ]
     },
     "薬": {
@@ -8320,8 +7623,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "楽"
+        "艹"
       ]
     },
     "訳": {
@@ -8329,8 +7631,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "尺"
+        "言"
       ]
     },
     "油": {
@@ -8338,8 +7639,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "由"
+        "氵"
       ]
     },
     "輸": {
@@ -8347,8 +7647,7 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "matched": [
-        "車",
-        "兪"
+        "車"
       ]
     },
     "優": {
@@ -8356,8 +7655,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "憂"
+        "亻"
       ]
     },
     "勇": {
@@ -8365,7 +7663,6 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "マ",
         "男"
       ]
     },
@@ -8386,11 +7683,11 @@
       ]
     },
     "由": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 102,
       "radicalChar": "⽥",
-      "matched": [
-        "丨"
+      "flagged": [
+        "日"
       ]
     },
     "遊": {
@@ -8398,7 +7695,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "斿",
         "⻌"
       ]
     },
@@ -8407,7 +7703,6 @@
       "radicalNumber": 163,
       "radicalChar": "⾢",
       "matched": [
-        "垂",
         "⻏"
       ]
     },
@@ -8424,7 +7719,6 @@
       "radicalNumber": 6,
       "radicalChar": "⼅",
       "matched": [
-        "マ",
         "了"
       ]
     },
@@ -8441,7 +7735,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "予",
         "頁"
       ]
     },
@@ -8450,8 +7743,7 @@
       "radicalNumber": 52,
       "radicalChar": "⼳",
       "matched": [
-        "幺",
-        "力"
+        "幺"
       ]
     },
     "容": {
@@ -8459,8 +7751,7 @@
       "radicalNumber": 40,
       "radicalChar": "⼧",
       "matched": [
-        "宀",
-        "谷"
+        "宀"
       ]
     },
     "曜": {
@@ -8484,8 +7775,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "羊"
+        "氵"
       ]
     },
     "用": {
@@ -8513,11 +7803,11 @@
       ]
     },
     "要": {
-      "status": "exact",
+      "status": "fallback",
       "radicalNumber": 146,
       "radicalChar": "⾑",
-      "matched": [
-        "女"
+      "flagged": [
+        "覀"
       ]
     },
     "陽": {
@@ -8525,8 +7815,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "昜"
+        "⻖"
       ]
     },
     "養": {
@@ -8534,7 +7823,6 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "matched": [
-        "羊",
         "食"
       ]
     },
@@ -8543,7 +7831,6 @@
       "radicalNumber": 76,
       "radicalChar": "⽋",
       "matched": [
-        "谷",
         "欠"
       ]
     },
@@ -8552,8 +7839,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "谷"
+        "氵"
       ]
     },
     "翌": {
@@ -8561,8 +7847,7 @@
       "radicalNumber": 124,
       "radicalChar": "⽻",
       "matched": [
-        "羽",
-        "立"
+        "羽"
       ]
     },
     "来": {
@@ -8578,8 +7863,7 @@
       "radicalNumber": 140,
       "radicalChar": "⾋",
       "matched": [
-        "艹",
-        "洛"
+        "艹"
       ]
     },
     "乱": {
@@ -8587,7 +7871,6 @@
       "radicalNumber": 5,
       "radicalChar": "⼄",
       "matched": [
-        "舌",
         "乙"
       ]
     },
@@ -8596,7 +7879,6 @@
       "radicalNumber": 26,
       "radicalChar": "⼙",
       "matched": [
-        "卯",
         "卯"
       ]
     },
@@ -8613,7 +7895,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "禾",
         "刂"
       ]
     },
@@ -8622,7 +7903,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "利",
         "木"
       ]
     },
@@ -8631,8 +7911,7 @@
       "radicalNumber": 96,
       "radicalChar": "⽟",
       "matched": [
-        "王",
-        "里"
+        "王"
       ]
     },
     "裏": {
@@ -8656,8 +7935,7 @@
       "radicalNumber": 170,
       "radicalChar": "⾩",
       "matched": [
-        "⻖",
-        "坴"
+        "⻖"
       ]
     },
     "律": {
@@ -8665,8 +7943,7 @@
       "radicalNumber": 60,
       "radicalChar": "⼻",
       "matched": [
-        "彳",
-        "聿"
+        "彳"
       ]
     },
     "率": {
@@ -8674,9 +7951,7 @@
       "radicalNumber": 95,
       "radicalChar": "⽞",
       "matched": [
-        "玄",
-        "冫",
-        "十"
+        "玄"
       ]
     },
     "立": {
@@ -8692,8 +7967,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "田",
-        "各"
+        "田"
       ]
     },
     "流": {
@@ -8701,8 +7975,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "matched": [
-        "氵",
-        "㐬"
+        "氵"
       ]
     },
     "留": {
@@ -8710,7 +7983,6 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "matched": [
-        "卯",
         "田"
       ]
     },
@@ -8727,9 +7999,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "matched": [
-        "一",
-        "冂",
-        "山"
+        "一"
       ]
     },
     "料": {
@@ -8737,7 +8007,6 @@
       "radicalNumber": 68,
       "radicalChar": "⽃",
       "matched": [
-        "米",
         "斗"
       ]
     },
@@ -8754,7 +8023,6 @@
       "radicalNumber": 166,
       "radicalChar": "⾥",
       "matched": [
-        "旦",
         "里"
       ]
     },
@@ -8763,7 +8031,6 @@
       "radicalNumber": 181,
       "radicalChar": "⾴",
       "matched": [
-        "令",
         "頁"
       ]
     },
@@ -8780,8 +8047,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "彔"
+        "糸"
       ]
     },
     "林": {
@@ -8789,7 +8055,6 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "matched": [
-        "木",
         "木"
       ]
     },
@@ -8806,8 +8071,7 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "matched": [
-        "車",
-        "侖"
+        "車"
       ]
     },
     "類": {
@@ -8831,8 +8095,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "matched": [
-        "亻",
-        "列"
+        "亻"
       ]
     },
     "冷": {
@@ -8840,8 +8103,7 @@
       "radicalNumber": 15,
       "radicalChar": "⼎",
       "matched": [
-        "冫",
-        "令"
+        "冫"
       ]
     },
     "礼": {
@@ -8849,8 +8111,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "matched": [
-        "礻",
-        "乙"
+        "礻"
       ]
     },
     "歴": {
@@ -8866,7 +8127,6 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "matched": [
-        "歹",
         "刂"
       ]
     },
@@ -8875,8 +8135,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "matched": [
-        "糸",
-        "東"
+        "糸"
       ]
     },
     "連": {
@@ -8884,7 +8143,6 @@
       "radicalNumber": 162,
       "radicalChar": "⾡",
       "matched": [
-        "車",
         "⻌"
       ]
     },
@@ -8893,8 +8151,7 @@
       "radicalNumber": 157,
       "radicalChar": "⾜",
       "matched": [
-        "足",
-        "各"
+        "足"
       ]
     },
     "労": {
@@ -8910,7 +8167,6 @@
       "radicalNumber": 74,
       "radicalChar": "⽉",
       "matched": [
-        "良",
         "月"
       ]
     },
@@ -8919,8 +8175,7 @@
       "radicalNumber": 125,
       "radicalChar": "⽼",
       "matched": [
-        "耂",
-        "匕"
+        "耂"
       ]
     },
     "六": {
@@ -8928,7 +8183,6 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "亠",
         "八"
       ]
     },
@@ -8937,8 +8191,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "matched": [
-        "金",
-        "彔"
+        "金"
       ]
     },
     "論": {
@@ -8946,8 +8199,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "侖"
+        "言"
       ]
     },
     "和": {
@@ -8955,7 +8207,6 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "禾",
         "口"
       ]
     },
@@ -8964,8 +8215,7 @@
       "radicalNumber": 149,
       "radicalChar": "⾔",
       "matched": [
-        "言",
-        "舌"
+        "言"
       ]
     }
   }

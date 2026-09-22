@@ -12,6 +12,7 @@ const meta = JSON.parse(fs.readFileSync(path.join(dataDir, 'kanjidic2_school.jso
 
 const statuses = { exact: 0, candidate: 0, fallback: 0, missing: 0 };
 const report = {};
+const dictionaryReview = {};
 
 // 不足している漢字だけ、同梱KanjiVGから直下部品を復元する。
 // DOMを持たないNodeでも実行できるよう、g/pathの構造だけを読む。
@@ -81,23 +82,28 @@ for (const [char, info] of Object.entries(meta)) {
   if (!items) {
     statuses.missing++;
     report[char] = { status: 'missing', radicalNumber: info.radicalNumber, radicalChar };
+    dictionaryReview[char] = { radicalNumber: info.radicalNumber, dictionaryRadical: radicalChar, status: 'missing' };
     continue;
   }
-  const exact = items.filter(item => item.element && candidates.has(item.element));
+  const exact = items.filter(item => item.radical && item.element && candidates.has(item.element.normalize('NFKC')));
   if (exact.length) {
     statuses.exact++;
     report[char] = { status: 'exact', radicalNumber: info.radicalNumber, radicalChar, matched: exact.map(x => x.element) };
+    dictionaryReview[char] = { radicalNumber: info.radicalNumber, dictionaryRadical: radicalChar, svgParts: items.map(x => x.element), selectedParts: exact.map(x => x.element), status: '一致' };
   } else {
     const flagged = items.filter(item => item.radical);
     if (flagged.length === 1) {
       statuses.fallback++;
       report[char] = { status: 'fallback', radicalNumber: info.radicalNumber, radicalChar, flagged: flagged.map(x => x.element) };
+      dictionaryReview[char] = { radicalNumber: info.radicalNumber, dictionaryRadical: radicalChar, svgParts: items.map(x => x.element), selectedParts: flagged.map(x => x.element), status: '辞書部首を採用', reason: 'SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる' };
     } else {
       statuses.candidate++;
       report[char] = { status: 'review', radicalNumber: info.radicalNumber, radicalChar, elements: items.map(x => x.element) };
+      dictionaryReview[char] = { radicalNumber: info.radicalNumber, dictionaryRadical: radicalChar, svgParts: items.map(x => x.element), status: '要確認' };
     }
   }
 }
 
 fs.writeFileSync(path.join(dataDir, 'bushu_validation.json'), JSON.stringify({ generatedBy: 'validate_bushu_data.js', statuses, report }, null, 2) + '\n');
+fs.writeFileSync(path.join(dataDir, 'bushu_dictionary_review.json'), JSON.stringify({ source: 'KANJIDIC2 radical number + KanjiVG component ranges', entries: dictionaryReview }, null, 2) + '\n');
 console.log(statuses);

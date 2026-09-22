@@ -1,0 +1,8956 @@
+{
+  "generatedBy": "validate_bushu_data.js",
+  "statuses": {
+    "exact": 946,
+    "candidate": 0,
+    "fallback": 80,
+    "missing": 0
+  },
+  "report": {
+    "愛": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "⺤"
+      ]
+    },
+    "悪": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "亜",
+        "心"
+      ]
+    },
+    "圧": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "厂",
+        "土"
+      ]
+    },
+    "安": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "女"
+      ]
+    },
+    "暗": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "音"
+      ]
+    },
+    "案": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "安",
+        "木"
+      ]
+    },
+    "以": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人"
+      ]
+    },
+    "位": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "立"
+      ]
+    },
+    "囲": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "井",
+        "囗"
+      ]
+    },
+    "委": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "禾",
+        "女"
+      ]
+    },
+    "意": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "音",
+        "心"
+      ]
+    },
+    "易": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "勿"
+      ]
+    },
+    "異": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "田",
+        "共"
+      ]
+    },
+    "移": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "多"
+      ]
+    },
+    "胃": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "田",
+        "月"
+      ]
+    },
+    "衣": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "亠"
+      ]
+    },
+    "遺": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "貴",
+        "⻌"
+      ]
+    },
+    "医": {
+      "status": "exact",
+      "radicalNumber": 23,
+      "radicalChar": "⼖",
+      "matched": [
+        "矢"
+      ]
+    },
+    "井": {
+      "status": "exact",
+      "radicalNumber": 7,
+      "radicalChar": "⼆",
+      "matched": [
+        "二",
+        "廾"
+      ]
+    },
+    "域": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "或"
+      ]
+    },
+    "育": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月"
+      ]
+    },
+    "一": {
+      "status": "fallback",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "茨": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "次"
+      ]
+    },
+    "印": {
+      "status": "exact",
+      "radicalNumber": 26,
+      "radicalChar": "⼙",
+      "matched": [
+        "卩"
+      ]
+    },
+    "員": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "貝"
+      ]
+    },
+    "因": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "大",
+        "囗"
+      ]
+    },
+    "引": {
+      "status": "exact",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "matched": [
+        "弓",
+        "丨"
+      ]
+    },
+    "飲": {
+      "status": "exact",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "matched": [
+        "飠",
+        "欠"
+      ]
+    },
+    "院": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "完"
+      ]
+    },
+    "右": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "宇": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "于"
+      ]
+    },
+    "羽": {
+      "status": "fallback",
+      "radicalNumber": 124,
+      "radicalChar": "⽻",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "雨": {
+      "status": "fallback",
+      "radicalNumber": 173,
+      "radicalChar": "⾬",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "運": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "軍",
+        "⻌"
+      ]
+    },
+    "雲": {
+      "status": "exact",
+      "radicalNumber": 173,
+      "radicalChar": "⾬",
+      "matched": [
+        "雨",
+        "云"
+      ]
+    },
+    "営": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "呂"
+      ]
+    },
+    "映": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "央"
+      ]
+    },
+    "栄": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "永": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "丶",
+        "水"
+      ]
+    },
+    "泳": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "永"
+      ]
+    },
+    "英": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "央"
+      ]
+    },
+    "衛": {
+      "status": "exact",
+      "radicalNumber": 144,
+      "radicalChar": "⾏",
+      "matched": [
+        "行",
+        "韋",
+        "行"
+      ]
+    },
+    "液": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "夜"
+      ]
+    },
+    "益": {
+      "status": "exact",
+      "radicalNumber": 108,
+      "radicalChar": "⽫",
+      "matched": [
+        "皿"
+      ]
+    },
+    "駅": {
+      "status": "exact",
+      "radicalNumber": 187,
+      "radicalChar": "⾺",
+      "matched": [
+        "馬",
+        "尺"
+      ]
+    },
+    "円": {
+      "status": "exact",
+      "radicalNumber": 13,
+      "radicalChar": "⼌",
+      "matched": [
+        "冂"
+      ]
+    },
+    "園": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "袁",
+        "囗"
+      ]
+    },
+    "延": {
+      "status": "exact",
+      "radicalNumber": 54,
+      "radicalChar": "⼵",
+      "matched": [
+        "正",
+        "廴"
+      ]
+    },
+    "沿": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "㕣"
+      ]
+    },
+    "演": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "寅"
+      ]
+    },
+    "遠": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "袁",
+        "⻌"
+      ]
+    },
+    "塩": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土"
+      ]
+    },
+    "央": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "丨",
+        "大"
+      ]
+    },
+    "往": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "主"
+      ]
+    },
+    "応": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "广",
+        "心"
+      ]
+    },
+    "横": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "黄"
+      ]
+    },
+    "王": {
+      "status": "fallback",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "flagged": [
+        "王"
+      ]
+    },
+    "黄": {
+      "status": "fallback",
+      "radicalNumber": 201,
+      "radicalChar": "⿈",
+      "flagged": [
+        "龷"
+      ]
+    },
+    "岡": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "冂",
+        "山"
+      ]
+    },
+    "沖": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "中"
+      ]
+    },
+    "億": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "意"
+      ]
+    },
+    "屋": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "至"
+      ]
+    },
+    "恩": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "因",
+        "心"
+      ]
+    },
+    "温": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵"
+      ]
+    },
+    "音": {
+      "status": "exact",
+      "radicalNumber": 180,
+      "radicalChar": "⾳",
+      "matched": [
+        "立",
+        "日"
+      ]
+    },
+    "下": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一",
+        "卜"
+      ]
+    },
+    "化": {
+      "status": "exact",
+      "radicalNumber": 21,
+      "radicalChar": "⼔",
+      "matched": [
+        "亻",
+        "匕"
+      ]
+    },
+    "仮": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "反"
+      ]
+    },
+    "何": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "可"
+      ]
+    },
+    "価": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "加": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "力",
+        "口"
+      ]
+    },
+    "可": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "丁",
+        "口",
+        "丁"
+      ]
+    },
+    "夏": {
+      "status": "exact",
+      "radicalNumber": 35,
+      "radicalChar": "⼢",
+      "matched": [
+        "夂"
+      ]
+    },
+    "家": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "豕"
+      ]
+    },
+    "科": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "斗"
+      ]
+    },
+    "果": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "田",
+        "木"
+      ]
+    },
+    "歌": {
+      "status": "exact",
+      "radicalNumber": 76,
+      "radicalChar": "⽋",
+      "matched": [
+        "欠"
+      ]
+    },
+    "河": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "可"
+      ]
+    },
+    "火": {
+      "status": "fallback",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "花": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "化"
+      ]
+    },
+    "荷": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "何"
+      ]
+    },
+    "課": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "果"
+      ]
+    },
+    "貨": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "化",
+        "貝"
+      ]
+    },
+    "過": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "咼",
+        "⻌"
+      ]
+    },
+    "我": {
+      "status": "exact",
+      "radicalNumber": 62,
+      "radicalChar": "⼽",
+      "matched": [
+        "丿",
+        "戈",
+        "亅",
+        "戈"
+      ]
+    },
+    "画": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "一",
+        "由",
+        "凵"
+      ]
+    },
+    "芽": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "牙"
+      ]
+    },
+    "賀": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "加",
+        "貝"
+      ]
+    },
+    "会": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人",
+        "云"
+      ]
+    },
+    "解": {
+      "status": "exact",
+      "radicalNumber": 148,
+      "radicalChar": "⾓",
+      "matched": [
+        "角"
+      ]
+    },
+    "回": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "口",
+        "囗"
+      ]
+    },
+    "快": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "忄",
+        "夬"
+      ]
+    },
+    "改": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "己"
+      ]
+    },
+    "械": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "戒"
+      ]
+    },
+    "海": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "毎"
+      ]
+    },
+    "灰": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "厂",
+        "火"
+      ]
+    },
+    "界": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "田",
+        "介"
+      ]
+    },
+    "絵": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "会"
+      ]
+    },
+    "開": {
+      "status": "exact",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "matched": [
+        "門"
+      ]
+    },
+    "階": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "皆"
+      ]
+    },
+    "貝": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "目"
+      ]
+    },
+    "外": {
+      "status": "exact",
+      "radicalNumber": 36,
+      "radicalChar": "⼣",
+      "matched": [
+        "夕",
+        "卜"
+      ]
+    },
+    "害": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀"
+      ]
+    },
+    "街": {
+      "status": "exact",
+      "radicalNumber": 144,
+      "radicalChar": "⾏",
+      "matched": [
+        "行",
+        "圭",
+        "行"
+      ]
+    },
+    "各": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "夂",
+        "口"
+      ]
+    },
+    "拡": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "広"
+      ]
+    },
+    "格": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "各"
+      ]
+    },
+    "確": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "石",
+        "寉"
+      ]
+    },
+    "覚": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "見"
+      ]
+    },
+    "角": {
+      "status": "exact",
+      "radicalNumber": 148,
+      "radicalChar": "⾓",
+      "matched": [
+        "𠂊"
+      ]
+    },
+    "閣": {
+      "status": "exact",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "matched": [
+        "門",
+        "各"
+      ]
+    },
+    "革": {
+      "status": "exact",
+      "radicalNumber": 177,
+      "radicalChar": "⾰",
+      "matched": [
+        "廿"
+      ]
+    },
+    "学": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "子"
+      ]
+    },
+    "楽": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "額": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "客",
+        "頁"
+      ]
+    },
+    "潟": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "舄"
+      ]
+    },
+    "割": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "害",
+        "刂"
+      ]
+    },
+    "活": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "舌"
+      ]
+    },
+    "株": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "朱"
+      ]
+    },
+    "寒": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀"
+      ]
+    },
+    "刊": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "干",
+        "刂"
+      ]
+    },
+    "巻": {
+      "status": "exact",
+      "radicalNumber": 49,
+      "radicalChar": "⼰",
+      "matched": [
+        "𠔉",
+        "己"
+      ]
+    },
+    "完": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "元"
+      ]
+    },
+    "官": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀"
+      ]
+    },
+    "干": {
+      "status": "exact",
+      "radicalNumber": 51,
+      "radicalChar": "⼲",
+      "matched": [
+        "十"
+      ]
+    },
+    "幹": {
+      "status": "fallback",
+      "radicalNumber": 51,
+      "radicalChar": "⼲",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "感": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "咸",
+        "心"
+      ]
+    },
+    "慣": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "忄",
+        "貫"
+      ]
+    },
+    "漢": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵"
+      ]
+    },
+    "看": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "手",
+        "目"
+      ]
+    },
+    "管": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "官"
+      ]
+    },
+    "簡": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "間"
+      ]
+    },
+    "観": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "見"
+      ]
+    },
+    "間": {
+      "status": "exact",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "matched": [
+        "門",
+        "日"
+      ]
+    },
+    "関": {
+      "status": "exact",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "matched": [
+        "門",
+        "关"
+      ]
+    },
+    "館": {
+      "status": "exact",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "matched": [
+        "飠",
+        "官"
+      ]
+    },
+    "丸": {
+      "status": "exact",
+      "radicalNumber": 3,
+      "radicalChar": "⼂",
+      "matched": [
+        "九",
+        "丶"
+      ]
+    },
+    "岸": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "山"
+      ]
+    },
+    "眼": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "目",
+        "艮"
+      ]
+    },
+    "岩": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "山",
+        "石"
+      ]
+    },
+    "顔": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "彦",
+        "頁"
+      ]
+    },
+    "願": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "原",
+        "頁"
+      ]
+    },
+    "危": {
+      "status": "exact",
+      "radicalNumber": 26,
+      "radicalChar": "⼙",
+      "matched": [
+        "𠂊",
+        "厄"
+      ]
+    },
+    "喜": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "吉"
+      ]
+    },
+    "器": {
+      "status": "fallback",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "基": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "其",
+        "土"
+      ]
+    },
+    "寄": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "奇"
+      ]
+    },
+    "岐": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "山",
+        "支"
+      ]
+    },
+    "希": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "乂",
+        "布"
+      ]
+    },
+    "揮": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "軍"
+      ]
+    },
+    "机": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "几"
+      ]
+    },
+    "旗": {
+      "status": "exact",
+      "radicalNumber": 70,
+      "radicalChar": "⽅",
+      "matched": [
+        "方"
+      ]
+    },
+    "期": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "其",
+        "月"
+      ]
+    },
+    "機": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "幾"
+      ]
+    },
+    "帰": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "刂",
+        "帚"
+      ]
+    },
+    "気": {
+      "status": "exact",
+      "radicalNumber": 84,
+      "radicalChar": "⽓",
+      "matched": [
+        "气",
+        "乂"
+      ]
+    },
+    "汽": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "气"
+      ]
+    },
+    "季": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "禾",
+        "子"
+      ]
+    },
+    "紀": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "己"
+      ]
+    },
+    "規": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "夫",
+        "見"
+      ]
+    },
+    "記": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "己"
+      ]
+    },
+    "貴": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝"
+      ]
+    },
+    "起": {
+      "status": "exact",
+      "radicalNumber": 156,
+      "radicalChar": "⾛",
+      "matched": [
+        "走",
+        "己"
+      ]
+    },
+    "技": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "支"
+      ]
+    },
+    "疑": {
+      "status": "fallback",
+      "radicalNumber": 103,
+      "radicalChar": "⽦",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "義": {
+      "status": "exact",
+      "radicalNumber": 123,
+      "radicalChar": "⽺",
+      "matched": [
+        "羊",
+        "我"
+      ]
+    },
+    "議": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "義"
+      ]
+    },
+    "客": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "各"
+      ]
+    },
+    "逆": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "⻌"
+      ]
+    },
+    "久": {
+      "status": "exact",
+      "radicalNumber": 4,
+      "radicalChar": "⼃",
+      "matched": [
+        "𠂊"
+      ]
+    },
+    "休": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "木"
+      ]
+    },
+    "吸": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "及"
+      ]
+    },
+    "宮": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "呂"
+      ]
+    },
+    "弓": {
+      "status": "fallback",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "急": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "心"
+      ]
+    },
+    "救": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "求"
+      ]
+    },
+    "求": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氺",
+        "丶"
+      ]
+    },
+    "泣": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "立"
+      ]
+    },
+    "球": {
+      "status": "exact",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "matched": [
+        "王",
+        "求"
+      ]
+    },
+    "究": {
+      "status": "exact",
+      "radicalNumber": 116,
+      "radicalChar": "⽳",
+      "matched": [
+        "穴",
+        "九"
+      ]
+    },
+    "級": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "及"
+      ]
+    },
+    "給": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "合"
+      ]
+    },
+    "旧": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "丨",
+        "日"
+      ]
+    },
+    "牛": {
+      "status": "fallback",
+      "radicalNumber": 93,
+      "radicalChar": "⽜",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "去": {
+      "status": "exact",
+      "radicalNumber": 28,
+      "radicalChar": "⼛",
+      "matched": [
+        "土",
+        "厶"
+      ]
+    },
+    "居": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "古"
+      ]
+    },
+    "挙": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "手"
+      ]
+    },
+    "許": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "午"
+      ]
+    },
+    "漁": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "魚"
+      ]
+    },
+    "魚": {
+      "status": "exact",
+      "radicalNumber": 195,
+      "radicalChar": "⿂",
+      "matched": [
+        "𠂊"
+      ]
+    },
+    "京": {
+      "status": "exact",
+      "radicalNumber": 8,
+      "radicalChar": "⼇",
+      "matched": [
+        "亠"
+      ]
+    },
+    "供": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "共"
+      ]
+    },
+    "競": {
+      "status": "fallback",
+      "radicalNumber": 117,
+      "radicalChar": "⽴",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "共": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "八"
+      ]
+    },
+    "協": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "十"
+      ]
+    },
+    "境": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "竟"
+      ]
+    },
+    "強": {
+      "status": "exact",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "matched": [
+        "弓"
+      ]
+    },
+    "教": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "孝"
+      ]
+    },
+    "橋": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "喬"
+      ]
+    },
+    "胸": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "匈"
+      ]
+    },
+    "興": {
+      "status": "exact",
+      "radicalNumber": 134,
+      "radicalChar": "⾅",
+      "matched": [
+        "八"
+      ]
+    },
+    "郷": {
+      "status": "exact",
+      "radicalNumber": 163,
+      "radicalChar": "⾢",
+      "matched": [
+        "⻏"
+      ]
+    },
+    "鏡": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "竟"
+      ]
+    },
+    "業": {
+      "status": "fallback",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "局": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "句"
+      ]
+    },
+    "曲": {
+      "status": "exact",
+      "radicalNumber": 73,
+      "radicalChar": "⽈",
+      "matched": [
+        "日",
+        "廾",
+        "日"
+      ]
+    },
+    "極": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "亟"
+      ]
+    },
+    "玉": {
+      "status": "exact",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "matched": [
+        "王",
+        "丶"
+      ]
+    },
+    "勤": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "菫",
+        "力"
+      ]
+    },
+    "均": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "匀"
+      ]
+    },
+    "禁": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "林",
+        "示"
+      ]
+    },
+    "筋": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "肋"
+      ]
+    },
+    "近": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "斤",
+        "⻌"
+      ]
+    },
+    "金": {
+      "status": "fallback",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "銀": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "艮"
+      ]
+    },
+    "九": {
+      "status": "exact",
+      "radicalNumber": 5,
+      "radicalChar": "⼄",
+      "matched": [
+        "丿",
+        "乙"
+      ]
+    },
+    "句": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "勹",
+        "口"
+      ]
+    },
+    "区": {
+      "status": "exact",
+      "radicalNumber": 23,
+      "radicalChar": "⼖",
+      "matched": [
+        "乂"
+      ]
+    },
+    "苦": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "古"
+      ]
+    },
+    "具": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "目"
+      ]
+    },
+    "空": {
+      "status": "exact",
+      "radicalNumber": 116,
+      "radicalChar": "⽳",
+      "matched": [
+        "穴",
+        "工"
+      ]
+    },
+    "熊": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "能",
+        "灬"
+      ]
+    },
+    "君": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "尹",
+        "口"
+      ]
+    },
+    "訓": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "川"
+      ]
+    },
+    "群": {
+      "status": "exact",
+      "radicalNumber": 123,
+      "radicalChar": "⽺",
+      "matched": [
+        "君",
+        "羊"
+      ]
+    },
+    "軍": {
+      "status": "exact",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "matched": [
+        "冖",
+        "車"
+      ]
+    },
+    "郡": {
+      "status": "exact",
+      "radicalNumber": 163,
+      "radicalChar": "⾢",
+      "matched": [
+        "君",
+        "⻏"
+      ]
+    },
+    "係": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "系"
+      ]
+    },
+    "兄": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "口",
+        "儿"
+      ]
+    },
+    "型": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "刑",
+        "土"
+      ]
+    },
+    "形": {
+      "status": "exact",
+      "radicalNumber": 59,
+      "radicalChar": "⼺",
+      "matched": [
+        "彡"
+      ]
+    },
+    "径": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "圣"
+      ]
+    },
+    "敬": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "苟"
+      ]
+    },
+    "景": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "京"
+      ]
+    },
+    "系": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "丿",
+        "糸"
+      ]
+    },
+    "経": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "圣"
+      ]
+    },
+    "計": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "十"
+      ]
+    },
+    "警": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "敬",
+        "言"
+      ]
+    },
+    "軽": {
+      "status": "exact",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "matched": [
+        "車",
+        "圣"
+      ]
+    },
+    "芸": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "云"
+      ]
+    },
+    "劇": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "刂"
+      ]
+    },
+    "激": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "敫"
+      ]
+    },
+    "欠": {
+      "status": "fallback",
+      "radicalNumber": 76,
+      "radicalChar": "⽋",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "決": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "夬"
+      ]
+    },
+    "潔": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "絜"
+      ]
+    },
+    "穴": {
+      "status": "exact",
+      "radicalNumber": 116,
+      "radicalChar": "⽳",
+      "matched": [
+        "宀",
+        "八"
+      ]
+    },
+    "結": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "吉"
+      ]
+    },
+    "血": {
+      "status": "exact",
+      "radicalNumber": 143,
+      "radicalChar": "⾎",
+      "matched": [
+        "皿"
+      ]
+    },
+    "月": {
+      "status": "fallback",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "件": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "牛"
+      ]
+    },
+    "健": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "建"
+      ]
+    },
+    "券": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "𠔉",
+        "刀"
+      ]
+    },
+    "建": {
+      "status": "exact",
+      "radicalNumber": 54,
+      "radicalChar": "⼵",
+      "matched": [
+        "聿",
+        "廴"
+      ]
+    },
+    "憲": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "心"
+      ]
+    },
+    "検": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "権": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "犬": {
+      "status": "exact",
+      "radicalNumber": 94,
+      "radicalChar": "⽝",
+      "matched": [
+        "大",
+        "丶"
+      ]
+    },
+    "研": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "石"
+      ]
+    },
+    "絹": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "肙"
+      ]
+    },
+    "県": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "小"
+      ]
+    },
+    "見": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "目"
+      ]
+    },
+    "険": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖"
+      ]
+    },
+    "験": {
+      "status": "exact",
+      "radicalNumber": 187,
+      "radicalChar": "⾺",
+      "matched": [
+        "馬"
+      ]
+    },
+    "元": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "二",
+        "儿"
+      ]
+    },
+    "原": {
+      "status": "exact",
+      "radicalNumber": 27,
+      "radicalChar": "⼚",
+      "matched": [
+        "厂"
+      ]
+    },
+    "厳": {
+      "status": "exact",
+      "radicalNumber": 27,
+      "radicalChar": "⼚",
+      "matched": [
+        "⺍"
+      ]
+    },
+    "減": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "咸"
+      ]
+    },
+    "源": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "原"
+      ]
+    },
+    "現": {
+      "status": "exact",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "matched": [
+        "王",
+        "見"
+      ]
+    },
+    "言": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "口"
+      ]
+    },
+    "限": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "艮"
+      ]
+    },
+    "個": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "固"
+      ]
+    },
+    "古": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "十",
+        "口"
+      ]
+    },
+    "呼": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "乎"
+      ]
+    },
+    "固": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "古",
+        "囗"
+      ]
+    },
+    "己": {
+      "status": "fallback",
+      "radicalNumber": 49,
+      "radicalChar": "⼰",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "庫": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "車"
+      ]
+    },
+    "戸": {
+      "status": "fallback",
+      "radicalNumber": 63,
+      "radicalChar": "⼾",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "故": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "古"
+      ]
+    },
+    "湖": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "胡"
+      ]
+    },
+    "五": {
+      "status": "exact",
+      "radicalNumber": 7,
+      "radicalChar": "⼆",
+      "matched": [
+        "二",
+        "二"
+      ]
+    },
+    "午": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "干"
+      ]
+    },
+    "後": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳"
+      ]
+    },
+    "語": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "吾"
+      ]
+    },
+    "誤": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "呉"
+      ]
+    },
+    "護": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言"
+      ]
+    },
+    "交": {
+      "status": "exact",
+      "radicalNumber": 8,
+      "radicalChar": "⼇",
+      "matched": [
+        "亠",
+        "父"
+      ]
+    },
+    "候": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "光": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "⺌",
+        "兀"
+      ]
+    },
+    "公": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "八",
+        "厶"
+      ]
+    },
+    "功": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "工",
+        "力"
+      ]
+    },
+    "効": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "交",
+        "力"
+      ]
+    },
+    "厚": {
+      "status": "exact",
+      "radicalNumber": 27,
+      "radicalChar": "⼚",
+      "matched": [
+        "厂"
+      ]
+    },
+    "口": {
+      "status": "fallback",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "向": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "后": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "好": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "子"
+      ]
+    },
+    "孝": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "耂",
+        "子"
+      ]
+    },
+    "工": {
+      "status": "fallback",
+      "radicalNumber": 48,
+      "radicalChar": "⼯",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "幸": {
+      "status": "exact",
+      "radicalNumber": 51,
+      "radicalChar": "⼲",
+      "matched": [
+        "土"
+      ]
+    },
+    "広": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "厶"
+      ]
+    },
+    "康": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "隶"
+      ]
+    },
+    "校": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "交"
+      ]
+    },
+    "構": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "冓"
+      ]
+    },
+    "港": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "巷"
+      ]
+    },
+    "皇": {
+      "status": "exact",
+      "radicalNumber": 106,
+      "radicalChar": "⽩",
+      "matched": [
+        "白",
+        "王"
+      ]
+    },
+    "紅": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "工"
+      ]
+    },
+    "耕": {
+      "status": "exact",
+      "radicalNumber": 127,
+      "radicalChar": "⽾",
+      "matched": [
+        "耒",
+        "井"
+      ]
+    },
+    "考": {
+      "status": "exact",
+      "radicalNumber": 125,
+      "radicalChar": "⽼",
+      "matched": [
+        "耂",
+        "丂"
+      ]
+    },
+    "航": {
+      "status": "exact",
+      "radicalNumber": 137,
+      "radicalChar": "⾈",
+      "matched": [
+        "舟",
+        "亢"
+      ]
+    },
+    "行": {
+      "status": "exact",
+      "radicalNumber": 144,
+      "radicalChar": "⾏",
+      "matched": [
+        "彳"
+      ]
+    },
+    "講": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "冓"
+      ]
+    },
+    "鉱": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "広"
+      ]
+    },
+    "鋼": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "岡"
+      ]
+    },
+    "降": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "夅"
+      ]
+    },
+    "香": {
+      "status": "exact",
+      "radicalNumber": 186,
+      "radicalChar": "⾹",
+      "matched": [
+        "禾",
+        "日"
+      ]
+    },
+    "高": {
+      "status": "fallback",
+      "radicalNumber": 189,
+      "radicalChar": "⾼",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "号": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "合": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "刻": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "亥",
+        "刂"
+      ]
+    },
+    "告": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "牛",
+        "口"
+      ]
+    },
+    "国": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "玉",
+        "囗"
+      ]
+    },
+    "穀": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "殳"
+      ]
+    },
+    "黒": {
+      "status": "exact",
+      "radicalNumber": 203,
+      "radicalChar": "⿊",
+      "matched": [
+        "里",
+        "灬"
+      ]
+    },
+    "骨": {
+      "status": "exact",
+      "radicalNumber": 188,
+      "radicalChar": "⾻",
+      "matched": [
+        "月"
+      ]
+    },
+    "今": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人"
+      ]
+    },
+    "困": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "木",
+        "囗"
+      ]
+    },
+    "根": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "艮"
+      ]
+    },
+    "混": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "昆"
+      ]
+    },
+    "佐": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "左"
+      ]
+    },
+    "左": {
+      "status": "exact",
+      "radicalNumber": 48,
+      "radicalChar": "⼯",
+      "matched": [
+        "工"
+      ]
+    },
+    "差": {
+      "status": "exact",
+      "radicalNumber": 48,
+      "radicalChar": "⼯",
+      "matched": [
+        "羊"
+      ]
+    },
+    "査": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "且"
+      ]
+    },
+    "砂": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "石",
+        "少"
+      ]
+    },
+    "座": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "坐"
+      ]
+    },
+    "再": {
+      "status": "exact",
+      "radicalNumber": 13,
+      "radicalChar": "⼌",
+      "matched": [
+        "一",
+        "冉"
+      ]
+    },
+    "最": {
+      "status": "exact",
+      "radicalNumber": 73,
+      "radicalChar": "⽈",
+      "matched": [
+        "日",
+        "取"
+      ]
+    },
+    "妻": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女"
+      ]
+    },
+    "才": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌"
+      ]
+    },
+    "採": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "采"
+      ]
+    },
+    "済": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "斉"
+      ]
+    },
+    "災": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "巛",
+        "火"
+      ]
+    },
+    "祭": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "示"
+      ]
+    },
+    "細": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "田"
+      ]
+    },
+    "菜": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "采"
+      ]
+    },
+    "裁": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "衣"
+      ]
+    },
+    "際": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "祭"
+      ]
+    },
+    "在": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土"
+      ]
+    },
+    "材": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "才"
+      ]
+    },
+    "罪": {
+      "status": "exact",
+      "radicalNumber": 122,
+      "radicalChar": "⽹",
+      "matched": [
+        "罒",
+        "非"
+      ]
+    },
+    "財": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝",
+        "才"
+      ]
+    },
+    "坂": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "反"
+      ]
+    },
+    "阪": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "反"
+      ]
+    },
+    "崎": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "山",
+        "奇"
+      ]
+    },
+    "埼": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "奇"
+      ]
+    },
+    "作": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "乍"
+      ]
+    },
+    "昨": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "乍"
+      ]
+    },
+    "策": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "朿"
+      ]
+    },
+    "桜": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "冊": {
+      "status": "exact",
+      "radicalNumber": 13,
+      "radicalChar": "⼌",
+      "matched": [
+        "冂",
+        "廾"
+      ]
+    },
+    "刷": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "刂"
+      ]
+    },
+    "察": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "祭"
+      ]
+    },
+    "札": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "乙"
+      ]
+    },
+    "殺": {
+      "status": "exact",
+      "radicalNumber": 79,
+      "radicalChar": "⽎",
+      "matched": [
+        "殳"
+      ]
+    },
+    "雑": {
+      "status": "exact",
+      "radicalNumber": 172,
+      "radicalChar": "⾫",
+      "matched": [
+        "隹"
+      ]
+    },
+    "皿": {
+      "status": "fallback",
+      "radicalNumber": 108,
+      "radicalChar": "⽫",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "三": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一"
+      ]
+    },
+    "参": {
+      "status": "exact",
+      "radicalNumber": 28,
+      "radicalChar": "⼛",
+      "matched": [
+        "厶"
+      ]
+    },
+    "山": {
+      "status": "fallback",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "散": {
+      "status": "fallback",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "flagged": [
+        "攵"
+      ]
+    },
+    "産": {
+      "status": "exact",
+      "radicalNumber": 100,
+      "radicalChar": "⽣",
+      "matched": [
+        "生"
+      ]
+    },
+    "算": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹"
+      ]
+    },
+    "蚕": {
+      "status": "exact",
+      "radicalNumber": 142,
+      "radicalChar": "⾍",
+      "matched": [
+        "天",
+        "虫"
+      ]
+    },
+    "賛": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝"
+      ]
+    },
+    "酸": {
+      "status": "exact",
+      "radicalNumber": 164,
+      "radicalChar": "⾣",
+      "matched": [
+        "酉",
+        "夋"
+      ]
+    },
+    "残": {
+      "status": "exact",
+      "radicalNumber": 78,
+      "radicalChar": "⽍",
+      "matched": [
+        "歹",
+        "戋"
+      ]
+    },
+    "仕": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "士"
+      ]
+    },
+    "使": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "吏"
+      ]
+    },
+    "司": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "一",
+        "口"
+      ]
+    },
+    "史": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "乂"
+      ]
+    },
+    "四": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "儿",
+        "囗"
+      ]
+    },
+    "士": {
+      "status": "fallback",
+      "radicalNumber": 33,
+      "radicalChar": "⼠",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "始": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "台"
+      ]
+    },
+    "姉": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "市"
+      ]
+    },
+    "姿": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "次",
+        "女"
+      ]
+    },
+    "子": {
+      "status": "fallback",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "市": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "亠",
+        "巾"
+      ]
+    },
+    "師": {
+      "status": "fallback",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "志": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "士",
+        "心"
+      ]
+    },
+    "思": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "田",
+        "心"
+      ]
+    },
+    "指": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "旨"
+      ]
+    },
+    "支": {
+      "status": "exact",
+      "radicalNumber": 65,
+      "radicalChar": "⽀",
+      "matched": [
+        "十",
+        "又"
+      ]
+    },
+    "枝": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "支"
+      ]
+    },
+    "止": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "卜"
+      ]
+    },
+    "死": {
+      "status": "exact",
+      "radicalNumber": 78,
+      "radicalChar": "⽍",
+      "matched": [
+        "歹",
+        "匕"
+      ]
+    },
+    "氏": {
+      "status": "fallback",
+      "radicalNumber": 83,
+      "radicalChar": "⽒",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "私": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "厶"
+      ]
+    },
+    "糸": {
+      "status": "fallback",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "紙": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "氏"
+      ]
+    },
+    "至": {
+      "status": "exact",
+      "radicalNumber": 133,
+      "radicalChar": "⾄",
+      "matched": [
+        "厶",
+        "土"
+      ]
+    },
+    "視": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "礻",
+        "見"
+      ]
+    },
+    "詞": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "司"
+      ]
+    },
+    "詩": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "寺"
+      ]
+    },
+    "試": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "式"
+      ]
+    },
+    "誌": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "志"
+      ]
+    },
+    "資": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "次",
+        "貝"
+      ]
+    },
+    "飼": {
+      "status": "exact",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "matched": [
+        "飠",
+        "司"
+      ]
+    },
+    "歯": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "止"
+      ]
+    },
+    "事": {
+      "status": "exact",
+      "radicalNumber": 6,
+      "radicalChar": "⼅",
+      "matched": [
+        "口",
+        "⺕",
+        "亅"
+      ]
+    },
+    "似": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "以"
+      ]
+    },
+    "児": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "旧",
+        "儿"
+      ]
+    },
+    "字": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "宀",
+        "子"
+      ]
+    },
+    "寺": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "土",
+        "寸"
+      ]
+    },
+    "持": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "寺"
+      ]
+    },
+    "時": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "寺"
+      ]
+    },
+    "次": {
+      "status": "exact",
+      "radicalNumber": 76,
+      "radicalChar": "⽋",
+      "matched": [
+        "冫",
+        "欠"
+      ]
+    },
+    "滋": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "兹"
+      ]
+    },
+    "治": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "台"
+      ]
+    },
+    "磁": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "石",
+        "兹"
+      ]
+    },
+    "示": {
+      "status": "fallback",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "耳": {
+      "status": "fallback",
+      "radicalNumber": 128,
+      "radicalChar": "⽿",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "自": {
+      "status": "exact",
+      "radicalNumber": 132,
+      "radicalChar": "⾃",
+      "matched": [
+        "目"
+      ]
+    },
+    "辞": {
+      "status": "exact",
+      "radicalNumber": 160,
+      "radicalChar": "⾟",
+      "matched": [
+        "舌",
+        "辛"
+      ]
+    },
+    "鹿": {
+      "status": "exact",
+      "radicalNumber": 198,
+      "radicalChar": "⿅",
+      "matched": [
+        "广"
+      ]
+    },
+    "式": {
+      "status": "exact",
+      "radicalNumber": 56,
+      "radicalChar": "⼷",
+      "matched": [
+        "弋",
+        "工",
+        "弋"
+      ]
+    },
+    "識": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "戠"
+      ]
+    },
+    "七": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一",
+        "乙"
+      ]
+    },
+    "失": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "丿",
+        "夫"
+      ]
+    },
+    "室": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "至"
+      ]
+    },
+    "質": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝"
+      ]
+    },
+    "実": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀"
+      ]
+    },
+    "舎": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人",
+        "吉"
+      ]
+    },
+    "写": {
+      "status": "exact",
+      "radicalNumber": 14,
+      "radicalChar": "⼍",
+      "matched": [
+        "冖",
+        "与"
+      ]
+    },
+    "射": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "身",
+        "寸"
+      ]
+    },
+    "捨": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "舎"
+      ]
+    },
+    "社": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "土"
+      ]
+    },
+    "者": {
+      "status": "exact",
+      "radicalNumber": 125,
+      "radicalChar": "⽼",
+      "matched": [
+        "耂",
+        "日"
+      ]
+    },
+    "謝": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "射"
+      ]
+    },
+    "車": {
+      "status": "fallback",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "借": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "昔"
+      ]
+    },
+    "尺": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "八"
+      ]
+    },
+    "若": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "右"
+      ]
+    },
+    "弱": {
+      "status": "exact",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "matched": [
+        "弓"
+      ]
+    },
+    "主": {
+      "status": "exact",
+      "radicalNumber": 3,
+      "radicalChar": "⼂",
+      "matched": [
+        "亠",
+        "王"
+      ]
+    },
+    "取": {
+      "status": "exact",
+      "radicalNumber": 29,
+      "radicalChar": "⼜",
+      "matched": [
+        "耳",
+        "又"
+      ]
+    },
+    "守": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "寸"
+      ]
+    },
+    "手": {
+      "status": "fallback",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "種": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "重"
+      ]
+    },
+    "酒": {
+      "status": "exact",
+      "radicalNumber": 164,
+      "radicalChar": "⾣",
+      "matched": [
+        "氵",
+        "酉"
+      ]
+    },
+    "首": {
+      "status": "exact",
+      "radicalNumber": 185,
+      "radicalChar": "⾸",
+      "matched": [
+        "自"
+      ]
+    },
+    "受": {
+      "status": "exact",
+      "radicalNumber": 29,
+      "radicalChar": "⼜",
+      "matched": [
+        "又"
+      ]
+    },
+    "授": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "受"
+      ]
+    },
+    "樹": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "収": {
+      "status": "exact",
+      "radicalNumber": 29,
+      "radicalChar": "⼜",
+      "matched": [
+        "又"
+      ]
+    },
+    "周": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "冂",
+        "吉"
+      ]
+    },
+    "宗": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "示"
+      ]
+    },
+    "就": {
+      "status": "exact",
+      "radicalNumber": 43,
+      "radicalChar": "⼪",
+      "matched": [
+        "京",
+        "尤"
+      ]
+    },
+    "州": {
+      "status": "exact",
+      "radicalNumber": 47,
+      "radicalChar": "⼮",
+      "matched": [
+        "丶",
+        "川",
+        "丶",
+        "川",
+        "丶",
+        "川"
+      ]
+    },
+    "修": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "攸"
+      ]
+    },
+    "拾": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "合"
+      ]
+    },
+    "秋": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "火"
+      ]
+    },
+    "終": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "冬"
+      ]
+    },
+    "習": {
+      "status": "exact",
+      "radicalNumber": 124,
+      "radicalChar": "⽻",
+      "matched": [
+        "羽",
+        "白"
+      ]
+    },
+    "衆": {
+      "status": "exact",
+      "radicalNumber": 143,
+      "radicalChar": "⾎",
+      "matched": [
+        "血"
+      ]
+    },
+    "週": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "周",
+        "⻌"
+      ]
+    },
+    "集": {
+      "status": "exact",
+      "radicalNumber": 172,
+      "radicalChar": "⾫",
+      "matched": [
+        "隹",
+        "木"
+      ]
+    },
+    "住": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "主"
+      ]
+    },
+    "十": {
+      "status": "fallback",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "従": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳"
+      ]
+    },
+    "縦": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "従"
+      ]
+    },
+    "重": {
+      "status": "exact",
+      "radicalNumber": 166,
+      "radicalChar": "⾥",
+      "matched": [
+        "千",
+        "里"
+      ]
+    },
+    "宿": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "佰"
+      ]
+    },
+    "祝": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "兄"
+      ]
+    },
+    "縮": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "宿"
+      ]
+    },
+    "熟": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "孰",
+        "灬"
+      ]
+    },
+    "出": {
+      "status": "exact",
+      "radicalNumber": 17,
+      "radicalChar": "⼐",
+      "matched": [
+        "山",
+        "凵"
+      ]
+    },
+    "術": {
+      "status": "exact",
+      "radicalNumber": 144,
+      "radicalChar": "⾏",
+      "matched": [
+        "行",
+        "朮"
+      ]
+    },
+    "述": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "朮",
+        "⻌"
+      ]
+    },
+    "春": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日"
+      ]
+    },
+    "準": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "隼"
+      ]
+    },
+    "純": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "屯"
+      ]
+    },
+    "順": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "川",
+        "頁"
+      ]
+    },
+    "処": {
+      "status": "exact",
+      "radicalNumber": 16,
+      "radicalChar": "⼏",
+      "matched": [
+        "夂",
+        "几"
+      ]
+    },
+    "初": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "衤",
+        "刀"
+      ]
+    },
+    "所": {
+      "status": "exact",
+      "radicalNumber": 63,
+      "radicalChar": "⼾",
+      "matched": [
+        "戸",
+        "斤"
+      ]
+    },
+    "暑": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "者"
+      ]
+    },
+    "署": {
+      "status": "exact",
+      "radicalNumber": 122,
+      "radicalChar": "⽹",
+      "matched": [
+        "罒",
+        "者"
+      ]
+    },
+    "書": {
+      "status": "exact",
+      "radicalNumber": 73,
+      "radicalChar": "⽈",
+      "matched": [
+        "聿",
+        "日"
+      ]
+    },
+    "諸": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "者"
+      ]
+    },
+    "助": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "且",
+        "力"
+      ]
+    },
+    "女": {
+      "status": "fallback",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "序": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "予"
+      ]
+    },
+    "除": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "余"
+      ]
+    },
+    "傷": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "勝": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "月",
+        "劵"
+      ]
+    },
+    "商": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "立",
+        "冏"
+      ]
+    },
+    "唱": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "昌"
+      ]
+    },
+    "将": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "⺦"
+      ]
+    },
+    "小": {
+      "status": "fallback",
+      "radicalNumber": 42,
+      "radicalChar": "⼩",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "少": {
+      "status": "exact",
+      "radicalNumber": 42,
+      "radicalChar": "⼩",
+      "matched": [
+        "小",
+        "丿"
+      ]
+    },
+    "承": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "了",
+        "三",
+        "水"
+      ]
+    },
+    "招": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "召"
+      ]
+    },
+    "昭": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "召"
+      ]
+    },
+    "松": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "公"
+      ]
+    },
+    "消": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "肖"
+      ]
+    },
+    "焼": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "火",
+        "尭"
+      ]
+    },
+    "照": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "昭",
+        "灬"
+      ]
+    },
+    "省": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "少",
+        "目"
+      ]
+    },
+    "章": {
+      "status": "exact",
+      "radicalNumber": 117,
+      "radicalChar": "⽴",
+      "matched": [
+        "音",
+        "早"
+      ]
+    },
+    "笑": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "夭"
+      ]
+    },
+    "証": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "正"
+      ]
+    },
+    "象": {
+      "status": "exact",
+      "radicalNumber": 152,
+      "radicalChar": "⾗",
+      "matched": [
+        "𠂊"
+      ]
+    },
+    "賞": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "尚",
+        "貝"
+      ]
+    },
+    "障": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "章"
+      ]
+    },
+    "上": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "卜",
+        "一"
+      ]
+    },
+    "乗": {
+      "status": "exact",
+      "radicalNumber": 4,
+      "radicalChar": "⼃",
+      "matched": [
+        "千",
+        "木"
+      ]
+    },
+    "城": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "成"
+      ]
+    },
+    "場": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "昜"
+      ]
+    },
+    "常": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "尚",
+        "吊"
+      ]
+    },
+    "情": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "忄",
+        "青"
+      ]
+    },
+    "条": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "夂",
+        "木"
+      ]
+    },
+    "状": {
+      "status": "exact",
+      "radicalNumber": 94,
+      "radicalChar": "⽝",
+      "matched": [
+        "⺦",
+        "犬"
+      ]
+    },
+    "蒸": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "烝"
+      ]
+    },
+    "植": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "直"
+      ]
+    },
+    "織": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "戠"
+      ]
+    },
+    "職": {
+      "status": "exact",
+      "radicalNumber": 128,
+      "radicalChar": "⽿",
+      "matched": [
+        "耳",
+        "戠"
+      ]
+    },
+    "色": {
+      "status": "exact",
+      "radicalNumber": 139,
+      "radicalChar": "⾊",
+      "matched": [
+        "𠂊",
+        "巴"
+      ]
+    },
+    "食": {
+      "status": "fallback",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "信": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "言"
+      ]
+    },
+    "心": {
+      "status": "fallback",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "新": {
+      "status": "exact",
+      "radicalNumber": 69,
+      "radicalChar": "⽄",
+      "matched": [
+        "斤"
+      ]
+    },
+    "森": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "林"
+      ]
+    },
+    "深": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵"
+      ]
+    },
+    "申": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "丨"
+      ]
+    },
+    "真": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "十",
+        "具"
+      ]
+    },
+    "神": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "申"
+      ]
+    },
+    "臣": {
+      "status": "fallback",
+      "radicalNumber": 131,
+      "radicalChar": "⾂",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "親": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "見"
+      ]
+    },
+    "身": {
+      "status": "fallback",
+      "radicalNumber": 158,
+      "radicalChar": "⾝",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "進": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "隹",
+        "⻌"
+      ]
+    },
+    "針": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "十"
+      ]
+    },
+    "人": {
+      "status": "fallback",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "仁": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "二"
+      ]
+    },
+    "図": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "⺍",
+        "乂",
+        "囗"
+      ]
+    },
+    "垂": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "千",
+        "土"
+      ]
+    },
+    "推": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "隹"
+      ]
+    },
+    "水": {
+      "status": "fallback",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "数": {
+      "status": "fallback",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "flagged": [
+        "攵"
+      ]
+    },
+    "寸": {
+      "status": "fallback",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "世": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "廿"
+      ]
+    },
+    "制": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "刂"
+      ]
+    },
+    "勢": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "力"
+      ]
+    },
+    "性": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "忄",
+        "生"
+      ]
+    },
+    "成": {
+      "status": "exact",
+      "radicalNumber": 62,
+      "radicalChar": "⼽",
+      "matched": [
+        "𠂊",
+        "戈",
+        "𠂊",
+        "戈"
+      ]
+    },
+    "政": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "正"
+      ]
+    },
+    "整": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "敕",
+        "正"
+      ]
+    },
+    "星": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "生"
+      ]
+    },
+    "晴": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "青"
+      ]
+    },
+    "正": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "一",
+        "止"
+      ]
+    },
+    "清": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "青"
+      ]
+    },
+    "生": {
+      "status": "fallback",
+      "radicalNumber": 100,
+      "radicalChar": "⽣",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "盛": {
+      "status": "exact",
+      "radicalNumber": 108,
+      "radicalChar": "⽫",
+      "matched": [
+        "成",
+        "皿"
+      ]
+    },
+    "精": {
+      "status": "exact",
+      "radicalNumber": 119,
+      "radicalChar": "⽶",
+      "matched": [
+        "米",
+        "青"
+      ]
+    },
+    "聖": {
+      "status": "exact",
+      "radicalNumber": 128,
+      "radicalChar": "⽿",
+      "matched": [
+        "王"
+      ]
+    },
+    "声": {
+      "status": "exact",
+      "radicalNumber": 33,
+      "radicalChar": "⼠",
+      "matched": [
+        "士"
+      ]
+    },
+    "製": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "制",
+        "衣"
+      ]
+    },
+    "西": {
+      "status": "fallback",
+      "radicalNumber": 146,
+      "radicalChar": "⾑",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "誠": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "成"
+      ]
+    },
+    "青": {
+      "status": "exact",
+      "radicalNumber": 174,
+      "radicalChar": "⾭",
+      "matched": [
+        "月"
+      ]
+    },
+    "静": {
+      "status": "exact",
+      "radicalNumber": 174,
+      "radicalChar": "⾭",
+      "matched": [
+        "青",
+        "争"
+      ]
+    },
+    "税": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "兌"
+      ]
+    },
+    "席": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "广"
+      ]
+    },
+    "昔": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日"
+      ]
+    },
+    "石": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "口"
+      ]
+    },
+    "積": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "責"
+      ]
+    },
+    "績": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "責"
+      ]
+    },
+    "責": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝"
+      ]
+    },
+    "赤": {
+      "status": "exact",
+      "radicalNumber": 155,
+      "radicalChar": "⾚",
+      "matched": [
+        "土"
+      ]
+    },
+    "切": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "七",
+        "刀"
+      ]
+    },
+    "接": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "妾"
+      ]
+    },
+    "折": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "斤"
+      ]
+    },
+    "設": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "殳"
+      ]
+    },
+    "節": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "即"
+      ]
+    },
+    "説": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "兌"
+      ]
+    },
+    "雪": {
+      "status": "exact",
+      "radicalNumber": 173,
+      "radicalChar": "⾬",
+      "matched": [
+        "雨",
+        "⺕"
+      ]
+    },
+    "絶": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "色"
+      ]
+    },
+    "舌": {
+      "status": "exact",
+      "radicalNumber": 135,
+      "radicalChar": "⾆",
+      "matched": [
+        "口"
+      ]
+    },
+    "先": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "儿"
+      ]
+    },
+    "千": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "丿",
+        "十"
+      ]
+    },
+    "宣": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "亘"
+      ]
+    },
+    "専": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "寸"
+      ]
+    },
+    "川": {
+      "status": "fallback",
+      "radicalNumber": 47,
+      "radicalChar": "⼮",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "戦": {
+      "status": "exact",
+      "radicalNumber": 62,
+      "radicalChar": "⼽",
+      "matched": [
+        "単",
+        "戈"
+      ]
+    },
+    "泉": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "水"
+      ]
+    },
+    "浅": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "戋"
+      ]
+    },
+    "洗": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "先"
+      ]
+    },
+    "染": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "線": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "泉"
+      ]
+    },
+    "船": {
+      "status": "exact",
+      "radicalNumber": 137,
+      "radicalChar": "⾈",
+      "matched": [
+        "舟",
+        "㕣"
+      ]
+    },
+    "選": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "巽",
+        "⻌"
+      ]
+    },
+    "銭": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "戋"
+      ]
+    },
+    "前": {
+      "status": "fallback",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "善": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "然": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "灬"
+      ]
+    },
+    "全": {
+      "status": "exact",
+      "radicalNumber": 11,
+      "radicalChar": "⼊",
+      "matched": [
+        "人",
+        "王"
+      ]
+    },
+    "祖": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "且"
+      ]
+    },
+    "素": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸"
+      ]
+    },
+    "組": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "且"
+      ]
+    },
+    "創": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "倉",
+        "刂"
+      ]
+    },
+    "倉": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人"
+      ]
+    },
+    "奏": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "天"
+      ]
+    },
+    "層": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "曽"
+      ]
+    },
+    "想": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "相",
+        "心"
+      ]
+    },
+    "操": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌"
+      ]
+    },
+    "早": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "十"
+      ]
+    },
+    "巣": {
+      "status": "exact",
+      "radicalNumber": 47,
+      "radicalChar": "⼮",
+      "matched": [
+        "⺍",
+        "果"
+      ]
+    },
+    "争": {
+      "status": "exact",
+      "radicalNumber": 6,
+      "radicalChar": "⼅",
+      "matched": [
+        "𠂊"
+      ]
+    },
+    "相": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "木",
+        "目"
+      ]
+    },
+    "窓": {
+      "status": "exact",
+      "radicalNumber": 116,
+      "radicalChar": "⽳",
+      "matched": [
+        "穴"
+      ]
+    },
+    "総": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "忩"
+      ]
+    },
+    "草": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "早"
+      ]
+    },
+    "装": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "壮",
+        "衣"
+      ]
+    },
+    "走": {
+      "status": "exact",
+      "radicalNumber": 156,
+      "radicalChar": "⾛",
+      "matched": [
+        "土"
+      ]
+    },
+    "送": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "⻌"
+      ]
+    },
+    "像": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "象"
+      ]
+    },
+    "増": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "曽"
+      ]
+    },
+    "臓": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "蔵"
+      ]
+    },
+    "蔵": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹"
+      ]
+    },
+    "造": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "告",
+        "⻌"
+      ]
+    },
+    "側": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "則"
+      ]
+    },
+    "則": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "貝",
+        "刂"
+      ]
+    },
+    "息": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "自",
+        "心"
+      ]
+    },
+    "束": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "口",
+        "木"
+      ]
+    },
+    "測": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "則"
+      ]
+    },
+    "足": {
+      "status": "exact",
+      "radicalNumber": 157,
+      "radicalChar": "⾜",
+      "matched": [
+        "口"
+      ]
+    },
+    "速": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "束",
+        "⻌"
+      ]
+    },
+    "属": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "禹"
+      ]
+    },
+    "族": {
+      "status": "exact",
+      "radicalNumber": 70,
+      "radicalChar": "⽅",
+      "matched": [
+        "方"
+      ]
+    },
+    "続": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "売"
+      ]
+    },
+    "卒": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "十"
+      ]
+    },
+    "存": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "子"
+      ]
+    },
+    "孫": {
+      "status": "exact",
+      "radicalNumber": 39,
+      "radicalChar": "⼦",
+      "matched": [
+        "子",
+        "系"
+      ]
+    },
+    "尊": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "酋",
+        "寸"
+      ]
+    },
+    "損": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "員"
+      ]
+    },
+    "村": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "寸"
+      ]
+    },
+    "他": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "也"
+      ]
+    },
+    "多": {
+      "status": "exact",
+      "radicalNumber": 36,
+      "radicalChar": "⼣",
+      "matched": [
+        "夕",
+        "夕"
+      ]
+    },
+    "太": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "大",
+        "丶"
+      ]
+    },
+    "打": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "丁"
+      ]
+    },
+    "体": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "本"
+      ]
+    },
+    "対": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "文",
+        "寸"
+      ]
+    },
+    "帯": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "丗"
+      ]
+    },
+    "待": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "寺"
+      ]
+    },
+    "態": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "能",
+        "心"
+      ]
+    },
+    "貸": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "代",
+        "貝"
+      ]
+    },
+    "退": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "艮",
+        "⻌"
+      ]
+    },
+    "隊": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖"
+      ]
+    },
+    "代": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "弋"
+      ]
+    },
+    "台": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "厶",
+        "口"
+      ]
+    },
+    "大": {
+      "status": "fallback",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "第": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹"
+      ]
+    },
+    "題": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "是",
+        "頁"
+      ]
+    },
+    "宅": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "乇"
+      ]
+    },
+    "達": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "⻌"
+      ]
+    },
+    "谷": {
+      "status": "fallback",
+      "radicalNumber": 150,
+      "radicalChar": "⾕",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "単": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "⺍",
+        "甲"
+      ]
+    },
+    "担": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "旦"
+      ]
+    },
+    "探": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌"
+      ]
+    },
+    "炭": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "山",
+        "灰"
+      ]
+    },
+    "短": {
+      "status": "exact",
+      "radicalNumber": 111,
+      "radicalChar": "⽮",
+      "matched": [
+        "矢",
+        "豆"
+      ]
+    },
+    "誕": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "延"
+      ]
+    },
+    "団": {
+      "status": "exact",
+      "radicalNumber": 31,
+      "radicalChar": "⼞",
+      "matched": [
+        "囗",
+        "寸",
+        "囗"
+      ]
+    },
+    "断": {
+      "status": "exact",
+      "radicalNumber": 69,
+      "radicalChar": "⽄",
+      "matched": [
+        "斤"
+      ]
+    },
+    "暖": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "爰"
+      ]
+    },
+    "段": {
+      "status": "exact",
+      "radicalNumber": 79,
+      "radicalChar": "⽎",
+      "matched": [
+        "殳"
+      ]
+    },
+    "男": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "田",
+        "力"
+      ]
+    },
+    "談": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "炎"
+      ]
+    },
+    "値": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "直"
+      ]
+    },
+    "知": {
+      "status": "exact",
+      "radicalNumber": 111,
+      "radicalChar": "⽮",
+      "matched": [
+        "矢",
+        "口"
+      ]
+    },
+    "地": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "土",
+        "也"
+      ]
+    },
+    "池": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "也"
+      ]
+    },
+    "置": {
+      "status": "exact",
+      "radicalNumber": 122,
+      "radicalChar": "⽹",
+      "matched": [
+        "罒",
+        "直"
+      ]
+    },
+    "築": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "筑",
+        "木"
+      ]
+    },
+    "竹": {
+      "status": "fallback",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "茶": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹"
+      ]
+    },
+    "着": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "目"
+      ]
+    },
+    "中": {
+      "status": "exact",
+      "radicalNumber": 2,
+      "radicalChar": "⼁",
+      "matched": [
+        "口",
+        "丨"
+      ]
+    },
+    "仲": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "中"
+      ]
+    },
+    "宙": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "由"
+      ]
+    },
+    "忠": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "中",
+        "心"
+      ]
+    },
+    "昼": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "尺",
+        "旦"
+      ]
+    },
+    "柱": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "主"
+      ]
+    },
+    "注": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "主"
+      ]
+    },
+    "虫": {
+      "status": "exact",
+      "radicalNumber": 142,
+      "radicalChar": "⾍",
+      "matched": [
+        "中"
+      ]
+    },
+    "著": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "者"
+      ]
+    },
+    "貯": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "貝"
+      ]
+    },
+    "丁": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一",
+        "亅"
+      ]
+    },
+    "兆": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "儿"
+      ]
+    },
+    "帳": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "巾",
+        "長"
+      ]
+    },
+    "庁": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "丁"
+      ]
+    },
+    "張": {
+      "status": "exact",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "matched": [
+        "弓",
+        "長"
+      ]
+    },
+    "朝": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "月"
+      ]
+    },
+    "潮": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "朝"
+      ]
+    },
+    "町": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "田",
+        "丁"
+      ]
+    },
+    "腸": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "昜"
+      ]
+    },
+    "調": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "周"
+      ]
+    },
+    "長": {
+      "status": "fallback",
+      "radicalNumber": 168,
+      "radicalChar": "⾧",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "頂": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "丁",
+        "頁"
+      ]
+    },
+    "鳥": {
+      "status": "exact",
+      "radicalNumber": 196,
+      "radicalChar": "⿃",
+      "matched": [
+        "灬"
+      ]
+    },
+    "直": {
+      "status": "exact",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "matched": [
+        "十",
+        "目"
+      ]
+    },
+    "賃": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "任",
+        "貝"
+      ]
+    },
+    "追": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "𠂤",
+        "⻌"
+      ]
+    },
+    "痛": {
+      "status": "exact",
+      "radicalNumber": 104,
+      "radicalChar": "⽧",
+      "matched": [
+        "疒",
+        "甬"
+      ]
+    },
+    "通": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "甬",
+        "⻌"
+      ]
+    },
+    "低": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "停": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "亭"
+      ]
+    },
+    "定": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "疋"
+      ]
+    },
+    "底": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "氐"
+      ]
+    },
+    "庭": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "廷"
+      ]
+    },
+    "弟": {
+      "status": "exact",
+      "radicalNumber": 57,
+      "radicalChar": "⼸",
+      "matched": [
+        "八"
+      ]
+    },
+    "提": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "是"
+      ]
+    },
+    "程": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "呈"
+      ]
+    },
+    "敵": {
+      "status": "fallback",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "flagged": [
+        "攵"
+      ]
+    },
+    "的": {
+      "status": "exact",
+      "radicalNumber": 106,
+      "radicalChar": "⽩",
+      "matched": [
+        "勺"
+      ]
+    },
+    "笛": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹"
+      ]
+    },
+    "適": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "⻌"
+      ]
+    },
+    "鉄": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "失"
+      ]
+    },
+    "典": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "曲",
+        "八"
+      ]
+    },
+    "天": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "一",
+        "大"
+      ]
+    },
+    "展": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸"
+      ]
+    },
+    "店": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "占"
+      ]
+    },
+    "転": {
+      "status": "exact",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "matched": [
+        "車",
+        "云"
+      ]
+    },
+    "点": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "占",
+        "灬"
+      ]
+    },
+    "伝": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "云"
+      ]
+    },
+    "田": {
+      "status": "fallback",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "電": {
+      "status": "exact",
+      "radicalNumber": 173,
+      "radicalChar": "⾬",
+      "matched": [
+        "雨"
+      ]
+    },
+    "徒": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "走"
+      ]
+    },
+    "登": {
+      "status": "exact",
+      "radicalNumber": 105,
+      "radicalChar": "⽨",
+      "matched": [
+        "癶",
+        "豆"
+      ]
+    },
+    "都": {
+      "status": "exact",
+      "radicalNumber": 163,
+      "radicalChar": "⾢",
+      "matched": [
+        "者",
+        "⻏"
+      ]
+    },
+    "努": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "奴",
+        "力"
+      ]
+    },
+    "度": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广"
+      ]
+    },
+    "土": {
+      "status": "fallback",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "党": {
+      "status": "exact",
+      "radicalNumber": 10,
+      "radicalChar": "⼉",
+      "matched": [
+        "尚",
+        "兄"
+      ]
+    },
+    "冬": {
+      "status": "exact",
+      "radicalNumber": 15,
+      "radicalChar": "⼎",
+      "matched": [
+        "夂",
+        "冫"
+      ]
+    },
+    "刀": {
+      "status": "fallback",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "島": {
+      "status": "exact",
+      "radicalNumber": 46,
+      "radicalChar": "⼭",
+      "matched": [
+        "鳥",
+        "山"
+      ]
+    },
+    "投": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "殳"
+      ]
+    },
+    "東": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "日",
+        "木"
+      ]
+    },
+    "湯": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "昜"
+      ]
+    },
+    "灯": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "火",
+        "丁"
+      ]
+    },
+    "当": {
+      "status": "exact",
+      "radicalNumber": 58,
+      "radicalChar": "⼹",
+      "matched": [
+        "⺌",
+        "⺕"
+      ]
+    },
+    "等": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "寺"
+      ]
+    },
+    "答": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "合"
+      ]
+    },
+    "糖": {
+      "status": "exact",
+      "radicalNumber": 119,
+      "radicalChar": "⽶",
+      "matched": [
+        "米",
+        "唐"
+      ]
+    },
+    "統": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "充"
+      ]
+    },
+    "討": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "寸"
+      ]
+    },
+    "豆": {
+      "status": "fallback",
+      "radicalNumber": 151,
+      "radicalChar": "⾖",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "頭": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "豆",
+        "頁"
+      ]
+    },
+    "働": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "動"
+      ]
+    },
+    "動": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "重",
+        "力"
+      ]
+    },
+    "同": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "冂",
+        "一",
+        "口"
+      ]
+    },
+    "堂": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "尚",
+        "土"
+      ]
+    },
+    "導": {
+      "status": "exact",
+      "radicalNumber": 41,
+      "radicalChar": "⼨",
+      "matched": [
+        "道",
+        "寸"
+      ]
+    },
+    "童": {
+      "status": "exact",
+      "radicalNumber": 117,
+      "radicalChar": "⽴",
+      "matched": [
+        "立",
+        "里"
+      ]
+    },
+    "道": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "首",
+        "⻌"
+      ]
+    },
+    "銅": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "同"
+      ]
+    },
+    "得": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳"
+      ]
+    },
+    "徳": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳"
+      ]
+    },
+    "特": {
+      "status": "exact",
+      "radicalNumber": 93,
+      "radicalChar": "⽜",
+      "matched": [
+        "牛",
+        "寺"
+      ]
+    },
+    "毒": {
+      "status": "exact",
+      "radicalNumber": 80,
+      "radicalChar": "⽏",
+      "matched": [
+        "毋"
+      ]
+    },
+    "独": {
+      "status": "exact",
+      "radicalNumber": 94,
+      "radicalChar": "⽝",
+      "matched": [
+        "⺨",
+        "虫"
+      ]
+    },
+    "読": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "売"
+      ]
+    },
+    "栃": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "届": {
+      "status": "exact",
+      "radicalNumber": 44,
+      "radicalChar": "⼫",
+      "matched": [
+        "尸",
+        "由"
+      ]
+    },
+    "奈": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "大",
+        "示"
+      ]
+    },
+    "内": {
+      "status": "exact",
+      "radicalNumber": 13,
+      "radicalChar": "⼌",
+      "matched": [
+        "冂",
+        "人"
+      ]
+    },
+    "縄": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸"
+      ]
+    },
+    "南": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "十"
+      ]
+    },
+    "難": {
+      "status": "exact",
+      "radicalNumber": 172,
+      "radicalChar": "⾫",
+      "matched": [
+        "隹"
+      ]
+    },
+    "二": {
+      "status": "fallback",
+      "radicalNumber": 7,
+      "radicalChar": "⼆",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "肉": {
+      "status": "fallback",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "日": {
+      "status": "fallback",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "乳": {
+      "status": "exact",
+      "radicalNumber": 5,
+      "radicalChar": "⼄",
+      "matched": [
+        "孚",
+        "乙"
+      ]
+    },
+    "入": {
+      "status": "fallback",
+      "radicalNumber": 11,
+      "radicalChar": "⼊",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "任": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "壬"
+      ]
+    },
+    "認": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "忍"
+      ]
+    },
+    "熱": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "埶",
+        "灬"
+      ]
+    },
+    "年": {
+      "status": "exact",
+      "radicalNumber": 51,
+      "radicalChar": "⼲",
+      "matched": [
+        "丿",
+        "干",
+        "干"
+      ]
+    },
+    "念": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "今",
+        "心"
+      ]
+    },
+    "燃": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "火",
+        "然"
+      ]
+    },
+    "納": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "内"
+      ]
+    },
+    "能": {
+      "status": "fallback",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "flagged": [
+        "䏍"
+      ]
+    },
+    "脳": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月"
+      ]
+    },
+    "農": {
+      "status": "exact",
+      "radicalNumber": 161,
+      "radicalChar": "⾠",
+      "matched": [
+        "曲",
+        "辰"
+      ]
+    },
+    "波": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "皮"
+      ]
+    },
+    "派": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "𠂢"
+      ]
+    },
+    "破": {
+      "status": "exact",
+      "radicalNumber": 112,
+      "radicalChar": "⽯",
+      "matched": [
+        "石",
+        "皮"
+      ]
+    },
+    "馬": {
+      "status": "exact",
+      "radicalNumber": 187,
+      "radicalChar": "⾺",
+      "matched": [
+        "灬"
+      ]
+    },
+    "俳": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "非"
+      ]
+    },
+    "拝": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌"
+      ]
+    },
+    "敗": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "貝"
+      ]
+    },
+    "背": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "北",
+        "月"
+      ]
+    },
+    "肺": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "市"
+      ]
+    },
+    "配": {
+      "status": "exact",
+      "radicalNumber": 164,
+      "radicalChar": "⾣",
+      "matched": [
+        "酉",
+        "己"
+      ]
+    },
+    "倍": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "梅": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "毎"
+      ]
+    },
+    "買": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "罒",
+        "貝"
+      ]
+    },
+    "売": {
+      "status": "exact",
+      "radicalNumber": 33,
+      "radicalChar": "⼠",
+      "matched": [
+        "士"
+      ]
+    },
+    "博": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "十",
+        "尃"
+      ]
+    },
+    "白": {
+      "status": "exact",
+      "radicalNumber": 106,
+      "radicalChar": "⽩",
+      "matched": [
+        "日"
+      ]
+    },
+    "麦": {
+      "status": "exact",
+      "radicalNumber": 199,
+      "radicalChar": "⿆",
+      "matched": [
+        "夂"
+      ]
+    },
+    "箱": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "相"
+      ]
+    },
+    "畑": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "火",
+        "田"
+      ]
+    },
+    "八": {
+      "status": "fallback",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "発": {
+      "status": "exact",
+      "radicalNumber": 105,
+      "radicalChar": "⽨",
+      "matched": [
+        "癶"
+      ]
+    },
+    "判": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "半",
+        "刂"
+      ]
+    },
+    "半": {
+      "status": "exact",
+      "radicalNumber": 24,
+      "radicalChar": "⼗",
+      "matched": [
+        "丶",
+        "二",
+        "十"
+      ]
+    },
+    "反": {
+      "status": "exact",
+      "radicalNumber": 29,
+      "radicalChar": "⼜",
+      "matched": [
+        "厂",
+        "又"
+      ]
+    },
+    "板": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "反"
+      ]
+    },
+    "版": {
+      "status": "exact",
+      "radicalNumber": 91,
+      "radicalChar": "⽚",
+      "matched": [
+        "片",
+        "反"
+      ]
+    },
+    "犯": {
+      "status": "exact",
+      "radicalNumber": 94,
+      "radicalChar": "⽝",
+      "matched": [
+        "⺨",
+        "㔾"
+      ]
+    },
+    "班": {
+      "status": "exact",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "matched": [
+        "王"
+      ]
+    },
+    "飯": {
+      "status": "exact",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "matched": [
+        "飠",
+        "反"
+      ]
+    },
+    "晩": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "免"
+      ]
+    },
+    "番": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "釆",
+        "田"
+      ]
+    },
+    "否": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "不",
+        "口"
+      ]
+    },
+    "悲": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "非",
+        "心"
+      ]
+    },
+    "批": {
+      "status": "exact",
+      "radicalNumber": 64,
+      "radicalChar": "⼿",
+      "matched": [
+        "扌",
+        "比"
+      ]
+    },
+    "比": {
+      "status": "exact",
+      "radicalNumber": 81,
+      "radicalChar": "⽐",
+      "matched": [
+        "匕"
+      ]
+    },
+    "皮": {
+      "status": "fallback",
+      "radicalNumber": 107,
+      "radicalChar": "⽪",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "秘": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "必"
+      ]
+    },
+    "肥": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "巴"
+      ]
+    },
+    "費": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "弗",
+        "貝"
+      ]
+    },
+    "非": {
+      "status": "fallback",
+      "radicalNumber": 175,
+      "radicalChar": "⾮",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "飛": {
+      "status": "exact",
+      "radicalNumber": 183,
+      "radicalChar": "⾶",
+      "matched": [
+        "升"
+      ]
+    },
+    "備": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻"
+      ]
+    },
+    "美": {
+      "status": "exact",
+      "radicalNumber": 123,
+      "radicalChar": "⽺",
+      "matched": [
+        "大"
+      ]
+    },
+    "鼻": {
+      "status": "exact",
+      "radicalNumber": 209,
+      "radicalChar": "⿐",
+      "matched": [
+        "自",
+        "畀"
+      ]
+    },
+    "必": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "心",
+        "丿",
+        "心"
+      ]
+    },
+    "筆": {
+      "status": "exact",
+      "radicalNumber": 118,
+      "radicalChar": "⽵",
+      "matched": [
+        "竹",
+        "聿"
+      ]
+    },
+    "媛": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "爰"
+      ]
+    },
+    "百": {
+      "status": "exact",
+      "radicalNumber": 106,
+      "radicalChar": "⽩",
+      "matched": [
+        "一",
+        "白"
+      ]
+    },
+    "俵": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "表"
+      ]
+    },
+    "標": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "票"
+      ]
+    },
+    "氷": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "水",
+        "丶",
+        "水"
+      ]
+    },
+    "票": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "示"
+      ]
+    },
+    "表": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "衣"
+      ]
+    },
+    "評": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "平"
+      ]
+    },
+    "病": {
+      "status": "exact",
+      "radicalNumber": 104,
+      "radicalChar": "⽧",
+      "matched": [
+        "疒",
+        "丙"
+      ]
+    },
+    "秒": {
+      "status": "exact",
+      "radicalNumber": 115,
+      "radicalChar": "⽲",
+      "matched": [
+        "禾",
+        "少"
+      ]
+    },
+    "品": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口"
+      ]
+    },
+    "貧": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "分",
+        "貝"
+      ]
+    },
+    "不": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一",
+        "丿",
+        "丨"
+      ]
+    },
+    "付": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "寸"
+      ]
+    },
+    "夫": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "大"
+      ]
+    },
+    "婦": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "帚"
+      ]
+    },
+    "富": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "畐"
+      ]
+    },
+    "布": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "巾"
+      ]
+    },
+    "府": {
+      "status": "exact",
+      "radicalNumber": 53,
+      "radicalChar": "⼴",
+      "matched": [
+        "广",
+        "付"
+      ]
+    },
+    "父": {
+      "status": "fallback",
+      "radicalNumber": 88,
+      "radicalChar": "⽗",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "負": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "𠂊",
+        "貝"
+      ]
+    },
+    "阜": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "𠂤",
+        "十"
+      ]
+    },
+    "武": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "止"
+      ]
+    },
+    "部": {
+      "status": "exact",
+      "radicalNumber": 163,
+      "radicalChar": "⾢",
+      "matched": [
+        "⻏"
+      ]
+    },
+    "風": {
+      "status": "exact",
+      "radicalNumber": 182,
+      "radicalChar": "⾵",
+      "matched": [
+        "几"
+      ]
+    },
+    "副": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "畐",
+        "刂"
+      ]
+    },
+    "復": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "复"
+      ]
+    },
+    "服": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "月"
+      ]
+    },
+    "福": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "畐"
+      ]
+    },
+    "腹": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "复"
+      ]
+    },
+    "複": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "衤",
+        "复"
+      ]
+    },
+    "仏": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "厶"
+      ]
+    },
+    "物": {
+      "status": "exact",
+      "radicalNumber": 93,
+      "radicalChar": "⽜",
+      "matched": [
+        "牛",
+        "勿"
+      ]
+    },
+    "分": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "八",
+        "刀"
+      ]
+    },
+    "奮": {
+      "status": "exact",
+      "radicalNumber": 37,
+      "radicalChar": "⼤",
+      "matched": [
+        "田"
+      ]
+    },
+    "粉": {
+      "status": "exact",
+      "radicalNumber": 119,
+      "radicalChar": "⽶",
+      "matched": [
+        "米",
+        "分"
+      ]
+    },
+    "文": {
+      "status": "exact",
+      "radicalNumber": 67,
+      "radicalChar": "⽂",
+      "matched": [
+        "亠",
+        "乂"
+      ]
+    },
+    "聞": {
+      "status": "exact",
+      "radicalNumber": 128,
+      "radicalChar": "⽿",
+      "matched": [
+        "門",
+        "耳"
+      ]
+    },
+    "兵": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "丘",
+        "八"
+      ]
+    },
+    "平": {
+      "status": "exact",
+      "radicalNumber": 51,
+      "radicalChar": "⼲",
+      "matched": [
+        "干",
+        "干"
+      ]
+    },
+    "並": {
+      "status": "fallback",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "閉": {
+      "status": "exact",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "matched": [
+        "門",
+        "才"
+      ]
+    },
+    "陛": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖"
+      ]
+    },
+    "米": {
+      "status": "fallback",
+      "radicalNumber": 119,
+      "radicalChar": "⽶",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "別": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "刂"
+      ]
+    },
+    "変": {
+      "status": "exact",
+      "radicalNumber": 34,
+      "radicalChar": "⼡",
+      "matched": [
+        "亦",
+        "夂"
+      ]
+    },
+    "片": {
+      "status": "fallback",
+      "radicalNumber": 91,
+      "radicalChar": "⽚",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "編": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "扁"
+      ]
+    },
+    "辺": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "刀",
+        "⻌"
+      ]
+    },
+    "返": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "反",
+        "⻌"
+      ]
+    },
+    "便": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "更"
+      ]
+    },
+    "勉": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "免",
+        "力"
+      ]
+    },
+    "弁": {
+      "status": "exact",
+      "radicalNumber": 55,
+      "radicalChar": "⼶",
+      "matched": [
+        "厶",
+        "廾"
+      ]
+    },
+    "保": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "呆"
+      ]
+    },
+    "歩": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "止",
+        "少"
+      ]
+    },
+    "補": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "衤",
+        "甫"
+      ]
+    },
+    "墓": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "莫",
+        "土"
+      ]
+    },
+    "暮": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "莫",
+        "日"
+      ]
+    },
+    "母": {
+      "status": "exact",
+      "radicalNumber": 80,
+      "radicalChar": "⽏",
+      "matched": [
+        "毋",
+        "毋"
+      ]
+    },
+    "包": {
+      "status": "exact",
+      "radicalNumber": 20,
+      "radicalChar": "⼓",
+      "matched": [
+        "勹",
+        "己"
+      ]
+    },
+    "報": {
+      "status": "exact",
+      "radicalNumber": 32,
+      "radicalChar": "⼟",
+      "matched": [
+        "幸"
+      ]
+    },
+    "宝": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "玉"
+      ]
+    },
+    "放": {
+      "status": "exact",
+      "radicalNumber": 66,
+      "radicalChar": "⽁",
+      "matched": [
+        "方"
+      ]
+    },
+    "方": {
+      "status": "exact",
+      "radicalNumber": 70,
+      "radicalChar": "⽅",
+      "matched": [
+        "亠"
+      ]
+    },
+    "法": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "去"
+      ]
+    },
+    "訪": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "方"
+      ]
+    },
+    "豊": {
+      "status": "exact",
+      "radicalNumber": 151,
+      "radicalChar": "⾖",
+      "matched": [
+        "曲",
+        "豆"
+      ]
+    },
+    "亡": {
+      "status": "exact",
+      "radicalNumber": 8,
+      "radicalChar": "⼇",
+      "matched": [
+        "亠",
+        "匸"
+      ]
+    },
+    "忘": {
+      "status": "exact",
+      "radicalNumber": 61,
+      "radicalChar": "⼼",
+      "matched": [
+        "亡",
+        "心"
+      ]
+    },
+    "暴": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日"
+      ]
+    },
+    "望": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "王"
+      ]
+    },
+    "棒": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "奉"
+      ]
+    },
+    "貿": {
+      "status": "exact",
+      "radicalNumber": 154,
+      "radicalChar": "⾙",
+      "matched": [
+        "卯",
+        "貝"
+      ]
+    },
+    "防": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "方"
+      ]
+    },
+    "北": {
+      "status": "exact",
+      "radicalNumber": 21,
+      "radicalChar": "⼔",
+      "matched": [
+        "匕"
+      ]
+    },
+    "牧": {
+      "status": "exact",
+      "radicalNumber": 93,
+      "radicalChar": "⽜",
+      "matched": [
+        "牛"
+      ]
+    },
+    "本": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "妹": {
+      "status": "exact",
+      "radicalNumber": 38,
+      "radicalChar": "⼥",
+      "matched": [
+        "女",
+        "未"
+      ]
+    },
+    "枚": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "毎": {
+      "status": "exact",
+      "radicalNumber": 80,
+      "radicalChar": "⽏",
+      "matched": [
+        "毋"
+      ]
+    },
+    "幕": {
+      "status": "exact",
+      "radicalNumber": 50,
+      "radicalChar": "⼱",
+      "matched": [
+        "莫",
+        "巾"
+      ]
+    },
+    "末": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "万": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一"
+      ]
+    },
+    "満": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵"
+      ]
+    },
+    "味": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "口",
+        "未"
+      ]
+    },
+    "未": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "密": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "山"
+      ]
+    },
+    "脈": {
+      "status": "exact",
+      "radicalNumber": 130,
+      "radicalChar": "⾁",
+      "matched": [
+        "月",
+        "𠂢"
+      ]
+    },
+    "民": {
+      "status": "exact",
+      "radicalNumber": 83,
+      "radicalChar": "⽒",
+      "matched": [
+        "氏"
+      ]
+    },
+    "務": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "矛"
+      ]
+    },
+    "夢": {
+      "status": "exact",
+      "radicalNumber": 36,
+      "radicalChar": "⼣",
+      "matched": [
+        "夕"
+      ]
+    },
+    "無": {
+      "status": "exact",
+      "radicalNumber": 86,
+      "radicalChar": "⽕",
+      "matched": [
+        "灬"
+      ]
+    },
+    "名": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "夕",
+        "口"
+      ]
+    },
+    "命": {
+      "status": "fallback",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "明": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日",
+        "月"
+      ]
+    },
+    "盟": {
+      "status": "exact",
+      "radicalNumber": 108,
+      "radicalChar": "⽫",
+      "matched": [
+        "明",
+        "皿"
+      ]
+    },
+    "迷": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "米",
+        "⻌"
+      ]
+    },
+    "鳴": {
+      "status": "exact",
+      "radicalNumber": 196,
+      "radicalChar": "⿃",
+      "matched": [
+        "口",
+        "鳥"
+      ]
+    },
+    "綿": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "帛"
+      ]
+    },
+    "面": {
+      "status": "fallback",
+      "radicalNumber": 176,
+      "radicalChar": "⾯",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "模": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "莫"
+      ]
+    },
+    "毛": {
+      "status": "fallback",
+      "radicalNumber": 82,
+      "radicalChar": "⽑",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "木": {
+      "status": "fallback",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "目": {
+      "status": "fallback",
+      "radicalNumber": 109,
+      "radicalChar": "⽬",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "問": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "門",
+        "口"
+      ]
+    },
+    "門": {
+      "status": "fallback",
+      "radicalNumber": 169,
+      "radicalChar": "⾨",
+      "flagged": [
+        "部品"
+      ]
+    },
+    "夜": {
+      "status": "exact",
+      "radicalNumber": 36,
+      "radicalChar": "⼣",
+      "matched": [
+        "亠"
+      ]
+    },
+    "野": {
+      "status": "exact",
+      "radicalNumber": 166,
+      "radicalChar": "⾥",
+      "matched": [
+        "里",
+        "予"
+      ]
+    },
+    "矢": {
+      "status": "exact",
+      "radicalNumber": 111,
+      "radicalChar": "⽮",
+      "matched": [
+        "天"
+      ]
+    },
+    "役": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "殳"
+      ]
+    },
+    "約": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "勺"
+      ]
+    },
+    "薬": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "楽"
+      ]
+    },
+    "訳": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "尺"
+      ]
+    },
+    "油": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "由"
+      ]
+    },
+    "輸": {
+      "status": "exact",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "matched": [
+        "車",
+        "兪"
+      ]
+    },
+    "優": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "憂"
+      ]
+    },
+    "勇": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "マ",
+        "男"
+      ]
+    },
+    "友": {
+      "status": "exact",
+      "radicalNumber": 29,
+      "radicalChar": "⼜",
+      "matched": [
+        "又"
+      ]
+    },
+    "有": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "月"
+      ]
+    },
+    "由": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "丨"
+      ]
+    },
+    "遊": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "斿",
+        "⻌"
+      ]
+    },
+    "郵": {
+      "status": "exact",
+      "radicalNumber": 163,
+      "radicalChar": "⾢",
+      "matched": [
+        "垂",
+        "⻏"
+      ]
+    },
+    "夕": {
+      "status": "fallback",
+      "radicalNumber": 36,
+      "radicalChar": "⼣",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "予": {
+      "status": "exact",
+      "radicalNumber": 6,
+      "radicalChar": "⼅",
+      "matched": [
+        "マ",
+        "了"
+      ]
+    },
+    "余": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人"
+      ]
+    },
+    "預": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "予",
+        "頁"
+      ]
+    },
+    "幼": {
+      "status": "exact",
+      "radicalNumber": 52,
+      "radicalChar": "⼳",
+      "matched": [
+        "幺",
+        "力"
+      ]
+    },
+    "容": {
+      "status": "exact",
+      "radicalNumber": 40,
+      "radicalChar": "⼧",
+      "matched": [
+        "宀",
+        "谷"
+      ]
+    },
+    "曜": {
+      "status": "exact",
+      "radicalNumber": 72,
+      "radicalChar": "⽇",
+      "matched": [
+        "日"
+      ]
+    },
+    "様": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木"
+      ]
+    },
+    "洋": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "羊"
+      ]
+    },
+    "用": {
+      "status": "fallback",
+      "radicalNumber": 101,
+      "radicalChar": "⽤",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "羊": {
+      "status": "fallback",
+      "radicalNumber": 123,
+      "radicalChar": "⽺",
+      "flagged": [
+        "䒑"
+      ]
+    },
+    "葉": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹"
+      ]
+    },
+    "要": {
+      "status": "exact",
+      "radicalNumber": 146,
+      "radicalChar": "⾑",
+      "matched": [
+        "女"
+      ]
+    },
+    "陽": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "昜"
+      ]
+    },
+    "養": {
+      "status": "exact",
+      "radicalNumber": 184,
+      "radicalChar": "⾷",
+      "matched": [
+        "羊",
+        "食"
+      ]
+    },
+    "欲": {
+      "status": "exact",
+      "radicalNumber": 76,
+      "radicalChar": "⽋",
+      "matched": [
+        "谷",
+        "欠"
+      ]
+    },
+    "浴": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "谷"
+      ]
+    },
+    "翌": {
+      "status": "exact",
+      "radicalNumber": 124,
+      "radicalChar": "⽻",
+      "matched": [
+        "羽",
+        "立"
+      ]
+    },
+    "来": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "米"
+      ]
+    },
+    "落": {
+      "status": "exact",
+      "radicalNumber": 140,
+      "radicalChar": "⾋",
+      "matched": [
+        "艹",
+        "洛"
+      ]
+    },
+    "乱": {
+      "status": "exact",
+      "radicalNumber": 5,
+      "radicalChar": "⼄",
+      "matched": [
+        "舌",
+        "乙"
+      ]
+    },
+    "卵": {
+      "status": "exact",
+      "radicalNumber": 26,
+      "radicalChar": "⼙",
+      "matched": [
+        "卯",
+        "卯"
+      ]
+    },
+    "覧": {
+      "status": "exact",
+      "radicalNumber": 147,
+      "radicalChar": "⾒",
+      "matched": [
+        "見"
+      ]
+    },
+    "利": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "禾",
+        "刂"
+      ]
+    },
+    "梨": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "利",
+        "木"
+      ]
+    },
+    "理": {
+      "status": "exact",
+      "radicalNumber": 96,
+      "radicalChar": "⽟",
+      "matched": [
+        "王",
+        "里"
+      ]
+    },
+    "裏": {
+      "status": "exact",
+      "radicalNumber": 145,
+      "radicalChar": "⾐",
+      "matched": [
+        "衣"
+      ]
+    },
+    "里": {
+      "status": "fallback",
+      "radicalNumber": 166,
+      "radicalChar": "⾥",
+      "flagged": [
+        "日"
+      ]
+    },
+    "陸": {
+      "status": "exact",
+      "radicalNumber": 170,
+      "radicalChar": "⾩",
+      "matched": [
+        "⻖",
+        "坴"
+      ]
+    },
+    "律": {
+      "status": "exact",
+      "radicalNumber": 60,
+      "radicalChar": "⼻",
+      "matched": [
+        "彳",
+        "聿"
+      ]
+    },
+    "率": {
+      "status": "exact",
+      "radicalNumber": 95,
+      "radicalChar": "⽞",
+      "matched": [
+        "玄",
+        "冫",
+        "十"
+      ]
+    },
+    "立": {
+      "status": "exact",
+      "radicalNumber": 117,
+      "radicalChar": "⽴",
+      "matched": [
+        "亠"
+      ]
+    },
+    "略": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "田",
+        "各"
+      ]
+    },
+    "流": {
+      "status": "exact",
+      "radicalNumber": 85,
+      "radicalChar": "⽔",
+      "matched": [
+        "氵",
+        "㐬"
+      ]
+    },
+    "留": {
+      "status": "exact",
+      "radicalNumber": 102,
+      "radicalChar": "⽥",
+      "matched": [
+        "卯",
+        "田"
+      ]
+    },
+    "旅": {
+      "status": "exact",
+      "radicalNumber": 70,
+      "radicalChar": "⽅",
+      "matched": [
+        "方"
+      ]
+    },
+    "両": {
+      "status": "exact",
+      "radicalNumber": 1,
+      "radicalChar": "⼀",
+      "matched": [
+        "一",
+        "冂",
+        "山"
+      ]
+    },
+    "料": {
+      "status": "exact",
+      "radicalNumber": 68,
+      "radicalChar": "⽃",
+      "matched": [
+        "米",
+        "斗"
+      ]
+    },
+    "良": {
+      "status": "exact",
+      "radicalNumber": 138,
+      "radicalChar": "⾉",
+      "matched": [
+        "艮"
+      ]
+    },
+    "量": {
+      "status": "exact",
+      "radicalNumber": 166,
+      "radicalChar": "⾥",
+      "matched": [
+        "旦",
+        "里"
+      ]
+    },
+    "領": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "令",
+        "頁"
+      ]
+    },
+    "力": {
+      "status": "fallback",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "flagged": [
+        "単独画"
+      ]
+    },
+    "緑": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "彔"
+      ]
+    },
+    "林": {
+      "status": "exact",
+      "radicalNumber": 75,
+      "radicalChar": "⽊",
+      "matched": [
+        "木",
+        "木"
+      ]
+    },
+    "臨": {
+      "status": "exact",
+      "radicalNumber": 131,
+      "radicalChar": "⾂",
+      "matched": [
+        "臣"
+      ]
+    },
+    "輪": {
+      "status": "exact",
+      "radicalNumber": 159,
+      "radicalChar": "⾞",
+      "matched": [
+        "車",
+        "侖"
+      ]
+    },
+    "類": {
+      "status": "exact",
+      "radicalNumber": 181,
+      "radicalChar": "⾴",
+      "matched": [
+        "頁"
+      ]
+    },
+    "令": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "人"
+      ]
+    },
+    "例": {
+      "status": "exact",
+      "radicalNumber": 9,
+      "radicalChar": "⼈",
+      "matched": [
+        "亻",
+        "列"
+      ]
+    },
+    "冷": {
+      "status": "exact",
+      "radicalNumber": 15,
+      "radicalChar": "⼎",
+      "matched": [
+        "冫",
+        "令"
+      ]
+    },
+    "礼": {
+      "status": "exact",
+      "radicalNumber": 113,
+      "radicalChar": "⽰",
+      "matched": [
+        "礻",
+        "乙"
+      ]
+    },
+    "歴": {
+      "status": "exact",
+      "radicalNumber": 77,
+      "radicalChar": "⽌",
+      "matched": [
+        "止"
+      ]
+    },
+    "列": {
+      "status": "exact",
+      "radicalNumber": 18,
+      "radicalChar": "⼑",
+      "matched": [
+        "歹",
+        "刂"
+      ]
+    },
+    "練": {
+      "status": "exact",
+      "radicalNumber": 120,
+      "radicalChar": "⽷",
+      "matched": [
+        "糸",
+        "東"
+      ]
+    },
+    "連": {
+      "status": "exact",
+      "radicalNumber": 162,
+      "radicalChar": "⾡",
+      "matched": [
+        "車",
+        "⻌"
+      ]
+    },
+    "路": {
+      "status": "exact",
+      "radicalNumber": 157,
+      "radicalChar": "⾜",
+      "matched": [
+        "足",
+        "各"
+      ]
+    },
+    "労": {
+      "status": "exact",
+      "radicalNumber": 19,
+      "radicalChar": "⼒",
+      "matched": [
+        "力"
+      ]
+    },
+    "朗": {
+      "status": "exact",
+      "radicalNumber": 74,
+      "radicalChar": "⽉",
+      "matched": [
+        "良",
+        "月"
+      ]
+    },
+    "老": {
+      "status": "exact",
+      "radicalNumber": 125,
+      "radicalChar": "⽼",
+      "matched": [
+        "耂",
+        "匕"
+      ]
+    },
+    "六": {
+      "status": "exact",
+      "radicalNumber": 12,
+      "radicalChar": "⼋",
+      "matched": [
+        "亠",
+        "八"
+      ]
+    },
+    "録": {
+      "status": "exact",
+      "radicalNumber": 167,
+      "radicalChar": "⾦",
+      "matched": [
+        "金",
+        "彔"
+      ]
+    },
+    "論": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "侖"
+      ]
+    },
+    "和": {
+      "status": "exact",
+      "radicalNumber": 30,
+      "radicalChar": "⼝",
+      "matched": [
+        "禾",
+        "口"
+      ]
+    },
+    "話": {
+      "status": "exact",
+      "radicalNumber": 149,
+      "radicalChar": "⾔",
+      "matched": [
+        "言",
+        "舌"
+      ]
+    }
+  }
+}

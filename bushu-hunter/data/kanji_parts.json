@@ -14044,5 +14044,365 @@
       "end": 14,
       "radical": false
     }
+  ],
+  "04e95": [
+    {
+      "element": "二",
+      "start": 0,
+      "end": 0,
+      "radical": true
+    },
+    {
+      "element": "廾",
+      "start": 1,
+      "end": 3,
+      "radical": true
+    }
+  ],
+  "08328": [
+    {
+      "element": "艹",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "次",
+      "start": 3,
+      "end": 8,
+      "radical": false
+    }
+  ],
+  "05ca1": [
+    {
+      "element": "冂",
+      "start": 0,
+      "end": 1,
+      "radical": false
+    },
+    {
+      "element": "山",
+      "start": 5,
+      "end": 7,
+      "radical": true
+    }
+  ],
+  "06c96": [
+    {
+      "element": "氵",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "中",
+      "start": 3,
+      "end": 6,
+      "radical": false
+    }
+  ],
+  "08cc0": [
+    {
+      "element": "加",
+      "start": 0,
+      "end": 4,
+      "radical": false
+    },
+    {
+      "element": "貝",
+      "start": 5,
+      "end": 11,
+      "radical": true
+    }
+  ],
+  "06f5f": [
+    {
+      "element": "氵",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "舄",
+      "start": 3,
+      "end": 14,
+      "radical": false
+    }
+  ],
+  "05c90": [
+    {
+      "element": "山",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "支",
+      "start": 3,
+      "end": 6,
+      "radical": false
+    }
+  ],
+  "0718a": [
+    {
+      "element": "能",
+      "start": 0,
+      "end": 9,
+      "radical": false
+    },
+    {
+      "element": "灬",
+      "start": 10,
+      "end": 13,
+      "radical": true
+    }
+  ],
+  "06f54": [
+    {
+      "element": "氵",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "絜",
+      "start": 3,
+      "end": 14,
+      "radical": false
+    }
+  ],
+  "09999": [
+    {
+      "element": "禾",
+      "start": 0,
+      "end": 4,
+      "radical": false
+    },
+    {
+      "element": "日",
+      "start": 5,
+      "end": 8,
+      "radical": false
+    }
+  ],
+  "04f50": [
+    {
+      "element": "亻",
+      "start": 0,
+      "end": 1,
+      "radical": true
+    },
+    {
+      "element": "左",
+      "start": 2,
+      "end": 6,
+      "radical": false
+    }
+  ],
+  "07d30": [
+    {
+      "element": "糸",
+      "start": 0,
+      "end": 5,
+      "radical": true
+    },
+    {
+      "element": "田",
+      "start": 6,
+      "end": 10,
+      "radical": false
+    }
+  ],
+  "0962a": [
+    {
+      "element": "⻖",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "反",
+      "start": 3,
+      "end": 6,
+      "radical": false
+    }
+  ],
+  "05d0e": [
+    {
+      "element": "山",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "奇",
+      "start": 3,
+      "end": 10,
+      "radical": false
+    }
+  ],
+  "057fc": [
+    {
+      "element": "土",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "奇",
+      "start": 3,
+      "end": 10,
+      "radical": false
+    }
+  ],
+  "06ecb": [
+    {
+      "element": "氵",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "兹",
+      "start": 3,
+      "end": 11,
+      "radical": false
+    }
+  ],
+  "09e7f": [
+    {
+      "element": "广",
+      "start": 0,
+      "end": 2,
+      "radical": false
+    }
+  ],
+  "05f97": [
+    {
+      "element": "彳",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "㝵",
+      "start": 3,
+      "end": 10,
+      "radical": false
+    }
+  ],
+  "07279": [
+    {
+      "element": "牛",
+      "start": 0,
+      "end": 3,
+      "radical": true
+    },
+    {
+      "element": "寺",
+      "start": 4,
+      "end": 9,
+      "radical": false
+    }
+  ],
+  "06803": [
+    {
+      "element": "木",
+      "start": 0,
+      "end": 3,
+      "radical": true
+    }
+  ],
+  "05948": [
+    {
+      "element": "大",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "示",
+      "start": 3,
+      "end": 7,
+      "radical": false
+    }
+  ],
+  "07e04": [
+    {
+      "element": "糸",
+      "start": 0,
+      "end": 5,
+      "radical": true
+    },
+    {
+      "element": "电",
+      "start": 6,
+      "end": 14,
+      "radical": false
+    }
+  ],
+  "04ff3": [
+    {
+      "element": "亻",
+      "start": 0,
+      "end": 1,
+      "radical": true
+    },
+    {
+      "element": "非",
+      "start": 2,
+      "end": 9,
+      "radical": false
+    }
+  ],
+  "05a9b": [
+    {
+      "element": "女",
+      "start": 0,
+      "end": 2,
+      "radical": true
+    },
+    {
+      "element": "爰",
+      "start": 3,
+      "end": 11,
+      "radical": false
+    }
+  ],
+  "0961c": [
+    {
+      "element": "𠂤",
+      "start": 0,
+      "end": 5,
+      "radical": false
+    },
+    {
+      "element": "十",
+      "start": 6,
+      "end": 7,
+      "radical": false
+    }
+  ],
+  "05922": [
+    {
+      "element": "夕",
+      "start": 10,
+      "end": 12,
+      "radical": true
+    }
+  ],
+  "068a8": [
+    {
+      "element": "利",
+      "start": 0,
+      "end": 6,
+      "radical": false
+    },
+    {
+      "element": "木",
+      "start": 7,
+      "end": 10,
+      "radical": true
+    }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "04e00": [
     {
-      "element": "単独画",
+      "element": "一",
       "start": 0,
       "end": 0,
       "radical": true
@@ -9,7 +9,7 @@
   ],
   "04e8c": [
     {
-      "element": "部品",
+      "element": "二",
       "start": 0,
       "end": 0,
       "radical": true
@@ -105,7 +105,7 @@
   ],
   "0516b": [
     {
-      "element": "部品",
+      "element": "八",
       "start": 0,
       "end": 0,
       "radical": true
@@ -133,7 +133,7 @@
   ],
   "05341": [
     {
-      "element": "単独画",
+      "element": "十",
       "start": 0,
       "end": 1,
       "radical": true
@@ -239,7 +239,7 @@
   ],
   "05927": [
     {
-      "element": "単独画",
+      "element": "大",
       "start": 0,
       "end": 2,
       "radical": true
@@ -247,7 +247,7 @@
   ],
   "05c0f": [
     {
-      "element": "単独画",
+      "element": "小",
       "start": 0,
       "end": 2,
       "radical": true
@@ -255,7 +255,7 @@
   ],
   "06708": [
     {
-      "element": "単独画",
+      "element": "月",
       "start": 0,
       "end": 3,
       "radical": true
@@ -263,7 +263,7 @@
   ],
   "065e5": [
     {
-      "element": "単独画",
+      "element": "日",
       "start": 0,
       "end": 3,
       "radical": true
@@ -311,7 +311,7 @@
   ],
   "06728": [
     {
-      "element": "単独画",
+      "element": "木",
       "start": 0,
       "end": 3,
       "radical": true
@@ -333,7 +333,7 @@
   ],
   "05c71": [
     {
-      "element": "単独画",
+      "element": "山",
       "start": 0,
       "end": 2,
       "radical": true
@@ -341,7 +341,7 @@
   ],
   "05ddd": [
     {
-      "element": "単独画",
+      "element": "巛",
       "start": 0,
       "end": 2,
       "radical": true
@@ -349,7 +349,7 @@
   ],
   "0571f": [
     {
-      "element": "単独画",
+      "element": "土",
       "start": 0,
       "end": 2,
       "radical": true
@@ -371,7 +371,7 @@
   ],
   "07530": [
     {
-      "element": "単独画",
+      "element": "田",
       "start": 0,
       "end": 4,
       "radical": true
@@ -393,7 +393,7 @@
   ],
   "0751f": [
     {
-      "element": "単独画",
+      "element": "生",
       "start": 0,
       "end": 4,
       "radical": true
@@ -457,7 +457,7 @@
   ],
   "04eba": [
     {
-      "element": "単独画",
+      "element": "人",
       "start": 0,
       "end": 1,
       "radical": true
@@ -479,7 +479,7 @@
   ],
   "05973": [
     {
-      "element": "単独画",
+      "element": "女",
       "start": 0,
       "end": 2,
       "radical": true
@@ -501,7 +501,7 @@
   ],
   "05b50": [
     {
-      "element": "単独画",
+      "element": "子",
       "start": 0,
       "end": 2,
       "radical": true
@@ -509,7 +509,7 @@
   ],
   "076ee": [
     {
-      "element": "単独画",
+      "element": "目",
       "start": 0,
       "end": 4,
       "radical": true
@@ -517,7 +517,7 @@
   ],
   "08033": [
     {
-      "element": "単独画",
+      "element": "耳",
       "start": 0,
       "end": 5,
       "radical": true
@@ -525,7 +525,7 @@
   ],
   "053e3": [
     {
-      "element": "単独画",
+      "element": "口",
       "start": 0,
       "end": 2,
       "radical": true
@@ -533,7 +533,7 @@
   ],
   "0624b": [
     {
-      "element": "単独画",
+      "element": "手",
       "start": 0,
       "end": 3,
       "radical": true
@@ -583,7 +583,7 @@
   ],
   "0529b": [
     {
-      "element": "単独画",
+      "element": "力",
       "start": 0,
       "end": 1,
       "radical": true
@@ -619,7 +619,7 @@
   ],
   "05165": [
     {
-      "element": "単独画",
+      "element": "入",
       "start": 0,
       "end": 1,
       "radical": true
@@ -683,7 +683,7 @@
   ],
   "05915": [
     {
-      "element": "単独画",
+      "element": "夕",
       "start": 0,
       "end": 2,
       "radical": true
@@ -817,7 +817,7 @@
   ],
   "06c34": [
     {
-      "element": "単独画",
+      "element": "水",
       "start": 0,
       "end": 3,
       "radical": true
@@ -825,7 +825,7 @@
   ],
   "0706b": [
     {
-      "element": "単独画",
+      "element": "火",
       "start": 0,
       "end": 3,
       "radical": true
@@ -855,7 +855,7 @@
   ],
   "077f3": [
     {
-      "element": "単独画",
+      "element": "石",
       "start": 0,
       "end": 1,
       "radical": true
@@ -869,7 +869,7 @@
   ],
   "07af9": [
     {
-      "element": "部品",
+      "element": "竹",
       "start": 0,
       "end": 2,
       "radical": true
@@ -883,7 +883,7 @@
   ],
   "07cf8": [
     {
-      "element": "単独画",
+      "element": "糸",
       "start": 0,
       "end": 5,
       "radical": true
@@ -905,7 +905,7 @@
   ],
   "08eca": [
     {
-      "element": "単独画",
+      "element": "車",
       "start": 0,
       "end": 6,
       "radical": true
@@ -913,7 +913,7 @@
   ],
   "091d1": [
     {
-      "element": "部品",
+      "element": "金",
       "start": 0,
       "end": 1,
       "radical": true
@@ -927,7 +927,7 @@
   ],
   "096e8": [
     {
-      "element": "単独画",
+      "element": "雨",
       "start": 0,
       "end": 7,
       "radical": true
@@ -963,7 +963,7 @@
   ],
   "0767d": [
     {
-      "element": "部品",
+      "element": "白",
       "start": 0,
       "end": 0,
       "radical": true
@@ -991,7 +991,7 @@
   ],
   "07fbd": [
     {
-      "element": "部品",
+      "element": "羽",
       "start": 0,
       "end": 2,
       "radical": true
@@ -1359,7 +1359,7 @@
   ],
   "05f13": [
     {
-      "element": "単独画",
+      "element": "弓",
       "start": 0,
       "end": 2,
       "radical": true
@@ -1367,7 +1367,7 @@
   ],
   "0725b": [
     {
-      "element": "単独画",
+      "element": "牛",
       "start": 0,
       "end": 3,
       "radical": true
@@ -1501,7 +1501,7 @@
   ],
   "08a00": [
     {
-      "element": "単独画",
+      "element": "言",
       "start": 0,
       "end": 3,
       "radical": true
@@ -1529,7 +1529,7 @@
   ],
   "06238": [
     {
-      "element": "単独画",
+      "element": "戶",
       "start": 0,
       "end": 3,
       "radical": true
@@ -1593,7 +1593,7 @@
   ],
   "05de5": [
     {
-      "element": "単独画",
+      "element": "工",
       "start": 0,
       "end": 2,
       "radical": true
@@ -1685,7 +1685,7 @@
   ],
   "09ad8": [
     {
-      "element": "部品",
+      "element": "高",
       "start": 0,
       "end": 4,
       "radical": true
@@ -1733,7 +1733,7 @@
   ],
   "08c37": [
     {
-      "element": "部品",
+      "element": "谷",
       "start": 0,
       "end": 1,
       "radical": true
@@ -1859,7 +1859,7 @@
   ],
   "077e2": [
     {
-      "element": "単独画",
+      "element": "矢",
       "start": 0,
       "end": 0,
       "radical": true
@@ -1929,7 +1929,7 @@
   ],
   "081ea": [
     {
-      "element": "単独画",
+      "element": "自",
       "start": 0,
       "end": 0,
       "radical": true
@@ -1999,7 +1999,7 @@
   ],
   "09996": [
     {
-      "element": "部品",
+      "element": "首",
       "start": 0,
       "end": 2,
       "radical": true
@@ -2111,7 +2111,7 @@
   ],
   "098df": [
     {
-      "element": "単独画",
+      "element": "食",
       "start": 0,
       "end": 8,
       "radical": true
@@ -2119,7 +2119,7 @@
   ],
   "05fc3": [
     {
-      "element": "単独画",
+      "element": "心",
       "start": 0,
       "end": 3,
       "radical": true
@@ -2195,7 +2195,7 @@
   ],
   "0897f": [
     {
-      "element": "単独画",
+      "element": "襾",
       "start": 0,
       "end": 5,
       "radical": true
@@ -2307,7 +2307,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "刀",
       "start": 3,
       "end": 8,
       "radical": true
@@ -2469,7 +2469,7 @@
   ],
   "09577": [
     {
-      "element": "単独画",
+      "element": "長",
       "start": 0,
       "end": 7,
       "radical": true
@@ -2477,7 +2477,7 @@
   ],
   "09ce5": [
     {
-      "element": "単独画",
+      "element": "鳥",
       "start": 0,
       "end": 6,
       "radical": true
@@ -2545,7 +2545,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "弓",
       "start": 2,
       "end": 6,
       "radical": true
@@ -2595,7 +2595,7 @@
   ],
   "05200": [
     {
-      "element": "単独画",
+      "element": "刀",
       "start": 0,
       "end": 1,
       "radical": true
@@ -2755,7 +2755,7 @@
   ],
   "08089": [
     {
-      "element": "単独画",
+      "element": "肉",
       "start": 0,
       "end": 5,
       "radical": true
@@ -2763,7 +2763,7 @@
   ],
   "099ac": [
     {
-      "element": "単独画",
+      "element": "馬",
       "start": 0,
       "end": 5,
       "radical": true
@@ -2859,7 +2859,7 @@
   ],
   "07236": [
     {
-      "element": "部品",
+      "element": "父",
       "start": 0,
       "end": 1,
       "radical": true
@@ -2915,7 +2915,7 @@
   ],
   "07c73": [
     {
-      "element": "単独画",
+      "element": "米",
       "start": 0,
       "end": 5,
       "radical": true
@@ -3055,7 +3055,7 @@
   ],
   "06bdb": [
     {
-      "element": "単独画",
+      "element": "毛",
       "start": 0,
       "end": 3,
       "radical": true
@@ -3063,7 +3063,7 @@
   ],
   "09580": [
     {
-      "element": "部品",
+      "element": "門",
       "start": 0,
       "end": 3,
       "radical": true
@@ -3083,7 +3083,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "夕",
       "start": 2,
       "end": 7,
       "radical": true
@@ -3119,7 +3119,7 @@
   ],
   "07528": [
     {
-      "element": "単独画",
+      "element": "用",
       "start": 0,
       "end": 4,
       "radical": true
@@ -3733,7 +3733,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "木",
       "start": 5,
       "end": 12,
       "radical": true
@@ -3829,7 +3829,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "八",
       "start": 5,
       "end": 7,
       "radical": true
@@ -3879,7 +3879,7 @@
   ],
   "08840": [
     {
-      "element": "単独画",
+      "element": "血",
       "start": 0,
       "end": 0,
       "radical": true
@@ -3921,7 +3921,7 @@
   ],
   "0770c": [
     {
-      "element": "部品",
+      "element": "目",
       "start": 0,
       "end": 5,
       "radical": true
@@ -4047,7 +4047,7 @@
   ],
   "076bf": [
     {
-      "element": "単独画",
+      "element": "皿",
       "start": 0,
       "end": 4,
       "radical": true
@@ -4635,7 +4635,7 @@
   ],
   "08eab": [
     {
-      "element": "単独画",
+      "element": "身",
       "start": 0,
       "end": 6,
       "radical": true
@@ -5189,7 +5189,7 @@
   ],
   "08c46": [
     {
-      "element": "部品",
+      "element": "豆",
       "start": 0,
       "end": 0,
       "radical": true
@@ -5427,7 +5427,7 @@
   ],
   "076ae": [
     {
-      "element": "単独画",
+      "element": "皮",
       "start": 0,
       "end": 4,
       "radical": true
@@ -5719,7 +5719,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "口",
       "start": 3,
       "end": 7,
       "radical": true
@@ -5727,7 +5727,7 @@
   ],
   "09762": [
     {
-      "element": "単独画",
+      "element": "面",
       "start": 0,
       "end": 8,
       "radical": true
@@ -6075,7 +6075,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "心",
       "start": 4,
       "end": 12,
       "radical": true
@@ -6535,7 +6535,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "口",
       "start": 6,
       "end": 11,
       "radical": true
@@ -6557,7 +6557,7 @@
   ],
   "05668": [
     {
-      "element": "部品",
+      "element": "口",
       "start": 0,
       "end": 5,
       "radical": true
@@ -6731,7 +6731,7 @@
   ],
   "07af6": [
     {
-      "element": "部品",
+      "element": "立",
       "start": 0,
       "end": 9,
       "radical": true
@@ -6857,7 +6857,7 @@
   ],
   "06b20": [
     {
-      "element": "部品",
+      "element": "欠",
       "start": 0,
       "end": 1,
       "radical": true
@@ -7037,7 +7037,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "工",
       "start": 6,
       "end": 9,
       "radical": true
@@ -7213,7 +7213,7 @@
   ],
   "058eb": [
     {
-      "element": "単独画",
+      "element": "士",
       "start": 0,
       "end": 2,
       "radical": true
@@ -7221,7 +7221,7 @@
   ],
   "06c0f": [
     {
-      "element": "単独画",
+      "element": "氏",
       "start": 0,
       "end": 3,
       "radical": true
@@ -7479,7 +7479,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "豕",
       "start": 2,
       "end": 11,
       "radical": true
@@ -7515,7 +7515,7 @@
   ],
   "081e3": [
     {
-      "element": "単独画",
+      "element": "臣",
       "start": 0,
       "end": 6,
       "radical": true
@@ -7611,7 +7611,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "巾",
       "start": 3,
       "end": 9,
       "radical": true
@@ -7737,7 +7737,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "亅",
       "start": 2,
       "end": 5,
       "radical": true
@@ -7855,7 +7855,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "巾",
       "start": 5,
       "end": 9,
       "radical": true
@@ -8233,7 +8233,7 @@
   ],
   "098db": [
     {
-      "element": "単独画",
+      "element": "飛",
       "start": 0,
       "end": 8,
       "radical": true
@@ -8503,7 +8503,7 @@
   ],
   "0671b": [
     {
-      "element": "部品",
+      "element": "月",
       "start": 0,
       "end": 6,
       "radical": true
@@ -9269,7 +9269,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "干",
       "start": 8,
       "end": 12,
       "radical": true
@@ -9739,7 +9739,7 @@
   ],
   "08208": [
     {
-      "element": "部品",
+      "element": "臼",
       "start": 0,
       "end": 13,
       "radical": true
@@ -9997,7 +9997,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "巾",
       "start": 6,
       "end": 9,
       "radical": true
@@ -10033,7 +10033,7 @@
   ],
   "0793a": [
     {
-      "element": "部品",
+      "element": "示",
       "start": 0,
       "end": 1,
       "radical": true
@@ -10179,7 +10179,7 @@
   ],
   "06e96": [
     {
-      "element": "部品",
+      "element": "水",
       "start": 0,
       "end": 10,
       "radical": true
@@ -11029,7 +11029,7 @@
   ],
   "06bd4": [
     {
-      "element": "部品",
+      "element": "比",
       "start": 0,
       "end": 1,
       "radical": true
@@ -11057,7 +11057,7 @@
   ],
   "0975e": [
     {
-      "element": "部品",
+      "element": "非",
       "start": 0,
       "end": 3,
       "radical": true
@@ -11363,7 +11363,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "力",
       "start": 5,
       "end": 10,
       "radical": true
@@ -11711,7 +11711,7 @@
   ],
   "05e72": [
     {
-      "element": "単独画",
+      "element": "干",
       "start": 0,
       "end": 0,
       "radical": true
@@ -11829,7 +11829,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "疋",
       "start": 7,
       "end": 13,
       "radical": true
@@ -12067,7 +12067,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "厂",
       "start": 3,
       "end": 16,
       "radical": true
@@ -12075,7 +12075,7 @@
   ],
   "05df1": [
     {
-      "element": "単独画",
+      "element": "己",
       "start": 0,
       "end": 2,
       "radical": true
@@ -12209,7 +12209,7 @@
   ],
   "07a40": [
     {
-      "element": "部品",
+      "element": "禾",
       "start": 0,
       "end": 9,
       "radical": true
@@ -12223,7 +12223,7 @@
   ],
   "09aa8": [
     {
-      "element": "部品",
+      "element": "骨",
       "start": 0,
       "end": 5,
       "radical": true
@@ -12361,7 +12361,7 @@
   ],
   "081f3": [
     {
-      "element": "単独画",
+      "element": "至",
       "start": 0,
       "end": 0,
       "radical": true
@@ -12723,7 +12723,7 @@
       "radical": false
     },
     {
-      "element": "部品",
+      "element": "寸",
       "start": 3,
       "end": 9,
       "radical": true
@@ -12849,7 +12849,7 @@
   ],
   "05bf8": [
     {
-      "element": "単独画",
+      "element": "寸",
       "start": 0,
       "end": 2,
       "radical": true
@@ -12871,7 +12871,7 @@
   ],
   "08056": [
     {
-      "element": "部品",
+      "element": "耳",
       "start": 0,
       "end": 8,
       "radical": true
@@ -13627,7 +13627,7 @@
   ],
   "04e26": [
     {
-      "element": "部品",
+      "element": "一",
       "start": 0,
       "end": 2,
       "radical": true
@@ -13669,7 +13669,7 @@
   ],
   "07247": [
     {
-      "element": "単独画",
+      "element": "片",
       "start": 0,
       "end": 3,
       "radical": true

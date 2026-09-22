@@ -1,9 +1,9 @@
 {
   "generatedBy": "validate_bushu_data.js",
   "statuses": {
-    "exact": 946,
+    "exact": 953,
     "candidate": 0,
-    "fallback": 80,
+    "fallback": 73,
     "missing": 0
   },
   "report": {
@@ -12,7 +12,8 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "matched": [
-        "⺤"
+        "⺤",
+        "心"
       ]
     },
     "悪": {
@@ -197,7 +198,7 @@
       "radicalNumber": 1,
       "radicalChar": "⼀",
       "flagged": [
-        "単独画"
+        "一"
       ]
     },
     "茨": {
@@ -285,7 +286,7 @@
       "radicalNumber": 124,
       "radicalChar": "⽻",
       "flagged": [
-        "部品"
+        "羽"
       ]
     },
     "雨": {
@@ -293,7 +294,7 @@
       "radicalNumber": 173,
       "radicalChar": "⾬",
       "flagged": [
-        "単独画"
+        "雨"
       ]
     },
     "運": {
@@ -698,7 +699,7 @@
       "radicalNumber": 86,
       "radicalChar": "⽕",
       "flagged": [
-        "単独画"
+        "火"
       ]
     },
     "花": {
@@ -1112,7 +1113,7 @@
       "radicalNumber": 51,
       "radicalChar": "⼲",
       "flagged": [
-        "部品"
+        "干"
       ]
     },
     "感": {
@@ -1270,15 +1271,16 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "matched": [
-        "吉"
+        "吉",
+        "口"
       ]
     },
     "器": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 30,
       "radicalChar": "⼝",
-      "flagged": [
-        "部品"
+      "matched": [
+        "口"
       ]
     },
     "基": {
@@ -1451,11 +1453,11 @@
       ]
     },
     "疑": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 103,
       "radicalChar": "⽦",
-      "flagged": [
-        "部品"
+      "matched": [
+        "疋"
       ]
     },
     "義": {
@@ -1533,7 +1535,7 @@
       "radicalNumber": 57,
       "radicalChar": "⼸",
       "flagged": [
-        "単独画"
+        "弓"
       ]
     },
     "急": {
@@ -1620,7 +1622,7 @@
       "radicalNumber": 93,
       "radicalChar": "⽜",
       "flagged": [
-        "単独画"
+        "牛"
       ]
     },
     "去": {
@@ -1693,11 +1695,11 @@
       ]
     },
     "競": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 117,
       "radicalChar": "⽴",
-      "flagged": [
-        "部品"
+      "matched": [
+        "立"
       ]
     },
     "共": {
@@ -1785,11 +1787,11 @@
       ]
     },
     "業": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 75,
       "radicalChar": "⽊",
-      "flagged": [
-        "部品"
+      "matched": [
+        "木"
       ]
     },
     "局": {
@@ -1879,7 +1881,7 @@
       "radicalNumber": 167,
       "radicalChar": "⾦",
       "flagged": [
-        "部品"
+        "金"
       ]
     },
     "銀": {
@@ -1931,7 +1933,8 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "matched": [
-        "目"
+        "目",
+        "八"
       ]
     },
     "空": {
@@ -2134,7 +2137,7 @@
       "radicalNumber": 76,
       "radicalChar": "⽋",
       "flagged": [
-        "部品"
+        "欠"
       ]
     },
     "決": {
@@ -2186,7 +2189,7 @@
       "radicalNumber": 74,
       "radicalChar": "⽉",
       "flagged": [
-        "単独画"
+        "月"
       ]
     },
     "件": {
@@ -2280,6 +2283,7 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "matched": [
+        "目",
         "小"
       ]
     },
@@ -2329,7 +2333,8 @@
       "radicalNumber": 27,
       "radicalChar": "⼚",
       "matched": [
-        "⺍"
+        "⺍",
+        "厂"
       ]
     },
     "減": {
@@ -2418,7 +2423,7 @@
       "radicalNumber": 49,
       "radicalChar": "⼰",
       "flagged": [
-        "単独画"
+        "己"
       ]
     },
     "庫": {
@@ -2435,7 +2440,7 @@
       "radicalNumber": 63,
       "radicalChar": "⼾",
       "flagged": [
-        "単独画"
+        "戶"
       ]
     },
     "故": {
@@ -2572,7 +2577,7 @@
       "radicalNumber": 30,
       "radicalChar": "⼝",
       "flagged": [
-        "単独画"
+        "口"
       ]
     },
     "向": {
@@ -2614,7 +2619,7 @@
       "radicalNumber": 48,
       "radicalChar": "⼯",
       "flagged": [
-        "単独画"
+        "工"
       ]
     },
     "幸": {
@@ -2773,7 +2778,7 @@
       "radicalNumber": 189,
       "radicalChar": "⾼",
       "flagged": [
-        "部品"
+        "高"
       ]
     },
     "号": {
@@ -2825,6 +2830,7 @@
       "radicalNumber": 115,
       "radicalChar": "⽲",
       "matched": [
+        "禾",
         "殳"
       ]
     },
@@ -2903,7 +2909,8 @@
       "radicalNumber": 48,
       "radicalChar": "⼯",
       "matched": [
-        "羊"
+        "羊",
+        "工"
       ]
     },
     "査": {
@@ -3199,7 +3206,7 @@
       "radicalNumber": 108,
       "radicalChar": "⽫",
       "flagged": [
-        "単独画"
+        "皿"
       ]
     },
     "三": {
@@ -3223,7 +3230,7 @@
       "radicalNumber": 46,
       "radicalChar": "⼭",
       "flagged": [
-        "単独画"
+        "山"
       ]
     },
     "散": {
@@ -3336,7 +3343,7 @@
       "radicalNumber": 33,
       "radicalChar": "⼠",
       "flagged": [
-        "単独画"
+        "士"
       ]
     },
     "始": {
@@ -3371,7 +3378,7 @@
       "radicalNumber": 39,
       "radicalChar": "⼦",
       "flagged": [
-        "単独画"
+        "子"
       ]
     },
     "市": {
@@ -3384,11 +3391,11 @@
       ]
     },
     "師": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 50,
       "radicalChar": "⼱",
-      "flagged": [
-        "部品"
+      "matched": [
+        "巾"
       ]
     },
     "志": {
@@ -3458,7 +3465,7 @@
       "radicalNumber": 83,
       "radicalChar": "⽒",
       "flagged": [
-        "単独画"
+        "氏"
       ]
     },
     "私": {
@@ -3475,7 +3482,7 @@
       "radicalNumber": 120,
       "radicalChar": "⽷",
       "flagged": [
-        "単独画"
+        "糸"
       ]
     },
     "紙": {
@@ -3672,7 +3679,7 @@
       "radicalNumber": 113,
       "radicalChar": "⽰",
       "flagged": [
-        "部品"
+        "示"
       ]
     },
     "耳": {
@@ -3680,7 +3687,7 @@
       "radicalNumber": 128,
       "radicalChar": "⽿",
       "flagged": [
-        "単独画"
+        "耳"
       ]
     },
     "自": {
@@ -3838,7 +3845,7 @@
       "radicalNumber": 159,
       "radicalChar": "⾞",
       "flagged": [
-        "単独画"
+        "車"
       ]
     },
     "借": {
@@ -3908,7 +3915,7 @@
       "radicalNumber": 64,
       "radicalChar": "⼿",
       "flagged": [
-        "単独画"
+        "手"
       ]
     },
     "種": {
@@ -4094,7 +4101,7 @@
       "radicalNumber": 24,
       "radicalChar": "⼗",
       "flagged": [
-        "単独画"
+        "十"
       ]
     },
     "従": {
@@ -4297,7 +4304,7 @@
       "radicalNumber": 38,
       "radicalChar": "⼥",
       "flagged": [
-        "単独画"
+        "女"
       ]
     },
     "序": {
@@ -4358,7 +4365,8 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "matched": [
-        "⺦"
+        "⺦",
+        "寸"
       ]
     },
     "小": {
@@ -4366,7 +4374,7 @@
       "radicalNumber": 42,
       "radicalChar": "⼩",
       "flagged": [
-        "単独画"
+        "小"
       ]
     },
     "少": {
@@ -4483,7 +4491,8 @@
       "radicalNumber": 152,
       "radicalChar": "⾗",
       "matched": [
-        "𠂊"
+        "𠂊",
+        "豕"
       ]
     },
     "賞": {
@@ -4626,7 +4635,7 @@
       "radicalNumber": 184,
       "radicalChar": "⾷",
       "flagged": [
-        "単独画"
+        "食"
       ]
     },
     "信": {
@@ -4643,7 +4652,7 @@
       "radicalNumber": 61,
       "radicalChar": "⼼",
       "flagged": [
-        "単独画"
+        "心"
       ]
     },
     "新": {
@@ -4702,7 +4711,7 @@
       "radicalNumber": 131,
       "radicalChar": "⾂",
       "flagged": [
-        "単独画"
+        "臣"
       ]
     },
     "親": {
@@ -4718,7 +4727,7 @@
       "radicalNumber": 158,
       "radicalChar": "⾝",
       "flagged": [
-        "単独画"
+        "身"
       ]
     },
     "進": {
@@ -4744,7 +4753,7 @@
       "radicalNumber": 9,
       "radicalChar": "⼈",
       "flagged": [
-        "単独画"
+        "人"
       ]
     },
     "仁": {
@@ -4790,7 +4799,7 @@
       "radicalNumber": 85,
       "radicalChar": "⽔",
       "flagged": [
-        "単独画"
+        "水"
       ]
     },
     "数": {
@@ -4806,7 +4815,7 @@
       "radicalNumber": 41,
       "radicalChar": "⼨",
       "flagged": [
-        "単独画"
+        "寸"
       ]
     },
     "世": {
@@ -4911,7 +4920,7 @@
       "radicalNumber": 100,
       "radicalChar": "⽣",
       "flagged": [
-        "単独画"
+        "生"
       ]
     },
     "盛": {
@@ -4937,6 +4946,7 @@
       "radicalNumber": 128,
       "radicalChar": "⽿",
       "matched": [
+        "耳",
         "王"
       ]
     },
@@ -4962,7 +4972,7 @@
       "radicalNumber": 146,
       "radicalChar": "⾑",
       "flagged": [
-        "単独画"
+        "襾"
       ]
     },
     "誠": {
@@ -5005,7 +5015,8 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "广"
+        "广",
+        "巾"
       ]
     },
     "昔": {
@@ -5177,7 +5188,7 @@
       "radicalNumber": 47,
       "radicalChar": "⼮",
       "flagged": [
-        "単独画"
+        "巛"
       ]
     },
     "戦": {
@@ -5264,7 +5275,7 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "flagged": [
-        "部品"
+        "刀"
       ]
     },
     "善": {
@@ -5392,7 +5403,8 @@
       "radicalNumber": 6,
       "radicalChar": "⼅",
       "matched": [
-        "𠂊"
+        "𠂊",
+        "亅"
       ]
     },
     "相": {
@@ -5699,7 +5711,8 @@
       "radicalNumber": 50,
       "radicalChar": "⼱",
       "matched": [
-        "丗"
+        "丗",
+        "巾"
       ]
     },
     "待": {
@@ -5769,7 +5782,7 @@
       "radicalNumber": 37,
       "radicalChar": "⼤",
       "flagged": [
-        "単独画"
+        "大"
       ]
     },
     "第": {
@@ -5811,7 +5824,7 @@
       "radicalNumber": 150,
       "radicalChar": "⾕",
       "flagged": [
-        "部品"
+        "谷"
       ]
     },
     "単": {
@@ -5979,7 +5992,7 @@
       "radicalNumber": 118,
       "radicalChar": "⽵",
       "flagged": [
-        "部品"
+        "竹"
       ]
     },
     "茶": {
@@ -6179,7 +6192,7 @@
       "radicalNumber": 168,
       "radicalChar": "⾧",
       "flagged": [
-        "単独画"
+        "長"
       ]
     },
     "頂": {
@@ -6422,7 +6435,7 @@
       "radicalNumber": 102,
       "radicalChar": "⽥",
       "flagged": [
-        "単独画"
+        "田"
       ]
     },
     "電": {
@@ -6482,7 +6495,7 @@
       "radicalNumber": 32,
       "radicalChar": "⼟",
       "flagged": [
-        "単独画"
+        "土"
       ]
     },
     "党": {
@@ -6508,7 +6521,7 @@
       "radicalNumber": 18,
       "radicalChar": "⼑",
       "flagged": [
-        "単独画"
+        "刀"
       ]
     },
     "島": {
@@ -6616,7 +6629,7 @@
       "radicalNumber": 151,
       "radicalChar": "⾖",
       "flagged": [
-        "部品"
+        "豆"
       ]
     },
     "頭": {
@@ -6816,7 +6829,7 @@
       "radicalNumber": 7,
       "radicalChar": "⼆",
       "flagged": [
-        "部品"
+        "二"
       ]
     },
     "肉": {
@@ -6824,7 +6837,7 @@
       "radicalNumber": 130,
       "radicalChar": "⾁",
       "flagged": [
-        "単独画"
+        "肉"
       ]
     },
     "日": {
@@ -6832,7 +6845,7 @@
       "radicalNumber": 72,
       "radicalChar": "⽇",
       "flagged": [
-        "単独画"
+        "日"
       ]
     },
     "乳": {
@@ -6849,7 +6862,7 @@
       "radicalNumber": 11,
       "radicalChar": "⼊",
       "flagged": [
-        "単独画"
+        "入"
       ]
     },
     "任": {
@@ -7110,7 +7123,7 @@
       "radicalNumber": 12,
       "radicalChar": "⼋",
       "flagged": [
-        "部品"
+        "八"
       ]
     },
     "発": {
@@ -7251,7 +7264,7 @@
       "radicalNumber": 107,
       "radicalChar": "⽪",
       "flagged": [
-        "単独画"
+        "皮"
       ]
     },
     "秘": {
@@ -7286,7 +7299,7 @@
       "radicalNumber": 175,
       "radicalChar": "⾮",
       "flagged": [
-        "部品"
+        "非"
       ]
     },
     "飛": {
@@ -7514,7 +7527,7 @@
       "radicalNumber": 88,
       "radicalChar": "⽗",
       "flagged": [
-        "部品"
+        "父"
       ]
     },
     "負": {
@@ -7693,11 +7706,11 @@
       ]
     },
     "並": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 1,
       "radicalChar": "⼀",
-      "flagged": [
-        "部品"
+      "matched": [
+        "一"
       ]
     },
     "閉": {
@@ -7722,7 +7735,7 @@
       "radicalNumber": 119,
       "radicalChar": "⽶",
       "flagged": [
-        "単独画"
+        "米"
       ]
     },
     "別": {
@@ -7747,7 +7760,7 @@
       "radicalNumber": 91,
       "radicalChar": "⽚",
       "flagged": [
-        "単独画"
+        "片"
       ]
     },
     "編": {
@@ -7958,6 +7971,7 @@
       "radicalNumber": 74,
       "radicalChar": "⽉",
       "matched": [
+        "月",
         "王"
       ]
     },
@@ -8117,7 +8131,8 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "matched": [
-        "矛"
+        "矛",
+        "力"
       ]
     },
     "夢": {
@@ -8146,11 +8161,11 @@
       ]
     },
     "命": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 30,
       "radicalChar": "⼝",
-      "flagged": [
-        "部品"
+      "matched": [
+        "口"
       ]
     },
     "明": {
@@ -8203,7 +8218,7 @@
       "radicalNumber": 176,
       "radicalChar": "⾯",
       "flagged": [
-        "単独画"
+        "面"
       ]
     },
     "模": {
@@ -8220,7 +8235,7 @@
       "radicalNumber": 82,
       "radicalChar": "⽑",
       "flagged": [
-        "単独画"
+        "毛"
       ]
     },
     "木": {
@@ -8228,7 +8243,7 @@
       "radicalNumber": 75,
       "radicalChar": "⽊",
       "flagged": [
-        "単独画"
+        "木"
       ]
     },
     "目": {
@@ -8236,7 +8251,7 @@
       "radicalNumber": 109,
       "radicalChar": "⽬",
       "flagged": [
-        "単独画"
+        "目"
       ]
     },
     "問": {
@@ -8253,7 +8268,7 @@
       "radicalNumber": 169,
       "radicalChar": "⾨",
       "flagged": [
-        "部品"
+        "門"
       ]
     },
     "夜": {
@@ -8261,7 +8276,8 @@
       "radicalNumber": 36,
       "radicalChar": "⼣",
       "matched": [
-        "亠"
+        "亠",
+        "夕"
       ]
     },
     "野": {
@@ -8400,7 +8416,7 @@
       "radicalNumber": 36,
       "radicalChar": "⼣",
       "flagged": [
-        "単独画"
+        "夕"
       ]
     },
     "予": {
@@ -8477,7 +8493,7 @@
       "radicalNumber": 101,
       "radicalChar": "⽤",
       "flagged": [
-        "単独画"
+        "用"
       ]
     },
     "羊": {
@@ -8756,7 +8772,7 @@
       "radicalNumber": 19,
       "radicalChar": "⼒",
       "flagged": [
-        "単独画"
+        "力"
       ]
     },
     "緑": {

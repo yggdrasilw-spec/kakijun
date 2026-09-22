@@ -56,6 +56,21 @@ for (const char of Object.keys(meta)) {
     if (recovered && recovered.length) parts[code] = recovered;
   }
 }
+
+// 康熙部首文字とSVGの汎用ラベル（単独画/部品）を正規化する。
+// SVG上の実際の筆画範囲は保持し、表示ラベルだけを辞書上の部首へ寄せる。
+for (const [char, info] of Object.entries(meta)) {
+  const code = char.codePointAt(0).toString(16).padStart(5, '0');
+  const items = parts[code];
+  if (!items) continue;
+  const radical = String.fromCodePoint(0x2f00 + info.radicalNumber - 1).normalize('NFKC');
+  const candidates = new Set([radical, ...(radicals[char] || []).map(x => x.normalize('NFKC'))]);
+  const flagged = items.filter(item => item.radical);
+  if (flagged.some(item => candidates.has((item.element || '').normalize('NFKC')))) continue;
+  if (flagged.length === 1 && ['単独画', '部品', '全体'].includes(flagged[0].element)) {
+    flagged[0].element = radical;
+  }
+}
 fs.writeFileSync(path.join(dataDir, 'kanji_parts.json'), JSON.stringify(parts, null, 2) + '\n');
 
 for (const [char, info] of Object.entries(meta)) {

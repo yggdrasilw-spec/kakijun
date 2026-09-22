@@ -47,6 +47,26 @@ function partsFromSvgFile(file) {
   }));
 }
 
+function radicalGroupsFromSvg(file) {
+  const text = fs.readFileSync(file, 'utf8').replace(/<!DOCTYPE[\s\S]*?\]>/, '');
+  const token = /<g\b[^>]*>|<\/g\s*>|<path\b[^>]*>/g;
+  const stack = [], found = [];
+  let pathIndex = 0;
+  const attrs = (tag) => Object.fromEntries([...tag.matchAll(/([:\w-]+)\s*=\s*"([^"]*)"/g)].map(m => [m[1], m[2]]));
+  for (const match of text.matchAll(token)) {
+    const tag = match[0];
+    if (tag.startsWith('<path')) { stack.forEach(g => { g.end = pathIndex; }); pathIndex++; continue; }
+    if (tag.startsWith('</')) {
+      const g = stack.pop();
+      if (g && g.radical && g.end >= g.start) found.push({ element:g.element, start:g.start, end:g.end, radical:true });
+      continue;
+    }
+    const a = attrs(tag);
+    stack.push({ element:a['kvg:element'] || '部品', start:pathIndex, end:pathIndex-1, radical:['general','tradit'].includes(a['kvg:radical']) });
+  }
+  return found;
+}
+
 const originallyMissing = new Set('井茨岡沖賀潟岐熊潔香佐細阪崎埼滋鹿得特栃奈縄俳媛阜夢梨'.split(''));
 for (const char of Object.keys(meta)) {
   const code = char.codePointAt(0).toString(16).padStart(5, '0');
@@ -70,6 +90,18 @@ for (const [char, info] of Object.entries(meta)) {
   if (flagged.some(item => candidates.has((item.element || '').normalize('NFKC')))) continue;
   if (flagged.length === 1 && ['単独画', '部品', '全体'].includes(flagged[0].element)) {
     flagged[0].element = radical;
+  }
+  const svgFile = path.join(__dirname, '..', '..', 'svg', `${code}.svg`);
+  if (fs.existsSync(svgFile)) {
+    const nested = radicalGroupsFromSvg(svgFile);
+    const matching = nested.filter(g => candidates.has((g.element || '').normalize('NFKC')));
+    if (matching.length && flagged.length === 1) {
+      const chosen = matching.sort((a,b) => (a.end-a.start)-(b.end-b.start))[0];
+      flagged[0].start = chosen.start;
+      flagged[0].end = chosen.end;
+      flagged[0].element = chosen.element;
+      flagged[0].radical = true;
+    }
   }
 }
 fs.writeFileSync(path.join(dataDir, 'kanji_parts.json'), JSON.stringify(parts, null, 2) + '\n');

@@ -1,9 +1,9 @@
 {
   "generatedBy": "validate_bushu_data.js",
   "statuses": {
-    "exact": 912,
+    "exact": 916,
     "candidate": 3,
-    "fallback": 111,
+    "fallback": 107,
     "missing": 0
   },
   "report": {
@@ -2401,11 +2401,11 @@
       ]
     },
     "幸": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 51,
       "radicalChar": "⼲",
-      "flagged": [
-        "𢆉"
+      "matched": [
+        "干"
       ]
     },
     "広": {
@@ -4702,7 +4702,7 @@
       "radicalNumber": 135,
       "radicalChar": "⾆",
       "flagged": [
-        "千"
+        "舌"
       ]
     },
     "先": {
@@ -6338,11 +6338,11 @@
       ]
     },
     "能": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 130,
       "radicalChar": "⾁",
-      "flagged": [
-        "䏍"
+      "matched": [
+        "月"
       ]
     },
     "脳": {
@@ -7003,11 +7003,11 @@
       ]
     },
     "奮": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 37,
       "radicalChar": "⼤",
-      "flagged": [
-        "奞"
+      "matched": [
+        "大"
       ]
     },
     "粉": {
@@ -7419,11 +7419,11 @@
       ]
     },
     "密": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 40,
       "radicalChar": "⼧",
-      "flagged": [
-        "宓"
+      "matched": [
+        "宀"
       ]
     },
     "脈": {
@@ -7791,7 +7791,7 @@
       "radicalNumber": 123,
       "radicalChar": "⽺",
       "flagged": [
-        "䒑"
+        "羊"
       ]
     },
     "葉": {
@@ -7927,7 +7927,7 @@
       "radicalNumber": 166,
       "radicalChar": "⾥",
       "flagged": [
-        "日"
+        "里"
       ]
     },
     "陸": {

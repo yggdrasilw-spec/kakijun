@@ -3630,13 +3630,12 @@
       "dictionaryRadical": "⼲",
       "svgParts": [
         "土",
-        "𢆉"
+        "干"
       ],
       "selectedParts": [
-        "𢆉"
+        "干"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "広": {
       "radicalNumber": 53,
@@ -7100,11 +7099,11 @@
       "radicalNumber": 135,
       "dictionaryRadical": "⾆",
       "svgParts": [
-        "千",
+        "舌",
         "口"
       ],
       "selectedParts": [
-        "千"
+        "舌"
       ],
       "status": "辞書部首を採用",
       "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
@@ -9577,14 +9576,13 @@
       "radicalNumber": 130,
       "dictionaryRadical": "⾁",
       "svgParts": [
-        "䏍",
+        "月",
         "部品"
       ],
       "selectedParts": [
-        "䏍"
+        "月"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "脳": {
       "radicalNumber": 130,
@@ -10588,14 +10586,13 @@
       "radicalNumber": 37,
       "dictionaryRadical": "⼤",
       "svgParts": [
-        "奞",
+        "大",
         "田"
       ],
       "selectedParts": [
-        "奞"
+        "大"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "粉": {
       "radicalNumber": 119,
@@ -11216,14 +11213,13 @@
       "radicalNumber": 40,
       "dictionaryRadical": "⼧",
       "svgParts": [
-        "宓",
+        "宀",
         "山"
       ],
       "selectedParts": [
-        "宓"
+        "宀"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "脈": {
       "radicalNumber": 130,
@@ -11772,11 +11768,11 @@
       "radicalNumber": 123,
       "dictionaryRadical": "⽺",
       "svgParts": [
-        "䒑",
+        "羊",
         "単独画"
       ],
       "selectedParts": [
-        "䒑"
+        "羊"
       ],
       "status": "辞書部首を採用",
       "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
@@ -11979,11 +11975,11 @@
       "radicalNumber": 166,
       "dictionaryRadical": "⾥",
       "svgParts": [
-        "日",
+        "里",
         "単独画"
       ],
       "selectedParts": [
-        "日"
+        "里"
       ],
       "status": "辞書部首を採用",
       "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"

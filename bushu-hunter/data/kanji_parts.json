@@ -3155,9 +3155,9 @@
   ],
   "091cc": [
     {
-      "element": "日",
+      "element": "里",
       "start": 0,
-      "end": 3,
+      "end": 6,
       "radical": true
     },
     {
@@ -3983,8 +3983,8 @@
       "radical": false
     },
     {
-      "element": "𢆉",
-      "start": 3,
+      "element": "干",
+      "start": 5,
       "end": 7,
       "radical": true
     }
@@ -5853,9 +5853,9 @@
   ],
   "07f8a": [
     {
-      "element": "䒑",
+      "element": "羊",
       "start": 0,
-      "end": 2,
+      "end": 5,
       "radical": true
     },
     {
@@ -10493,9 +10493,9 @@
   ],
   "0820c": [
     {
-      "element": "千",
+      "element": "舌",
       "start": 0,
-      "end": 2,
+      "end": 5,
       "radical": true
     },
     {
@@ -10959,8 +10959,8 @@
   ],
   "080fd": [
     {
-      "element": "䏍",
-      "start": 0,
+      "element": "月",
+      "start": 2,
       "end": 5,
       "radical": true
     },
@@ -13613,9 +13613,9 @@
   ],
   "0596e": [
     {
-      "element": "奞",
+      "element": "大",
       "start": 0,
-      "end": 10,
+      "end": 2,
       "radical": true
     },
     {
@@ -13803,9 +13803,9 @@
   ],
   "05bc6": [
     {
-      "element": "宓",
+      "element": "宀",
       "start": 0,
-      "end": 7,
+      "end": 2,
       "radical": true
     },
     {

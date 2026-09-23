@@ -308,18 +308,18 @@
 let KANJI_PARTS = {};
 let KANJI_POOL = []; // [{code, char, parts, grade}]
 let GRADE_KANJI = {};
-let KANJI_RADICALS = {};
 let KANJI_META = {};
 let RADICAL_NAMES = {};
-let RADICAL_NAMES_BY_NUMBER = {};
+let RADICAL_REFERENCE = {partNames:{},radicalForms:{}};
+let BUSHU_VALIDATION = {report:{}};
 
 async function boot(){
   try{
     const res = await fetch('data/kanji_parts.json');
     if(!res.ok) throw new Error('fetch failed');
     KANJI_PARTS = await res.json();
-    KANJI_RADICALS = await fetch('data/kanji2radical.json').then(r=>{if(!r.ok) throw new Error('radical data fetch failed'); return r.json();});
     KANJI_META = await fetch('data/kanjidic2_school.json').then(r=>{if(!r.ok) throw new Error('kanjidic data fetch failed'); return r.json();});
+    [RADICAL_REFERENCE,BUSHU_VALIDATION] = await Promise.all(['data/radical_reference.json','data/bushu_validation.json'].map(file=>fetch(file).then(r=>{if(!r.ok) throw new Error('radical audit data fetch failed'); return r.json();})));
     // 部首名は漢字辞典側の既存データを共有する（未取得でもゲームは動作）。
     try {
       const radicalData = await fetch('../kanji-jiten/data/kanji_data.json').then(r=>r.ok ? r.json() : []);
@@ -334,8 +334,10 @@ async function boot(){
     });
     GRADE_KANJI = {};
     KANJI_POOL.forEach(kanji=>{
-      if(!GRADE_KANJI[kanji.grade]) GRADE_KANJI[kanji.grade] = [];
-      GRADE_KANJI[kanji.grade].push([kanji.char, kanji.code]);
+      if(BUSHU_VALIDATION.report[kanji.char]?.status==='exact' && (kanji.parts||[]).length>=2){
+        if(!GRADE_KANJI[kanji.grade]) GRADE_KANJI[kanji.grade] = [];
+        GRADE_KANJI[kanji.grade].push([kanji.char, kanji.code]);
+      }
     });
     render();
   }catch(err){
@@ -346,21 +348,29 @@ async function boot(){
 
 function radicalDisplayName(part, kanji){
   const glyph = part.element || '部品';
-  let name = RADICAL_NAMES[glyph] || '';
+  if(glyph.includes('・')){
+    const names=glyph.split('・').map(char=>RADICAL_REFERENCE.partNames[char]?.default || RADICAL_NAMES[char] || '');
+    return names.every(Boolean) ? names.join('・') : '';
+  }
+  const position = ['nyoc','kamaec','tarec'].includes(part.position) ? part.position.slice(0,-1) : (part.position || '');
+  const named = RADICAL_REFERENCE.partNames[glyph];
+  let name = (named && (named[position] || named.default)) || RADICAL_NAMES[glyph] || '';
+  if(part.radical && kanji.radicalNumber===130 && ['月','肉'].includes(glyph)) name='にくづき';
   if(part.radical && kanji.radicalNumber){
     const radicalGlyph = String.fromCodePoint(0x2f00 + kanji.radicalNumber - 1).normalize('NFKC');
     if(!name && RADICAL_NAMES[radicalGlyph]) name = RADICAL_NAMES[radicalGlyph];
   }
-  if(!name) return '部品';
-  // 「へん」は左側の部首にだけ付ける。例：止→とめへん（左）/とめる（それ以外）。
-  if(part.position && part.position !== 'left' && /へん$/.test(name)) name = name.replace(/へん$/, '');
-  if(name === 'とめ') name = 'とめる';
-  return name;
+  return name || '';
 }
 function partLabel(part, kanji, index){
   const glyph = part.element || `パーツ${index+1}`;
   const name = radicalDisplayName(part, kanji);
-  return `<span class="part-name">${name}</span><span class="part-glyph">（${glyph}）</span>`;
+  const count = (part.ranges || [[part.start,part.end]]).reduce((n,r)=>n+r[1]-r[0]+1,0);
+  const positionNames = {left:'左側',right:'右側',top:'上側',bottom:'下側',tare:'たれ',nyo:'にょう',kamae:'かまえ',unknown:'組み立ての'};
+  const posLabel = positionNames[part.position] || '';
+  const generic = ['部品','単独画','全体','その他の部分'].includes(glyph);
+  const fallback = generic ? `${posLabel ? posLabel+'の' : ''}部分（${count}画）` : '構成部分';
+  return `<span class="part-name">${name || fallback}</span>${generic ? '' : `<span class="part-glyph">（${glyph}）</span>`}`;
 }
 
 /* ============ SVG読み込み・解析（漢字辞典アプリと同じ仕組み） ============ */
@@ -435,7 +445,8 @@ function renderGamePartsSVG(code, parts, answeredIdx, answeredCorrect){
   const locked = answeredIdx!==null && answeredIdx!==undefined;
   const colors = ['#ef6c5b','#4285d4','#d08a28','#48a878','#9b63c7','#1aa6a6','#e05b9d','#7d8c3f'];
   const groups = parts.map((p,i)=>{
-    const strokes = data.strokes.slice(p.start, p.end+1);
+    const ranges = p.ranges || [[p.start,p.end]];
+    const strokes = data.strokes.filter((_,strokeIdx)=>ranges.some(([a,b])=>strokeIdx>=a&&strokeIdx<=b));
     let strokeColor = colors[i % colors.length];
     if(locked && i===answeredIdx){
       strokeColor = answeredCorrect ? 'var(--success)' : 'var(--stroke-red)';
@@ -464,8 +475,9 @@ function clearGameTimer(){
 }
 
 function pickPool(difficulty){
-  if(difficulty==='all') return KANJI_POOL.slice();
-  return KANJI_POOL.filter(k=>k.grade===Number(difficulty));
+  const verified = KANJI_POOL.filter(k=>BUSHU_VALIDATION.report[k.char]?.status==='exact' && (k.parts||[]).length>=2);
+  if(difficulty==='all') return verified;
+  return verified.filter(k=>k.grade===Number(difficulty));
 }
 function shuffle(arr){ return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]); }
 
@@ -617,7 +629,7 @@ function chooseDifficulty(diff){
 function renderHomeMenu(){
   return `
     <h1 class="hero-title">部首ハンター</h1>
-    <p class="hero-sub">漢字のパーツをタップして、すばやく部首を当てよう！</p>
+    <p class="hero-sub">漢字のパーツをタップして、部首を見つけよう！</p>
     <div class="menu-list">
       <div class="menu-card" onclick="goDifficultySelect('timeattack')">
         <div class="mtitle">⏱ タイムアタック</div>
@@ -638,9 +650,10 @@ function renderDifficultySelect(){
   return `
     <button class="back-link" onpointerdown="event.preventDefault(); goHomeMenu()" onclick="event.preventDefault(); goHomeMenu()">← もどる</button>
     <h1 class="hero-title" style="font-size:18px;">学年をえらぼう</h1>
+    <p class="hero-sub">辞書の部首と部品を照合できた漢字から出題します。確認中の字は出題対象に含めていません。</p>
     <div class="diff-grid">
-      ${[1,2,3,4,5,6].map(g=>`<button class="diff-btn" onclick="chooseDifficulty('${g}')">小学${g}年<span class="sub">${GRADE_KANJI[g]?.length || 0}字</span></button>`).join('')}
-      <button class="diff-btn" onclick="chooseDifficulty('all')">全学年<span class="sub">小学校で習う漢字すべて</span></button>
+      ${[1,2,3,4,5,6].map(g=>`<button class="diff-btn" onclick="chooseDifficulty('${g}')">小学${g}年<span class="sub">出題対象 ${GRADE_KANJI[g]?.length || 0}字</span></button>`).join('')}
+      <button class="diff-btn" onclick="chooseDifficulty('all')">全学年<span class="sub">出題対象 ${KANJI_POOL.filter(k=>BUSHU_VALIDATION.report[k.char]?.status==='exact' && (k.parts||[]).length>=2).length}字</span></button>
     </div>`;
 }
 
@@ -649,7 +662,7 @@ function renderPlaying(){
   const timerPct = game.mode==='practice' ? 100 : Math.max(0,(game.timeLeft/TIME_PER_Q)*100);
   const urgent = timerPct < 30;
   const cardClass = game.answeredIdx===null ? '' : (game.answeredCorrect ? 'flash-correct' : 'flash-wrong');
-  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? `${radicalDisplayName(kanji.parts[game.answeredIdx],kanji)}（${kanji.parts[game.answeredIdx].element || '部品'}）` : '';
+  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? partLabel(kanji.parts[game.answeredIdx],kanji,game.answeredIdx) : '';
   const toast = game.answeredIdx===null ? '' :
     (game.answeredIdx===-1 ? `<div class="toast wrong">じかんぎれ…</div>`
      : game.answeredCorrect ? `<div class="toast correct">せいかい！ 部首は「${radicalName}」</div>`

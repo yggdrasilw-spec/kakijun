@@ -106,6 +106,13 @@ for (const [char, info] of Object.entries(meta)) {
       flagged[0].end = chosen.end;
       flagged[0].element = chosen.element;
       flagged[0].radical = true;
+    } else if (!matching.length && nested.length === 1 && flagged.length === 1) {
+      // 部首属性を持つSVGグループが1つだけなら、名称差があっても範囲は一意。
+      const chosen = nested[0];
+      flagged[0].start = chosen.start;
+      flagged[0].end = chosen.end;
+      flagged[0].element = radical;
+      flagged[0].radical = true;
     }
   }
 }

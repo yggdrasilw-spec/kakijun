@@ -682,27 +682,25 @@
       "radicalNumber": 96,
       "dictionaryRadical": "⽟",
       "svgParts": [
-        "王"
+        "玉"
       ],
       "selectedParts": [
-        "王"
+        "玉"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "黄": {
       "radicalNumber": 201,
       "dictionaryRadical": "⿈",
       "svgParts": [
-        "龷",
+        "黃",
         "由",
         "八"
       ],
       "selectedParts": [
-        "龷"
+        "黃"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "岡": {
       "radicalNumber": 46,
@@ -1122,13 +1120,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "己",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "械": {
       "radicalNumber": 75,
@@ -2119,13 +2116,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "求",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "求": {
       "radicalNumber": 85,
@@ -2384,13 +2380,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "孝",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "橋": {
       "radicalNumber": 75,
@@ -2807,13 +2802,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "苟",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "景": {
       "radicalNumber": 72,
@@ -3358,13 +3352,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "古",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "湖": {
       "radicalNumber": 85,
@@ -4449,13 +4442,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "部品",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "産": {
       "radicalNumber": 100,
@@ -6417,14 +6409,13 @@
       "radicalNumber": 102,
       "dictionaryRadical": "⽥",
       "svgParts": [
-        "日",
+        "田",
         "丨"
       ],
       "selectedParts": [
-        "日"
+        "田"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "真": {
       "radicalNumber": 109,
@@ -6586,13 +6577,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "娄",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "寸": {
       "radicalNumber": 41,
@@ -6672,13 +6662,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "正",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "整": {
       "radicalNumber": 66,
@@ -6838,14 +6827,13 @@
       "radicalNumber": 174,
       "dictionaryRadical": "⾭",
       "svgParts": [
-        "龶",
+        "靑",
         "月"
       ],
       "selectedParts": [
-        "龶"
+        "靑"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "静": {
       "radicalNumber": 174,
@@ -8689,13 +8677,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "啇",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "的": {
       "radicalNumber": 106,
@@ -9623,13 +9610,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "貝",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "背": {
       "radicalNumber": 130,
@@ -9743,14 +9729,13 @@
       "radicalNumber": 199,
       "dictionaryRadical": "⿆",
       "svgParts": [
-        "龶",
+        "麥",
         "夂"
       ],
       "selectedParts": [
-        "龶"
+        "麥"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "箱": {
       "radicalNumber": 118,
@@ -10057,14 +10042,13 @@
       "radicalNumber": 123,
       "dictionaryRadical": "⽺",
       "svgParts": [
-        "⺷",
+        "羊",
         "大"
       ],
       "selectedParts": [
-        "⺷"
+        "羊"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "鼻": {
       "radicalNumber": 209,
@@ -10855,13 +10839,12 @@
       "dictionaryRadical": "⽁",
       "svgParts": [
         "方",
-        "攵"
+        "攴"
       ],
       "selectedParts": [
-        "攵"
+        "攴"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "方": {
       "radicalNumber": 70,
@@ -11714,14 +11697,13 @@
       "radicalNumber": 146,
       "dictionaryRadical": "⾑",
       "svgParts": [
-        "覀",
+        "襾",
         "女"
       ],
       "selectedParts": [
-        "覀"
+        "襾"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "陽": {
       "radicalNumber": 170,

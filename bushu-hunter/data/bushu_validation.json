@@ -1,9 +1,9 @@
 {
   "generatedBy": "validate_bushu_data.js",
   "statuses": {
-    "exact": 1007,
+    "exact": 1025,
     "candidate": 0,
-    "fallback": 19,
+    "fallback": 1,
     "missing": 0
   },
   "report": {
@@ -457,19 +457,19 @@
       ]
     },
     "王": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 96,
       "radicalChar": "⽟",
-      "flagged": [
-        "王"
+      "matched": [
+        "玉"
       ]
     },
     "黄": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 201,
       "radicalChar": "⿈",
-      "flagged": [
-        "龷"
+      "matched": [
+        "黃"
       ]
     },
     "岡": {
@@ -745,11 +745,11 @@
       ]
     },
     "改": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "械": {
@@ -1409,11 +1409,11 @@
       ]
     },
     "救": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "求": {
@@ -1585,11 +1585,11 @@
       ]
     },
     "教": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "橋": {
@@ -1865,11 +1865,11 @@
       ]
     },
     "敬": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "景": {
@@ -2233,11 +2233,11 @@
       ]
     },
     "故": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "湖": {
@@ -2961,11 +2961,11 @@
       ]
     },
     "散": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "産": {
@@ -4273,11 +4273,11 @@
       ]
     },
     "申": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 102,
       "radicalChar": "⽥",
-      "flagged": [
-        "日"
+      "matched": [
+        "田"
       ]
     },
     "真": {
@@ -4385,11 +4385,11 @@
       ]
     },
     "数": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "寸": {
@@ -4441,11 +4441,11 @@
       ]
     },
     "政": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "整": {
@@ -4553,11 +4553,11 @@
       ]
     },
     "青": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 174,
       "radicalChar": "⾭",
-      "flagged": [
-        "龶"
+      "matched": [
+        "靑"
       ]
     },
     "静": {
@@ -5785,11 +5785,11 @@
       ]
     },
     "敵": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "的": {
@@ -6409,11 +6409,11 @@
       ]
     },
     "敗": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "背": {
@@ -6489,11 +6489,11 @@
       ]
     },
     "麦": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 199,
       "radicalChar": "⿆",
-      "flagged": [
-        "龶"
+      "matched": [
+        "麥"
       ]
     },
     "箱": {
@@ -6697,11 +6697,11 @@
       ]
     },
     "美": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 123,
       "radicalChar": "⽺",
-      "flagged": [
-        "⺷"
+      "matched": [
+        "羊"
       ]
     },
     "鼻": {
@@ -7225,11 +7225,11 @@
       ]
     },
     "放": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 66,
       "radicalChar": "⽁",
-      "flagged": [
-        "攵"
+      "matched": [
+        "攴"
       ]
     },
     "方": {
@@ -7801,11 +7801,11 @@
       ]
     },
     "要": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 146,
       "radicalChar": "⾑",
-      "flagged": [
-        "覀"
+      "matched": [
+        "襾"
       ]
     },
     "陽": {

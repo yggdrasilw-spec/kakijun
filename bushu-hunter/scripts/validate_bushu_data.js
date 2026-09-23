@@ -67,6 +67,26 @@ function radicalGroupsFromSvg(file) {
   return found;
 }
 
+function componentPositionsFromSvg(file) {
+  const text = fs.readFileSync(file, 'utf8').replace(/<!DOCTYPE[\s\S]*?\]>/, '');
+  const token = /<g\b[^>]*>|<\/g\s*>|<path\b[^>]*>/g;
+  const stack = [], found = [];
+  let pathIndex = 0;
+  const attrs = (tag) => Object.fromEntries([...tag.matchAll(/([:\w-]+)\s*=\s*"([^"]*)"/g)].map(m => [m[1], m[2]]));
+  for (const match of text.matchAll(token)) {
+    const tag = match[0];
+    if (tag.startsWith('<path')) { stack.forEach(g => { g.end = pathIndex; }); pathIndex++; continue; }
+    if (tag.startsWith('</')) {
+      const g = stack.pop();
+      if (g && g.element && g.end >= g.start) found.push(g);
+      continue;
+    }
+    const a = attrs(tag);
+    stack.push({ element:a['kvg:element'], position:a['kvg:position'] || '', start:pathIndex, end:pathIndex-1 });
+  }
+  return found;
+}
+
 const originallyMissing = new Set('井茨岡沖賀潟岐熊潔香佐細阪崎埼滋鹿得特栃奈縄俳媛阜夢梨'.split(''));
 for (const char of Object.keys(meta)) {
   const code = char.codePointAt(0).toString(16).padStart(5, '0');
@@ -76,6 +96,18 @@ for (const char of Object.keys(meta)) {
     const recovered = partsFromSvgFile(svgFile);
     if (recovered && recovered.length) parts[code] = recovered;
   }
+}
+
+// SVGの位置情報を既存の部品範囲へ付加する。
+for (const [char] of Object.entries(meta)) {
+  const code = char.codePointAt(0).toString(16).padStart(5, '0');
+  const svgFile = path.join(__dirname, '..', '..', 'svg', `${code}.svg`);
+  if (!parts[code] || !fs.existsSync(svgFile)) continue;
+  const groups = componentPositionsFromSvg(svgFile);
+  parts[code].forEach(part => {
+    const hit = groups.find(g => g.element === part.element && g.start <= part.start && g.end >= part.end);
+    if (hit && hit.position) part.position = hit.position;
+  });
 }
 
 // 康熙部首文字とSVGの汎用ラベル（単独画/部品）を正規化する。

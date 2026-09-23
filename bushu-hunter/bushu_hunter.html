@@ -346,12 +346,16 @@ async function boot(){
 
 function radicalDisplayName(part, kanji){
   const glyph = part.element || '部品';
-  if(RADICAL_NAMES[glyph]) return RADICAL_NAMES[glyph];
+  let name = RADICAL_NAMES[glyph] || '';
   if(part.radical && kanji.radicalNumber){
     const radicalGlyph = String.fromCodePoint(0x2f00 + kanji.radicalNumber - 1).normalize('NFKC');
-    if(RADICAL_NAMES[radicalGlyph]) return RADICAL_NAMES[radicalGlyph];
+    if(!name && RADICAL_NAMES[radicalGlyph]) name = RADICAL_NAMES[radicalGlyph];
   }
-  return '部品';
+  if(!name) return '部品';
+  // 「へん」は左側の部首にだけ付ける。例：止→とめへん（左）/とめる（それ以外）。
+  if(part.position && part.position !== 'left' && /へん$/.test(name)) name = name.replace(/へん$/, '');
+  if(name === 'とめ') name = 'とめる';
+  return name;
 }
 function partLabel(part, kanji, index){
   const glyph = part.element || `パーツ${index+1}`;

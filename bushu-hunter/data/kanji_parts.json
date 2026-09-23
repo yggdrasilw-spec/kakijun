@@ -14173,16 +14173,10 @@
   ],
   "09999": [
     {
-      "element": "禾",
+      "element": "香",
       "start": 0,
-      "end": 4,
-      "radical": false
-    },
-    {
-      "element": "日",
-      "start": 5,
       "end": 8,
-      "radical": false
+      "radical": true
     }
   ],
   "04f50": [
@@ -14271,10 +14265,10 @@
   ],
   "09e7f": [
     {
-      "element": "广",
+      "element": "鹿",
       "start": 0,
-      "end": 2,
-      "radical": false
+      "end": 10,
+      "radical": true
     }
   ],
   "05f97": [
@@ -14371,16 +14365,10 @@
   ],
   "0961c": [
     {
-      "element": "𠂤",
+      "element": "阜",
       "start": 0,
-      "end": 5,
-      "radical": false
-    },
-    {
-      "element": "十",
-      "start": 6,
       "end": 7,
-      "radical": false
+      "radical": true
     }
   ],
   "05922": [

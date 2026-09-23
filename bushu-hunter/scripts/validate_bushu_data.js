@@ -88,6 +88,11 @@ for (const [char, info] of Object.entries(meta)) {
   const candidates = new Set([radical, ...(radicals[char] || []).map(x => x.normalize('NFKC'))]);
   const flagged = items.filter(item => item.radical);
   if (flagged.some(item => candidates.has((item.element || '').normalize('NFKC')))) continue;
+  // 康熙部首そのものが字全体になる字（香・鹿・阜など）。
+  if (!flagged.length && radical === char) {
+    parts[code] = [{ element: char, start: 0, end: info.strokes - 1, radical: true }];
+    continue;
+  }
   if (flagged.length === 1 && ['単独画', '部品', '全体'].includes(flagged[0].element)) {
     flagged[0].element = radical;
   }
@@ -110,7 +115,7 @@ for (const [char, info] of Object.entries(meta)) {
   const code = char.codePointAt(0).toString(16).padStart(5, '0');
   const items = parts[code];
   const radicalChar = String.fromCodePoint(0x2f00 + info.radicalNumber - 1);
-  const candidates = new Set([radicalChar, ...(radicals[char] || [])]);
+  const candidates = new Set([radicalChar.normalize('NFKC'), ...(radicals[char] || []).map(x => x.normalize('NFKC'))]);
   if (!items) {
     statuses.missing++;
     report[char] = { status: 'missing', radicalNumber: info.radicalNumber, radicalChar };

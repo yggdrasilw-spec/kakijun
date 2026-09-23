@@ -201,6 +201,8 @@
     color:#5a6672;
   }
   .part-legend span{ display:inline-flex; align-items:center; gap:4px; }
+  .part-legend .part-name{ font-weight:700; }
+  .part-legend .part-glyph{ color:#6d6258; }
   .part-legend i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
   .prompt{
     text-align:center;
@@ -309,6 +311,7 @@ let GRADE_KANJI = {};
 let KANJI_RADICALS = {};
 let KANJI_META = {};
 let RADICAL_NAMES = {};
+let RADICAL_NAMES_BY_NUMBER = {};
 
 async function boot(){
   try{
@@ -320,7 +323,7 @@ async function boot(){
     // 部首名は漢字辞典側の既存データを共有する（未取得でもゲームは動作）。
     try {
       const radicalData = await fetch('../kanji-jiten/data/kanji_data.json').then(r=>r.ok ? r.json() : []);
-      radicalData.forEach(k=>{ if(k.radical && k.radicalName) RADICAL_NAMES[k.radical] = k.radicalName; });
+      radicalData.forEach(k=>{ if(k.radical && k.radicalName){ RADICAL_NAMES[k.radical] = k.radicalName; RADICAL_NAMES[k.radical.normalize('NFKC')] = k.radicalName; } });
     } catch(e) { /* 部首名がない環境では部品文字を表示 */ }
     KANJI_POOL = Object.entries(KANJI_META).map(([char, meta])=>{
       const code = char.codePointAt(0).toString(16).padStart(5,'0');
@@ -339,6 +342,21 @@ async function boot(){
     document.getElementById('app').innerHTML =
       '<main><p class="svg-loading">かんじデータを読み込めませんでした。kakijun本体とdata/フォルダを確認してください（file://では動きません）。</p></main>';
   }
+}
+
+function radicalDisplayName(part, kanji){
+  const glyph = part.element || '部品';
+  if(RADICAL_NAMES[glyph]) return RADICAL_NAMES[glyph];
+  if(part.radical && kanji.radicalNumber){
+    const radicalGlyph = String.fromCodePoint(0x2f00 + kanji.radicalNumber - 1).normalize('NFKC');
+    if(RADICAL_NAMES[radicalGlyph]) return RADICAL_NAMES[radicalGlyph];
+  }
+  return '部品';
+}
+function partLabel(part, kanji, index){
+  const glyph = part.element || `パーツ${index+1}`;
+  const name = radicalDisplayName(part, kanji);
+  return `<span class="part-name">${name}</span><span class="part-glyph">（${glyph}）</span>`;
 }
 
 /* ============ SVG読み込み・解析（漢字辞典アプリと同じ仕組み） ============ */
@@ -627,7 +645,7 @@ function renderPlaying(){
   const timerPct = game.mode==='practice' ? 100 : Math.max(0,(game.timeLeft/TIME_PER_Q)*100);
   const urgent = timerPct < 30;
   const cardClass = game.answeredIdx===null ? '' : (game.answeredCorrect ? 'flash-correct' : 'flash-wrong');
-  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? (RADICAL_NAMES[kanji.parts[game.answeredIdx].element] || kanji.parts[game.answeredIdx].element || '部首') : '';
+  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? `${radicalDisplayName(kanji.parts[game.answeredIdx],kanji)}（${kanji.parts[game.answeredIdx].element || '部品'}）` : '';
   const toast = game.answeredIdx===null ? '' :
     (game.answeredIdx===-1 ? `<div class="toast wrong">じかんぎれ…</div>`
      : game.answeredCorrect ? `<div class="toast correct">せいかい！ 部首は「${radicalName}」</div>`
@@ -640,7 +658,7 @@ function renderPlaying(){
     </div>
     ${game.mode!=='practice' ? `<div class="timer-bar-outer"><div class="timer-bar-inner ${urgent?'urgent':''}" style="width:${timerPct}%"></div></div>` : ''}
     <div class="prompt">どこが部首かな？タップしてえらぼう</div>
-    ${game.answeredIdx===null ? `<div class="part-legend">${kanji.parts.map((p,i)=>`<span><i style="background:${['#ef6c5b','#4285d4','#d08a28','#48a878','#9b63c7','#1aa6a6','#e05b9d','#7d8c3f'][i%8]}"></i>${p.element || `パーツ${i+1}`}</span>`).join('')}</div>` : ''}
+    ${game.answeredIdx===null ? `<div class="part-legend">${kanji.parts.map((p,i)=>`<span><i style="background:${['#ef6c5b','#4285d4','#d08a28','#48a878','#9b63c7','#1aa6a6','#e05b9d','#7d8c3f'][i%8]}"></i>${partLabel(p,kanji,i)}</span>`).join('')}</div>` : ''}
     <div class="game-kanji-card ${cardClass}">${renderGamePartsSVG(kanji.code, kanji.parts, game.answeredIdx, game.answeredCorrect)}</div>
     <div class="toast ${game.answeredCorrect?'correct':'wrong'}">${toast}</div>
     ${game.mode!=='practice' ? `<div class="score-row"><span>スコア: ${game.score}</span><span class="combo-badge">${game.combo>=2?`${game.combo}コンボ！`:''}</span></div>` : `<div class="score-row"><span>${game.questionsAnswered}問目</span></div>`}

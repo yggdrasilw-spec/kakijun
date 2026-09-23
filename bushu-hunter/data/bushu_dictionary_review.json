@@ -11517,15 +11517,14 @@
       "radicalNumber": 102,
       "dictionaryRadical": "⽥",
       "svgParts": [
-        "日",
+        "田",
         "丨",
         "日"
       ],
       "selectedParts": [
-        "日"
+        "田"
       ],
-      "status": "辞書部首を採用",
-      "reason": "SVG部品名は字形差または入れ子のため直接一致しないが、部首フラグが1つに絞れる"
+      "status": "一致"
     },
     "遊": {
       "radicalNumber": 162,

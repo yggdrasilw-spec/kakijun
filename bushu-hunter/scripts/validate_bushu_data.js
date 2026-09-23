@@ -113,6 +113,12 @@ for (const [char, info] of Object.entries(meta)) {
       flagged[0].end = chosen.end;
       flagged[0].element = radical;
       flagged[0].radical = true;
+    } else if (!matching.length && flagged.length === 1 && nested.length > 1 && new Set(nested.map(g => g.element)).size === 1) {
+      // 由のように、同じ部首が複数のSVGグループへ分かれる字は全体を部首範囲にする。
+      flagged[0].start = 0;
+      flagged[0].end = info.strokes - 1;
+      flagged[0].element = radical;
+      flagged[0].radical = true;
     }
   }
 }

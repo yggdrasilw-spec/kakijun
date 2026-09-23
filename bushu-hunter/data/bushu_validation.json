@@ -1,9 +1,9 @@
 {
   "generatedBy": "validate_bushu_data.js",
   "statuses": {
-    "exact": 1025,
+    "exact": 1026,
     "candidate": 0,
-    "fallback": 1,
+    "fallback": 0,
     "missing": 0
   },
   "report": {
@@ -7681,11 +7681,11 @@
       ]
     },
     "由": {
-      "status": "fallback",
+      "status": "exact",
       "radicalNumber": 102,
       "radicalChar": "⽥",
-      "flagged": [
-        "日"
+      "matched": [
+        "田"
       ]
     },
     "遊": {

@@ -1,12 +1,52 @@
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>部首データ確認</title>
-<style>body{font-family:system-ui,sans-serif;background:#f6f1e8;color:#302b26;margin:0}main{max-width:900px;margin:auto;padding:20px}.bar,.card{background:#fff;border-radius:14px;padding:16px;margin:12px 0}.bar{position:sticky;top:0;z-index:2}.bar button,.parts button{padding:8px 12px;border:1px solid #c9bca9;border-radius:8px;background:#fff;cursor:pointer}.parts{display:flex;gap:8px;flex-wrap:wrap}.parts button.selected{background:#2f6f68;color:#fff}.head{display:flex;gap:24px;align-items:center;flex-wrap:wrap}.kanji{font-size:110px}.svgbox{width:240px;height:240px}.svgbox svg{width:100%;height:100%}.hint{color:#756b60}</style>
-<main><h1>部首データ確認</h1><p class="hint">KANJIDIC2と自動判定が一致しなかった漢字です。正しい部品をクリックしてください。</p><div class="bar"><span id="progress"></span>　<button id="prev">前へ</button> <button id="next">次へ</button> <button id="save">修正データを保存</button></div><section id="app"></section></main>
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>部首データ辞書照合</title>
+<style>
+:root{color-scheme:light;--ink:#302b26;--muted:#756b60;--paper:#f6f1e8;--line:#d7cbbb;--teal:#2f6f68}*{box-sizing:border-box}body{font-family:system-ui,"Yu Gothic UI",sans-serif;background:var(--paper);color:var(--ink);margin:0}main{max-width:1120px;margin:auto;padding:20px}.hint{color:var(--muted);line-height:1.6}.bar,.card{background:#fff;border:1px solid #eee8df;border-radius:14px;padding:16px;margin:12px 0}.bar{position:sticky;top:0;z-index:2;box-shadow:0 4px 12px #302b2610}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.controls button,.controls select,.controls input,.parts button{font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:#fff}.controls input{min-width:220px;flex:1}.controls button,.parts button{cursor:pointer}.controls button:hover,.parts button:hover{border-color:var(--teal)}.head{display:grid;grid-template-columns:auto 1fr 240px;gap:24px;align-items:center}.kanji{font-size:92px;line-height:1}.svgbox{width:220px;height:220px}.svgbox svg{width:100%;height:100%}.status{display:inline-block;border-radius:99px;padding:3px 9px;background:#edf4f1;color:#215a51;font-size:13px}.source{margin-top:12px;padding:10px;border-left:4px solid var(--teal);background:#f4f8f6}.source a{margin-right:12px}.parts{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.parts button.selected{background:#2f6f68;color:#fff;border-color:#2f6f68}.parts small{opacity:.8}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.warn{color:#8b4b28}.error{background:#fff0ee;color:#9a2929;padding:12px;border-radius:10px}@media(max-width:700px){.head{grid-template-columns:auto 1fr}.svgbox{grid-column:1/-1;width:min(70vw,260px);height:auto;aspect-ratio:1;margin:auto}.kanji{font-size:72px}.two{grid-template-columns:1fr}}
+</style>
+<main>
+  <h1>部首データ辞書照合</h1>
+  <p class="hint">小学校で習う1,026字について、漢字ペディアの字別ページに掲載された部首画像と、同じ画像IDの部首索引名を表示します。選択中の画はKanjiVGのSVG構造に対応します。部首番号が辞書間で異なる字は、番号だけで正誤を決めず、出典ページを見比べてください。</p>
+  <div class="bar">
+    <span id="progress"></span>　<button id="prev">前へ</button> <button id="next">次へ</button> <button id="save">修正データを保存</button>
+    <div class="controls"><input id="search" type="search" placeholder="漢字・部首名で検索"><select id="grade"><option value="all">全学年</option><option value="1">小学1年</option><option value="2">小学2年</option><option value="3">小学3年</option><option value="4">小学4年</option><option value="5">小学5年</option><option value="6">小学6年</option></select><button id="prevMatch">前の検索結果</button><button id="nextMatch">次の検索結果</button></div>
+  </div>
+  <section id="app"></section>
+</main>
 <script>
-let validation,parts,meta,items=[],index=0,overrides={};
+let audit,parts,meta,reference,items=[],visible=[],index=0,manual={};
 const code=c=>c.codePointAt(0).toString(16).padStart(5,'0');
 const radical=n=>String.fromCodePoint(0x2f00+n-1).normalize('NFKC');
-async function start(){[validation,parts,meta]=await Promise.all(['data/bushu_validation.json','data/kanji_parts.json','data/kanjidic2_school.json'].map(x=>fetch(x).then(r=>r.json())));items=Object.entries(validation.report).filter(([,v])=>v.status!=='exact').map(([char,v])=>({char,...v}));render()}
-async function render(){const item=items[index],m=meta[item.char],ps=parts[code(item.char)]||[];document.querySelector('#progress').textContent=`${index+1}/${items.length}　${item.char}`;document.querySelector('#app').innerHTML=`<div class="card"><div class="head"><div class="kanji">${item.char}</div><div>部首番号: <b>${m.radicalNumber}</b><br>部首: <b>${radical(m.radicalNumber)}</b><br>総画数: ${m.strokes}<br><span class="hint">正しい部品を1つ選択</span></div><div class="svgbox" id="svg">読み込み中…</div></div><div class="parts">${ps.map((p,i)=>`<button data-i="${i}" class="${p.radical?'selected':''}"><b>${p.element||'部品'}</b><br><small>${p.start}–${p.end}画</small></button>`).join('')}</div><p>現在の正解: ${ps.filter(p=>p.radical).map(p=>p.element).join('、')||'未設定'}</p></div>`;document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;ps.forEach((p,j)=>p.radical=j===i);overrides[item.char]={code:code(item.char),parts:ps};render()});try{const t=await fetch('../svg/'+code(item.char)+'.svg').then(r=>r.text()),x=new DOMParser().parseFromString(t.replace(/<!DOCTYPE[\s\S]*?\]>/,''),'image/svg+xml'),s=x.querySelector('svg');s.removeAttribute('width');s.removeAttribute('height');document.querySelector('#svg').replaceChildren(document.importNode(s,true))}catch(e){document.querySelector('#svg').textContent='SVGなし'}}
-prev.onclick=()=>{index=(index+items.length-1)%items.length;render()};next.onclick=()=>{index=(index+1)%items.length;render()};save.onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(overrides,null,2)],{type:'application/json'}));a.download='bushu_overrides.json';a.click()};start();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const savedStrokeCount=ps=>ps.filter(p=>p.radical).reduce((sum,p)=>sum+(p.ranges||[[p.start,p.end]]).reduce((n,[a,b])=>n+b-a+1,0),0);
+async function start(){
+  try{
+    [audit,parts,meta,reference]=await Promise.all(['data/bushu_kanjipedia_audit.json','data/kanji_parts.json','data/kanjidic2_school.json','data/radical_reference.json'].map(x=>fetch(x).then(r=>{if(!r.ok)throw new Error(x);return r.json()})));
+    items=Object.entries(audit.entries).map(([char,data])=>({char,...data})).sort((a,b)=>a.grade-b.grade||a.char.localeCompare(b.char,'ja'));
+    applyFilter();render();
+  }catch(e){document.querySelector('#app').innerHTML='<p class="error">監査データを読み込めません。HTTP経由で開き、data/を確認してください。</p>'}
+}
+function applyFilter(){
+  const q=document.querySelector('#search').value.trim().toLowerCase(),g=document.querySelector('#grade').value;
+  visible=items.filter(x=>(g==='all'||x.grade===Number(g))&&(!q||`${x.char} ${x.dictionaryRadical?.indexLabels?.join(' ')} ${x.kanjipediaGroups?.flatMap(y=>y.labels).join(' ')}`.toLowerCase().includes(q)));
+  index=Math.max(0,Math.min(index,visible.length-1));
+}
+function render(){
+  if(!visible.length){document.querySelector('#progress').textContent='該当なし';document.querySelector('#app').innerHTML='<p class="card">条件に合う漢字はありません。</p>';return}
+  const item=visible[index],m=meta[item.char],ps=parts[code(item.char)]||[],override=reference.radicalOverrides?.[item.char],dict=item.dictionaryRadical||{},labels=(dict.indexLabels||[]).join('・')||'索引名なし';
+  const selectedStrokeCount=savedStrokeCount(ps),dictionaryStrokeCount=Number.isInteger(dict.totalStrokeCount)&&Number.isInteger(dict.radicalStrokeCount)?dict.totalStrokeCount-dict.radicalStrokeCount:null;
+  document.querySelector('#progress').textContent=`${index+1}/${visible.length}　${item.char}　（全${items.length}字中）`;
+  const saved=manual[item.char]?.parts||ps;
+  const dictionaryWhole=override?.wholeCharacterRadical;
+  document.querySelector('#app').innerHTML=`<div class="card"><div class="head"><div class="kanji">${esc(item.char)}</div><div><span class="status">小学${item.grade}年・${m.strokes}画</span><p>漢字ペディアの部首名: <b>${esc(labels)}</b><br>部首画像ID: ${esc(dict.image||'取得なし')}<br>辞書が示す部首画数: ${Number.isInteger(dict.totalStrokeCount)&&Number.isInteger(dict.radicalStrokeCount)?dict.totalStrokeCount-dict.radicalStrokeCount:'未取得'}画 ／ SVG候補 ${savedStrokeCount(saved)}画 ${Number.isInteger(dict.totalStrokeCount)&&Number.isInteger(dict.radicalStrokeCount)?(dict.totalStrokeCount-dict.radicalStrokeCount===savedStrokeCount(saved)?'一致':'要確認'):''}<br>（総画数 ${dict.totalStrokeCount??'?'}画 − 部首内画数 ${dict.radicalStrokeCount??'?'}画）<br>KANJIDIC2分類: ${m.radicalNumber}（${esc(radical(m.radicalNumber))}）<br>SVG上の選択部品: <b>${saved.filter(p=>p.radical).map(p=>esc(p.element)).join('・')||'未設定'}</b></p>${override?`<p class="warn">個別照合メモ: ${esc(override.reason)}</p>`:''}</div><div class="svgbox" id="svg">読み込み中…</div></div><div class="source"><b>出典ページ</b><p><a href="${esc(item.kanjipediaCharacterUrl)}" target="_blank" rel="noopener">漢字ペディアの字別ページ</a><a href="${esc(dict.indexUrl||'https://www.kanjipedia.jp/sakuin/bushu/1')}" target="_blank" rel="noopener">部首索引（${esc(labels)}）</a><a href="${esc(dict.imageUrl||'#')}" target="_blank" rel="noopener">掲載部首画像</a></p></div>${dictionaryWhole?'<p class="warn">辞書では部首内画数0（字全体が部首）です。分割クイズにはしません。</p>':''}<div class="parts">${saved.map((p,i)=>`<button data-i="${i}" class="${p.radical?'selected':''}" ${dictionaryWhole?'disabled':''}><b>${esc(p.element||'部品')}</b><br><small>${(p.ranges||[[p.start,p.end]]).map(([a,b])=>a===b?`${a+1}画`:`${a+1}–${b+1}画`).join('、')}</small></button>`).join('')}</div><p class="hint">青緑色が現在の部首候補です。クリックで手動候補を切り替えられます。このセッション内で字ごとに保持し、「修正データを保存」でJSONを書き出します。出典分類とSVG形が一致しない場合は、根拠を確認してから扱ってください。</p></div>`;
+  document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;const updated=saved.map((p,j)=>({...p,radical:j===i}));manual[item.char]={code:code(item.char),parts:updated};render()});
+  fetch('../svg/'+code(item.char)+'.svg').then(r=>r.text()).then(t=>{const x=new DOMParser().parseFromString(t.replace(/<!DOCTYPE[\s\S]*?\]>/,''),'image/svg+xml'),s=x.querySelector('svg');if(!s)throw 0;s.removeAttribute('width');s.removeAttribute('height');document.querySelector('#svg').replaceChildren(document.importNode(s,true))}).catch(()=>document.querySelector('#svg').textContent='SVGなし');
+}
+function move(delta){if(!visible.length)return;index=(index+delta+visible.length)%visible.length;render()}
+document.querySelector('#prev').onclick=()=>move(-1);document.querySelector('#next').onclick=()=>move(1);document.querySelector('#prevMatch').onclick=()=>move(-1);document.querySelector('#nextMatch').onclick=()=>move(1);
+document.querySelector('#search').oninput=()=>{applyFilter();render()};document.querySelector('#grade').onchange=()=>{applyFilter();render()};
+document.querySelector('#save').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({source:'bushu_review.html manual part selection; confirm against linked dictionary sources',entries:manual},null,2)],{type:'application/json'}));a.download='bushu_manual_review.json';a.click()};
+start();
 </script>
+</html>

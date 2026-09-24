@@ -42,12 +42,142 @@
     "黑": ["黑", "黒"],
     "齒": ["齒", "歯"],
     "龜": ["龜", "亀"],
-    "巛": ["巛", "川", "⺍"],
+    "巛": ["巛", "川"],
     "靑": ["靑", "青"],
     "尢": ["尢", "尤", "尣"],
     "戶": ["戶", "戸", "户"],
     "曰": ["曰", "日"],
     "彐": ["彐", "彑", "⺕"]
+  },
+  "radicalOverrides": {
+    "弱": {
+      "svgElement": "弓", "displayElement": "弓", "dictionaryRadical": "弓（ゆみ）", "displayName": "ゆみ",
+      "reason": "漢字ペディアの部首画数は3画。KanjiVGでは左右それぞれの弓が別構造だが、弓部は両方を含む",
+      "sources": ["https://www.kanjipedia.jp/kanji/0003018400", "https://www.kanjipedia.jp/sakuin/bushu/detail/3/56"]
+    },
+    "母": {
+      "svgElement": "毋", "displayElement": "毋", "dictionaryRadical": "毋（なかれ）", "displayName": "なかれ",
+      "reason": "漢字ペディアの部首索引は毋。KanjiVGタグだけでは4画にならないため、SVG部品の画範囲に要追加確認あり",
+      "sources": ["https://www.kanjipedia.jp/kanji/0006317900", "https://www.kanjipedia.jp/sakuin/bushu/detail/4/80"]
+    },
+    "老": {
+      "svgElement": "耂", "displayElement": "耂", "dictionaryRadical": "老（おいかんむり）", "displayName": "おいかんむり",
+      "reason": "部首索引は老。総画数6から部首内画数2を除いた4画の耂形を部首として表示",
+      "sources": ["https://www.kanjipedia.jp/kanji/0007341300", "https://www.kanjipedia.jp/sakuin/bushu/detail/6/125"]
+    },
+    "申": {
+      "svgElement": "田", "displayElement": "田", "dictionaryRadical": "田（た）", "displayName": "た",
+      "reason": "部首索引は田、部首内画数0。田形に加えて縦画を含む全体字形として扱う必要があるため分割クイズ対象外",
+      "wholeCharacterRadical": true,
+      "sources": ["https://www.kanjipedia.jp/kanji/0003582900", "https://www.kanjipedia.jp/sakuin/bushu/detail/5/102"]
+    },
+    "表": {
+      "svgElement": "衣", "displayElement": "衣", "dictionaryRadical": "衣（ころも）", "displayName": "ころも",
+      "reason": "漢字ペディアの部首索引は衣。KanjiVGの衣形は5画だが、辞典の総画数と部首内画数から算出される部首画数は6画のため形の追加確認が必要",
+      "sources": ["https://www.kanjipedia.jp/kanji/0005932900", "https://www.kanjipedia.jp/sakuin/bushu/detail/6/145"]
+    },
+    "興": {
+      "svgElement": "臼", "displayElement": "臼", "dictionaryRadical": "臼（うす）", "displayName": "うす",
+      "reason": "漢字ペディアの部首索引は臼。KanjiVGでは複数領域へ伝播したタグをそのまま部首全体にしない",
+      "sources": ["https://www.kanjipedia.jp/kanji/0002316200", "https://www.kanjipedia.jp/sakuin/bushu/detail/6/134"]
+    },
+    "曲": {
+      "svgElement": "日",
+      "displayElement": "曰（日形）",
+      "dictionaryRadical": "曰（ひらび）",
+      "displayName": "ひらび",
+      "reason": "辞書部首は曰。KanjiVGでは曰の字形・画群を日として記録",
+      "sources": ["https://www.kanjipedia.jp/kanji/0001572400", "https://kanji.jitenon.jp/kanji/276"]
+    },
+    "営": {
+      "svgElement": "⺍",
+      "displayElement": "⺍",
+      "dictionaryRadical": "⺍（つかんむり）",
+      "displayName": "つかんむり",
+      "reason": "漢字ペディア（日本漢字能力検定協会）の教育字形の部首分類",
+      "sources": ["https://www.kanjipedia.jp/kanji/0000392900", "https://www.kanjipedia.jp/sakuin/bushu/detail/3/60", "https://dictionary.goo.ne.jp/word/kanji/%E5%96%B6/"]
+    },
+    "当": {
+      "svgElement": "⺌",
+      "displayElement": "⺌",
+      "dictionaryRadical": "小（⺌）",
+      "displayName": "しょう",
+      "reason": "教育字形の部首は小部。KANJIDIC2の康熙番号だけではなく日本語学習辞典の分類を優先",
+      "sources": ["https://dictionary.goo.ne.jp/word/kanji/%E5%BD%93/", "https://kanji.jitenon.jp/kanji/200"]
+    },
+    "全": {
+      "svgElement": "人",
+      "displayElement": "入（人形）",
+      "dictionaryRadical": "入",
+      "displayName": "いる",
+      "reason": "教育用字体では入が人形になる",
+      "source": "https://www.kanjipedia.jp/kanji/0004130700"
+    },
+    "内": {
+      "svgElement": "人",
+      "displayElement": "人",
+      "dictionaryRadical": "入（いる）",
+      "displayName": "いる",
+      "reason": "漢字ペディアは部首索引で入（いる）に分類。教育字体では入の形が人形になると説明",
+      "sources": ["https://www.kanjipedia.jp/kanji/0005373100", "https://www.kanjipedia.jp/sakuin/bushu/detail/2/11"]
+    },
+    "巻": {
+      "svgElement": "己",
+      "displayElement": "己",
+      "dictionaryRadical": "卩（わりふ・ふしづくり）",
+      "displayName": "ふしづくり",
+      "reason": "漢字ペディアの字別部首画像と部首索引に基づく分類。画面では字形上の己部を示す",
+      "sources": ["https://www.kanjipedia.jp/kanji/0001042200", "https://www.kanjipedia.jp/sakuin/bushu/detail/2/26"]
+    },
+    "厳": {
+      "svgElement": "⺍",
+      "displayElement": "⺍",
+      "dictionaryRadical": "⺍（つかんむり）",
+      "displayName": "つかんむり",
+      "reason": "漢字ペディアの字別部首画像と部首索引に基づく教育字体の分類",
+      "sources": ["https://www.kanjipedia.jp/kanji/0002016600", "https://www.kanjipedia.jp/sakuin/bushu/detail/3/60"]
+    },
+    "巣": {
+      "svgElement": "⺍",
+      "displayElement": "⺍",
+      "dictionaryRadical": "⺍（つかんむり）",
+      "displayName": "つかんむり",
+      "reason": "漢字ペディアの字別部首画像と部首索引に基づく教育字体の分類",
+      "sources": ["https://www.kanjipedia.jp/kanji/0004241500", "https://www.kanjipedia.jp/sakuin/bushu/detail/3/60"]
+    },
+    "着": {
+      "svgElement": "羊",
+      "displayElement": "羊",
+      "dictionaryRadical": "羊（ひつじ）",
+      "displayName": "ひつじ",
+      "reason": "漢字ペディアの字別部首画像と部首索引が羊を採用。KanjiVGにも羊のNelson部首タグがあり、羊6画を独立して切り出す",
+      "sources": ["https://www.kanjipedia.jp/kanji/0004715800", "https://www.kanjipedia.jp/sakuin/bushu/detail/6/123"]
+    },
+    "単": {
+      "svgElement": "⺍",
+      "displayElement": "⺍",
+      "dictionaryRadical": "⺍（つかんむり）",
+      "displayName": "つかんむり",
+      "reason": "漢字ペディアの字別部首画像と部首索引に基づく教育字体の分類",
+      "sources": ["https://www.kanjipedia.jp/kanji/0004590500", "https://www.kanjipedia.jp/sakuin/bushu/detail/3/60"]
+    },
+    "舎": {
+      "svgElement": "吉",
+      "displayElement": "吉（舌形）",
+      "dictionaryRadical": "舌（した）",
+      "displayName": "した",
+      "reason": "漢字ペディアの字別部首画像と部首索引に基づく教育字体の分類。KanjiVGの吉形6画を字形上の部首として示す",
+      "sources": ["https://www.kanjipedia.jp/kanji/0002971600", "https://www.kanjipedia.jp/sakuin/bushu/detail/6/135"]
+    },
+    "歯": {
+      "svgElement": "歯",
+      "displayElement": "歯",
+      "dictionaryRadical": "は（歯）",
+      "displayName": "は",
+      "wholeCharacterRadical": true,
+      "reason": "漢字ペディアは部首内画数0として掲載。部首が字全体のため、止だけを部首として切り出す分類にしない",
+      "sources": ["https://www.kanjipedia.jp/kanji/0002807300", "https://www.kanjipedia.jp/sakuin/bushu/detail/15/211"]
+    }
   },
   "partNames": {
     "一": {"default":"いち"}, "人": {"default":"ひと", "left":"にんべん"}, "入": {"default":"いる", "top":"いる"}, "入（人形）": {"default":"いる（人形）", "top":"いる（人形）"}, "亻": {"default":"にんべん"},
@@ -74,31 +204,31 @@
     "門": {"default":"もんがまえ", "kamae":"もんがまえ"}, "冂": {"default":"けいがまえ", "kamae":"けいがまえ"},
     "口": {"default":"くち", "left":"くちへん"}, "頁": {"default":"おおがい", "right":"おおがい"},
     "耂": {"default":"おいかんむり", "tare":"おいかんむり"}, "夂": {"default":"ふゆがしら"},
-    "⺨": {"default":"けものへん"}, "犭": {"default":"けものへん"}, "礻": {"default":"しめすへん"},
+    "⺨": {"default":"けものへん"}, "犭": {"default":"けものへん"}, "礻": {"default":"しめすへん"}, "⺍": {"default":"つかんむり"},
     "衤": {"default":"ころもへん"}, "⻖": {"default":"こざとへん"}, "⻏": {"default":"おおざと"},
     "八": {"default":"はち"}, "冫": {"default":"にすい"}, "冖": {"default":"わかんむり"},
     "卩": {"default":"ふしづくり"}, "夂": {"default":"ふゆがしら"}, "夊": {"default":"すいにょう"},
     "尢": {"default":"まげあし"}, "尸": {"default":"しかばね"}, "巾": {"default":"はば"},
     "幺": {"default":"いとがしら"}, "廾": {"default":"にじゅうあし"}, "弓": {"default":"ゆみ", "left":"ゆみへん"},
     "彡": {"default":"さんづくり"}, "戈": {"default":"ほこづくり"}, "斤": {"default":"おのづくり"},
-    "方": {"default":"ほうへん"}, "曰": {"default":"ひらび"}, "歹": {"default":"がつへん"},
+    "方": {"default":"ほう", "left":"ほうへん・かたへん"}, "曰": {"default":"ひらび"}, "曰（日形）": {"default":"ひらび（日形は日）"}, "歹": {"default":"がつへん"},
     "殳": {"default":"ほこづくり"}, "毋": {"default":"なかれ"}, "毛": {"default":"け"},
     "氏": {"default":"うじ"}, "气": {"default":"きがまえ"}, "爿": {"default":"しょうへん"},
-    "片": {"default":"かたへん"}, "牛": {"default":"うし", "left":"うしへん"}, "王": {"default":"おう", "left":"おうへん"}, "玉": {"default":"たま", "left":"たまへん"},
+    "片": {"default":"かた", "left":"かたへん"}, "牛": {"default":"うし", "left":"うしへん"}, "王": {"default":"おう", "left":"おうへん"}, "玉": {"default":"たま", "left":"たまへん"},
     "疋": {"default":"ひき"}, "癶": {"default":"はつがしら"}, "白": {"default":"しろ"},
     "皮": {"default":"けがわ"}, "皿": {"default":"さら"}, "目": {"default":"め"},
     "矛": {"default":"ほこ"}, "矢": {"default":"や"}, "禾": {"default":"のぎ", "left":"のぎへん"},
     "立": {"default":"たつ"}, "米": {"default":"こめ", "left":"こめへん"}, "羊": {"default":"ひつじ"},
     "羽": {"default":"はね"}, "耳": {"default":"みみ", "left":"みみへん"}, "聿": {"default":"ふでづくり"},
-    "臼": {"default":"うす"}, "舌": {"default":"した"}, "舟": {"default":"ふねへん", "left":"ふねへん"},
-    "艮": {"default":"うしとら"}, "虍": {"default":"とらかんむり"}, "虫": {"default":"むしへん", "left":"むしへん"},
+    "臼": {"default":"うす"}, "舌": {"default":"した"}, "舟": {"default":"ふね", "left":"ふねへん"},
+    "艮": {"default":"うしとら"}, "虍": {"default":"とらかんむり"}, "虫": {"default":"むし", "left":"むしへん"},
     "血": {"default":"ち"}, "行": {"default":"ぎょうがまえ", "kamae":"ぎょうがまえ"}, "西": {"default":"にし"},
     "角": {"default":"つの"}, "谷": {"default":"たに"}, "豆": {"default":"まめ"},
-    "豕": {"default":"いのこ"}, "豸": {"default":"むじなへん", "left":"むじなへん"}, "赤": {"default":"あか"},
+    "豕": {"default":"いのこ"}, "豸": {"default":"むじな", "left":"むじなへん"}, "赤": {"default":"あか"},
     "走": {"default":"はしる"}, "足": {"default":"あし", "left":"あしへん"}, "身": {"default":"み"},
     "辛": {"default":"からい"}, "辰": {"default":"たつ"}, "酉": {"default":"ひよみのとり"},
     "里": {"default":"さと"}, "隹": {"default":"ふるとり"}, "非": {"default":"あらず"},
-    "革": {"default":"かわへん", "left":"かわへん"}, "韋": {"default":"なめしがわ"}, "韭": {"default":"にら"},
+    "革": {"default":"かくのかわ・つくりがわ", "left":"かわへん"}, "韋": {"default":"なめしがわ"}, "韭": {"default":"にら"},
     "音": {"default":"おと"}, "風": {"default":"かぜ"}, "飛": {"default":"とぶ"},
     "食": {"default":"しょく", "left":"しょくへん"}, "首": {"default":"くび"}, "香": {"default":"かおり"},
     "骨": {"default":"ほね"}, "高": {"default":"たかい"}, "髟": {"default":"かみがしら"},

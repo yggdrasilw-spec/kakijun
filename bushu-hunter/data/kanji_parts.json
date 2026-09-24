@@ -66,10 +66,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          4,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "儿・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 3,
+      "ranges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "radical": false
     }
   ],
   "04e94": [
@@ -81,10 +98,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          3,
           3
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "",
+      "start": 1,
+      "end": 2,
+      "ranges": [
+        [
+          1,
+          2
+        ]
+      ],
+      "radical": false
     }
   ],
   "0516d": [
@@ -460,10 +494,27 @@
       "ranges": [
         [
           1,
+          2
+        ],
+        [
+          5,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "",
+      "start": 3,
+      "end": 4,
+      "ranges": [
+        [
+          3,
+          4
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "丿",
@@ -1696,10 +1747,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          12,
           12
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "袁・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 11,
+      "ranges": [
+        [
+          2,
+          11
+        ]
+      ],
+      "radical": false
     }
   ],
   "09060": [
@@ -1918,10 +1986,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          5,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "口・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 4,
+      "ranges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "radical": false
     }
   ],
   "04f1a": [
@@ -3018,10 +3103,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          7,
           7
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "玉・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 6,
+      "ranges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "radical": false
     }
   ],
   "09ed2": [
@@ -3412,14 +3514,27 @@
       "element": "弓",
       "position": "left",
       "start": 0,
-      "end": 7,
+      "end": 2,
       "ranges": [
         [
           0,
-          7
+          2
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "right",
+      "start": 3,
+      "end": 4,
+      "ranges": [
+        [
+          3,
+          4
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "その他の部分",
@@ -3727,10 +3842,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          6,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "⺍・乂・乂・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 5,
+      "ranges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "radical": false
     }
   ],
   "06570": [
@@ -4613,6 +4745,19 @@
   ],
   "05f53": [
     {
+      "element": "⺌",
+      "position": "top",
+      "start": 0,
+      "end": 2,
+      "ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "⺕",
       "position": "bottom",
       "start": 3,
@@ -4623,20 +4768,7 @@
           5
         ]
       ],
-      "radical": true
-    },
-    {
-      "element": "⺌",
-      "start": 0,
-      "end": 2,
-      "radical": false,
-      "position": "top",
-      "ranges": [
-        [
-          0,
-          2
-        ]
-      ]
+      "radical": false
     }
   ],
   "06771": [
@@ -4648,10 +4780,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          5,
           7
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "日・木",
+      "position": "",
+      "start": 1,
+      "end": 4,
+      "ranges": [
+        [
+          1,
+          4
+        ]
+      ],
+      "radical": false
     }
   ],
   "07b54": [
@@ -4808,6 +4957,19 @@
   ],
   "05185": [
     {
+      "element": "人",
+      "position": "",
+      "start": 2,
+      "end": 3,
+      "ranges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "冂",
       "position": "",
       "start": 0,
@@ -4818,19 +4980,7 @@
           1
         ]
       ],
-      "radical": true
-    },
-    {
-      "element": "人",
-      "start": 2,
-      "end": 3,
-      "radical": false,
-      "ranges": [
-        [
-          2,
-          3
-        ]
-      ]
+      "radical": false
     }
   ],
   "05357": [
@@ -5179,10 +5329,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          4,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "",
+      "start": 2,
+      "end": 3,
+      "ranges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "radical": false
     }
   ],
   "065b9": [
@@ -5744,10 +5911,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          6,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "匚・矢・匚",
+      "position": "kamae",
+      "start": 1,
+      "end": 5,
+      "ranges": [
+        [
+          1,
+          5
+        ]
+      ],
+      "radical": false
     }
   ],
   "059d4": [
@@ -6727,17 +6911,34 @@
   ],
   "066f2": [
     {
-      "element": "日",
+      "element": "曰（日形）",
       "position": "",
       "start": 0,
       "end": 5,
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          4,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "日・廾・日",
+      "position": "",
+      "start": 2,
+      "end": 3,
+      "ranges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "radical": false
     }
   ],
   "05c40": [
@@ -6805,10 +7006,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          3,
           3
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "匚・乂・匚",
+      "position": "kamae",
+      "start": 1,
+      "end": 2,
+      "ranges": [
+        [
+          1,
+          2
+        ]
+      ],
+      "radical": false
     }
   ],
   "082e6": [
@@ -7469,30 +7687,17 @@
   ],
   "06b6f": [
     {
-      "element": "止",
+      "element": "歯",
+      "position": "",
       "start": 0,
-      "end": 3,
-      "radical": true,
-      "position": "top",
+      "end": 11,
       "ranges": [
         [
           0,
-          3
-        ]
-      ]
-    },
-    {
-      "element": "米・凵",
-      "start": 4,
-      "end": 11,
-      "radical": false,
-      "position": "bottom",
-      "ranges": [
-        [
-          4,
           11
         ]
-      ]
+      ],
+      "radical": true
     }
   ],
   "08a69": [
@@ -7639,10 +7844,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          4,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "工・弋",
+      "position": "kamae",
+      "start": 1,
+      "end": 3,
+      "ranges": [
+        [
+          1,
+          3
+        ]
+      ],
+      "radical": false
     }
   ],
   "05b9f": [
@@ -7878,10 +8100,35 @@
       "ranges": [
         [
           1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "丶・川・丶・川",
+      "position": "",
+      "start": 2,
+      "end": 4,
+      "ranges": [
+        [
+          2,
+          2
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "丶",
@@ -8437,7 +8684,7 @@
       "element": "丨",
       "start": 4,
       "end": 4,
-      "radical": false,
+      "radical": true,
       "ranges": [
         [
           4,
@@ -8697,16 +8944,16 @@
   "05168": [
     {
       "element": "入（人形）",
+      "position": "top",
       "start": 0,
       "end": 1,
-      "radical": true,
-      "position": "top",
       "ranges": [
         [
           0,
           1
         ]
-      ]
+      ],
+      "radical": true
     },
     {
       "element": "王",
@@ -9185,6 +9432,19 @@
   ],
   "07740": [
     {
+      "element": "羊",
+      "position": "",
+      "start": 0,
+      "end": 5,
+      "ranges": [
+        [
+          0,
+          5
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "目",
       "position": "tarec",
       "start": 7,
@@ -9195,17 +9455,17 @@
           11
         ]
       ],
-      "radical": true
+      "radical": false
     },
     {
-      "element": "羊・丿",
-      "start": 0,
+      "element": "その他の部分",
+      "start": 6,
       "end": 6,
       "radical": false,
       "position": "tare",
       "ranges": [
         [
-          0,
+          6,
           6
         ]
       ]
@@ -10185,10 +10445,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          2,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "丶・水",
+      "position": "",
+      "start": 1,
+      "end": 1,
+      "ranges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "radical": false
     }
   ],
   "08868": [
@@ -10452,10 +10729,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          3,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "",
+      "start": 1,
+      "end": 2,
+      "ranges": [
+        [
+          1,
+          2
+        ]
+      ],
+      "radical": false
     }
   ],
   "08fd4": [
@@ -11419,10 +11713,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          6,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "井・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 5,
+      "ranges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "radical": false
     }
   ],
   "080c3": [
@@ -11825,10 +12136,27 @@
       "ranges": [
         [
           0,
+          2
+        ],
+        [
+          9,
           11
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "圭・行",
+      "position": "kamae",
+      "start": 3,
+      "end": 8,
+      "ranges": [
+        [
+          3,
+          8
+        ]
+      ],
+      "radical": false
     }
   ],
   "05404": [
@@ -12981,10 +13309,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          7,
           7
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "古・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 6,
+      "ranges": [
+        [
+          2,
+          6
+        ]
+      ],
+      "radical": false
     }
   ],
   "0529f": [
@@ -14218,10 +14563,27 @@
       "ranges": [
         [
           1,
+          1
+        ],
+        [
+          3,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "𠂊・戈",
+      "position": "",
+      "start": 2,
+      "end": 2,
+      "ranges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "𠂊",
@@ -14691,10 +15053,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          4,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "口・木",
+      "position": "",
+      "start": 1,
+      "end": 3,
+      "ranges": [
+        [
+          1,
+          3
+        ]
+      ],
+      "radical": false
     }
   ],
   "05074": [
@@ -14908,6 +15287,19 @@
   ],
   "05358": [
     {
+      "element": "⺍",
+      "position": "top",
+      "start": 0,
+      "end": 2,
+      "ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "十",
       "position": "",
       "start": 7,
@@ -14918,20 +15310,7 @@
           8
         ]
       ],
-      "radical": true
-    },
-    {
-      "element": "⺍",
-      "start": 0,
-      "end": 2,
-      "radical": false,
-      "position": "top",
-      "ranges": [
-        [
-          0,
-          2
-        ]
-      ]
+      "radical": false
     },
     {
       "element": "その他の部分",
@@ -15040,10 +15419,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          3,
           3
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "left",
+      "start": 1,
+      "end": 2,
+      "ranges": [
+        [
+          1,
+          2
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "その他の部分",
@@ -15643,10 +16039,27 @@
       "ranges": [
         [
           0,
+          0
+        ],
+        [
+          2,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "丿・心",
+      "position": "",
+      "start": 1,
+      "end": 1,
+      "ranges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "radical": false
     }
   ],
   "07968": [
@@ -16812,6 +17225,19 @@
   ],
   "08001": [
     {
+      "element": "耂",
+      "position": "tare",
+      "start": 0,
+      "end": 3,
+      "ranges": [
+        [
+          0,
+          3
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "老",
       "position": "whole",
       "start": 0,
@@ -16822,7 +17248,20 @@
           5
         ]
       ],
-      "radical": true
+      "radical": false
+    },
+    {
+      "element": "匕",
+      "position": "tarec",
+      "start": 4,
+      "end": 5,
+      "ranges": [
+        [
+          4,
+          5
+        ]
+      ],
+      "radical": false
     }
   ],
   "052b4": [
@@ -16946,10 +17385,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          5,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "大・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 4,
+      "ranges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "radical": false
     }
   ],
   "06c38": [
@@ -16982,6 +17438,19 @@
   ],
   "055b6": [
     {
+      "element": "⺍",
+      "position": "",
+      "start": 0,
+      "end": 2,
+      "ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "口",
       "position": "",
       "start": 9,
@@ -16992,17 +17461,17 @@
           11
         ]
       ],
-      "radical": true
+      "radical": false
     },
     {
-      "element": "⺍・冖",
-      "start": 0,
+      "element": "冖・呂",
+      "start": 3,
       "end": 4,
       "radical": false,
       "position": "top",
       "ranges": [
         [
-          0,
+          3,
           4
         ]
       ]
@@ -17030,10 +17499,27 @@
       "ranges": [
         [
           0,
+          2
+        ],
+        [
+          13,
           15
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "韋・行",
+      "position": "kamae",
+      "start": 3,
+      "end": 12,
+      "ranges": [
+        [
+          3,
+          12
+        ]
+      ],
+      "radical": false
     }
   ],
   "06613": [
@@ -18560,13 +19046,39 @@
   "08208": [
     {
       "element": "臼",
-      "start": 0,
-      "end": 13,
-      "radical": true,
       "position": "top",
+      "start": 0,
+      "end": 5,
       "ranges": [
         [
           0,
+          5
+        ]
+      ],
+      "radical": true
+    },
+    {
+      "element": "臼",
+      "position": "top",
+      "start": 0,
+      "end": 5,
+      "ranges": [
+        [
+          0,
+          5
+        ]
+      ],
+      "radical": false
+    },
+    {
+      "element": "臼",
+      "start": 6,
+      "end": 13,
+      "radical": false,
+      "position": "top",
+      "ranges": [
+        [
+          6,
           13
         ]
       ]
@@ -18583,6 +19095,19 @@
           15
         ]
       ]
+    },
+    {
+      "element": "その他の部分",
+      "position": "remainder",
+      "start": 6,
+      "end": 15,
+      "ranges": [
+        [
+          6,
+          15
+        ]
+      ],
+      "radical": false
     }
   ],
   "08b1b": [
@@ -19256,6 +19781,19 @@
   ],
   "0820e": [
     {
+      "element": "吉（舌形）",
+      "position": "bottom",
+      "start": 2,
+      "end": 7,
+      "ranges": [
+        [
+          2,
+          7
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "人",
       "position": "top",
       "start": 0,
@@ -19266,20 +19804,7 @@
           1
         ]
       ],
-      "radical": true
-    },
-    {
-      "element": "吉",
-      "start": 2,
-      "end": 7,
-      "radical": false,
-      "position": "bottom",
-      "ranges": [
-        [
-          2,
-          7
-        ]
-      ]
+      "radical": false
     }
   ],
   "08b1d": [
@@ -19403,10 +19928,27 @@
       "ranges": [
         [
           0,
+          2
+        ],
+        [
+          8,
           10
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "朮・行",
+      "position": "kamae",
+      "start": 3,
+      "end": 7,
+      "ranges": [
+        [
+          3,
+          7
+        ]
+      ],
+      "radical": false
     }
   ],
   "06e96": [
@@ -19515,10 +20057,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          3,
           4
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "了・三",
+      "position": "",
+      "start": 2,
+      "end": 2,
+      "ranges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "水",
@@ -20532,10 +21091,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          5,
           5
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "寸・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 4,
+      "ranges": [
+        [
+          2,
+          4
+        ]
+      ],
+      "radical": false
     }
   ],
   "065ad": [
@@ -22237,10 +22813,27 @@
       "ranges": [
         [
           1,
+          1
+        ],
+        [
+          4,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "亅・戈",
+      "position": "",
+      "start": 2,
+      "end": 3,
+      "ranges": [
+        [
+          2,
+          3
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "丿",
@@ -23110,6 +23703,19 @@
   ],
   "053b3": [
     {
+      "element": "⺍",
+      "position": "top",
+      "start": 0,
+      "end": 2,
+      "ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "radical": true
+    },
+    {
       "element": "厂",
       "position": "kamae",
       "start": 3,
@@ -23120,20 +23726,7 @@
           4
         ]
       ],
-      "radical": true
-    },
-    {
-      "element": "⺍",
-      "start": 0,
-      "end": 2,
-      "radical": false,
-      "position": "top",
-      "ranges": [
-        [
-          0,
-          2
-        ]
-      ]
+      "radical": false
     },
     {
       "element": "その他の部分",
@@ -23480,10 +24073,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          6,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "木・囗",
+      "position": "kamae",
+      "start": 2,
+      "end": 5,
+      "ranges": [
+        [
+          2,
+          5
+        ]
+      ],
+      "radical": false
     }
   ],
   "07802": [
@@ -26927,10 +27537,27 @@
       "ranges": [
         [
           4,
+          4
+        ],
+        [
+          6,
           6
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "その他の部分",
+      "position": "right",
+      "start": 5,
+      "end": 5,
+      "ranges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "radical": false
     },
     {
       "element": "卯",
@@ -27007,10 +27634,27 @@
       "ranges": [
         [
           0,
+          1
+        ],
+        [
+          9,
           12
         ]
       ],
       "radical": true
+    },
+    {
+      "element": "里・衣",
+      "position": "bottom",
+      "start": 2,
+      "end": 8,
+      "ranges": [
+        [
+          2,
+          8
+        ]
+      ],
+      "radical": false
     }
   ],
   "05f8b": [

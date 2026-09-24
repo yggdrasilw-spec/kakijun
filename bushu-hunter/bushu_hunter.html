@@ -334,7 +334,7 @@ async function boot(){
     });
     GRADE_KANJI = {};
     KANJI_POOL.forEach(kanji=>{
-      if(BUSHU_VALIDATION.report[kanji.char]?.status==='exact' && (kanji.parts||[]).length>=2){
+      if(isPlayableKanji(kanji)){
         if(!GRADE_KANJI[kanji.grade]) GRADE_KANJI[kanji.grade] = [];
         GRADE_KANJI[kanji.grade].push([kanji.char, kanji.code]);
       }
@@ -348,6 +348,8 @@ async function boot(){
 
 function radicalDisplayName(part, kanji){
   const glyph = part.element || '部品';
+  const override = RADICAL_REFERENCE.radicalOverrides?.[kanji.char];
+  if(part.radical && override?.displayName) return override.displayName;
   if(glyph.includes('・')){
     const names=glyph.split('・').map(char=>RADICAL_REFERENCE.partNames[char]?.default || RADICAL_NAMES[char] || '');
     return names.every(Boolean) ? names.join('・') : '';
@@ -362,14 +364,38 @@ function radicalDisplayName(part, kanji){
   }
   return name || '';
 }
+// クイズでは、辞書データで照合した部首と、それ以外の画だけを選択肢にする。
+// SVGの分割を、根拠のない「名前のある部品」として学習者に提示しない。
+function quizParts(kanji){
+  const source=kanji.parts||[];
+  const radicals=source.filter(p=>p.radical);
+  const remainder=source.filter(p=>!p.radical).flatMap(p=>p.ranges||[[p.start,p.end]]);
+  if(radicals.length!==1||!remainder.length) return [];
+  const ranges=[];
+  remainder.sort((a,b)=>a[0]-b[0]).forEach(([start,end])=>{
+    const last=ranges[ranges.length-1];
+    if(last&&start<=last[1]+1) last[1]=Math.max(last[1],end); else ranges.push([start,end]);
+  });
+  return [{...radicals[0]}, {element:'部首以外の画',position:'remainder',ranges,start:ranges[0][0],end:ranges[ranges.length-1][1],radical:false,remainder:true}];
+}
+function isPlayableKanji(kanji){
+  if(BUSHU_VALIDATION.report[kanji.char]?.status!=='matched') return false;
+  if(RADICAL_REFERENCE.radicalOverrides?.[kanji.char]?.wholeCharacterRadical) return false;
+  const choices=quizParts(kanji);
+  return choices.length===2 && choices.filter(p=>p.radical).length===1;
+}
 function partLabel(part, kanji, index){
   const glyph = part.element || `パーツ${index+1}`;
+  if(part.remainder){
+    const count=part.ranges.reduce((n,r)=>n+r[1]-r[0]+1,0);
+    return `<span class="part-name">部首以外の画（${count}画）</span>`;
+  }
   const name = radicalDisplayName(part, kanji);
   const count = (part.ranges || [[part.start,part.end]]).reduce((n,r)=>n+r[1]-r[0]+1,0);
   const positionNames = {left:'左側',right:'右側',top:'上側',bottom:'下側',tare:'たれ',nyo:'にょう',kamae:'かまえ',unknown:'組み立ての'};
   const posLabel = positionNames[part.position] || '';
   const generic = ['部品','単独画','全体','その他の部分'].includes(glyph);
-  const fallback = generic ? `${posLabel ? posLabel+'の' : ''}部分（${count}画）` : '構成部分';
+  const fallback = part.radical ? '辞書上の部首' : generic ? `${posLabel ? posLabel+'の' : ''}部分（${count}画）` : '構成部分';
   return `<span class="part-name">${name || fallback}</span>${generic ? '' : `<span class="part-glyph">（${glyph}）</span>`}`;
 }
 
@@ -451,7 +477,7 @@ function renderGamePartsSVG(code, parts, answeredIdx, answeredCorrect){
     if(locked && i===answeredIdx){
       strokeColor = answeredCorrect ? 'var(--success)' : 'var(--stroke-red)';
     }
-    const clickAttr = locked ? '' : `onpointerdown="handlePartTap(${i}); event.preventDefault(); event.stopPropagation()" onclick="handlePartTap(${i}); event.stopPropagation()" role="button" tabindex="0"`;
+    const clickAttr = locked ? '' : `onpointerdown="handlePartTap(${i}); event.preventDefault(); event.stopPropagation()" onclick="handlePartTap(${i}); event.stopPropagation()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handlePartTap(${i})}" role="button" tabindex="0" aria-label="${p.remainder?'部首以外の画':radicalDisplayName(p,{radicalNumber:0})||p.element}"`;
     // 外接矩形ではなく、実際の画線を太くした透明パスをクリック領域にする。
     // 曲線・相対座標を含むSVGでも位置がずれず、部品の形に沿って選択できる。
     const hitPaths = strokes.map(s=>`<path d="${s.d}" fill="none" stroke="transparent" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" pointer-events="stroke"/>`).join('');
@@ -475,7 +501,7 @@ function clearGameTimer(){
 }
 
 function pickPool(difficulty){
-  const verified = KANJI_POOL.filter(k=>BUSHU_VALIDATION.report[k.char]?.status==='exact' && (k.parts||[]).length>=2);
+  const verified = KANJI_POOL.filter(isPlayableKanji);
   if(difficulty==='all') return verified;
   return verified.filter(k=>k.grade===Number(difficulty));
 }
@@ -629,7 +655,7 @@ function chooseDifficulty(diff){
 function renderHomeMenu(){
   return `
     <h1 class="hero-title">部首ハンター</h1>
-    <p class="hero-sub">漢字のパーツをタップして、部首を見つけよう！</p>
+    <p class="hero-sub">辞書で使う部首と、それ以外の画を見分けよう。</p>
     <div class="menu-list">
       <div class="menu-card" onclick="goDifficultySelect('timeattack')">
         <div class="mtitle">⏱ タイムアタック</div>
@@ -650,10 +676,10 @@ function renderDifficultySelect(){
   return `
     <button class="back-link" onpointerdown="event.preventDefault(); goHomeMenu()" onclick="event.preventDefault(); goHomeMenu()">← もどる</button>
     <h1 class="hero-title" style="font-size:18px;">学年をえらぼう</h1>
-    <p class="hero-sub">辞書の部首と部品を照合できた漢字から出題します。確認中の字は出題対象に含めていません。</p>
+    <p class="hero-sub">部首データを照合でき、部首以外の画もある漢字から出題します。選択肢の「部首以外の画」は、ひとまとまりの部品名を表すものではありません。</p>
     <div class="diff-grid">
       ${[1,2,3,4,5,6].map(g=>`<button class="diff-btn" onclick="chooseDifficulty('${g}')">小学${g}年<span class="sub">出題対象 ${GRADE_KANJI[g]?.length || 0}字</span></button>`).join('')}
-      <button class="diff-btn" onclick="chooseDifficulty('all')">全学年<span class="sub">出題対象 ${KANJI_POOL.filter(k=>BUSHU_VALIDATION.report[k.char]?.status==='exact' && (k.parts||[]).length>=2).length}字</span></button>
+      <button class="diff-btn" onclick="chooseDifficulty('all')">全学年<span class="sub">出題対象 ${KANJI_POOL.filter(isPlayableKanji).length}字</span></button>
     </div>`;
 }
 
@@ -662,7 +688,8 @@ function renderPlaying(){
   const timerPct = game.mode==='practice' ? 100 : Math.max(0,(game.timeLeft/TIME_PER_Q)*100);
   const urgent = timerPct < 30;
   const cardClass = game.answeredIdx===null ? '' : (game.answeredCorrect ? 'flash-correct' : 'flash-wrong');
-  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? partLabel(kanji.parts[game.answeredIdx],kanji,game.answeredIdx) : '';
+  const choices=quizParts(kanji);
+  const radicalName = game.answeredIdx>=0 && game.answeredCorrect ? partLabel(choices[game.answeredIdx],kanji,game.answeredIdx) : '';
   const toast = game.answeredIdx===null ? '' :
     (game.answeredIdx===-1 ? `<div class="toast wrong">じかんぎれ…</div>`
      : game.answeredCorrect ? `<div class="toast correct">せいかい！ 部首は「${radicalName}」</div>`
@@ -675,8 +702,9 @@ function renderPlaying(){
     </div>
     ${game.mode!=='practice' ? `<div class="timer-bar-outer"><div class="timer-bar-inner ${urgent?'urgent':''}" style="width:${timerPct}%"></div></div>` : ''}
     <div class="prompt">どこが部首かな？タップしてえらぼう</div>
-    ${game.answeredIdx===null ? `<div class="part-legend">${kanji.parts.map((p,i)=>`<span><i style="background:${['#ef6c5b','#4285d4','#d08a28','#48a878','#9b63c7','#1aa6a6','#e05b9d','#7d8c3f'][i%8]}"></i>${partLabel(p,kanji,i)}</span>`).join('')}</div>` : ''}
-    <div class="game-kanji-card ${cardClass}">${renderGamePartsSVG(kanji.code, kanji.parts, game.answeredIdx, game.answeredCorrect)}</div>
+    <p class="hero-sub">部首は辞書で漢字を分類するときの見出しです。もう一方は、部首に含まれない画をまとめた表示です。</p>
+    ${game.answeredIdx===null ? `<div class="part-legend">${choices.map((p,i)=>`<span><i style="background:${['#ef6c5b','#4285d4'][i]}"></i>${partLabel(p,kanji,i)}</span>`).join('')}</div>` : ''}
+    <div class="game-kanji-card ${cardClass}">${renderGamePartsSVG(kanji.code, choices, game.answeredIdx, game.answeredCorrect)}</div>
     <div class="toast ${game.answeredCorrect?'correct':'wrong'}">${toast}</div>
     ${game.mode!=='practice' ? `<div class="score-row"><span>スコア: ${game.score}</span><span class="combo-badge">${game.combo>=2?`${game.combo}コンボ！`:''}</span></div>` : `<div class="score-row"><span>${game.questionsAnswered}問目</span></div>`}
     ${game.mode==='practice' ? `<button class="secondary-btn" onclick="quitPractice()">やめる</button>` : ''}
